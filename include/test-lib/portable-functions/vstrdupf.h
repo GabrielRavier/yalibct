@@ -1,4 +1,4 @@
-// Adapted from code with this license
+// Adapted from code with this license:
 /* Copyright (c) 2019-2022 Griefer@Work                                       *
  *                                                                            *
  * This software is provided 'as-is', without any express or implied          *

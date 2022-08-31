@@ -22,7 +22,7 @@
 #define _KOS_SOURCE 1
 #undef NDEBUG
 
-#include "test-deps/kos/mk4.h"
+#include "test-deps/KOS/mk4.h"
 
 #include <assert.h>
 #include <malloc.h>

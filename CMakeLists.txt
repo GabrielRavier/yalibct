@@ -36,11 +36,17 @@ macro(gravier_tests_make_executable target_name target_source_file)
     PRIVATE "${CMAKE_SOURCE_DIR}/include"
   )
   target_compile_definitions(${target_name} PRIVATE ${GRAVIER_TESTS_COMPILE_FLAGS})
+  set_target_properties(${target_name}
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/test-binaries"
+  )
 
 endmacro()
 
 gravier_tests_check_include_file(hedley.h GRAVIER_TESTS_HAS_SYSTEM_HEDLEY_H)
 
 gravier_tests_check_libc_function(vstrdupf string.h GRAVIER_TESTS_LIBC_HAS_VSTRDUPF)
+gravier_tests_check_libc_function(memchr_inv string.h GRAVIER_TESTS_LIBC_HAS_MEMCHR_INV)
 
-gravier_tests_make_executable(printf-test-positional-printf printf/test-positional-printf.c)
+gravier_tests_make_executable(printf-KOS-mk4-test-positional-printf printf/KOS/mk4/test-positional-printf.c)
+gravier_tests_make_executable(printf-linux-kernel-test_printf printf/linux-kernel/test_printf.c)
