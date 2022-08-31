@@ -50,3 +50,4 @@ gravier_tests_check_libc_function(memchr_inv string.h GRAVIER_TESTS_LIBC_HAS_MEM
 
 gravier_tests_make_executable(printf-KOS-mk4-test-positional-printf printf/KOS/mk4/test-positional-printf.c)
 gravier_tests_make_executable(printf-linux-kernel-test_printf printf/linux-kernel/test_printf.c)
+gravier_tests_make_executable(printf-NetBSD-t_printf printf/NetBSD/t_printf.c)
