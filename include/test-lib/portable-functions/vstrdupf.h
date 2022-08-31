@@ -21,7 +21,6 @@
 
 #pragma once
 
-// TODO MAKE THE FOLLOWING THING WORK
 #ifdef GRAVIER_TESTS_LIBC_HAS_VSTRDUPF
 #include <string.h>
 #else
