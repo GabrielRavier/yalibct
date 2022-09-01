@@ -115,6 +115,40 @@ _testfmt_two_allowed(const char *result, const char *result2, const char *argstr
 	va_end(ap2);
 }
 
+
+#define	testfmt_three_allowed(result, result2, result3, fmt, ...)       \
+    _testfmt_three_allowed((result), (result2), (result3), #__VA_ARGS__, fmt, __VA_ARGS__)
+static void
+_testfmt_three_allowed(const char *result, const char *result2, const char *result3, const char *argstr, const char *fmt,...)
+{
+#define	BUF	100
+    wchar_t ws[BUF], wfmt[BUF], wresult[BUF], wresult2[BUF], wresult3[BUF];
+	char s[BUF];
+	va_list ap, ap2;
+
+	va_start(ap, fmt);
+	va_copy(ap2, ap);
+	smash_stack();
+	vsnprintf(s, sizeof(s), fmt, ap);
+	ATF_CHECK_MSG(strcmp(result, s) == 0 || strcmp(result2, s) == 0 || strcmp(result3, s) == 0,
+	    "printf(\"%s\", %s) ==> [%s], expected [%s]",
+	    fmt, argstr, s, result);
+
+	smash_stack();
+	mbstowcs(ws, s, BUF - 1);
+	mbstowcs(wfmt, fmt, BUF - 1);
+	mbstowcs(wresult, result, BUF - 1);
+	mbstowcs(wresult2, result2, BUF - 1);
+	mbstowcs(wresult3, result3, BUF - 1);
+	vswprintf(ws, sizeof(ws) / sizeof(ws[0]), wfmt, ap2);
+	ATF_CHECK_MSG(wcscmp(wresult, ws) == 0 || wcscmp(wresult2, ws) == 0 || wcscmp(wresult3, ws) == 0,
+	    "wprintf(\"%ls\", %s) ==> [%ls], expected [%ls]",
+	    wfmt, argstr, ws, wresult);
+
+	va_end(ap);
+	va_end(ap2);
+}
+
 ATF_TC_WITHOUT_HEAD(float_within_limits);
 ATF_TC_BODY(float_within_limits, tc)
 {
@@ -394,8 +428,8 @@ ATF_TC_BODY(hexadecimal_rounding, tc)
 	testfmt("0x1.23456p+0", "%.5a", 0x1.23456789abcdep0);
 	testfmt("0x1.234568p+0", "%.6a", 0x1.23456789abcdep0);
 	testfmt("-0x1.234567p+0", "%.6a", -0x1.23456689abcdep0);
-	testfmt_two_allowed("0x1.00p-1029", "0x0.02p-1022", "%.2a", 0x1.fffp-1030);
-	testfmt_two_allowed("0x1.00p-1026", "0x0.10p-1022", "%.2a", 0xf.fffp-1030);
+	testfmt_three_allowed("0x1.00p-1029", "0x0.02p-1022", "0x2.00p-1030", "%.2a", 0x1.fffp-1030);
+	testfmt_three_allowed("0x1.00p-1026", "0x0.10p-1022", "0x2.00p-1027", "%.2a", 0xf.fffp-1030);
 	testfmt("0x1.83p+0", "%.2a", 1.51);
 }
 
