@@ -41,4 +41,7 @@
 #define ATF_REQUIRE_STREQ(str1, str2) (assert(strcmp((str1), (str2)) == 0))
 #define ATF_TP_ADD_TCS(idk) int main()
 #define ATF_TP_ADD_TC(idk, test_name) test_name ## _head (); test_name ## _body();
+#define ATF_TP_ADD_TC_NO_HEAD(idk, test_name) test_name ## _body();
 #define atf_no_error() 0
+#define ATF_CHECK_MSG(expr, ...) assert(expr)
+#define ATF_TC_WITHOUT_HEAD(test_name)
