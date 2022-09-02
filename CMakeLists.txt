@@ -30,9 +30,9 @@ macro(gravier_tests_check_include_file include_filename macro_name)
 
 endmacro()
 
-macro(gravier_tests_check_libc_function function_name include_filename macro_name)
+macro(gravier_tests_check_libc_symbol symbol_name include_filename macro_name)
 
-  check_symbol_exists(${function_name} ${include_filename} ${macro_name})
+  check_symbol_exists(${symbol_name} ${include_filename} ${macro_name})
   if (${macro_name})
     list(APPEND GRAVIER_TESTS_COMPILE_FLAGS ${macro_name})
   endif()
@@ -58,10 +58,12 @@ gravier_tests_append_option_to_compiler_flags(GRAVIER_TESTS_ENABLE_LC_NUMERIC_TE
 
 gravier_tests_check_include_file(hedley.h GRAVIER_TESTS_HAS_SYSTEM_HEDLEY_H)
 
-gravier_tests_check_libc_function(vstrdupf string.h GRAVIER_TESTS_LIBC_HAS_VSTRDUPF)
-gravier_tests_check_libc_function(memchr_inv string.h GRAVIER_TESTS_LIBC_HAS_MEMCHR_INV)
+gravier_tests_check_libc_symbol(vstrdupf string.h GRAVIER_TESTS_LIBC_HAS_VSTRDUPF)
+gravier_tests_check_libc_symbol(memchr_inv string.h GRAVIER_TESTS_LIBC_HAS_MEMCHR_INV)
+gravier_tests_check_libc_symbol(NAN math.h GRAVIER_TESTS_LIBC_HAS_NAN)
 
 gravier_tests_make_executable(printf-KOS-mk4-test-positional-printf tests/printf/KOS/mk4/test-positional-printf.c)
 gravier_tests_make_executable(printf-linux-kernel-test_printf tests/printf/linux-kernel/test_printf.c)
 gravier_tests_make_executable(printf-NetBSD-t_printf tests/printf/NetBSD/t_printf.c)
 gravier_tests_make_executable(printf-FreeBSD-printfloat_test tests/printf/FreeBSD/printfloat_test.c)
+gravier_tests_make_executable(printf-FreeBSD-printf_test tests/printf/FreeBSD/printf_test.c)

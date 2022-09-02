@@ -30,7 +30,12 @@
 
 #pragma once
 
+#include "test-lib/assert-with-message.h"
+#include "test-lib/chdir-to-tmpdir.h"
+#include <fcntl.h>
+#include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 
 #define ATF_TC(test_name)
 #define ATF_TC_HEAD(test_name, idk) void test_name ## _head ()
@@ -38,10 +43,38 @@
 #define ATF_TC_BODY(test_name, idk) void test_name ## _body ()
 #define ATF_REQUIRE assert
 #define ATF_CHECK assert
-#define ATF_REQUIRE_STREQ(str1, str2) (assert(strcmp((str1), (str2)) == 0))
-#define ATF_TP_ADD_TCS(idk) int main()
+#define ATF_REQUIRE_STREQ(x, y) \
+    ATF_REQUIRE_MSG(strcmp(x, y) == 0, "%s != %s (%s != %s)", #x, #y, x, y)
+#define ATF_CHECK_STREQ ATF_REQUIRE_STREQ
+#define ATF_TP_ADD_TCS(idk) int atf_tp_add_tcs_run_tests(); int main() { gravier_tests_chdir_to_tmpdir(); atf_tp_add_tcs_run_tests(); } int atf_tp_add_tcs_run_tests()
 #define ATF_TP_ADD_TC(idk, test_name) test_name ## _head (); test_name ## _body();
 #define ATF_TP_ADD_TC_NO_HEAD(idk, test_name) test_name ## _body();
 #define atf_no_error() 0
-#define ATF_CHECK_MSG(expr, ...) assert(expr)
+#define ATF_CHECK_MSG(expr, ...) GRAVIER_TESTS_ASSERT_WITH_MESSAGE(expr, __VA_ARGS__)
+#define ATF_REQUIRE_MSG ATF_CHECK_MSG
 #define ATF_TC_WITHOUT_HEAD(test_name)
+#define atf_tc_fail(...) gravier_tests_print_failed_assertion("", "", 0, "", __VA_ARGS__)
+
+static inline bool
+atf_utils_compare_file(const char *name, const char *contents)
+{
+    const int fd = open(name, O_RDONLY);
+    ATF_REQUIRE_MSG(fd != -1, "Cannot open %s", name);
+
+    const char *pos = contents;
+    ssize_t remaining = strlen(contents);
+
+    char buffer[1024];
+    ssize_t count;
+    while ((count = read(fd, buffer, sizeof(buffer))) > 0 &&
+           count <= remaining) {
+        if (memcmp(pos, buffer, count) != 0) {
+            close(fd);
+            return false;
+        }
+        remaining -= count;
+        pos += count;
+    }
+    close(fd);
+    return count == 0 && remaining == 0;
+}

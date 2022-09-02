@@ -27,6 +27,7 @@
  */
 
 #include "test-deps/atf.h"
+#include "test-lib/portable-functions/NAN.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
