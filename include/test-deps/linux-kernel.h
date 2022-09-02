@@ -136,7 +136,7 @@
 #define kfree free
 
 #define __diag_push() HEDLEY_DIAGNOSTIC_PUSH
-#define __diag_ignore_all(option, comment) GRAVIER_TESTS_DIAGNOSTIC_IGNORE(option)
+#define __diag_ignore_all(option, comment) YALIBCT_DIAGNOSTIC_IGNORE(option)
 #define __diag_pop() HEDLEY_DIAGNOSTIC_POP
 
 #define __must_check HEDLEY_WARN_UNUSED_RESULT

@@ -16,7 +16,7 @@
 #define PAD_SIZE 16
 #define FILL_CHAR '$'
 
-#define NOWARN(option, comment, block) GRAVIER_TESTS_EXPRESSION_NO_WARNING(option, block)
+#define NOWARN(option, comment, block) YALIBCT_EXPRESSION_NO_WARNING(option, block)
 
 KSTM_MODULE_GLOBALS();
 
@@ -135,7 +135,7 @@ test_basic(void)
 	/* Work around annoying "warning: zero-length gnu_printf format string". */
 	char nul = '\0';
 
-        GRAVIER_TESTS_EXPRESSION_NO_WARNING(-Wformat-security, {
+        YALIBCT_EXPRESSION_NO_WARNING(-Wformat-security, {
             test("", &nul);
         })
 	test("100%", "100%%");

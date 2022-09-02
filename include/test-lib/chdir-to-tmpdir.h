@@ -4,9 +4,9 @@
 #include <assert.h>
 #include <unistd.h>
 
-static inline void gravier_tests_chdir_to_tmpdir()
+static inline void yalibct_chdir_to_tmpdir()
 {
-    char template[] = "/tmp/gravier-tests.XXXXXX";
+    char template[] = "/tmp/yalibct.XXXXXX";
 
     assert(mkdtemp(template) == template);
     assert(chdir(template) == 0);

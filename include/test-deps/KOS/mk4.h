@@ -32,6 +32,6 @@
 #define PRIVATE static
 #define NONNULL(...) HEDLEY_NON_NULL(__VA_ARGS__)
 #define DECL_END
-#define assertf(expr, ...) GRAVIER_TESTS_ASSERT_WITH_MESSAGE(expr, __VA_ARGS__)
+#define assertf(expr, ...) YALIBCT_ASSERT_WITH_MESSAGE(expr, __VA_ARGS__)
 #define DEFINE_TEST(name) int main()
 #define DEFINE_TEST_NON_SINGLE(name) void name()

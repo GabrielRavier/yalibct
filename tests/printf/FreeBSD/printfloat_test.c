@@ -238,7 +238,7 @@ ATF_TC_BODY(thousands_separator_and_other_locale_tests, tc)
 	testfmt("12345678.0625", "%'.04f", 12345678.0625);
 	testfmt("0012345678.0625", "%'015.4F", 12345678.0625);
 
-#ifdef GRAVIER_TESTS_ENABLE_LC_NUMERIC_TESTS
+#ifdef YALIBCT_ENABLE_LC_NUMERIC_TESTS
 	if (setlocale(LC_NUMERIC, "hi_IN.ISCII-DEV")) { /* grouping == 2;3 */
             testfmt("1,23,45,678.0625", "%'.4f", 12345678.0625);
             testfmt("01,23,45,678.0625", "%'017.4F", 12345678.0625);
