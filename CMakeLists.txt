@@ -6,7 +6,8 @@ project(yalibct
   LANGUAGES C
 )
 
-option(YALIBCT_ENABLE_LC_NUMERIC_TESTS "Whether or not tests that depend on LC_NUMERIC support being present will be run" ON)
+option(YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests will be run by default" ON)
+option(YALIBCT_ENABLE_LC_NUMERIC_TESTS "Whether or not tests that depend on LC_NUMERIC support being present will be run" ${YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT})
 
 include(CheckIncludeFile)
 include(CheckSymbolExists)
