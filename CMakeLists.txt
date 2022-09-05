@@ -71,3 +71,5 @@ yalibct_make_executable(printf-FreeBSD-atf-printf_test tests/printf/FreeBSD/atf-
 yalibct_make_executable(printf-FreeBSD-plain-printf_test tests/printf/FreeBSD/plain-printf_test.c)
 yalibct_make_executable(printf-FreeBSD-tap-printf_test tests/printf/FreeBSD/tap-printf_test.c)
 yalibct_make_executable(printf-fuchsia-printf_tests tests/printf/fuchsia/printf_tests.c)
+yalibct_make_executable(printf-illumos-gate-printf-6961 tests/printf/illumos-gate/printf-6961.c)
+yalibct_make_executable(printf-illumos-gate-printf-9511 tests/printf/illumos-gate/printf-9511.c)
