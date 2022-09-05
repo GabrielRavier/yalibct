@@ -13,6 +13,7 @@ IS_PARALLEL=&
 ./test-binaries/printf-fuchsia-printf_tests $IS_PARALLEL
 ./test-binaries/printf-illumos-gate-printf-6961 $IS_PARALLEL
 ./test-binaries/printf-illumos-gate-printf-9511 $IS_PARALLEL
+./test-binaries/printf-reactos-printf $IS_PARALLEL
 
 # Wait for all tests to be over before exiting
 wait
