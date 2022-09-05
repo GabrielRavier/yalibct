@@ -67,4 +67,5 @@ yalibct_make_executable(printf-KOS-mk4-test-positional-printf tests/printf/KOS/m
 yalibct_make_executable(printf-linux-kernel-test_printf tests/printf/linux-kernel/test_printf.c)
 yalibct_make_executable(printf-NetBSD-t_printf tests/printf/NetBSD/t_printf.c)
 yalibct_make_executable(printf-FreeBSD-printfloat_test tests/printf/FreeBSD/printfloat_test.c)
-yalibct_make_executable(printf-FreeBSD-printf_test tests/printf/FreeBSD/printf_test.c)
+yalibct_make_executable(printf-FreeBSD-atf-printf_test tests/printf/FreeBSD/atf-printf_test.c)
+yalibct_make_executable(printf-FreeBSD-plain-printf_test tests/printf/FreeBSD/plain-printf_test.c)
