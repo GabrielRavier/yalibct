@@ -38,10 +38,12 @@ struct {
     "en_US.UTF-8", "%e", 3.2, "3.200000e+00", NULL,
     "en_US.UTF-8", "%f", 3.2, "3.200000", NULL,
     "en_US.UTF-8", "%g", 3.2, "3.2", NULL,
+#ifdef YALIBCT_ENABLE_LC_NUMERIC_TESTS
     "ru_RU.UTF-8", "%a", 3.2, "0x1,99999a0000000p+1", "0x1,99999ap+1",
     "ru_RU.UTF-8", "%e", 3.2, "3,200000e+00", NULL,
     "ru_RU.UTF-8", "%f", 3.2, "3,200000", NULL,
     "ru_RU.UTF-8", "%g", 3.2, "3,2", NULL,
+#endif
     NULL, NULL, 0, NULL, NULL,
 };
 
@@ -52,7 +54,7 @@ main(void)
     int i;
 
     for (i = 0; fpconv[i].locale != NULL; i++) {
-        if (setlocale(LC_ALL, fpconv[i].locale) == NULL)
+        if (setlocale(LC_NUMERIC, fpconv[i].locale) == NULL)
             err(1, "failed to set locale to %s", fpconv[i].locale);
 
         (void) sprintf(buf, fpconv[i].convspec, fpconv[i].fp);
