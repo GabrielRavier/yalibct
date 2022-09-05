@@ -46,7 +46,7 @@
 #define ATF_REQUIRE_STREQ(x, y) \
     ATF_REQUIRE_MSG(strcmp(x, y) == 0, "%s != %s (%s != %s)", #x, #y, x, y)
 #define ATF_CHECK_STREQ ATF_REQUIRE_STREQ
-#define ATF_TP_ADD_TCS(idk) int atf_tp_add_tcs_run_tests(); int main() { yalibct_chdir_to_tmpdir(); atf_tp_add_tcs_run_tests(); } int atf_tp_add_tcs_run_tests()
+#define ATF_TP_ADD_TCS(idk) int yalibct_atf_tp_add_tcs_run_tests(); int main() { yalibct_chdir_to_tmpdir(); yalibct_atf_tp_add_tcs_run_tests(); } int yalibct_atf_tp_add_tcs_run_tests()
 #define ATF_TP_ADD_TC(idk, test_name) test_name ## _head (); test_name ## _body();
 #define ATF_TP_ADD_TC_NO_HEAD(idk, test_name) test_name ## _body();
 #define atf_no_error() 0

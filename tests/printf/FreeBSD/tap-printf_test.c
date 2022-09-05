@@ -1,7 +1,4 @@
-/* $FreeBSD$ */
-
-/*-
- * SPDX-License-Identifier: BSD-3-Clause
+/* $FreeBSD$
  *
  * Copyright 2013 Google Inc.
  * All rights reserved.
@@ -44,9 +41,52 @@
 
 #include "test-lib/chdir-to-tmpdir.h"
 #include <err.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+static	int failed;
+static	int test_num = 1;
+
+#define	TEST_COUNT	7
+
+static void
+fail(const char *fmt, ...)
+{
+	char *msg;
+	va_list ap;
+
+	failed = 1;
+
+	va_start(ap, fmt);
+	if (vasprintf(&msg, fmt, ap) == -1)
+		err(1, NULL);
+	va_end(ap);
+	printf("not ok %d - %s\n", test_num, msg);
+	free(msg);
+
+	test_num++;
+}
+
+static void
+pass(void)
+{
+
+	printf("ok %d\n", test_num);
+	test_num++;
+}
+
+static void
+skip(int skip_num)
+{
+	int i;
+
+	for (i = 0; i < skip_num; i++) {
+		printf("not ok %d # SKIP\n", test_num);
+		test_num++;
+	}
+}
 
 static void
 snprintf__two_formatters(void)
@@ -54,11 +94,16 @@ snprintf__two_formatters(void)
 	char buffer[128];
 
 	if (snprintf(buffer, sizeof(buffer), "%s, %s!", "Hello",
-	    "tests") <= 0)
-		errx(EXIT_FAILURE, "snprintf with two formatters failed");
-
-	if (strcmp(buffer, "Hello, tests!") != 0)
-		errx(EXIT_FAILURE, "Bad formatting: got %s", buffer);
+	    "tests") <= 0) {
+		fail("snprintf with two formatters failed");
+		skip(1);
+	} else {
+		pass();
+		if (strcmp(buffer, "Hello, tests!") != 0)
+			fail("Bad formatting: got %s", buffer);
+		else
+			pass();
+	}
 }
 
 static void
@@ -66,12 +111,18 @@ snprintf__overflow(void)
 {
 	char buffer[10];
 
-	if (snprintf(buffer, sizeof(buffer), "0123456789abcdef") != 16)
-		errx(EXIT_FAILURE, "snprintf did not return the expected "
+	if (snprintf(buffer, sizeof(buffer), "0123456789abcdef") != 16) {
+		fail("snprintf did not return the expected "
 		    "number of characters");
+		skip(1);
+		return;
+	}
+	pass();
 
 	if (strcmp(buffer, "012345678") != 0)
-		errx(EXIT_FAILURE, "Bad formatting: got %s", buffer);
+		fail("Bad formatting: got %s", buffer);
+	else
+		pass();
 }
 
 static void
@@ -83,17 +134,27 @@ fprintf__simple_string(void)
 	const char *contents = "This is a message\n";
 
 	file = fopen("test.txt", "w+");
-	if (fprintf(file, "%s", contents) <= 0)
-		err(EXIT_FAILURE, "fprintf failed to write to file");
+	if (fprintf(file, "%s", contents) <= 0) {
+		fail("fprintf failed to write to file");
+		skip(2);
+		return;
+	}
+	pass();
 	rewind(file);
 	length = fread(buffer, 1, sizeof(buffer) - 1, file);
-	if (length != strlen(contents))
-		err(EXIT_FAILURE, "fread failed");
+	if (length != strlen(contents)) {
+		fail("fread failed");
+		skip(1);
+		return;
+	}
+	pass();
 	buffer[length] = '\0';
 	fclose(file);
 
 	if (strcmp(buffer, contents) != 0)
-		errx(EXIT_FAILURE, "Written and read data differ");
+		fail("Written and read data differ");
+	else
+		pass();
 
 	/* Of special note here is that we are NOT deleting the temporary
 	 * files we created in this test.  Kyua takes care of this cleanup
@@ -116,9 +177,11 @@ main(void)
 	 * is that this particular main() has no arguments: without ATF,
 	 * all test programs may expose a different command-line interface,
 	 * and this is an issue for consistency purposes. */
+	printf("1..%d\n", TEST_COUNT);
+
 	snprintf__two_formatters();
 	snprintf__overflow();
 	fprintf__simple_string();
 
-	return EXIT_SUCCESS;
+	return (failed);
 }

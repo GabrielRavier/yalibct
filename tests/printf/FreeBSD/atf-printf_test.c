@@ -143,8 +143,6 @@ ATF_TC_BODY(fprintf__simple_string, tc)
 	 * temporary files we created in this test.  Kyua takes care of
 	 * this cleanup automatically and tests can (and should) rely on
 	 * this behavior. */
-        // We do, though, just in case, lol
-        remove("test.txt");
 }
 
 /*
