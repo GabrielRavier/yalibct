@@ -80,3 +80,4 @@ yalibct_make_executable(printf-fuchsia-printf_tests tests/printf/fuchsia/printf_
 yalibct_make_executable(printf-illumos-gate-printf-6961 tests/printf/illumos-gate/printf-6961.c)
 yalibct_make_executable(printf-illumos-gate-printf-9511 tests/printf/illumos-gate/printf-9511.c)
 yalibct_make_executable(printf-reactos-printf tests/printf/reactos/printf.c)
+yalibct_make_executable(printf-littlekernel-printf_tests tests/printf/littlekernel/printf_tests.c)
