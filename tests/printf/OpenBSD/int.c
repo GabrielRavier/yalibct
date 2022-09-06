@@ -290,7 +290,8 @@ main(int argc, char *argv[])
 
 	if (picky) {
 		ti("<%#d>", S_INT, 42, "<42>");
-		ti("<%Ld>", S_INT, 42, "<42>");
+                // UB and not widely supported
+		//ti("<%Ld>", S_INT, 42, "<42>");
 	}
 
 	/*
@@ -363,7 +364,8 @@ main(int argc, char *argv[])
 		tu("<%#u>", S_INT, 42, "<42>");
 		tu("<% u>", S_INT, 42, "<42>");
 		tu("<%+u>", S_INT, 42, "<42>");
-		tu("<%Lu>", S_INT, 42, "<42>");
+                // UB and not widely supported
+		//tu("<%Lu>", S_INT, 42, "<42>");
 	}
 
 	/*
