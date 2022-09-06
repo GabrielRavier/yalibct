@@ -960,6 +960,7 @@ static void test_fprintf(void)
     unlink(file_name);
 }
 
+// Note that I applied a very loose standard w.r.t. how fcvt and ecvt should behave: Pretty much anything that isn't very clear from the standard means no particular behavior should be expected from the C library
 static void test_fcvt(void)
 {
     char *str;
@@ -968,13 +969,11 @@ static void test_fcvt(void)
 #ifdef YALIBCT_LIBC_HAS_FCVT
     /* Numbers less than 1.0 with different precisions */
     str = fcvt(0.0001, 1, &dec, &sign );
-    ok( 0 == strcmp(str,""), "bad return '%s'\n", str);
-    ok( dec < 0, "dec wrong %d\n", dec);
+    ok( str, "bad return '%s'\n", str);
     ok( 0 == sign, "sign wrong\n");
 
     str = fcvt(0.0001, -10, &dec, &sign );
-    ok( 0 == strcmp(str,"") || 0 == strcmp(str,"0"), "bad return '%s'\n", str);
-    ok( -3 == dec || 1 == dec, "dec wrong %d\n", dec);
+    ok( str, "bad return '%s'\n", str);
     ok( 0 == sign, "sign wrong\n");
 
     str = fcvt(0.0001, 10, &dec, &sign );
@@ -1005,7 +1004,7 @@ static void test_fcvt(void)
     ok( 0 == sign, "sign wrong\n");
 
     str = fcvt(0.0, -1, &dec, &sign );
-    ok( 0 == strcmp(str,"") || 0 == strcmp(str, "0"), "bad return '%s'\n", str);
+    ok( str, "bad return '%s'\n", str);
     ok( 0 == dec || dec == 1, "dec wrong %d\n", dec);
     ok( 0 == sign, "sign wrong\n");
 
@@ -1016,18 +1015,15 @@ static void test_fcvt(void)
     ok( 1 == sign, "sign wrong\n");
 
     str = fcvt(-123.0001, -1, &dec, &sign );
-    ok( 0 == strcmp(str,"12") || !strcmp(str, "120"), "bad return '%s'\n", str);
-    ok( 3 == dec, "dec wrong %d\n", dec);
+    ok( str, "bad return '%s'\n", str);
     ok( 1 == sign, "sign wrong\n");
 
     str = fcvt(-123.0001, -2, &dec, &sign );
-    ok( 0 == strcmp(str,"1") || !strcmp(str, "100"), "bad return '%s'\n", str);
-    ok( 3 == dec, "dec wrong %d\n", dec);
+    ok( str, "bad return '%s'\n", str);
     ok( 1 == sign, "sign wrong\n");
 
     str = fcvt(-123.0001, -3, &dec, &sign );
-    ok( 0 == strcmp(str,"") || !strcmp(str, "100"), "bad return '%s'\n", str);
-    ok( 3 == dec, "dec wrong %d\n", dec);
+    ok( str, "bad return '%s'\n", str);
     ok( 1 == sign, "sign wrong\n");
 
     /* Numbers > 1.0, but with rounding at the point of precision */
