@@ -93,3 +93,4 @@ yalibct_make_executable(printf-littlekernel-printf_tests tests/printf/littlekern
 yalibct_make_executable(printf-toaruos-test-printf tests/printf/toaruos/test-printf.c)
 yalibct_make_executable(printf-newsys-test-printf tests/printf/newsys/test.printf.c)
 yalibct_make_executable(printf-osv-tst-printf tests/printf/osv/tst-printf.c)
+yalibct_make_executable(printf-OpenBSD-fp tests/printf/OpenBSD/fp.c)

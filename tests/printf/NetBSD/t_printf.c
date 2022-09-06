@@ -138,12 +138,6 @@ ATF_TC_BODY(snprintf_float, tc)
 	uint32_t ul, uh;
 	time_t now;
 	char buf[1000];
-	struct rlimit rl;
-
-	rl.rlim_cur = rl.rlim_max = 1 * 1024 * 1024;
-	ATF_CHECK(setrlimit(RLIMIT_AS, &rl) != -1);
-	rl.rlim_cur = rl.rlim_max = 1 * 1024 * 1024;
-	ATF_CHECK(setrlimit(RLIMIT_DATA, &rl) != -1);
 
 	time(&now);
 	srand(now);
@@ -181,6 +175,12 @@ ATF_TC_BODY(sprintf_zeropad, tc)
 
 ATF_TP_ADD_TCS(tp)
 {
+	struct rlimit rl;
+
+	rl.rlim_cur = rl.rlim_max = 1;
+	ATF_CHECK(setrlimit(RLIMIT_AS, &rl) != -1);
+	rl.rlim_cur = rl.rlim_max = 1;
+	ATF_CHECK(setrlimit(RLIMIT_DATA, &rl) != -1);
 
 	ATF_TP_ADD_TC(tp, snprintf_c99);
 	ATF_TP_ADD_TC(tp, snprintf_dotzero);

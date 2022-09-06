@@ -130,8 +130,9 @@ EOF
 123
 EOF
                                                        ) $IS_PARALLEL
-./test-binaries/printf-newsys-test-printf
-./test-binaries/printf-osv-tst-printf
+./test-binaries/printf-newsys-test-printf $IS_PARALLEL
+./test-binaries/printf-osv-tst-printf $IS_PARALLEL
+./test-binaries/printf-OpenBSD-fp $IS_PARALLEL
 
 # Wait for all tests to be over before exiting
 wait
