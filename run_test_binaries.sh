@@ -14,7 +14,7 @@ IS_PARALLEL=&
 ./test-binaries/printf-illumos-gate-printf-6961 $IS_PARALLEL
 ./test-binaries/printf-illumos-gate-printf-9511 $IS_PARALLEL
 ./test-binaries/printf-reactos-printf $IS_PARALLEL
-diff -u <(./test-binaries/printf-littlekernel-printf_tests | sed 's/0x1p-1074/0x0.0000000000001p-1022/;s/0x1.ffffffffffffep-1023/0x0.fffffffffffffp-1022/;s/0X1P-1074/0X0.0000000000001P-1022/;s/0X1.FFFFFFFFFFFFEP-1023/0X0.FFFFFFFFFFFFFP-1022/') - <<EOF $IS_PARALLEL
+./test-binaries/printf-littlekernel-printf_tests | sed 's/0x1p-1074/0x0.0000000000001p-1022/;s/0x1.ffffffffffffep-1023/0x0.fffffffffffffp-1022/;s/0X1P-1074/0X0.0000000000001P-1022/;s/0X1.FFFFFFFFFFFFEP-1023/0X0.FFFFFFFFFFFFFP-1022/' | diff -u - <(cat <<EOF
 printf tests
 numbers:
 int8:  -12 0 -2
@@ -120,6 +120,16 @@ floating point printf tests
 0xfff0000000000000 -inf -INF -inf -INF
 0x7ff0000000000000 inf INF inf INF
 EOF
+                                                                                                                                                                                                                                                     ) $IS_PARALLEL
+./test-binaries/printf-toaruos-test-printf | diff -u - <(cat <<EOF
+042
+0000012345
+0
+
+1
+123
+EOF
+                                                       ) $IS_PARALLEL
 
 # Wait for all tests to be over before exiting
 wait
