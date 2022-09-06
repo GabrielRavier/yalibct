@@ -798,10 +798,11 @@ static void test_sprintf( void )
     ok(r==1, "r = %d\n", r);
     ok(!strcmp(buffer, "\x82"), "failed: \"%s\"\n", buffer);
 
-    format = "%C";
+    // Not gonna test UB
+    /*format = "%C";
     r = p_sprintf(buffer, format, 0x3042);
     ok(r==2, "r = %d\n", r);
-    ok(!strcmp(buffer, "\x82\xa0"), "failed: \"%s\"\n", buffer);
+    ok(!strcmp(buffer, "\x82\xa0"), "failed: \"%s\"\n", buffer);*/
 
     strcpy(buffer, " string to copy");
     r = p_sprintf(buffer, buffer+1);
@@ -823,7 +824,7 @@ static void test_swprintf( void )
     const wchar_t S[]={'%','S',0};
     const wchar_t hs[] = {'%', 'h', 's', 0};
 
-    // wtf is this MS
+    // wtf is this MS, this isn't sprintf lmao
     /*
     swprintf(buffer,TwentyThreePoint15e,pnumber);
     ok(wcsstr(buffer,e008) != 0,"Sprintf different\n");
@@ -964,10 +965,11 @@ static void test_fcvt(void)
     char *str;
     int dec=100, sign=100;
 
+#ifdef YALIBCT_LIBC_HAS_FCVT
     /* Numbers less than 1.0 with different precisions */
     str = fcvt(0.0001, 1, &dec, &sign );
     ok( 0 == strcmp(str,""), "bad return '%s'\n", str);
-    ok( -3 == dec || -1 == dec, "dec wrong %d\n", dec);
+    ok( dec < 0, "dec wrong %d\n", dec);
     ok( 0 == sign, "sign wrong\n");
 
     str = fcvt(0.0001, -10, &dec, &sign );
@@ -1054,6 +1056,7 @@ static void test_fcvt(void)
     ok( 0 == strcmp(str,"1"), "bad return '%s'\n", str);
     ok( 1 == dec, "dec wrong %d\n", dec);
     ok( 0 == sign, "sign wrong\n");
+#endif
 }
 
 /* Don't test nrdigits < 0, msvcrt on Win9x and NT4 will corrupt memory by
@@ -1115,6 +1118,7 @@ static void test_xcvt(void)
     char *str;
     int i, decpt, sign, err;
 
+#ifdef YALIBCT_LIBC_HAS_ECVT
     for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
         decpt = sign = 100;
         str = ecvt( test_cvt_testcases[i].value,
@@ -1131,6 +1135,9 @@ static void test_xcvt(void)
                 "ecvt() sign wrong, got %d expected %d\n", sign,
                 test_cvt_testcases[i].expsign);
     }
+#endif
+
+#ifdef YALIBCT_LIBC_HAS_FCVT
     for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
         decpt = sign = 100;
         str = fcvt( test_cvt_testcases[i].value,
@@ -1147,6 +1154,7 @@ static void test_xcvt(void)
             "fcvt() %d sign wrong, got %d expected %d\n", i, sign,
                 test_cvt_testcases[i].expsign);
     }
+#endif
 
     if (p__ecvt_s)
     {
@@ -1237,9 +1245,9 @@ static void test_vsnwprintf(void)
     wchar_t str[32];
     char buf[32];
 
-    ret = _vsnwprintf_wrapper( str, ARRAY_SIZE(str), format, one, two, three );
-
-    ok( ret == 11 || ret == 9, "got %d expected 11\n", ret );
+    // The format strnigs given here aren't widely supported
+    /*ret = _vsnwprintf_wrapper( str, ARRAY_SIZE(str), format, one, two, three );
+    ok( ret == 11, "got %d expected 11\n", ret );
 
     // Yea no, WideCharToMultiByte ain't standardized
     //WideCharToMultiByte( CP_ACP, 0, str, -1, buf, sizeof(buf), NULL, NULL );
@@ -1249,7 +1257,7 @@ static void test_vsnwprintf(void)
     ok( ret == -1, "got %d, expected -1\n", ret );
 
     ret = _vsnwprintf_wrapper( NULL, 0, format, one, two, three );
-    ok( ret == 11 || ret == -1 /* Win2k and other OSes lol */, "got %d, expected 11\n", ret );
+    ok( ret == 11 || ret == -1 /* Win2k and OSes that aren't Windows *//*, "got %d, expected 11\n", ret );*/
 }
 
 static int WINAPIV vswprintf_wrapper(wchar_t *str, const wchar_t *format, ...)

@@ -12,7 +12,7 @@ option(YALIBCT_ENABLE_LC_NUMERIC_TESTS "Whether or not tests that depend on LC_N
 include(CheckIncludeFile)
 include(CheckSymbolExists)
 
-set(YALIBCT_COMPILE_FLAGS "_GNU_SOURCE")
+set(YALIBCT_COMPILE_FLAGS "-D_GNU_SOURCE")
 
 macro(yalibct_append_option_to_compiler_flags option_name)
 
@@ -33,9 +33,13 @@ endmacro()
 
 macro(yalibct_check_libc_symbol symbol_name include_filename macro_name)
 
+  list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   check_symbol_exists(${symbol_name} ${include_filename} ${macro_name})
+  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS)
   if (${macro_name})
     list(APPEND YALIBCT_COMPILE_FLAGS ${macro_name})
+  else()
+    list(APPEND YALIBCT_COMPILE_FLAGS "${symbol_name}=THE_LIBC_THIS_WAS_COMPILED_UNDER_DOESNT_HAVE_${symbol_name}")
   endif()
 
 endmacro()
@@ -62,6 +66,8 @@ yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 yalibct_check_libc_symbol(vstrdupf string.h YALIBCT_LIBC_HAS_VSTRDUPF)
 yalibct_check_libc_symbol(memchr_inv string.h YALIBCT_LIBC_HAS_MEMCHR_INV)
 yalibct_check_libc_symbol(NAN math.h YALIBCT_LIBC_HAS_NAN)
+yalibct_check_libc_symbol(fcvt stdlib.h YALIBCT_LIBC_HAS_FCVT)
+yalibct_check_libc_symbol(ecvt stdlib.h YALIBCT_LIBC_HAS_ECVT)
 
 yalibct_make_executable(printf-KOS-mk4-test-positional-printf tests/printf/KOS/mk4/test-positional-printf.c)
 yalibct_make_executable(printf-linux-kernel-test_printf tests/printf/linux-kernel/test_printf.c)

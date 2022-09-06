@@ -4,6 +4,7 @@
 #include <math.h>
 #else
 
+#undef NAN
 #define NAN (.0f / .0f)
 
 #endif
