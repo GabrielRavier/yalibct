@@ -168,6 +168,7 @@ hello
 0
 EOF
                                                   ) $IS_PARALLEL
+./test-binaries/printf-gcc-printf-2 $IS_PARALLEL
 
 # Wait for all tests to be over before exiting
 wait
