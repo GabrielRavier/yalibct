@@ -154,7 +154,20 @@ hello
 
 hello
 EOF
-                                                ) $IS_PARALLEL
+                                               ) $IS_PARALLEL
+./test-binaries/printf-gcc-printf-1 | diff -u - <(cat <<EOF
+hellohellohello
+hello
+aahellohellohello
+hello
+aaxxhello
+
+hello
+
+0
+0
+EOF
+                                                  ) $IS_PARALLEL
 
 # Wait for all tests to be over before exiting
 wait
