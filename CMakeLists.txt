@@ -95,3 +95,4 @@ yalibct_make_executable(printf-newsys-test-printf tests/printf/newsys/test.print
 yalibct_make_executable(printf-osv-tst-printf tests/printf/osv/tst-printf.c)
 yalibct_make_executable(printf-OpenBSD-fp tests/printf/OpenBSD/fp.c)
 yalibct_make_executable(printf-OpenBSD-int tests/printf/OpenBSD/int.c)
+yalibct_make_executable(printf-OpenBSD-string tests/printf/OpenBSD/string.c)

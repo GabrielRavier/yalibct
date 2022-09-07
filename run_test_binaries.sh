@@ -134,6 +134,7 @@ EOF
 ./test-binaries/printf-osv-tst-printf $IS_PARALLEL
 ./test-binaries/printf-OpenBSD-fp $IS_PARALLEL
 ./test-binaries/printf-OpenBSD-int $IS_PARALLEL
+./test-binaries/printf-OpenBSD-string $IS_PARALLEL
 
 # Wait for all tests to be over before exiting
 wait
