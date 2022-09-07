@@ -170,6 +170,24 @@ EOF
                                                   ) $IS_PARALLEL
 ./test-binaries/printf-gcc-printf-2 $IS_PARALLEL
 ./test-binaries/printf-llvm-test-suite-2002-04-17-PrintfChar | diff -u - <(echo "'c' 'e'") $IS_PARALLEL
+./test-binaries/printf-tcc-02_printf | diff -u - <(cat <<EOF
+Hello world
+Count = -5
+Count = -4
+Count = -3
+Count = -2
+Count = -1
+Count = 0
+Count = 1
+Count = 2
+Count = 3
+Count = 4
+Count = 5
+String 'hello', 'there' is 'hello', 'there'
+Character 'A' is 'A'
+Character 'a' is 'a'
+EOF
+                                                   ) $IS_PARALLEL
 
 # Wait for all tests to be over before exiting
 wait
