@@ -100,3 +100,4 @@ yalibct_make_executable(printf-llvm-project-printf_test tests/printf/llvm-projec
 yalibct_make_executable(printf-gcc-printf tests/printf/gcc/printf.c)
 yalibct_make_executable(printf-gcc-printf-1 tests/printf/gcc/printf-1.c)
 yalibct_make_executable(printf-gcc-printf-2 tests/printf/gcc/printf-2.c)
+yalibct_make_executable(printf-llvm-test-suite-2002-04-17-PrintfChar tests/printf/llvm-test-suite/2002-04-17-PrintfChar.c)

@@ -169,6 +169,7 @@ hello
 EOF
                                                   ) $IS_PARALLEL
 ./test-binaries/printf-gcc-printf-2 $IS_PARALLEL
+./test-binaries/printf-llvm-test-suite-2002-04-17-PrintfChar | diff -u - <(echo "'c' 'e'") $IS_PARALLEL
 
 # Wait for all tests to be over before exiting
 wait
