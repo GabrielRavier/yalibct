@@ -141,6 +141,20 @@ A simple string with no conversions.
 1234 and more
 EOF
                                                               ) $IS_PARALLEL
+./test-binaries/printf-gcc-printf | diff -u - <(cat <<EOF
+hello
+hello world
+hello world
+
+hh
+
+hello world
+hello world
+hello
+
+hello
+EOF
+                                                ) $IS_PARALLEL
 
 # Wait for all tests to be over before exiting
 wait
