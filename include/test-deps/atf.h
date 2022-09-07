@@ -38,15 +38,15 @@
 #include <stdbool.h>
 
 #define ATF_TC(test_name)
-#define ATF_TC_HEAD(test_name, idk) void test_name ## _head ()
+#define ATF_TC_HEAD(test_name, idk) static void test_name ## _head ()
 #define atf_tc_set_md_var(idk, str1, str2)
-#define ATF_TC_BODY(test_name, idk) void test_name ## _body ()
+#define ATF_TC_BODY(test_name, idk) static void test_name ## _body ()
 #define ATF_REQUIRE assert
 #define ATF_CHECK assert
 #define ATF_REQUIRE_STREQ(x, y) \
     ATF_REQUIRE_MSG(strcmp(x, y) == 0, "%s != %s (%s != %s)", #x, #y, x, y)
 #define ATF_CHECK_STREQ ATF_REQUIRE_STREQ
-#define ATF_TP_ADD_TCS(idk) int yalibct_atf_tp_add_tcs_run_tests(); int main() { yalibct_chdir_to_tmpdir(); yalibct_atf_tp_add_tcs_run_tests(); } int yalibct_atf_tp_add_tcs_run_tests()
+#define ATF_TP_ADD_TCS(idk) static int yalibct_atf_tp_add_tcs_run_tests(); int main() { yalibct_chdir_to_tmpdir(); yalibct_atf_tp_add_tcs_run_tests(); } static int yalibct_atf_tp_add_tcs_run_tests()
 #define ATF_TP_ADD_TC(idk, test_name) test_name ## _head (); test_name ## _body();
 #define ATF_TP_ADD_TC_NO_HEAD(idk, test_name) test_name ## _body();
 #define atf_no_error() 0

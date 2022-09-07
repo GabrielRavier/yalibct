@@ -34,4 +34,4 @@
 #define DECL_END
 #define assertf(expr, ...) YALIBCT_ASSERT_WITH_MESSAGE(expr, __VA_ARGS__)
 #define DEFINE_TEST(name) int main()
-#define DEFINE_TEST_NON_SINGLE(name) void name()
+#define DEFINE_TEST_NON_SINGLE(name) static void name()
