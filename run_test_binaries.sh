@@ -135,6 +135,12 @@ EOF
 ./test-binaries/printf-OpenBSD-fp $IS_PARALLEL
 ./test-binaries/printf-OpenBSD-int $IS_PARALLEL
 ./test-binaries/printf-OpenBSD-string $IS_PARALLEL
+./test-binaries/printf-llvm-project-printf_test | diff -u - <(cat <<EOF
+A simple string with no conversions.
+1234567890
+1234 and more
+EOF
+                                                              ) $IS_PARALLEL
 
 # Wait for all tests to be over before exiting
 wait
