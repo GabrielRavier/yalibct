@@ -404,9 +404,11 @@ static void test_sprintf( void )
     ok(r==1, "r = %d\n", r);
     ok(!strcmp(buffer, "\x82"), "failed: \"%s\"\n", buffer);
 
+#ifdef YALIBCT_ENABLE_RARE_LOCALE_TESTS
     r = p_sprintf(buffer, "%C", 0x3042);
     ok(r==2, "r = %d\n", r);
     ok(!strcmp(buffer, "\x82\xa0"), "failed: \"%s\"\n", buffer);
+#endif
 
     strcpy(buffer, " string to copy");
     r = p_sprintf(buffer, buffer+1);
