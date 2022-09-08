@@ -189,6 +189,7 @@ EOF
                                                   ) &
 ./test-binaries/printf-wine-msvcrt-printf &
 ./test-binaries/printf-wine-ucrtbase-printf &
+./test-binaries/printf-glibc-tst-printf-binary &
 
 # Wait for all tests to be over before exiting
 wait
