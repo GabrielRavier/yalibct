@@ -187,7 +187,8 @@ String 'hello', 'there' is 'hello', 'there'
 Character 'A' is 'A'
 Character 'a' is 'a'
 EOF
-                                                   ) $IS_PARALLEL
+                                                  ) $IS_PARALLEL
+./test-binaries/printf-wine-printf $IS_PARALLEL
 
 # Wait for all tests to be over before exiting
 wait

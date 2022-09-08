@@ -15,6 +15,7 @@
 #define __ms_va_start va_start
 #define __ms_va_end va_end
 #define START_TEST(name) int main()
+#define todo_wine_if(expr)
 
 typedef wchar_t WCHAR;
 typedef unsigned long long ULONGLONG;

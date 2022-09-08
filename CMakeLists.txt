@@ -6,8 +6,9 @@ project(yalibct
   LANGUAGES C
 )
 
-option(YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests will be run by default" ON)
+option(YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests will be run by default, i.e. without the corresponding options being explicitly set" ON)
 option(YALIBCT_ENABLE_LC_NUMERIC_TESTS "Whether or not tests that depend on LC_NUMERIC support being present will be run" ${YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT})
+option(YALIBCT_ENABLE_PRINTF_ROUNDING_DIRECTION_TESTS "Whether or not tests that depend on the printf family of function rounding floating point numbers will be run. I am unsure of whether the C standard requires this, but it seems like a very useful property for the functions to have regardless" ${YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT})
 
 include(CheckIncludeFile)
 include(CheckSymbolExists)
@@ -60,6 +61,7 @@ macro(yalibct_make_executable target_name target_source_file)
 endmacro()
 
 yalibct_append_option_to_compiler_flags(YALIBCT_ENABLE_LC_NUMERIC_TESTS)
+yalibct_append_option_to_compiler_flags(YALIBCT_ENABLE_PRINTF_ROUNDING_DIRECTION_TESTS)
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 
@@ -102,3 +104,4 @@ yalibct_make_executable(printf-gcc-printf-1 tests/printf/gcc/printf-1.c)
 yalibct_make_executable(printf-gcc-printf-2 tests/printf/gcc/printf-2.c)
 yalibct_make_executable(printf-llvm-test-suite-2002-04-17-PrintfChar tests/printf/llvm-test-suite/2002-04-17-PrintfChar.c)
 yalibct_make_executable(printf-tcc-02_printf tests/printf/tcc/02_printf.c)
+yalibct_make_executable(printf-wine-printf tests/printf/wine/printf.c)
