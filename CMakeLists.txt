@@ -8,8 +8,10 @@ project(yalibct
 
 option(YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests will be run by default, i.e. without the corresponding options being explicitly set" ON)
 option(YALIBCT_ENABLE_LC_NUMERIC_TESTS "Whether or not tests that depend on LC_NUMERIC support being present will be run" ${YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT})
-option(YALIBCT_ENABLE_PRINTF_ROUNDING_DIRECTION_TESTS "Whether or not tests that depend on the printf family of function rounding floating point numbers will be run. I am unsure of whether the C standard requires this, but it seems like a very useful property for the functions to have regardless" ${YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT})
+option(YALIBCT_ENABLE_PRINTF_ROUNDING_DIRECTION_TESTS "Whether or not tests that depend on the printf family of functions rounding floating point numbers will be run. I am unsure of whether the C standard requires this, but it seems like a very useful property for the functions to have regardless" ${YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT})
 option(YALIBCT_ENABLE_RARE_LOCALE_TESTS "Whether or not tests that depend on potentially rare locales that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT})
+option(YALIBCT_ENABLE_C2X_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the upcoming C2x standard will be run by default" ${YALIBCT_ENABLE_OPTIONAL_TESTS_BY_DEFAULT})
+option(YALIBCT_ENABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %b/%B will be run by default" ${YALIBCT_ENABLE_C2X_TESTS_BY_DEFAULT})
 
 include(CheckIncludeFile)
 include(CheckSymbolExists)
@@ -64,6 +66,7 @@ endmacro()
 yalibct_append_option_to_compiler_flags(YALIBCT_ENABLE_LC_NUMERIC_TESTS)
 yalibct_append_option_to_compiler_flags(YALIBCT_ENABLE_PRINTF_ROUNDING_DIRECTION_TESTS)
 yalibct_append_option_to_compiler_flags(YALIBCT_ENABLE_RARE_LOCALE_TESTS)
+yalibct_append_option_to_compiler_flags(YALIBCT_ENABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS)
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 

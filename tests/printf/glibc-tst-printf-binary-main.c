@@ -43,6 +43,7 @@ int
 do_test (void)
 {
   CHAR buf[1024];
+#ifdef YALIBCT_ENABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS
   CHECK_PRINTF ("0", "%b", 0u);
   CHECK_PRINTF ("0", "%B", 0u);
   CHECK_PRINTF ("0", "%#b", 0u);
@@ -120,6 +121,7 @@ do_test (void)
   /* Test positional argument handling.  */
   CHECK_PRINTF ("test 1011 test2 100010001000100010001000100010001",
 		"%2$s %1$b %4$s %3$llb", 11u, "test", 0x111111111ull, "test2");
+#endif
   return 0;
 }
 
