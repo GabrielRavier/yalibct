@@ -16,7 +16,11 @@
 #define __ms_va_end va_end
 #define START_TEST(name) int main()
 #define todo_wine_if(expr)
+#define FALSE 0
+#define TRUE 1
+#define __int64 long long
 
 typedef wchar_t WCHAR;
 typedef unsigned long long ULONGLONG;
 typedef long long LONGLONG;
+typedef int BOOL;

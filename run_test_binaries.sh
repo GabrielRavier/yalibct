@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-IS_PARALLEL=&
-
-./test-binaries/printf-KOS-mk4-test-positional-printf $IS_PARALLEL
-./test-binaries/printf-linux-kernel-test_printf $IS_PARALLEL
-./test-binaries/printf-NetBSD-t_printf 2>/dev/null | diff -u - <(printf 'printf = 0\n') $IS_PARALLEL
-./test-binaries/printf-NetBSD-t_printf 2>&1 >/dev/null | diff -u - <(printf 'snprintf = 0') $IS_PARALLEL
-./test-binaries/printf-FreeBSD-printfloat_test $IS_PARALLEL
-./test-binaries/printf-FreeBSD-atf-printf_test $IS_PARALLEL
-./test-binaries/printf-FreeBSD-plain-printf_test $IS_PARALLEL
-./test-binaries/printf-FreeBSD-tap-printf_test | diff -u - <(printf '1..7\nok 1\nok 2\nok 3\nok 4\nok 5\nok 6\nok 7\n') $IS_PARALLEL
-./test-binaries/printf-fuchsia-printf_tests $IS_PARALLEL
-./test-binaries/printf-illumos-gate-printf-6961 $IS_PARALLEL
-./test-binaries/printf-illumos-gate-printf-9511 $IS_PARALLEL
-./test-binaries/printf-reactos-printf $IS_PARALLEL
+./test-binaries/printf-KOS-mk4-test-positional-printf &
+./test-binaries/printf-linux-kernel-test_printf &
+./test-binaries/printf-NetBSD-t_printf 2>/dev/null | diff -u - <(printf 'printf = 0\n') &
+./test-binaries/printf-NetBSD-t_printf 2>&1 >/dev/null | diff -u - <(printf 'snprintf = 0') &
+./test-binaries/printf-FreeBSD-printfloat_test &
+./test-binaries/printf-FreeBSD-atf-printf_test &
+./test-binaries/printf-FreeBSD-plain-printf_test &
+./test-binaries/printf-FreeBSD-tap-printf_test | diff -u - <(printf '1..7\nok 1\nok 2\nok 3\nok 4\nok 5\nok 6\nok 7\n') &
+./test-binaries/printf-fuchsia-printf_tests &
+./test-binaries/printf-illumos-gate-printf-6961 &
+./test-binaries/printf-illumos-gate-printf-9511 &
+./test-binaries/printf-reactos-printf &
 ./test-binaries/printf-littlekernel-printf_tests | sed 's/0x1p-1074/0x0.0000000000001p-1022/;s/0x1.ffffffffffffep-1023/0x0.fffffffffffffp-1022/;s/0X1P-1074/0X0.0000000000001P-1022/;s/0X1.FFFFFFFFFFFFEP-1023/0X0.FFFFFFFFFFFFFP-1022/' | diff -u - <(cat <<EOF
 printf tests
 numbers:
@@ -120,7 +119,7 @@ floating point printf tests
 0xfff0000000000000 -inf -INF -inf -INF
 0x7ff0000000000000 inf INF inf INF
 EOF
-                                                                                                                                                                                                                                                     ) $IS_PARALLEL
+                                                                                                                                                                                                                                                     ) &
 ./test-binaries/printf-toaruos-test-printf | diff -u - <(cat <<EOF
 042
 0000012345
@@ -129,18 +128,18 @@ EOF
 1
 123
 EOF
-                                                       ) $IS_PARALLEL
-./test-binaries/printf-newsys-test-printf $IS_PARALLEL
-./test-binaries/printf-osv-tst-printf $IS_PARALLEL
-./test-binaries/printf-OpenBSD-fp $IS_PARALLEL
-./test-binaries/printf-OpenBSD-int $IS_PARALLEL
-./test-binaries/printf-OpenBSD-string $IS_PARALLEL
+                                                       ) &
+./test-binaries/printf-newsys-test-printf &
+./test-binaries/printf-osv-tst-printf &
+./test-binaries/printf-OpenBSD-fp &
+./test-binaries/printf-OpenBSD-int &
+./test-binaries/printf-OpenBSD-string &
 ./test-binaries/printf-llvm-project-printf_test | diff -u - <(cat <<EOF
 A simple string with no conversions.
 1234567890
 1234 and more
 EOF
-                                                              ) $IS_PARALLEL
+                                                              ) &
 ./test-binaries/printf-gcc-printf | diff -u - <(cat <<EOF
 hello
 hello world
@@ -154,7 +153,7 @@ hello
 
 hello
 EOF
-                                               ) $IS_PARALLEL
+                                               ) &
 ./test-binaries/printf-gcc-printf-1 | diff -u - <(cat <<EOF
 hellohellohello
 hello
@@ -167,9 +166,9 @@ hello
 0
 0
 EOF
-                                                  ) $IS_PARALLEL
-./test-binaries/printf-gcc-printf-2 $IS_PARALLEL
-./test-binaries/printf-llvm-test-suite-2002-04-17-PrintfChar | diff -u - <(echo "'c' 'e'") $IS_PARALLEL
+                                                  ) &
+./test-binaries/printf-gcc-printf-2 &
+./test-binaries/printf-llvm-test-suite-2002-04-17-PrintfChar | diff -u - <(echo "'c' 'e'") &
 ./test-binaries/printf-tcc-02_printf | diff -u - <(cat <<EOF
 Hello world
 Count = -5
@@ -187,8 +186,9 @@ String 'hello', 'there' is 'hello', 'there'
 Character 'A' is 'A'
 Character 'a' is 'a'
 EOF
-                                                  ) $IS_PARALLEL
-./test-binaries/printf-wine-printf $IS_PARALLEL
+                                                  ) &
+./test-binaries/printf-wine-msvcrt-printf &
+./test-binaries/printf-wine-ucrtbase-printf &
 
 # Wait for all tests to be over before exiting
 wait
