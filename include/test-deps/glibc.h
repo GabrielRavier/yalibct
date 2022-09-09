@@ -59,6 +59,8 @@
                               __FILE__, __LINE__,                       \
                               #left, #left_length, #right, #right_length))
 
+#define TEST_VERIFY_EXIT assert
+
 static inline void
 support_test_compare_blob(const void *left, unsigned long int left_length,
                           const void *right, unsigned long int right_length,

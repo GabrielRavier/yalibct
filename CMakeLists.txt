@@ -119,3 +119,4 @@ yalibct_make_executable(printf-glibc-tst-printf-binary tests/printf/glibc-tst-pr
 yalibct_make_executable(printf-glibc-tst-obprintf tests/printf/glibc-tst-obprintf.c)
 yalibct_make_executable(printf-glibc-tst-printf-bz18872-sh-output tests/printf/glibc-tst-printf-bz18872-sh-output.c)
 yalibct_make_executable(printf-glibc-tst-printf-bz25691 tests/printf/glibc-tst-printf-bz25691.c)
+yalibct_make_executable(printf-glibc-tst-printf-fp-free tests/printf/glibc-tst-printf-fp-free.c)
