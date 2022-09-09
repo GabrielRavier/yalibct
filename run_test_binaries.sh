@@ -205,6 +205,7 @@ EOF
 ./test-binaries/printf-glibc-tst-printf-binary &
 ./test-binaries/printf-glibc-tst-obprintf &
 do_printf_glibc_tst_printf_bz18872_sh_output &
+./test-binaries/printf-glibc-tst-printf-bz25691 &
 
 # Wait for all tests to be over before exiting
 wait

@@ -19,8 +19,10 @@
 #pragma once
 
 #include "test-lib/compiler-features.h"
-#include <features.h>
+#include <string.h>
 #include <assert.h>
+#include <stddef.h>
+#include <features.h>
 
 #define DIAG_PUSH_NEEDS_COMMENT HEDLEY_DIAGNOSTIC_PUSH
 /* Compare the strings LEFT and RIGHT and report a test failure if
@@ -45,3 +47,31 @@
 #ifndef __GNUC_PREREQ
 #define __GNUC_PREREQ(major, minor) HEDLEY_GNUC_VERSION_CHECK(major, minor, 0)
 #endif
+
+/* Compare [LEFT, LEFT + LEFT_LENGTH) with [RIGHT, RIGHT +
+   RIGHT_LENGTH) and report a test failure if the arrays are
+   different.  LEFT_LENGTH and RIGHT_LENGTH are measured in bytes.  If
+   the length is null, the corresponding pointer is ignored (i.e., it
+   can be NULL).  The blobs should be reasonably short because on
+   mismatch, both are printed.  */
+#define TEST_COMPARE_BLOB(left, left_length, right, right_length)       \
+  (support_test_compare_blob (left, left_length, right, right_length,   \
+                              __FILE__, __LINE__,                       \
+                              #left, #left_length, #right, #right_length))
+
+static inline void
+support_test_compare_blob(const void *left, unsigned long int left_length,
+                          const void *right, unsigned long int right_length,
+                          const char *file, int line, const char *left_exp,
+                          const char *left_len_exp, const char *right_exp,
+                          const char *right_len_exp)
+{
+      /* No differences are possible if both lengths are null.  */
+  if (left_length == 0 && right_length == 0)
+    return;
+
+  assert(left_length == right_length);
+  assert(left != NULL);
+  assert(right != NULL);
+  assert(memcmp(left, right, left_length) == 0);
+}
