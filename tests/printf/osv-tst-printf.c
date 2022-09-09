@@ -33,7 +33,6 @@ const char *format = "%s";
 
 
 char *print(const char* fmt, ...){
-    static char *retval;
     int size = 512;
     char* buffer = xmalloc(size);
     va_list vl;
@@ -73,11 +72,17 @@ int main(int ac, char** av)
     // Test that the L format prefix, for "long double", works
     long double d = 123.456;
     long long int i = 123456;
-    report(!strcmp(print("%Lf", d), "123.456000"), "Lf");
+
+    char *tmp_print;
+    tmp_print = print("%Lf", d);
+    report(!strcmp(tmp_print, "123.456000"), "Lf");
+    free(tmp_print);
     // Removed these as non-standard and not widely supported
     //report(!strcmp(print("%llf", d), "123.456000"), "llf");
     //report(!strcmp(print("%Ld", i), "123456"), "Ld");
-    report(!strcmp(print("%lld", i), "123456"), "lld");
+    tmp_print = print("%lld", i);
+    report(!strcmp(tmp_print, "123456"), "lld");
+    free(tmp_print);
 
     if (fails != 0)
         abort();
