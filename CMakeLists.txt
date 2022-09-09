@@ -89,6 +89,7 @@ yalibct_check_libc_symbol(mtrace mcheck.h YALIBCT_LIBC_HAS_MTRACE)
 yalibct_check_libc_symbol(mcheck_pedantic mcheck.h YALIBCT_LIBC_HAS_MCHECK_PEDANTIC)
 yalibct_check_libc_symbol(mcheck_check_all mcheck.h YALIBCT_LIBC_HAS_MCHECK_CHECK_ALL)
 
+yalibct_make_executable(libc-starts-up tests/libc-starts-up.c)
 yalibct_make_executable(printf-KOS-mk4-test-positional-printf tests/printf/KOS-mk4-test-positional-printf.c)
 yalibct_make_executable(printf-linux-kernel-test_printf tests/printf/linux-kernel-test_printf.c)
 yalibct_make_executable(printf-NetBSD-t_printf tests/printf/NetBSD-t_printf.c)
@@ -120,3 +121,4 @@ yalibct_make_executable(printf-glibc-tst-obprintf tests/printf/glibc-tst-obprint
 yalibct_make_executable(printf-glibc-tst-printf-bz18872-sh-output tests/printf/glibc-tst-printf-bz18872-sh-output.c)
 yalibct_make_executable(printf-glibc-tst-printf-bz25691 tests/printf/glibc-tst-printf-bz25691.c)
 yalibct_make_executable(printf-glibc-tst-printf-fp-free tests/printf/glibc-tst-printf-fp-free.c)
+yalibct_make_executable(printf-glibc-tst-printf-fp-leak tests/printf/glibc-tst-printf-fp-leak.c)

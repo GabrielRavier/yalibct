@@ -1,13 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+trap_exit () {
+    echo "A command run from this script failed !"
+}
+
+trap trap_exit ERR
+
 # Commented out for now, but will likely have to be reintroduced whenether we start testing allocator failures
 # export ASAN_OPTIONS=${ASAN_OPTIONS}:allocator_may_return_null=true
+
+# Needed to make tests based on MALLOC_TRACE (and stuff like mcheck) work
+checked_add_to_ld_preload()
+{
+    ( LD_PRELOAD="${LD_PRELOAD-} $1" ./test-binaries/libc-starts-up 2>/dev/null && LD_PRELOAD="${LD_PRELOAD-} $1" /bin/test 2>/dev/null && export LD_PRELOAD="${LD_PRELOAD-} $1" ) || true
+}
+
+checked_add_to_ld_preload /lib64/libc_malloc_debug.so.0
+checked_add_to_ld_preload /lib/libc_malloc_debug.so.0
 
 do_mtrace_test()
 {
     export MALLOC_TRACE=$(mktemp)
-    "$1"
+    "$1" "$@"
     mtrace "$1" $MALLOC_TRACE | diff -u - <(echo 'No memory leaks.')
     unset MALLOC_TRACE
 }
@@ -185,6 +200,7 @@ EOF
                                                       )
 }
 
+./test-binaries/libc-starts-up &
 ./test-binaries/printf-KOS-mk4-test-positional-printf &
 ./test-binaries/printf-linux-kernel-test_printf &
 ./test-binaries/printf-NetBSD-t_printf 2>/dev/null | diff -u - <(printf 'printf = 0\n') &
@@ -230,6 +246,7 @@ do_printf_tcc_02_printf &
 do_printf_glibc_tst_printf_bz18872_sh_output &
 ./test-binaries/printf-glibc-tst-printf-bz25691 &
 do_mtrace_test ./test-binaries/printf-glibc-tst-printf-fp-free &
+do_mtrace_test ./test-binaries/printf-glibc-tst-printf-fp-leak &
 
 # Wait for all tests to be over before exiting
 wait
