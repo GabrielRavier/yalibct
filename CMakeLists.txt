@@ -69,6 +69,7 @@ yalibct_append_option_to_compiler_flags(YALIBCT_ENABLE_RARE_LOCALE_TESTS)
 yalibct_append_option_to_compiler_flags(YALIBCT_ENABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS)
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
+yalibct_check_include_file(mcheck.h YALIBCT_LIBC_HAS_MCHECK_H)
 
 yalibct_check_libc_symbol(vstrdupf string.h YALIBCT_LIBC_HAS_VSTRDUPF)
 yalibct_check_libc_symbol(memchr_inv string.h YALIBCT_LIBC_HAS_MEMCHR_INV)

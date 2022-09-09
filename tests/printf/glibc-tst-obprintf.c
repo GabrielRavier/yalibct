@@ -1,12 +1,16 @@
 #include "test-deps/glibc.h"
+
+#ifdef YALIBCT_LIBC_HAS_MCHECK_H
 #include <mcheck.h>
 #include <obstack.h>
 #include <stdio.h>
 #include <stdlib.h>
+#endif
 
 int
 do_test (void)
 {
+#ifdef YALIBCT_LIBC_HAS_MCHECK_H
   struct obstack ob;
   int n;
 
@@ -37,6 +41,7 @@ do_test (void)
 
   /* And a final check.  */
   mcheck_check_all ();
+#endif
 
   return 0;
 }
