@@ -1,6 +1,7 @@
 #include "test-deps/glibc.h"
+#include "test-lib/portable-functions/mtrace.h"
 #include <stdio.h>
-#include <mcheck.h>
+#include <limits.h>
 
 /*
   Compile do_test without optimization: GCC 4.9/5.0/6.0 takes a long time
@@ -10,6 +11,12 @@ __attribute__ ((optimize ("-O0")))
 int do_test (void)
 {
     mtrace ();
+    if (NL_ARGMAX < 10001) {
+        for (int i = 0; i < 10000; ++i)
+            putchar('a');
+        putchar('\n');
+        return 0;
+    }
     printf (
 "%1$s" "%2$s" "%3$s" "%4$s" "%5$s" "%6$s" "%7$s" "%8$s" "%9$s" "%10$s" 
 "%11$s" "%12$s" "%13$s" "%14$s" "%15$s" "%16$s" "%17$s" "%18$s" "%19$s" "%20$s" 

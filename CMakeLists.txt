@@ -69,7 +69,7 @@ yalibct_append_option_to_compiler_flags(YALIBCT_ENABLE_RARE_LOCALE_TESTS)
 yalibct_append_option_to_compiler_flags(YALIBCT_ENABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS)
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
-yalibct_check_include_file(mcheck.h YALIBCT_LIBC_HAS_MCHECK_H)
+yalibct_check_include_file(obstack.h YALIBCT_LIBC_HAS_OBSTACK_H)
 
 yalibct_check_libc_symbol(vstrdupf string.h YALIBCT_LIBC_HAS_VSTRDUPF)
 yalibct_check_libc_symbol(memchr_inv string.h YALIBCT_LIBC_HAS_MEMCHR_INV)
@@ -85,6 +85,9 @@ yalibct_check_libc_symbol(program_invocation_name errno.h YALIBCT_LIBC_HAS_PROGR
 yalibct_check_libc_symbol(getexecname stdlib.h YALIBCT_LIBC_HAS_GETEXECNAME)
 yalibct_check_libc_symbol(__argv stdlib.h YALIBCT_LIBC_HAS___ARGV)
 yalibct_check_libc_symbol(__progname stdlib.h YALIBCT_LIBC_HAS___PROGNAME)
+yalibct_check_libc_symbol(mtrace mcheck.h YALIBCT_LIBC_HAS_MTRACE)
+yalibct_check_libc_symbol(mcheck_pedantic mcheck.h YALIBCT_LIBC_HAS_MCHECK_PEDANTIC)
+yalibct_check_libc_symbol(mcheck_check_all mcheck.h YALIBCT_LIBC_HAS_MCHECK_CHECK_ALL)
 
 yalibct_make_executable(printf-KOS-mk4-test-positional-printf tests/printf/KOS-mk4-test-positional-printf.c)
 yalibct_make_executable(printf-linux-kernel-test_printf tests/printf/linux-kernel-test_printf.c)

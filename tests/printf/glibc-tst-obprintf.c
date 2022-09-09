@@ -1,16 +1,16 @@
 #include "test-deps/glibc.h"
-
-#ifdef YALIBCT_LIBC_HAS_MCHECK_H
-#include <mcheck.h>
+#include "test-lib/portable-functions/mcheck_pedantic.h"
+#include "test-lib/portable-functions/mcheck_check_all.h"
+#ifdef YALIBCT_LIBC_HAS_OBSTACK_H
 #include <obstack.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
-#endif
 
 int
 do_test (void)
 {
-#ifdef YALIBCT_LIBC_HAS_MCHECK_H
+#ifdef YALIBCT_LIBC_HAS_OBSTACK_H
   struct obstack ob;
   int n;
 
