@@ -114,3 +114,4 @@ yalibct_make_executable(printf-wine-msvcrt-printf tests/printf/wine-msvcrt-print
 yalibct_make_executable(printf-wine-ucrtbase-printf tests/printf/wine-ucrtbase-printf.c)
 yalibct_make_executable(printf-glibc-tst-printf-binary tests/printf/glibc-tst-printf-binary.c)
 yalibct_make_executable(printf-glibc-tst-obprintf tests/printf/glibc-tst-obprintf.c)
+yalibct_make_executable(printf-glibc-tst-printf-bz18872-sh-output tests/printf/glibc-tst-printf-bz18872-sh-output.c)
