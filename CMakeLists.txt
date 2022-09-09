@@ -112,4 +112,4 @@ yalibct_make_executable(printf-tcc-02_printf tests/printf/tcc-02_printf.c)
 yalibct_make_executable(printf-wine-msvcrt-printf tests/printf/wine-msvcrt-printf.c)
 yalibct_make_executable(printf-wine-ucrtbase-printf tests/printf/wine-ucrtbase-printf.c)
 yalibct_make_executable(printf-glibc-tst-printf-binary tests/printf/glibc-tst-printf-binary.c)
-# DO PRINTF-OBSTACK NEXT
+yalibct_make_executable(printf-glibc-tst-obprintf tests/printf/glibc-tst-obprintf.c)

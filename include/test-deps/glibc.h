@@ -19,6 +19,7 @@
 #pragma once
 
 #include "test-lib/compiler-features.h"
+#include <features.h>
 #include <assert.h>
 
 #define DIAG_PUSH_NEEDS_COMMENT HEDLEY_DIAGNOSTIC_PUSH
@@ -41,4 +42,6 @@
 
 #define do_test main
 
+#ifndef __GNUC_PREREQ
 #define __GNUC_PREREQ(major, minor) HEDLEY_GNUC_VERSION_CHECK(major, minor, 0)
+#endif

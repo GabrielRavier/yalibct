@@ -1,19 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-./test-binaries/printf-KOS-mk4-test-positional-printf &
-./test-binaries/printf-linux-kernel-test_printf &
-./test-binaries/printf-NetBSD-t_printf 2>/dev/null | diff -u - <(printf 'printf = 0\n') &
-./test-binaries/printf-NetBSD-t_printf 2>&1 >/dev/null | diff -u - <(printf 'snprintf = 0') &
-./test-binaries/printf-FreeBSD-printfloat_test &
-./test-binaries/printf-FreeBSD-atf-printf_test &
-./test-binaries/printf-FreeBSD-plain-printf_test &
-./test-binaries/printf-FreeBSD-tap-printf_test | diff -u - <(printf '1..7\nok 1\nok 2\nok 3\nok 4\nok 5\nok 6\nok 7\n') &
-./test-binaries/printf-fuchsia-printf_tests &
-./test-binaries/printf-illumos-gate-printf-6961 &
-./test-binaries/printf-illumos-gate-printf-9511 &
-./test-binaries/printf-reactos-printf &
-./test-binaries/printf-littlekernel-printf_tests | sed 's/0x1p-1074/0x0.0000000000001p-1022/;s/0x1.ffffffffffffep-1023/0x0.fffffffffffffp-1022/;s/0X1P-1074/0X0.0000000000001P-1022/;s/0X1.FFFFFFFFFFFFEP-1023/0X0.FFFFFFFFFFFFFP-1022/' | diff -u - <(cat <<EOF
+do_printf_littlekernel_printf_tests()
+{
+    ./test-binaries/printf-littlekernel-printf_tests | sed 's/0x1p-1074/0x0.0000000000001p-1022/;s/0x1.ffffffffffffep-1023/0x0.fffffffffffffp-1022/;s/0X1P-1074/0X0.0000000000001P-1022/;s/0X1.FFFFFFFFFFFFEP-1023/0X0.FFFFFFFFFFFFFP-1022/' | diff -u - <(cat <<EOF
 printf tests
 numbers:
 int8:  -12 0 -2
@@ -119,7 +109,22 @@ floating point printf tests
 0xfff0000000000000 -inf -INF -inf -INF
 0x7ff0000000000000 inf INF inf INF
 EOF
-                                                                                                                                                                                                                                                     ) &
+                                                                                                                                                                                                                                                     )
+}
+
+./test-binaries/printf-KOS-mk4-test-positional-printf &
+./test-binaries/printf-linux-kernel-test_printf &
+./test-binaries/printf-NetBSD-t_printf 2>/dev/null | diff -u - <(printf 'printf = 0\n') &
+./test-binaries/printf-NetBSD-t_printf 2>&1 >/dev/null | diff -u - <(printf 'snprintf = 0') &
+./test-binaries/printf-FreeBSD-printfloat_test &
+./test-binaries/printf-FreeBSD-atf-printf_test &
+./test-binaries/printf-FreeBSD-plain-printf_test &
+./test-binaries/printf-FreeBSD-tap-printf_test | diff -u - <(printf '1..7\nok 1\nok 2\nok 3\nok 4\nok 5\nok 6\nok 7\n') &
+./test-binaries/printf-fuchsia-printf_tests &
+./test-binaries/printf-illumos-gate-printf-6961 &
+./test-binaries/printf-illumos-gate-printf-9511 &
+./test-binaries/printf-reactos-printf &
+do_printf_littlekernel_printf_tests &
 ./test-binaries/printf-toaruos-test-printf | diff -u - <(cat <<EOF
 042
 0000012345
@@ -190,6 +195,7 @@ EOF
 ./test-binaries/printf-wine-msvcrt-printf &
 ./test-binaries/printf-wine-ucrtbase-printf &
 ./test-binaries/printf-glibc-tst-printf-binary &
+./test-binaries/printf-glibc-tst-obprintf &
 
 # Wait for all tests to be over before exiting
 wait
