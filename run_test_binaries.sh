@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Commented out for now, but will likely have to be reintroduced whenether we start testing allocator failures
+# export ASAN_OPTIONS=${ASAN_OPTIONS}:allocator_may_return_null=true
+
 do_printf_littlekernel_printf_tests()
 {
     ./test-binaries/printf-littlekernel-printf_tests | sed 's/0x1p-1074/0x0.0000000000001p-1022/;s/0x1.ffffffffffffep-1023/0x0.fffffffffffffp-1022/;s/0X1P-1074/0X0.0000000000001P-1022/;s/0X1.FFFFFFFFFFFFEP-1023/0X0.FFFFFFFFFFFFFP-1022/' | diff -u - <(cat <<EOF

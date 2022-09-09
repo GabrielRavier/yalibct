@@ -41,6 +41,8 @@ do_test (void)
 
   /* And a final check.  */
   mcheck_check_all ();
+  obstack_free(&ob, NULL);
+  mcheck_check_all();
 #endif
 
   return 0;
