@@ -17,7 +17,9 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
+#ifdef __clang__
 YALIBCT_DIAGNOSTIC_IGNORE("-Wfortify-source");
+#endif
 
 static int tests = 0, fails = 0;
 

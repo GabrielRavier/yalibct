@@ -66,7 +66,7 @@ for i in \
     "do_output_diff_test ./test-binaries/printf-tcc-02_printf ./test-data/outputs/printf-tcc-02_printf" ./test-binaries/printf-wine-msvcrt-printf ./test-binaries/printf-wine-ucrtbase-printf \
     ./test-binaries/printf-glibc-tst-printf-binary ./test-binaries/printf-glibc-tst-obprintf do_printf_glibc_tst_printf_bz18872_sh_output ./test-binaries/printf-glibc-tst-printf-bz25691 \
     "do_mtrace_test ./test-binaries/printf-glibc-tst-printf-fp-free" "do_mtrace_test ./test-binaries/printf-glibc-tst-printf-fp-leak" ./test-binaries/printf-glibc-tst-printf-round \
-    "do_output_diff_test ./test-binaries/printf-glibc-tst-printf ./test-data/outputs/printf-glibc-tst-printf" "./test-binaries/printf-glibc-tst-printfsz-islongdouble | diff -u - <(printf '2k4k')"
+    "do_output_diff_test ./test-binaries/printf-glibc-tst-printf ./test-data/outputs/printf-glibc-tst-printf" "./test-binaries/printf-glibc-tst-printfsz-islongdouble | diff -u - <(printf '2k4k')" "do_output_diff_test ./test-binaries/printf-glibc-tst-printfsz ./test-data/outputs/printf-glibc-tst-printfsz"
 do
     eval "$i" &
 done

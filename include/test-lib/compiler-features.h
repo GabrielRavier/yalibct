@@ -40,7 +40,7 @@
 #ifdef __clang__
 #define YALIBCT_DIAGNOSTIC_IGNORE(option) _Pragma(YALIBCT_STRINGIFY(clang diagnostic ignored option))
 #else
-#define YALIBCT_DIAGNOSTIC_IGNORE(option) _Pragma(YALIBCT_STRINGIFY(gcc diagnostic ignored option))
+#define YALIBCT_DIAGNOSTIC_IGNORE(option) _Pragma(YALIBCT_STRINGIFY(GCC diagnostic ignored option))
 #endif
 
 #define YALIBCT_EXPRESSION_NO_WARNING(option, block) \
