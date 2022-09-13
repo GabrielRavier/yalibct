@@ -210,6 +210,7 @@ yalibct_check_c99_libc_symbol(INFINITY math.h YALIBCT_LIBC_HAS_INFINITY)
 yalibct_check_posix_libc_symbol(NL_ARGMAX limits.h YALIBCT_LIBC_HAS_NL_ARGMAX)
 yalibct_check_c11_libc_symbol(static_assert assert.h YALIBCT_LIBC_HAS_STATIC_ASSERT)
 yalibct_check_c99_libc_symbol(fegetround fenv.h YALIBCT_LIBC_HAS_FEGETROUND)
+yalibct_check_libc_symbol(printf_size printf.h YALIBCT_LIBC_HAS_PRINTF_SIZE)
 
 yalibct_make_executable(libc-starts-up tests/libc-starts-up.c)
 yalibct_make_executable(printf-KOS-mk4-test-positional-printf tests/printf/KOS-mk4-test-positional-printf.c)
@@ -246,3 +247,4 @@ yalibct_make_executable(printf-glibc-tst-printf-fp-free tests/printf/glibc-tst-p
 yalibct_make_executable(printf-glibc-tst-printf-fp-leak tests/printf/glibc-tst-printf-fp-leak.c)
 yalibct_make_executable(printf-glibc-tst-printf-round tests/printf/glibc-tst-printf-round.c)
 yalibct_make_executable(printf-glibc-tst-printf tests/printf/glibc-tst-printf.c)
+yalibct_make_executable(printf-glibc-tst-printfsz-islongdouble tests/printf/glibc-tst-printfsz-islongdouble.c)
