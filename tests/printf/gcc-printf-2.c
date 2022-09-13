@@ -8,11 +8,12 @@
    { dg-skip-if "requires io" { freestanding } } */
 
 #include "test-deps/gcc.h"
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-__attribute__ ((noipa)) void
+YALIBCT_ATTRIBUTE_NOIPA void
 write_file (void)
 {
   printf ("1");

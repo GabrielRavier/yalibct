@@ -16,7 +16,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat"
 
-int printf_tests(void) {
+void printf_tests(void) {
     printf("printf tests\n");
 
     printf("numbers:\n");
@@ -123,7 +123,7 @@ int printf_tests(void) {
 
 #include "test-deps/littlekernel/float_test_vec.h"
 
-int printf_tests_float(void) {
+void printf_tests_float(void) {
     printf("floating point printf tests\n");
 
 #ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS

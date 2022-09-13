@@ -7,7 +7,7 @@
   Compile do_test without optimization: GCC 4.9/5.0/6.0 takes a long time
   to build this source. https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67396  */
 
-__attribute__ ((optimize ("-O0")))
+YALIBCT_ATTRIBUTE_OPTIMIZE_O0
 int do_test (void)
 {
     mtrace ();

@@ -10,11 +10,14 @@
 // To compile on Linux, use: g++ -g -std=c++11 tst-printf.cc
 
 #include "test-lib/portable-symbols/xmalloc.h"
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include <stdarg.h>
 #include <stdbool.h>
+
+YALIBCT_DIAGNOSTIC_IGNORE("-Wfortify-source");
 
 static int tests = 0, fails = 0;
 

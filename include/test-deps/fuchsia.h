@@ -10,8 +10,8 @@
 
 #include <assert.h>
 
-#define BEGIN_TEST
-#define END_TEST
+#define BEGIN_TEST bool all_ok = true
+#define END_TEST return all_ok
 #define EXPECT_TRUE assert
 #define constexpr
 #define EXPECT_EQ(a, b) assert((a) == (b))

@@ -152,8 +152,8 @@ test_number(void)
 #endif
 	test("0|001| 12|+123| 1234|-123|-1234", "%d|%03d|%3d|%+d|% d|%+d|% d", 0, 1, 12, 123, 1234, -123, -1234);
 #ifndef YALIBCT_DISABLE_PRINTF_HH_LENGTH_MODIFIER_TESTS
-        test("-128", "%hhd", 128);
 	NOWARN(-Wformat, "Intentionally test narrowing conversion specifiers.", {
+                test("-128", "%hhd", 128);
 		test("0|1|1|128|255", "%hhu|%hhu|%hhu|%hhu|%hhu", 0, 1, 257, 128, -1);
 		test("0|1|1|-128|-1", "%hhd|%hhd|%hhd|%hhd|%hhd", 0, 1, 257, 128, -1);
 		test("2015122420151225", "%ho%ho%#ho", 1037, 5282, -11627);

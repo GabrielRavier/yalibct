@@ -12,6 +12,20 @@
 #define YALIBCT_ATTRIBUTE_PARAMETER_IN(parameter_idx) HEDLEY_NON_NULL(parameter_idx)
 #endif
 
+#if HEDLEY_GNUC_HAS_ATTRIBUTE(__noipa__, 0, 0, 0)
+#define YALIBCT_ATTRIBUTE_NOIPA __attribute__((__noipa__))
+#else
+#define YALIBCT_ATTRIBUTE_NOIPA
+#endif
+
+#if HEDLEY_GNUC_HAS_ATTRIBUTE(__optimize__, 4, 4, 0)
+#define YALIBCT_ATTRIBUTE_OPTIMIZE_O0 __attribute__((__optimize__("O0")))
+#elif HEDLEY_HAS_ATTRIBUTE(__optnone__) || defined(__clang__)
+#define YALIBCT_ATTRIBUTE_OPTIMIZE_O0 __attribute__((__optnone__))
+#else
+#define YALIBCT_ATTRIBUTE_OPTIMIZE_O0
+#endif
+
 #if HEDLEY_HAS_ATTRIBUTE(__cold__)
 #define YALIBCT_ATTRIBUTE_COLD __attribute__((__cold__))
 #else
@@ -32,5 +46,5 @@
 #define YALIBCT_EXPRESSION_NO_WARNING(option, block) \
     HEDLEY_DIAGNOSTIC_PUSH;                                         \
     YALIBCT_DIAGNOSTIC_IGNORE(#option);                             \
-    block                                                           \
-    HEDLEY_DIAGNOSTIC_PUSH;
+    block;                                                          \
+    HEDLEY_DIAGNOSTIC_POP;

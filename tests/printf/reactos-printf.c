@@ -37,6 +37,9 @@
 #include <wchar.h>
 #include <unistd.h>
 
+YALIBCT_DIAGNOSTIC_IGNORE("-Wcomment")
+YALIBCT_DIAGNOSTIC_IGNORE("-Wformat-security")
+
 static inline float __port_ind(void)
 {
     static const unsigned __ind_bytes = 0xffc00000;
@@ -920,7 +923,7 @@ static void test_fprintf(void)
     ok(ret == 12, "ftell returned %d\n", ret);
     ok(!strcmp(buf, "simple test"), "buf = %s\n", buf);
 
-    fgets(buf, sizeof(buf), fp);
+    ok(fgets(buf, sizeof(buf), fp) == buf, "");
     ret = ftell(fp);
     ok(ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
@@ -968,7 +971,7 @@ static void test_fprintf(void)
     ok(ret == 13 || ret == 12, "ftell returned %d\n", ret);
     ok(!strcmp(buf, "simple test\r") || !strcmp(buf, "simple test"), "buf = %s\n", buf);
 
-    fgets(buf, sizeof(buf), fp);
+    ok(fgets(buf, sizeof(buf), fp) == buf, "");
     ret = ftell(fp);
     ok(ret == 28 || ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\r\n", 15) || !memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);

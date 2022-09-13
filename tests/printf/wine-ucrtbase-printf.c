@@ -33,6 +33,9 @@
 #include <unistd.h>
 #include <stdint.h>
 
+YALIBCT_DIAGNOSTIC_IGNORE("-Wformat-security")
+YALIBCT_DIAGNOSTIC_IGNORE("-Wcomment")
+
 #define DEFINE_EXPECT(func) \
     static BOOL expect_ ## func = FALSE, called_ ## func = FALSE
 

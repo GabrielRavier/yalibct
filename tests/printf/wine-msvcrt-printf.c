@@ -36,7 +36,11 @@
 #include <unistd.h>
 #include <fenv.h>
 
-#pragma STDC FENV_ACCESS on
+#pragma STDC FENV_ACCESS ON
+
+YALIBCT_DIAGNOSTIC_IGNORE("-Wformat")
+YALIBCT_DIAGNOSTIC_IGNORE("-Wformat-security")
+YALIBCT_DIAGNOSTIC_IGNORE("-Wcomment")
 
 static inline float __port_ind(void)
 {

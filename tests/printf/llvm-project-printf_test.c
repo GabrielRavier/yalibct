@@ -7,13 +7,14 @@
 //===----------------------------------------------------------------------===//
 
 #include "test-deps/llvm-project.h"
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 
 TEST(LlvmLibcPrintfTest, PrintOut) {
   int written;
 
   constexpr char simple[] = "A simple string with no conversions.\n";
-  written = printf(simple);
+  YALIBCT_EXPRESSION_NO_WARNING(-Wformat-security, written = printf(simple));
   EXPECT_EQ(written, (int)(sizeof(simple) - 1));
 
   constexpr char numbers[] = "1234567890\n";
