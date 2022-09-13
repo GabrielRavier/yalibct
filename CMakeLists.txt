@@ -245,3 +245,4 @@ yalibct_make_executable(printf-glibc-tst-printf-bz25691 tests/printf/glibc-tst-p
 yalibct_make_executable(printf-glibc-tst-printf-fp-free tests/printf/glibc-tst-printf-fp-free.c)
 yalibct_make_executable(printf-glibc-tst-printf-fp-leak tests/printf/glibc-tst-printf-fp-leak.c)
 yalibct_make_executable(printf-glibc-tst-printf-round tests/printf/glibc-tst-printf-round.c)
+yalibct_make_executable(printf-glibc-tst-printf tests/printf/glibc-tst-printf.c)

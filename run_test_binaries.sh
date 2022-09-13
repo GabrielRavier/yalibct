@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Execute tests from the directory that which contains the script
+cd "$(dirname "$0")"
+
 trap_exit () {
     echo "A command run from this script failed !"
 }
@@ -200,9 +203,15 @@ EOF
                                                       )
 }
 
-./test-binaries/libc-starts-up &
-./test-binaries/printf-KOS-mk4-test-positional-printf &
-./test-binaries/printf-linux-kernel-test_printf &
+do_printf_glibc_tst_printf()
+{
+    ./test-binaries/printf-glibc-tst-printf | diff -u - ./test-data/printf-glibc-tst-printf-output
+}
+
+for i in ./test-binaries/libc-starts-up ./test-binaries/printf-KOS-mk4-test-positional-printf ./test-binaries/printf-linux-kernel-test_printf
+do
+    $i &
+done
 ./test-binaries/printf-NetBSD-t_printf 2>/dev/null | diff -u - <(printf 'printf = 0\n') &
 ./test-binaries/printf-NetBSD-t_printf 2>&1 >/dev/null | diff -u - <(printf 'snprintf = 0') &
 ./test-binaries/printf-FreeBSD-printfloat_test &
@@ -248,6 +257,7 @@ do_printf_glibc_tst_printf_bz18872_sh_output &
 do_mtrace_test ./test-binaries/printf-glibc-tst-printf-fp-free &
 do_mtrace_test ./test-binaries/printf-glibc-tst-printf-fp-leak &
 ./test-binaries/printf-glibc-tst-printf-round &
+do_printf_glibc_tst_printf &
 
 # Wait for all tests to be over before exiting
 wait
