@@ -254,3 +254,4 @@ yalibct_make_executable(printf-glibc-tst-printf-round tests/printf/glibc-tst-pri
 yalibct_make_executable(printf-glibc-tst-printf tests/printf/glibc-tst-printf.c)
 yalibct_make_executable(printf-glibc-tst-printfsz-islongdouble tests/printf/glibc-tst-printfsz-islongdouble.c)
 yalibct_make_executable(printf-glibc-tst-printfsz tests/printf/glibc-tst-printfsz.c)
+yalibct_make_executable(printf-glibc-tst-wc-printf tests/printf/glibc-tst-wc-printf.c)
