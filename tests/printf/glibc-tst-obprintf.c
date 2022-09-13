@@ -1,6 +1,6 @@
 #include "test-deps/glibc.h"
-#include "test-lib/portable-functions/mcheck_pedantic.h"
-#include "test-lib/portable-functions/mcheck_check_all.h"
+#include "test-lib/portable-symbols/mcheck_pedantic.h"
+#include "test-lib/portable-symbols/mcheck_check_all.h"
 #ifdef YALIBCT_LIBC_HAS_OBSTACK_H
 #include <obstack.h>
 #endif

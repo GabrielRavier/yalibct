@@ -17,8 +17,8 @@
    <https://www.gnu.org/licenses/>.  */
 
 #include "test-deps/glibc.h"
-#include "test-lib/portable-functions/mtrace.h"
-#include "test-lib/portable-functions/xmalloc.h"
+#include "test-lib/portable-symbols/mtrace.h"
+#include "test-lib/portable-symbols/xmalloc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,6 +46,7 @@ do_test (void)
     const char expected[] = "aaaaaaaa";
     int ret;
 
+#ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS
     ret = snprintf (result, sizeof (result), "%.65537ls", winput);
     TEST_COMPARE (ret, winputsize - 1);
     TEST_COMPARE_BLOB (result, sizeof (result), expected, sizeof (expected));
@@ -53,6 +54,7 @@ do_test (void)
     ret = snprintf (result, sizeof (result), "%ls", winput);
     TEST_COMPARE (ret, winputsize - 1);
     TEST_COMPARE_BLOB (result, sizeof (result), expected, sizeof (expected));
+#endif
 
     free (winput);
   }
@@ -77,6 +79,7 @@ do_test (void)
     wchar_t *result = xmalloc (resultsize);
     int ret;
 
+#ifdef YALIBCT_LIBC_HAS_SWPRINTF
     ret = swprintf (result, resultsize, L"%.65537s", mbs);
     TEST_COMPARE (ret, mbssize - 1);
     TEST_COMPARE_BLOB (result, (ret + 1) * sizeof (wchar_t),
@@ -95,6 +98,7 @@ do_test (void)
 
     ret = swprintf (result, resultsize, L"%1$.65537s", mbs);
     assert(ret == -1 || ret == mbssize - 1);
+#endif
 
     free (mbs);
     free (result);

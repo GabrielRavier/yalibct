@@ -23,7 +23,7 @@
 #include <error.h>
 #else
 
-#include "test-lib/portable-functions/getprogname.h"
+#include "test-lib/portable-symbols/getprogname.h"
 #include "test-lib/hedley.h"
 #include <stdio.h>
 #include <stdlib.h>

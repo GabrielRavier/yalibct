@@ -146,14 +146,19 @@ test_basic(void)
 static void __init
 test_number(void)
 {
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	test("0x1234abcd  ", "%#-12x", 0x1234abcd);
 	test("  0x1234abcd", "%#12x", 0x1234abcd);
+#endif
 	test("0|001| 12|+123| 1234|-123|-1234", "%d|%03d|%3d|%+d|% d|%+d|% d", 0, 1, 12, 123, 1234, -123, -1234);
+#ifndef YALIBCT_DISABLE_PRINTF_HH_LENGTH_MODIFIER_TESTS
+        test("-128", "%hhd", 128);
 	NOWARN(-Wformat, "Intentionally test narrowing conversion specifiers.", {
 		test("0|1|1|128|255", "%hhu|%hhu|%hhu|%hhu|%hhu", 0, 1, 257, 128, -1);
 		test("0|1|1|-128|-1", "%hhd|%hhd|%hhd|%hhd|%hhd", 0, 1, 257, 128, -1);
 		test("2015122420151225", "%ho%ho%#ho", 1037, 5282, -11627);
 	})
+#endif
 	/*
 	 * POSIX/C99: »The result of converting zero with an explicit
 	 * precision of zero shall be no characters.« Hence the output
@@ -164,7 +169,7 @@ test_number(void)
 	 */
         // Note: Test obviously modified to correspond to the POSIX behavior described above
 	test("00|0||| ", "%.2d|%.1d|%.0d|%.*d|%1.0d", 0, 0, 0, 0, 0, 0);
-#ifndef __CHAR_UNSIGNED__
+#if !defined(__CHAR_UNSIGNED__) && !defined(YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS)
 	{
 		/*
 		 * Passing a 'char' to a %02x specifier doesn't do
@@ -184,6 +189,7 @@ test_string(void)
 	test("", "%s%.0s", "", "123");
 	test("ABCD|abc|123", "%s|%.3s|%.*s", "ABCD", "abcdef", 3, "123456");
 	test("1  |  2|3  |  4|5  ", "%-3s|%3s|%-*s|%*s|%*s", "1", "2", 3, "3", 3, "4", -3, "5");
+#ifndef YALIBCT_DISABLE_PRINTF_PRECISION_TESTS
 	test("1234      ", "%-10.4s", "123456");
 	test("      1234", "%10.4s", "123456");
 	/*
@@ -204,6 +210,7 @@ test_string(void)
 	test("", "%.s", "123456");
 	test("||", "%.s|%.0s|%.*s", "a", "b", 0, "c");
 	test("   |   |   ", "%-3.s|%-3.0s|%-3.*s", "a", "b", 0, "c");
+#endif
 }
 
 #define PLAIN_BUF_SIZE 64	/* leave some space so we don't oops */

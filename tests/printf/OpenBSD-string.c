@@ -287,12 +287,14 @@ main(int argc, char *argv[])
 	 * Valid use cases of %c and %s.
 	 */
 
+#ifndef YALIBCT_DISABLE_PRINTF_C_CONVERSION_SPECIFIER_TESTS
 	tc("<%c>", '=', "<=>");
 	tc("<%c>", '\t', "<\t>");
         tc("<%c>", 0xfe, "<\xfe>");
 	tc("<%-c>", '=', "<=>");
 	tc("<%2c>", '=', "< =>");
 	tc("<%-2c>", '=', "<= >");
+#endif
 
 	ts("<%s>", "text", "<text>");
 	ts("<%-s>", "text", "<text>");
@@ -310,6 +312,7 @@ main(int argc, char *argv[])
 	 */
 
 	if (picky) {
+#ifndef YALIBCT_DISABLE_PRINTF_C_CONVERSION_SPECIFIER_TESTS
 		tc("<%#c>", '=', "<=>");
 		tc("<% -3c>", '=', "<=  >");
 		tc("<%+-3c>", '=', "<=  >");
@@ -319,6 +322,7 @@ main(int argc, char *argv[])
 		tc("<%3.2c>", '=', "<  =>");
                 // UB and not widely supported
 		//tc("<%hc>", '=', "<=>");
+#endif
 
 		ts("<%#s>", "text", "<text>");
 		ts("<% -6s>", "text", "<text  >");
@@ -334,13 +338,16 @@ main(int argc, char *argv[])
 	 * Valid use cases of %lc and %ls in the POSIX locale.
 	 */
 
+#ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS
 	tlc("<%lc>", L'=', "<=>");
 	tlc("<%lc>", L'\t', "<\t>");
 	tlc_expect_fail("<%lc>", 0x03c0);
 	tlc("<%-lc>", L'=', "<=>");
 	tlc("<%2lc>", L'=', "< =>");
 	tlc("<%-2lc>", L'=', "<= >");
+#endif
 
+#ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS
 	tls("<%ls>", L"text", "<text>");
 	tls_expect_fail("<%ls>", ws);
 	tls_expect_fail("<%ls>", wsbad);
@@ -350,6 +357,7 @@ main(int argc, char *argv[])
 	tls("<%.2ls>", L"text", "<te>");
 	tls("<%4.2ls>", L"text", "<  te>");
 	tls("<%-4.2ls>", L"text", "<te  >");
+#endif
 
 	/*
 	 * Undefined behaviour of %lc and %ls in the POSIX locale.
@@ -358,6 +366,7 @@ main(int argc, char *argv[])
 	if (picky) {
             // Unspecified behavior and not widely supported
             //tlc("<%lc>", 0x00fe, "<\xfe>");
+#ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS
 		tlc("<%#lc>", L'=', "<=>");
 		tlc("<% -3lc>", L'=', "<=  >");
 		tlc("<%+-3lc>", L'=', "<=  >");
@@ -365,15 +374,18 @@ main(int argc, char *argv[])
 		//tlc("<%03lc>", L'=', "<00=>");
 		tlc("<%-03lc>", L'=', "<=  >");
 		tlc("<%3.2lc>", L'=', "<  =>");
+#endif
                 // UB and not widely supported
 		//tc("<%llc>", '=', "<=>");
 
+#ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS
 		tls("<%#ls>", L"text", "<text>");
 		tls("<% -6ls>", L"text", "<text  >");
 		tls("<%+-6ls>", L"text", "<text  >");
                 // UB and not widely supported
 		//tls("<%06ls>", L"text", "<00text>");
 		tls("<%-06ls>", L"text", "<text  >");
+#endif
                 // UB and not widely supported
 		//ts("<%lls>", "text", "<text>");
 	}
@@ -382,9 +394,12 @@ main(int argc, char *argv[])
 	 * Valid use cases of %lc and %ls in a UTF-8 locale.
 	 */
 
+#ifndef YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS
 	if (setlocale(LC_CTYPE, "C.UTF-8") == NULL)
 		err(1, "setlocale");
+#endif
 
+#ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS
 	tlc("<%lc>", L'=', "<=>");
 	tlc("<%lc>", L'\t', "<\t>");
 	tlc("<%lc>", 0x00fe, "<\xc3\xbe>");
@@ -397,7 +412,9 @@ main(int argc, char *argv[])
 	tlc("<%3lc>", 0x03c0, "< \xcf\x80>");
 	tlc("<%-2lc>", L'=', "<= >");
 	tlc("<%-3lc>", 0x03c0, "<\xcf\x80 >");
+#endif
 
+#ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS
 	tls("<%ls>", ws, "<\xd0\xa1\xd0\xbe\xd1\x84\xd1\x8f>");
 	tls_expect_fail("<%ls>", wsbad);
 	tls("<%-ls>", ws, "<\xd0\xa1\xd0\xbe\xd1\x84\xd1\x8f>");
@@ -409,12 +426,14 @@ main(int argc, char *argv[])
 	tls("<%3.3ls>", ws, "< \xd0\xa1>");
 	tls("<%-6.4ls>", ws, "<\xd0\xa1\xd0\xbe  >");
 	tls("<%-3.3ls>", ws, "<\xd0\xa1 >");
+#endif
 
 	/*
 	 * Undefined behaviour of %lc and %ls in a UTF-8 locale.
 	 */
 
 	if (picky) {
+#ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS
 		tlc("<%#lc>", 0x03c0, "<\xcf\x80>");
 		tlc("<% -4lc>", 0x03c0, "<\xcf\x80  >");
 		tlc("<%+-4lc>", 0x03c0, "<\xcf\x80  >");
@@ -424,15 +443,18 @@ main(int argc, char *argv[])
 		tlc("<%4.5lc>", 0x03c0, "<  \xcf\x80>");
 		tlc("<%4.3lc>", 0x03c0, "<  \xcf\x80>");
 		tlc("<%4.1lc>", 0x03c0, "<  \xcf\x80>");
+#endif
                 // UB and not widely supported
 		//tc("<%llc>", 0xfe, "<\xfe>");
 
+#ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS
 		tls("<%#ls>", ws + 2, "<\xd1\x84\xd1\x8f>");
 		tls("<% -6ls>", ws + 2, "<\xd1\x84\xd1\x8f  >");
 		tls("<%+-6ls>", ws + 2, "<\xd1\x84\xd1\x8f  >");
                 // UB and not widely supported
 		//tls("<%06ls>", ws + 2, "<00\xd1\x84\xd1\x8f>");
 		tls("<%-06ls>", ws + 2, "<\xd1\x84\xd1\x8f  >");
+#endif
                 // UB and not widely supported
 		//ts("<%lls>", "text", "<text>");
 	}

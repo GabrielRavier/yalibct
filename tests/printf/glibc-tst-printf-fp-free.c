@@ -17,7 +17,7 @@
    <https://www.gnu.org/licenses/>.  */
 
 #include "test-deps/glibc.h"
-#include "test-lib/portable-functions/mtrace.h"
+#include "test-lib/portable-symbols/mtrace.h"
 #include <stdio.h>
 #include <sys/resource.h>
 

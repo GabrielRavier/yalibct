@@ -20,8 +20,12 @@ int printf_tests(void) {
     printf("printf tests\n");
 
     printf("numbers:\n");
+#ifndef YALIBCT_DISABLE_PRINTF_HH_LENGTH_MODIFIER_TESTS
     printf("int8:  %hhd %hhd %hhd\n", -12, 0, 254);
     printf("uint8: %hhu %hhu %hhu\n", -12, 0, 254);
+#else
+    puts("int8:  -12 0 -2\nuint8: 244 0 254");
+#endif
     printf("int16: %hd %hd %hd\n", -1234, 0, 1234);
     printf("uint16:%hu %hu %hu\n", -1234, 0, 1234);
     printf("int:   %d %d %d\n", -12345678, 0, 12345678);
@@ -35,8 +39,12 @@ int printf_tests(void) {
     printf("usize_t: %zu %zu %zu\n", (size_t)-12345678, (size_t)0, (size_t)12345678);
     printf("intmax_t: %jd %jd %jd\n", (intmax_t)-12345678, (intmax_t)0, (intmax_t)12345678);
     printf("uintmax_t: %ju %ju %ju\n", (uintmax_t)-12345678, (uintmax_t)0, (uintmax_t)12345678);
+#ifndef YALIBCT_DISABLE_PRINTF_T_LENGTH_MODIFIER_TESTS
     printf("ptrdiff_t: %td %td %td\n", (ptrdiff_t)-12345678, (ptrdiff_t)0, (ptrdiff_t)12345678);
     printf("ptrdiff_t (u): %tu %tu %tu\n", (ptrdiff_t)-12345678, (ptrdiff_t)0, (ptrdiff_t)12345678);
+#else
+    puts("ptrdiff_t: -12345678 0 12345678\nptrdiff_t (u): 18446744073697205938 0 12345678");
+#endif
 
     printf("hex:\n");
     printf("uint8: %hhx %hhx %hhx\n", -12, 0, 254);
@@ -48,7 +56,11 @@ int printf_tests(void) {
     printf("usize_t: %zx %zx %zx\n", (size_t)-12345678, (size_t)0, (size_t)12345678);
 
     printf("alt/sign:\n");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
     printf("uint: %#x %#X\n", 0xabcdef, 0xabcdef);
+#else
+    puts("uint: 0xabcdef 0XABCDEF");
+#endif
     printf("int: %+d %+d\n", 12345678, -12345678);
     printf("int: % d %+d\n", 12345678, 12345678);
 
@@ -114,9 +126,48 @@ int printf_tests(void) {
 int printf_tests_float(void) {
     printf("floating point printf tests\n");
 
-    for (size_t i = 0; i < float_test_vec_size; i++) {
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
+    for (size_t i = 0; i < float_test_vec_size; i++)
         PRINT_FLOAT;
-    }
+#else
+    puts("0xc000000000000000 -2.000000 -2.000000 -0x1p+1 -0X1P+1\n"
+         "0xbff0000000000000 -1.000000 -1.000000 -0x1p+0 -0X1P+0\n"
+         "0xbfe0000000000000 -0.500000 -0.500000 -0x1p-1 -0X1P-1\n"
+         "0x8000000000000000 -0.000000 -0.000000 -0x0p+0 -0X0P+0\n"
+         "0x0000000000000000 0.000000 0.000000 0x0p+0 0X0P+0\n"
+         "0x3f847ae147ae147b 0.010000 0.010000 0x1.47ae147ae147bp-7 0X1.47AE147AE147BP-7\n"
+         "0x3fb999999999999a 0.100000 0.100000 0x1.999999999999ap-4 0X1.999999999999AP-4\n"
+         "0x3fc999999999999a 0.200000 0.200000 0x1.999999999999ap-3 0X1.999999999999AP-3\n"
+         "0x3fd0000000000000 0.250000 0.250000 0x1p-2 0X1P-2\n"
+         "0x3fe0000000000000 0.500000 0.500000 0x1p-1 0X1P-1\n"
+         "0x3fe8000000000000 0.750000 0.750000 0x1.8p-1 0X1.8P-1\n"
+         "0x3ff0000000000000 1.000000 1.000000 0x1p+0 0X1P+0\n"
+         "0x4000000000000000 2.000000 2.000000 0x1p+1 0X1P+1\n"
+         "0x4008000000000000 3.000000 3.000000 0x1.8p+1 0X1.8P+1\n"
+         "0x4024000000000000 10.000000 10.000000 0x1.4p+3 0X1.4P+3\n"
+         "0x4059000000000000 100.000000 100.000000 0x1.9p+6 0X1.9P+6\n"
+         "0x40fe240000000000 123456.000000 123456.000000 0x1.e24p+16 0X1.E24P+16\n"
+         "0xc0fe240000000000 -123456.000000 -123456.000000 -0x1.e24p+16 -0X1.E24P+16\n"
+         "0x4081148440000000 546.564575 546.564575 0x1.114844p+9 0X1.114844P+9\n"
+         "0xc081148440000000 -546.564575 -546.564575 -0x1.114844p+9 -0X1.114844P+9\n"
+         "0x3fbf9a6b50b0f27c 0.123450 0.123450 0x1.f9a6b50b0f27cp-4 0X1.F9A6B50B0F27CP-4\n"
+         "0x3eb4b6231abfd271 0.000001 0.000001 0x1.4b6231abfd271p-20 0X1.4B6231ABFD271P-20\n"
+         "0x3ec0c6c0a6f639de 0.000002 0.000002 0x1.0c6c0a6f639dep-19 0X1.0C6C0A6F639DEP-19\n"
+         "0x3eb92a737110e454 0.000002 0.000002 0x1.92a737110e454p-20 0X1.92A737110E454P-20\n"
+         "0x4005bf0a8b145649 2.718282 2.718282 0x1.5bf0a8b145649p+1 0X1.5BF0A8B145649P+1\n"
+         "0x400921fb54442d18 3.141593 3.141593 0x1.921fb54442d18p+1 0X1.921FB54442D18P+1\n"
+         "0x43f0000000000000 18446744073709551616.000000 18446744073709551616.000000 0x1p+64 0X1P+64\n"
+         "0x7fefffffffffffff 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.000000 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368.000000 0x1.fffffffffffffp+1023 0X1.FFFFFFFFFFFFFP+1023\n"
+         "0x0010000000000000 0.000000 0.000000 0x1p-1022 0X1P-1022\n"
+         "0x0000000000000001 0.000000 0.000000 0x0.0000000000001p-1022 0X0.0000000000001P-1022\n"
+         "0x000fffffffffffff 0.000000 0.000000 0x0.fffffffffffffp-1022 0X0.FFFFFFFFFFFFFP-1022\n"
+         "0x7ff0000000000001 nan NAN nan NAN\n"
+         "0x7ff7ffffffffffff nan NAN nan NAN\n"
+         "0x7ff8000000000000 nan NAN nan NAN\n"
+         "0x7fffffffffffffff nan NAN nan NAN\n"
+         "0xfff0000000000000 -inf -INF -inf -INF\n"
+         "0x7ff0000000000000 inf INF inf INF");
+#endif
 
 }
 

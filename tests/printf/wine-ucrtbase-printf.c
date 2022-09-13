@@ -22,6 +22,8 @@
  */
 
 #include "test-deps/wine.h"
+#include "test-lib/portable-symbols/NAN.h"
+#include "test-lib/portable-symbols/INFINITY.h"
 #include <stdio.h>
 #include <errno.h>
 #include <math.h>
@@ -29,6 +31,7 @@
 #include <string.h>
 #include <wchar.h>
 #include <unistd.h>
+#include <stdint.h>
 
 #define DEFINE_EXPECT(func) \
     static BOOL expect_ ## func = FALSE, called_ ## func = FALSE
@@ -239,6 +242,7 @@ static void test_swprintf (void)
             "\"%s\": Missing null termination (ret %d) - is %d\n", narrow_fmt, n, buffer[valid]);
     }*/
 
+#ifdef YALIBCT_LIBC_HAS_SWPRINTF
     ok (swprintf (NULL, 0, str_short) == -1,
         "Failure to swprintf to NULL\n");
     // Usage of non-standard and not widely supported routines removed
@@ -258,6 +262,7 @@ static void test_swprintf (void)
         "Failure to swprintf a zero length string to a zero length buffer\n");
     ok (vswprintf_wrapper (0, buffer, 0, str_empty) == -1,
         "Failure to swprintf a zero length string to a zero length buffer\n");*/
+#endif
 }
 
 static int WINAPIV vfprintf_wrapper(FILE *file,
@@ -333,6 +338,7 @@ static void test_fprintf(void)
     unlink(file_name);
 }
 
+#ifdef YALIBCT_LIBC_HAS_VFWPRINTF
 static int WINAPIV vfwprintf_wrapper(FILE *file,
                                      const wchar_t *format, ...)
 {
@@ -343,6 +349,7 @@ static int WINAPIV vfwprintf_wrapper(FILE *file,
     va_end(valist);
     return ret;
 }
+#endif
 
 static void test_fwprintf(void)
 {
@@ -351,6 +358,7 @@ static void test_fwprintf(void)
     static const WCHAR cont_fmt[] = {'c','o','n','t','a','i','n','s','%','c','n','u','l','l','\n',0};
     static const WCHAR cont[] = {'c','o','n','t','a','i','n','s','\0','n','u','l','l','\n',0};
 
+#ifdef YALIBCT_LIBC_HAS_VFWPRINTF
     FILE *fp = fopen(file_name, "wb");
     wchar_t bufw[1024];
     char bufa[1024];
@@ -408,6 +416,7 @@ static void test_fwprintf(void)
 
     fclose(fp);
     unlink(file_name);
+#endif
 
     // Non-standard and not widely supported
     /* NULL format */
@@ -597,6 +606,7 @@ static void test_printf_legacy_three_digit_exp(void)
 {
     char buf[20];
 
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
     snprintf(buf, sizeof(buf), "%E", 1.23);
     ok(!strcmp(buf, "1.230000E+00"), "buf = %s\n", buf);
     // Non-standard and not widely supported
@@ -604,6 +614,7 @@ static void test_printf_legacy_three_digit_exp(void)
       ok(!strcmp(buf, "1.230000E+000"), "buf = %s\n", buf);*/
     snprintf(buf, sizeof(buf), "%E", 1.23e+123);
     ok(!strcmp(buf, "1.230000E+123"), "buf = %s\n", buf);
+#endif
 }
 
 static void test_printf_c99(void)
@@ -626,11 +637,13 @@ static void test_printf_c99(void)
     ok(!strcmp(buf, "18446744073709551615 1"), "buf = %s\n", buf);
 
     /* t modifier accepts ptrdiff_t argument */
+#ifndef YALIBCT_DISABLE_PRINTF_T_LENGTH_MODIFIER_TESTS
     snprintf(buf, sizeof(buf), "%td %d", PTRDIFF_MIN, 1);
     if (sizeof(ptrdiff_t) == 8)
         ok(!strcmp(buf, "-9223372036854775808 1"), "buf = %s\n", buf);
     else
         ok(!strcmp(buf, "-2147483648 1"), "buf = %s\n", buf);
+#endif
 }
 
 static void test_printf_natural_string(void)
@@ -647,8 +660,10 @@ static void test_printf_natural_string(void)
     snprintf(buffer, sizeof(buffer), narrow_fmt, narrow, narrow);
     ok(!strcmp(buffer, narrow_out), "buffer wrong, got=%s\n", buffer);
 
+#ifdef YALIBCT_LIBC_HAS_SWPRINTF
     swprintf(wbuffer, sizeof(wbuffer), wide_fmt, narrow, wide);
     ok(!wcscmp(wbuffer, wide_out), "buffer wrong, got=%ls\n", (wbuffer));
+#endif
 }
 
 static void test_printf_fp(void)
@@ -671,27 +686,49 @@ static void test_printf_fp(void)
         const char *broken[ARRAY_SIZE(flags)];
         const char *res2;
     } tests[] = {
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%a", NAN, { "nan", "0x1.#QNAN00000000p+0", "nan", "0x1.#QNAN00000000p+0" }},
         { "%A", NAN, { "NAN", "0X1.#QNAN00000000P+0", "NAN", "0X1.#QNAN00000000P+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%e", NAN, { "nan", "1.#QNAN0e+00", "nan", "1.#QNAN0e+000" }},
         { "%E", NAN, { "NAN", "1.#QNAN0E+00", "NAN", "1.#QNAN0E+000" }},
+#endif
         { "%g", NAN, { "nan", "1.#QNAN", "nan", "1.#QNAN" }},
         { "%G", NAN, { "NAN", "1.#QNAN", "NAN", "1.#QNAN" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%21a", NAN, { "                  nan", " 0x1.#QNAN00000000p+0", "                  nan", " 0x1.#QNAN00000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%20e", NAN, { "                 nan", "        1.#QNAN0e+00", "                 nan", "       1.#QNAN0e+000" }},
+#endif
         { "%20g", NAN, { "                 nan", "             1.#QNAN", "                 nan", "             1.#QNAN" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%.21a", NAN, { "nan", "0x1.#QNAN0000000000000000p+0", "nan", "0x1.#QNAN0000000000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.20e", NAN, { "nan", "1.#QNAN000000000000000e+00", "nan", "1.#QNAN000000000000000e+000" }},
+#endif
         { "%.20g", NAN, { "nan", "1.#QNAN", "nan", "1.#QNAN" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%.021a", NAN, { "nan", "0x1.#QNAN0000000000000000p+0", "nan", "0x1.#QNAN0000000000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.020e", NAN, { "nan", "1.#QNAN000000000000000e+00", "nan", "1.#QNAN000000000000000e+000" }},
+#endif
         { "%.020g", NAN, { "nan", "1.#QNAN", "nan", "1.#QNAN" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%#.21a", NAN, { "nan", "0x1.#QNAN0000000000000000p+0", "nan", "0x1.#QNAN0000000000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%#.20e", NAN, { "nan", "1.#QNAN000000000000000e+00", "nan", "1.#QNAN000000000000000e+000" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
         { "%#.20g", NAN, { "nan", "1.#QNAN00000000000000", "nan", "1.#QNAN00000000000000" }},
         { "%.1g", NAN, { "nan", "1", "nan", "1" }},
         { "%.2g", NAN, { "nan", "1.$", "nan", "1.$" }},
         { "%.3g", NAN, { "nan", "1.#R", "nan", "1.#R" }},
+#endif
 
         // Non-standard and not widely supported
         /*{ "%a", IND, { "-nan(ind)", "-0x1.#IND000000000p+0", "-nan(ind)", "-0x1.#IND000000000p+0" }},
@@ -710,38 +747,83 @@ static void test_printf_fp(void)
         { "%#.20e", IND, { "-nan(ind)", "-1.#IND0000000000000000e+00", "-nan(ind)", "-1.#IND0000000000000000e+000" }},
         { "%#.20g", IND, { "-nan(ind)", "-1.#IND000000000000000", "-nan(ind)", "-1.#IND000000000000000" }},*/
 
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%a", INFINITY, { "inf", "0x1.#INF000000000p+0", "inf", "0x1.#INF000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%e", INFINITY, { "inf", "1.#INF00e+00", "inf", "1.#INF00e+000" }},
+#endif
         { "%g", INFINITY, { "inf", "1.#INF", "inf", "1.#INF" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%21a", INFINITY, { "                  inf", " 0x1.#INF000000000p+0", "                  inf", " 0x1.#INF000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%20e", INFINITY, { "                 inf", "        1.#INF00e+00", "                 inf", "       1.#INF00e+000" }},
+#endif
         { "%20g", INFINITY, { "                 inf", "              1.#INF", "                 inf", "              1.#INF" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%.21a", INFINITY, { "inf", "0x1.#INF00000000000000000p+0", "inf", "0x1.#INF00000000000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.20e", INFINITY, { "inf", "1.#INF0000000000000000e+00", "inf", "1.#INF0000000000000000e+000" }},
+#endif
         { "%.20g", INFINITY, { "inf", "1.#INF", "inf", "1.#INF" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%.021a", INFINITY, { "inf", "0x1.#INF00000000000000000p+0", "inf", "0x1.#INF00000000000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.020e", INFINITY, { "inf", "1.#INF0000000000000000e+00", "inf", "1.#INF0000000000000000e+000" }},
+#endif
         { "%.020g", INFINITY, { "inf", "1.#INF", "inf", "1.#INF" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%#.21a", INFINITY, { "inf", "0x1.#INF00000000000000000p+0", "inf", "0x1.#INF00000000000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%#.20e", INFINITY, { "inf", "1.#INF0000000000000000e+00", "inf", "1.#INF0000000000000000e+000" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
         { "%#.20g", INFINITY, { "inf", "1.#INF000000000000000", "inf", "1.#INF000000000000000" }},
+#endif
 
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%a", -INFINITY, { "-inf", "-0x1.#INF000000000p+0", "-inf", "-0x1.#INF000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%e", -INFINITY, { "-inf", "-1.#INF00e+00", "-inf", "-1.#INF00e+000" }},
+#endif
         { "%g", -INFINITY, { "-inf", "-1.#INF", "-inf", "-1.#INF" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%21a", -INFINITY, { "                 -inf", "-0x1.#INF000000000p+0", "                 -inf", "-0x1.#INF000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%20e", -INFINITY, { "                -inf", "       -1.#INF00e+00", "                -inf", "      -1.#INF00e+000" }},
+#endif
         { "%20g", -INFINITY, { "                -inf", "             -1.#INF", "                -inf", "             -1.#INF" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%.21a", -INFINITY, { "-inf", "-0x1.#INF00000000000000000p+0", "-inf", "-0x1.#INF00000000000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.20e", -INFINITY, { "-inf", "-1.#INF0000000000000000e+00", "-inf", "-1.#INF0000000000000000e+000" }},
+#endif
         { "%.20g", -INFINITY, { "-inf", "-1.#INF", "-inf", "-1.#INF" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%.021a", -INFINITY, { "-inf", "-0x1.#INF00000000000000000p+0", "-inf", "-0x1.#INF00000000000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.020e", -INFINITY, { "-inf", "-1.#INF0000000000000000e+00", "-inf", "-1.#INF0000000000000000e+000" }},
+#endif
         { "%.020g", -INFINITY, { "-inf", "-1.#INF", "-inf", "-1.#INF" }},
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%#.21a", -INFINITY, { "-inf", "-0x1.#INF00000000000000000p+0", "-inf", "-0x1.#INF00000000000000000p+0" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%#.20e", -INFINITY, { "-inf", "-1.#INF0000000000000000e+00", "-inf", "-1.#INF0000000000000000e+000" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
         { "%#.20g", -INFINITY, { "-inf", "-1.#INF000000000000000", "-inf", "-1.#INF000000000000000" }},
+#endif
 
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
         { "%a", 0, { "0x0.0000000000000p+0" }, {}, "0x0p+0"},
         { "%A", 0, { "0X0.0000000000000P+0" }, {}, "0X0P+0"},
         { "%a", 0.5, { "0x1.0000000000000p-1" }, {}, "0x1p-1"},
@@ -771,57 +853,98 @@ static void test_printf_fp(void)
         { "%#.1a", 1.03125, { "0x1.1p+0", NULL, NULL, NULL, "0x1.0p+0" }, { "0x1.0p+0" }},
         { "%#.1a", 1.09375, { "0x1.2p+0" }, { "0x1.1p+0" }},
         { "%#.1a", 1.15625, { "0x1.3p+0", NULL, NULL, NULL, "0x1.2p+0" }, { "0x1.2p+0" }},
+#endif
 
         { "%f", 0, { "0.000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%e", 0, { "0.000000e+00", NULL, "0.000000e+000" }},
+#endif
         { "%g", 0, { "0" }},
         { "%21f", 0, { "             0.000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%20e", 0, { "        0.000000e+00", NULL, "       0.000000e+000" }},
+#endif
         { "%20g", 0, { "                   0" }},
         { "%.21f", 0, { "0.000000000000000000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.20e", 0, { "0.00000000000000000000e+00", NULL, "0.00000000000000000000e+000" }},
+#endif
         { "%.20g", 0, { "0" }},
         { "%.021f", 0, { "0.000000000000000000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.020e", 0, { "0.00000000000000000000e+00", NULL, "0.00000000000000000000e+000" }},
+#endif
         { "%.020g", 0, { "0" }},
         { "%#.21f", 0, { "0.000000000000000000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%#.20e", 0, { "0.00000000000000000000e+00", NULL, "0.00000000000000000000e+000" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
         { "%#.20g", 0, { "0.0000000000000000000" }, { "0.00000000000000000000" }},
+#endif
 
         { "%f", 123, { "123.000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%e", 123, { "1.230000e+02", NULL, "1.230000e+002" }},
+#endif
         { "%g", 123, { "123" }},
         { "%21f", 123, { "           123.000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%20e", 123, { "        1.230000e+02", NULL, "       1.230000e+002" }},
+#endif
         { "%20g", 123, { "                 123" }},
         { "%.21f", 123, { "123.000000000000000000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.20e", 123, { "1.23000000000000000000e+02", NULL, "1.23000000000000000000e+002" }},
+#endif
         { "%.20g", 123, { "123" }},
         { "%.021f", 123, { "123.000000000000000000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.020e", 123, { "1.23000000000000000000e+02", NULL, "1.23000000000000000000e+002" }},
+#endif
         { "%.020g", 123, { "123" }},
         { "%#.21f", 123, { "123.000000000000000000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%#.20e", 123, { "1.23000000000000000000e+02", NULL, "1.23000000000000000000e+002" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
         { "%#.20g", 123, { "123.00000000000000000" }},
+#endif
 
         { "%f", -765, { "-765.000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%e", -765, { "-7.650000e+02", NULL, "-7.650000e+002" }},
+#endif
         { "%g", -765, { "-765" }},
         { "%21f", -765, { "          -765.000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%20e", -765, { "       -7.650000e+02", NULL, "      -7.650000e+002" }},
+#endif
         { "%20g", -765, { "                -765" }},
         { "%.21f", -765, { "-765.000000000000000000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.20e", -765, { "-7.65000000000000000000e+02", NULL, "-7.65000000000000000000e+002" }},
+#endif
         { "%.20g", -765, { "-765" }},
         { "%.021f", -765, { "-765.000000000000000000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%.020e", -765, { "-7.65000000000000000000e+02", NULL, "-7.65000000000000000000e+002" }},
+#endif
         { "%.020g", -765, { "-765" }},
         { "%#.21f", -765, { "-765.000000000000000000000" }},
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%#.20e", -765, { "-7.65000000000000000000e+02", NULL, "-7.65000000000000000000e+002" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
         { "%#.20g", -765, { "-765.00000000000000000" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
         { "%.30f", 1.0/3.0, { "0.333333333333333314829616256247" }},
         { "%.30lf", sqrt(2), { "1.414213562373095145474621858739" }},
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
         { "%.0g", 9.8949714229143402e-05, { "0.0001" }},
+#endif
         { "%.0f", 0.5, { "1", NULL, NULL, NULL, "0" }, {"0", NULL, NULL, NULL, "1" }},
         { "%.0f", 1.5, { "2" }},
         { "%.0f", 2.5, { "3", NULL, NULL, NULL, "2" }, {"2", NULL, NULL, NULL, "3" }},
@@ -842,7 +965,7 @@ static void test_printf_fp(void)
 
         r = snprintf(buf, sizeof(buf), tests[i].fmt, tests[i].d);
         ok(!strcmp(buf, res) || (broken_res && !strcmp(buf, broken_res)) || (res2 && !strcmp(buf, res2)),
-           "%d) buf = %s, expected %s\n", i, buf, res);
+           "%d) buf = %s, expected %s for fmt %s\n", i, buf, res, tests[i].fmt);
         ok(r == strlen(res) || (broken_res && r == strlen(broken_res)) || (res2 && r == strlen(res2)),
            "%d) r = %d, expected %Id\n", i, r, strlen(res));
     }

@@ -82,6 +82,7 @@ static void test_sprintf( void )
     WCHAR wide[] = { 'w','i','d','e',0};
     WCHAR buf_w[2];
 
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
     format = "%+#23.15e";
     r = p_sprintf(buffer,format,pnumber);
     ok(!strcmp(buffer," +7.894561230000000e+08"),"+#23.15e failed: '%s'\n", buffer);
@@ -96,11 +97,14 @@ static void test_sprintf( void )
     r = p_sprintf(buffer,format,pnumber);
     ok(!strcmp(buffer,"  7.894561230000000e+08"),"#23.15e failed: '%s'\n", buffer);
     ok( r==23, "return count wrong\n");
+#endif
 
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
     format = "%#1.1g";
     r = p_sprintf(buffer,format,pnumber);
     ok(!strcmp(buffer,"8.e+08"),"#1.1g failed: '%s'\n", buffer);
     ok( r==6, "return count wrong\n");
+#endif
 
     // Not widely supported, sorry
     /*format = "%I64d";
@@ -315,23 +319,26 @@ static void test_sprintf( void )
     ok(!strcmp(buffer, "+1"),"Problem with sign flags: '%s'\n",buffer);
     ok( r==2, "return count wrong\n");
 
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_S_CONVERSION_SPECIFIER_TESTS
     format = "%S";
     r = p_sprintf(buffer,format,wide);
     ok(!strcmp(buffer,"wide"),"Problem with wide string format\n");
     ok( r==4, "return count wrong\n");
+#endif
 
     // Not gonna make tests on UB, come on
     /*
     format = "%04c";
     r = p_sprintf(buffer,format,'1');
     ok(!strcmp(buffer,"0001"),"Character not zero-prefixed \"%s\"\n",buffer);
-    ok( r==4, "return count wrong\n");*/
+    ok( r==4, "return count wrong\n");
 
     format = "%-04c";
     r = p_sprintf(buffer,format,'1');
     ok(!strcmp(buffer,"1   "),"Character zero-padded and/or not left-adjusted \"%s\"\n",buffer);
-    ok( r==4, "return count wrong\n");
+    ok( r==4, "return count wrong\n");*/
 
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
     format = "%#012x";
     r = p_sprintf(buffer,format,1);
     ok(!strcmp(buffer,"0x0000000001"),"Hexadecimal zero-padded \"%s\"\n",buffer);
@@ -381,6 +388,7 @@ static void test_sprintf( void )
     r = p_sprintf(buffer,format,0);
     ok(!strcmp(buffer,"0"), "Octal zero-padded \"%s\"\n",buffer);
     ok( r==1, "return count wrong\n");
+#endif
 
     if (sizeof(void *) == 8)
     {
@@ -506,10 +514,12 @@ static void test_sprintf( void )
     ok(!strcmp(buffer,"-s"), "failed\n");
     ok( r==2, "return count wrong\n");*/
 
+#ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS
     format = "%ls";
     r = p_sprintf(buffer, format, wide );
     ok(!strcmp(buffer,"wide"), "failed\n");
     ok( r==4, "return count wrong\n");
+#endif
 
     // Not widely supported
     /*
@@ -523,10 +533,12 @@ static void test_sprintf( void )
     ok(!strcmp(buffer,"b"), "failed\n");
     ok( r==1, "return count wrong\n");*/
 
+#ifndef YALIBCT_DISABLE_PRINTF_C_CONVERSION_SPECIFIER_TESTS
     format = "%3c";
     r = p_sprintf(buffer, format,'a');
     ok(!strcmp(buffer,"  a"), "failed\n");
     ok( r==3, "return count wrong\n");
+#endif
 
     format = "%3d";
     r = p_sprintf(buffer, format,1234);
@@ -544,6 +556,7 @@ static void test_sprintf( void )
     ok(!strcmp(buffer,"jkmqrtvyz"), "failed\n");
     ok( r==9, "return count wrong\n");*/
 
+#ifndef YALIBCT_DISABLE_PRINTF_N_CONVERSION_SPECIFIER_TESTS
     format = "asdf%n";
     x = 0;
     r = p_sprintf(buffer, format, &x );
@@ -559,6 +572,7 @@ static void test_sprintf( void )
         ok(!strcmp(buffer,"asdf"), "failed\n");
         ok( r==4, "return count wrong: %d\n", r);
     }
+#endif
 
     format = "%-1d";
     r = p_sprintf(buffer, format,2);
@@ -580,6 +594,7 @@ static void test_sprintf( void )
     ok(!strcmp(buffer,"1"), "failed\n");
     ok( r==1, "return count wrong\n");
 
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
     format = "%2.4e";
     r = p_sprintf(buffer, format,8.6);
     ok(!strcmp(buffer,"8.6000e+00"), "failed\n");
@@ -604,6 +619,7 @@ static void test_sprintf( void )
     r = p_sprintf(buffer, format,8.6);
     ok(!strcmp(buffer,"+8.6000e+00"), "failed: %s\n", buffer);
     ok( r==11, "return count wrong\n");
+#endif
 
     format = "%2.4g";
     r = p_sprintf(buffer, format,8.6);
@@ -887,11 +903,13 @@ static void test_fprintf(void)
     fclose(fp);
     fp = fopen(file_name, "a");
     ok(fp != NULL, "");
-    
+
+#ifdef YALIBCT_LIBC_HAS_FWPRINTF
     ret = fwprintf(fp, utf16_test);
     ok(ret == 8, "ret = %d\n", ret);
     ret = ftell(fp);
     ok(ret == 34, "ftell returned %d\n", ret);
+#endif
 
     fclose(fp);
 
@@ -907,12 +925,14 @@ static void test_fprintf(void)
     ok(ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
+#ifdef YALIBCT_LIBC_HAS_FWPRINTF
     memset(buf, 0, sizeof(buf));
     fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 34, "ret =  %d\n", ret);
     ok(!memcmp(buf, "unicode\n", sizeof("unicode\n")),
             "buf = %ls\n", ((WCHAR*)buf));
+#endif
 
     fclose(fp);
 
@@ -932,10 +952,12 @@ static void test_fprintf(void)
     fp = fopen(file_name, "at");
     ok(fp != NULL, "");
 
+#ifdef YALIBCT_LIBC_HAS_FWPRINTF
     ret = fwprintf(fp, utf16_test);
     ok(ret == 8, "ret = %d\n", ret);
     ret = ftell(fp);
     ok(ret == 37 || ret == 34, "ftell returned %d\n", ret);
+#endif
 
     fclose(fp);
 
@@ -951,10 +973,12 @@ static void test_fprintf(void)
     ok(ret == 28 || ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\r\n", 15) || !memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
+#ifdef YALIBCT_LIBC_HAS_FWPRINTF
     fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 37 || ret == 34, "ret =  %d\n", ret);
     ok(!strcmp(buf, "unicode\r\n") || !strcmp(buf, "unicode\n"), "buf = %s\n", buf);
+#endif
 
     fclose(fp);
     unlink(file_name);
@@ -1220,6 +1244,7 @@ static void test_xcvt(void)
         win_skip("_fcvt_s not available\n");
 }
 
+#ifdef YALIBCT_LIBC_HAS_VSWPRINTF
 static int WINAPIV _vsnwprintf_wrapper(wchar_t *str, size_t len, const wchar_t *format, ...)
 {
     int ret;
@@ -1229,6 +1254,7 @@ static int WINAPIV _vsnwprintf_wrapper(wchar_t *str, size_t len, const wchar_t *
     __ms_va_end(valist);
     return ret;
 }
+#endif
 
 static void test_vsnwprintf(void)
 {
@@ -1332,6 +1358,7 @@ static void test_vswprintf(void)
         return;
     }
 
+#ifdef YALIBCT_LIBC_HAS_VSWPRINTF
     ret = vswprintf_wrapper(buf, format, number, 123);
     ok(ret == 10, "got %d, expected 10\n", ret);
     ok(!memcmp(buf, out, sizeof(out)), "buf = %ls\n", (buf));
@@ -1360,6 +1387,7 @@ static void test_vswprintf(void)
     ret = _vswprintf_p_l_wrapper(buf, 20, format, NULL, number, 123);
     ok(ret == 10, "got %d, expected 10\n", ret);
     ok(!memcmp(buf, out, sizeof(out)), "buf = %ls\n", (buf));
+#endif
 }
 
 static int WINAPIV _vscprintf_wrapper(const char *format, ...)
@@ -1528,17 +1556,21 @@ static void test__get_output_format(void)
     ret = p__get_output_format();
     ok(ret == 0, "got %d\n", ret);
 
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
     c = p_sprintf(buf, "%E", 1.23);
     ok(c == 13, "c = %d\n", c);
     ok(!strcmp(buf, "1.230000E+000"), "buf = %s\n", buf);
+#endif
 
     // Commented out tests of [gs]et_output_format which aren't widely supported
     /*ret = p__set_output_format(_TWO_DIGIT_EXPONENT);
       ok(ret == 0, "got %d\n", ret);*/
 
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
     c = p_sprintf(buf, "%E", 1.23);
     ok(c == 12, "c = %d\n", c);
     ok(!strcmp(buf, "1.230000E+00"), "buf = %s\n", buf);
+#endif
 
     /*ret = p__get_output_format();
     ok(ret == _TWO_DIGIT_EXPONENT, "got %d\n", ret);

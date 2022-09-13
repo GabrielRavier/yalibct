@@ -55,6 +55,7 @@ DEFINE_TEST(positional_printf) {
 	assert_printf_equals("-42", "%+d", -42);
 
 	/* The actual meat of this test: positional printf arguments. */
+#ifndef YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS
 	assert_printf_equals("<42 42 42 42>", "<%1$d %1$d %1$d %1$d>", 42);
 	assert_printf_equals("<40 30 20 10>", "<%4$d %3$d %2$d %1$d>", 10, 20, 30, 40);
 	assert_printf_equals("<00000042>", "<%1$0*2$d>", 42, 8);
@@ -73,6 +74,7 @@ DEFINE_TEST(positional_printf) {
 	/* This used to break due to a (now-fixed) bug with positional argument pre-loading. */
 	assert_printf_equals("PREFoobarMID00001234POST",
 	                     "PRE%2$.6sMID%1$0.8xPOST", 0x1234, "Foobar");
+#endif
 
 	// Note: disabled because pretty much nobody has %q (the test above is a slightly modified version to avoid using %q
 	//assert_printf_equals("PRE\"Foobar\"MID00001234POST",

@@ -233,7 +233,9 @@ main(int argc, char *argv[])
 	ti("<% 5.3d>", S_INT, 42, "<  042>");
 	ti("<%+5.3d>", S_INT, 42, "< +042>");
 	ti("<%-4.3d>", S_INT, 42, "<042 >");
+#ifndef YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS
 	ti("<%04.3d>", S_INT, 42, "< 042>");
+#endif
 
 	ti("<%hhd>", S_CHAR, INT8_MIN, "<-128>");
 	ti("<%hhd>", S_CHAR, -1, "<-1>");
@@ -307,7 +309,9 @@ main(int argc, char *argv[])
 	tu("<%-04u>", S_INT, 42, "<42  >");
 	tu("<%4.3u>", S_INT, 42, "< 042>");
 	tu("<%-4.3u>", S_INT, 42, "<042 >");
+#ifndef YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS
 	tu("<%04.3u>", S_INT, 42, "< 042>");
+#endif
 
 	tu("<%hhu>", S_CHAR, 0, "<0>");
 	tu("<%hhu>", S_CHAR, UINT8_MAX, "<255>");
@@ -329,32 +333,56 @@ main(int argc, char *argv[])
 	tu("<%hzu>", S_SIZE, UINT32_MAX, "<4294967295>");*/
 
 	tu("<%hho>", S_CHAR, 0, "<0>");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hho>", S_CHAR, 0, "<0>");
+#endif
 	tu("<%hho>", S_CHAR, UINT8_MAX, "<377>");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hho>", S_CHAR, UINT8_MAX, "<0377>");
+#endif
 	tu("<%hho>", S_CHAR, -1, "<377>");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hho>", S_CHAR, -1, "<0377>");
+#endif
 	tu("<%-4hho>", S_CHAR, 42, "<52  >");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#-4hho>", S_CHAR, 42, "<052 >");
+#endif
 	tu("<%04hho>", S_CHAR, 42, "<0052>");
 	tu("<%#04hho>", S_CHAR, 42, "<0052>");
 
 	tu("<%hx>", S_SHORT, 0, "<0>");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hx>", S_SHORT, 0, "<0>");
+#endif
 	tu("<%hX>", S_SHORT, 0, "<0>");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hX>", S_SHORT, 0, "<0>");
+#endif
 	tu("<%hx>", S_SHORT, 1, "<1>");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hx>", S_SHORT, 1, "<0x1>");
+#endif
 	tu("<%hX>", S_SHORT, 1, "<1>");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hX>", S_SHORT, 1, "<0X1>");
+#endif
 	tu("<%hx>", S_SHORT, 10, "<a>");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hx>", S_SHORT, 10, "<0xa>");
+#endif
 	tu("<%hX>", S_SHORT, 10, "<A>");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hX>", S_SHORT, 10, "<0XA>");
+#endif
 	tu("<%hx>", S_SHORT, UINT16_MAX, "<ffff>");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hx>", S_SHORT, UINT16_MAX, "<0xffff>");
+#endif
 	tu("<%hX>", S_SHORT, UINT16_MAX, "<FFFF>");
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hX>", S_SHORT, UINT16_MAX, "<0XFFFF>");
+#endif
 
 	/*
 	 * Undefined behaviour of %u.

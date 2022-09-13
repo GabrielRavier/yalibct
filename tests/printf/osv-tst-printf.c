@@ -9,7 +9,7 @@
 //
 // To compile on Linux, use: g++ -g -std=c++11 tst-printf.cc
 
-#include "test-lib/portable-functions/xmalloc.h"
+#include "test-lib/portable-symbols/xmalloc.h"
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -74,9 +74,11 @@ int main(int ac, char** av)
     long long int i = 123456;
 
     char *tmp_print;
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
     tmp_print = print("%Lf", d);
     report(!strcmp(tmp_print, "123.456000"), "Lf");
     free(tmp_print);
+#endif
     // Removed these as non-standard and not widely supported
     //report(!strcmp(print("%llf", d), "123.456000"), "llf");
     //report(!strcmp(print("%Ld", i), "123456"), "Ld");

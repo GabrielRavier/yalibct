@@ -6,6 +6,7 @@
 // https://opensource.org/licenses/MIT
 
 #include "test-deps/fuchsia.h"
+#include "test-lib/portable-symbols/static_assert.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
@@ -44,8 +45,10 @@ bool test_printf(const char* expected, const char* format, ...) {
 bool numbers() {
   BEGIN_TEST;
 
+#ifndef YALIBCT_DISABLE_PRINTF_HH_LENGTH_MODIFIER_TESTS
   EXPECT_TRUE(test_printf("int8:  -12 0 -2", "int8:  %hhd %hhd %hhd", -12, 0, 254));
   EXPECT_TRUE(test_printf("uint8: 244 0 254", "uint8: %hhu %hhu %hhu", -12, 0, 254));
+#endif
   EXPECT_TRUE(test_printf("int16: -1234 0 1234", "int16: %hd %hd %hd", -1234, 0, 1234));
   EXPECT_TRUE(test_printf("uint16:64302 0 1234", "uint16:%hu %hu %hu", -1234, 0, 1234));
   EXPECT_TRUE(
@@ -83,6 +86,7 @@ bool numbers() {
                           (intmax_t)-12345678, (intmax_t)0, (intmax_t)12345678));
   EXPECT_TRUE(test_printf("uintmax_t: 18446744073697205938 0 12345678", "uintmax_t: %ju %ju %ju",
                           (uintmax_t)-12345678, (uintmax_t)0, (uintmax_t)12345678));
+#ifndef YALIBCT_DISABLE_PRINTF_T_LENGTH_MODIFIER_TESTS
   EXPECT_TRUE(test_printf("ptrdiff_t: -12345678 0 12345678", "ptrdiff_t: %td %td %td",
                           (ptrdiff_t)-12345678, (ptrdiff_t)0, (ptrdiff_t)12345678));
 
@@ -94,6 +98,7 @@ bool numbers() {
     EXPECT_TRUE(test_printf("ptrdiff_t (u): 4282621618 0 12345678", "ptrdiff_t (u): %tu %tu %tu",
                             (ptrdiff_t)-12345678, (ptrdiff_t)0, (ptrdiff_t)12345678));
   }
+#endif
 
   END_TEST;
 }
@@ -131,7 +136,9 @@ bool hex() {
 bool alt_and_sign() {
   BEGIN_TEST;
 
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
   EXPECT_TRUE(test_printf("uint: 0xabcdef 0XABCDEF", "uint: %#x %#X", 0xabcdef, 0xabcdef));
+#endif
   EXPECT_TRUE(test_printf("int: +12345678 -12345678", "int: %+d %+d", 12345678, -12345678));
   EXPECT_TRUE(test_printf("int:  12345678 +12345678", "int: % d %+d", 12345678, 12345678));
 

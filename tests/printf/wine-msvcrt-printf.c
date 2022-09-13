@@ -94,10 +94,14 @@ static void test_sprintf( void )
         double arg_d;
         const void *arg_ptr;
     } tests[] = {
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%+#23.15e", " +7.894561230000000e+08", 0, DOUBLE_ARG, 0, 0, 789456123 },
         { "%-#23.15e", "7.894561230000000e+08  ", 0, DOUBLE_ARG, 0, 0, 789456123 },
         { "%#23.15e", "  7.894561230000000e+08", 0, DOUBLE_ARG, 0, 0, 789456123 },
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
         { "%#1.1g", "8.e+08", 0, DOUBLE_ARG, 0, 0, 789456123 },
+#endif
         // UB and not widely supported
         /*{ "%I64d", "-8589934591", 0, ULONGLONG_ARG, 0, ((ULONGLONG)0xffffffff)*0xffffffff },
         { "%+8I64d", "    +100", 0, ULONGLONG_ARG, 0, 100 },
@@ -156,10 +160,15 @@ static void test_sprintf( void )
         { "%t", "t", 0, INT_ARG, 1 },*/
         { "% d", " 1", 0, INT_ARG, 1 },
         { "%+ d", "+1", 0, INT_ARG, 1 },
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_S_CONVERSION_SPECIFIER_TESTS
         { "%S", "wide", 0, PTR_ARG, 0, 0, 0, L"wide" },
+#endif
         // UB and not widely supported
         /*{ "%04c", "0001", 0, INT_ARG, '1' },*/
+#ifndef YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS
         { "%-04c", "1   ", 0, INT_ARG, '1' },
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
         { "%#012x", "0x0000000001", 0, INT_ARG, 1 },
         { "%#012x", "000000000000", 0, INT_ARG, 0 },
         { "%#04.8x", "0x00000001", 0, INT_ARG, 1 },
@@ -171,6 +180,7 @@ static void test_sprintf( void )
         { "%#08o", "00000001", 0, INT_ARG, 1 },
         { "%#o", "01", 0, INT_ARG, 1 },
         { "%#o", "0", 0, INT_ARG, 0 },
+#endif
         // UB and not widely supported
         //{ "%04s", "0foo", 0, PTR_ARG, 0, 0, 0, "foo" },
         { "%.1s", "f", 0, PTR_ARG, 0, 0, 0, "foo" },
@@ -182,11 +192,15 @@ static void test_sprintf( void )
         { "%#+ -03whlls", "wide", 0, PTR_ARG, 0, 0, 0, L"wide" },
         { "%w0s", "0s", 0, PTR_ARG, 0, 0, 0, L"wide" },
         { "%w-s", "-s", 0, PTR_ARG, 0, 0, 0, L"wide" },*/
+#ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS
         { "%ls", "wide", 0, PTR_ARG, 0, 0, 0, L"wide" },
+#endif
         // UB and not widely supported
         /*{ "%Ls", "not wide", 0, PTR_ARG, 0, 0, 0, "not wide" },
           { "%b", "b", 0, NO_ARG },*/
+#ifndef YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS
         { "%3c", "  a", 0, INT_ARG, 'a' },
+#endif
         { "%3d", "1234", 0, INT_ARG, 1234 },
         // UB and not widely supported
         /*{ "%3h", "", 0, NO_ARG },
@@ -195,11 +209,13 @@ static void test_sprintf( void )
         { "%2.4f", "8.6000", 0, DOUBLE_ARG, 0, 0, 8.6 },
         { "%0f", "0.600000", 0, DOUBLE_ARG, 0, 0, 0.6 },
         { "%.0f", "1", 0, DOUBLE_ARG, 0, 0, 0.6 },
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
         { "%2.4e", "8.6000e+00", 0, DOUBLE_ARG, 0, 0, 8.6 },
         { "% 2.4e", " 8.6000e+00", 0, DOUBLE_ARG, 0, 0, 8.6 },
         { "% 014.4e", " 0008.6000e+00", 0, DOUBLE_ARG, 0, 0, 8.6 },
         { "% 2.4e", "-8.6000e+00", 0, DOUBLE_ARG, 0, 0, -8.6 },
         { "%+2.4e", "+8.6000e+00", 0, DOUBLE_ARG, 0, 0, 8.6 },
+#endif
         { "%2.4g", "8.6", 0, DOUBLE_ARG, 0, 0, 8.6 },
         { "%-i", "-1", 0, INT_ARG, -1 },
         { "%-i", "1", 0, INT_ARG, 1 },
@@ -236,7 +252,9 @@ static void test_sprintf( void )
         { "%010.2lf", "0000001.#J", 0, DOUBLE_ARG, 0, 0, INFINITY },*/
         { "%c", "a", 0, INT_ARG, 'a' },
         { "%c", "\x82", 0, INT_ARG, 0xa082 },
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_C_CONVERSION_SPECIFIER_TESTS
         { "%C", "a", 0, INT_ARG, 'a' },
+#endif
         // Implementation-defined and behavior is not usually like this
         /*{ "%C", "", 0, INT_ARG, 0x3042 },
           { "a%Cb", "ab", 0, INT_ARG, 0x3042 },*/
@@ -244,21 +262,25 @@ static void test_sprintf( void )
         // UB and not widely supported
         //{ "%I32d", "1", "I32d", INT_ARG, 1 },
 
-#ifdef YALIBCT_ENABLE_PRINTF_ROUNDING_DIRECTION_TESTS
+#ifndef YALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS
         { "%.0f", "-2", 0, DOUBLE_ARG, 0, 0, -1.5 },
         { "%.0f", "-0", 0, DOUBLE_ARG, 0, 0, -0.5 },
         { "%.0f", "0", 0, DOUBLE_ARG, 0, 0, 0.5 },
         { "%.0f", "2", 0, DOUBLE_ARG, 0, 0, 1.5 },
 #endif
 
+#ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
         { "%.30f", "0.333333333333333314829616256247", 0, TODO_FLAG | DOUBLE_ARG, 0, 0, 1.0/3.0 },
         { "%.30lf", "1.414213562373095145474621858739", 0, TODO_FLAG | DOUBLE_ARG, 0, 0, sqrt(2) },
+#endif
     };
 
     char buffer[100];
     int i, x, r;
 
+#ifdef YALIBCT_LIBC_HAS_FESETROUND
     fesetround(FE_TONEAREST);
+#endif
     for (i=0; i<ARRAY_SIZE(tests); i++) {
         memset(buffer, 'x', sizeof(buffer));
         switch(tests[i].type & 0xff) {
@@ -362,6 +384,7 @@ static void test_sprintf( void )
     ok(!strcmp(buffer,"foo  "),"Negative field width ignored \"%s\"\n",buffer);
     ok( r==5, "return count wrong\n");
 
+#ifndef YALIBCT_DISABLE_PRINTF_N_CONVERSION_SPECIFIER_TESTS
     x = 0;
     r = p_sprintf(buffer, "asdf%n", &x );
     if (r == -1)
@@ -376,9 +399,12 @@ static void test_sprintf( void )
         ok(!strcmp(buffer,"asdf"), "failed\n");
         ok( r==4, "return count wrong: %d\n", r);
     }
+#endif
 
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_S_CONVERSION_SPECIFIER_TESTS
     r = p_sprintf(buffer, "%S", L"\x3042");
     ok(r==-1 || broken(!r), "r = %d\n", r);
+#endif
 
     setlocale(LC_ALL, "C");
 
@@ -404,7 +430,7 @@ static void test_sprintf( void )
     ok(r==1, "r = %d\n", r);
     ok(!strcmp(buffer, "\x82"), "failed: \"%s\"\n", buffer);
 
-#ifdef YALIBCT_ENABLE_RARE_LOCALE_TESTS
+#ifndef YALIBCT_DISABLE_RARE_LOCALE_TESTS
     r = p_sprintf(buffer, "%C", 0x3042);
     ok(r==2, "r = %d\n", r);
     ok(!strcmp(buffer, "\x82\xa0"), "failed: \"%s\"\n", buffer);
@@ -482,10 +508,12 @@ static void test_fprintf(void)
     fp = fopen("fprintf.tst", "a");
     ok(fp != NULL, "");
 
+#ifdef YALIBCT_LIBC_HAS_FWPRINTF
     ret = fwprintf(fp, L"unicode\n");
     ok(ret == 8, "ret = %d\n", ret);
     ret = ftell(fp);
     ok(ret == 42 || ret == 34, "ftell returned %d\n", ret);
+#endif
 
     fclose(fp);
 
@@ -502,11 +530,13 @@ static void test_fprintf(void)
     ok(!memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
 
+#ifdef YALIBCT_LIBC_HAS_FWPRINTF
     memset(buf, 0, sizeof(buf));
     fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 41 || ret == 34, "ret = %d\n", ret);
     ok(!strcmp(buf, "unicode\n"), "buf = %ls\n", ((WCHAR*)buf));
+#endif
 
     fclose(fp);
 
@@ -526,10 +556,12 @@ static void test_fprintf(void)
     fp = fopen("fprintf.tst", "at");
     ok(fp != NULL, "");
 
+#ifdef YALIBCT_LIBC_HAS_FWPRINTF
     ret = fwprintf(fp, L"unicode\n");
     ok(ret == 8, "ret = %d\n", ret);
     ret = ftell(fp);
     ok(ret == 37 || ret == 34, "ftell returned %d\n", ret);
+#endif
 
     fclose(fp);
 
@@ -545,10 +577,12 @@ static void test_fprintf(void)
     ok(ret == 28 || ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\r\n", 15) || !memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
+#ifdef YALIBCT_LIBC_HAS_FWPRINTF
     fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 37 || ret == 34, "ret = %d\n", ret);
     ok(!strcmp(buf, "unicode\r\n") || !strcmp(buf, "unicode\n"), "buf = %s\n", buf);
+#endif
 
     fclose(fp);
     unlink("fprintf.tst");
@@ -814,6 +848,7 @@ static void test_xcvt(void)
         win_skip("_fcvt_s not available\n");
 }
 
+#ifdef YALIBCT_LIBC_HAS_VSWPRINTF
 static int WINAPIV _vsnwprintf_wrapper(wchar_t *str, size_t len, const wchar_t *format, ...)
 {
     int ret;
@@ -823,6 +858,7 @@ static int WINAPIV _vsnwprintf_wrapper(wchar_t *str, size_t len, const wchar_t *
     va_end(valist);
     return ret;
 }
+#endif
 
 static void test_vsnwprintf(void)
 {
@@ -1111,9 +1147,11 @@ static void test__get_output_format(void)
     /*ret = p__get_output_format();
       ok(ret == 0, "got %d\n", ret);*/
 
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
     c = p_sprintf(buf, "%E", 1.23);
     ok(c == 13, "c = %d\n", c);
     ok(!strcmp(buf, "1.230000E+000"), "buf = %s\n", buf);
+#endif
 
     // Non-standard and not widely supported
     /*ret = p__set_output_format(_TWO_DIGIT_EXPONENT);

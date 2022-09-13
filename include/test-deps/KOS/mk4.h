@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "test-lib/portable-functions/vstrdupf.h"
+#include "test-lib/portable-symbols/vstrdupf.h"
 #include "test-lib/hedley.h"
 #include "test-lib/assert-with-message.h"
 #include <stdio.h>

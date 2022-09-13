@@ -1,7 +1,7 @@
 #include "test-deps/glibc.h"
-#include "test-lib/portable-functions/mtrace.h"
+#include "test-lib/portable-symbols/mtrace.h"
+#include "test-lib/portable-symbols/NL_ARGMAX.h"
 #include <stdio.h>
-#include <limits.h>
 
 /*
   Compile do_test without optimization: GCC 4.9/5.0/6.0 takes a long time
@@ -11,13 +11,8 @@ __attribute__ ((optimize ("-O0")))
 int do_test (void)
 {
     mtrace ();
-    if (NL_ARGMAX < 10001) {
-        for (int i = 0; i < 10000; ++i)
-            putchar('a');
-        putchar('\n');
-        return 0;
-    }
-    printf (
+#ifndef YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS
+    if (printf (
 "%1$s" "%2$s" "%3$s" "%4$s" "%5$s" "%6$s" "%7$s" "%8$s" "%9$s" "%10$s" 
 "%11$s" "%12$s" "%13$s" "%14$s" "%15$s" "%16$s" "%17$s" "%18$s" "%19$s" "%20$s" 
 "%21$s" "%22$s" "%23$s" "%24$s" "%25$s" "%26$s" "%27$s" "%28$s" "%29$s" "%30$s" 
@@ -2019,7 +2014,14 @@ int do_test (void)
 "a", "a", "a", "a", "a", "a", "a", "a", "a", "a",   /* 9980 */
 "a", "a", "a", "a", "a", "a", "a", "a", "a", "a",   /* 9990 */
 "a", "a", "a", "a", "a", "a", "a", "a", "a", "a",   /* 10000 */
-"\n");
+"\n") < 0)
+#endif
+    {
+        assert(NL_ARGMAX < 10001);
+        for (int i = 0; i < 10000; ++i)
+            putchar('a');
+        putchar('\n');
+    }
   return 0;
 }
 

@@ -23,6 +23,10 @@
 
 #include <errno.h> /* get program_invocation_name declaration */
 #include <stdlib.h> /* get __argv declaration */
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <limits.h>
 
 char const *
 getprogname (void)
@@ -220,13 +224,13 @@ getprogname (void)
     }
   return NULL;
 # else
-  char buf[80];
+  char buf[PATH_MAX];
   int fd;
   sprintf (buf, "/proc/%d/cmdline", getpid());
   fd = open (buf, O_RDONLY);
   if (0 <= fd)
     {
-      size_t n = read (fd, buf, 79);
+        size_t n = read (fd, buf, sizeof(buf) - 1);
       if (n > 0)
         {
           buf[n] = '\0'; /* Guarantee null-termination */

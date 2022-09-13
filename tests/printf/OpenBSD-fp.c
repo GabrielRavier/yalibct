@@ -29,6 +29,7 @@
  * Test for printf() floating point formats.
  */
 
+#include "test-lib/portable-symbols/NAN.h"
 #include <assert.h>
 #include <err.h>
 #include <float.h>
@@ -53,18 +54,29 @@ main(int argc, char *argv[])
 	/*
 	 * Basic tests of decimal output functionality.
 	 */
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt(" 1.000000E+00", "%13E", 1.0);
+#endif
 	testfmt("     1.000000", "%13f", 1.0);
 	testfmt("            1", "%13G", 1.0);
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
 	testfmt(" 1.000000E+00", "%13LE", 1.0L);
 	testfmt("     1.000000", "%13Lf", 1.0L);
 	testfmt("            1", "%13LG", 1.0L);
+#endif
 
+#ifndef YALIBCT_DISABLE_PRINTF_PRECISION_TESTS
 	testfmt("2.718282", "%.*f", -2, 2.7182818);
+#endif
 
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt("1.234568e+06", "%e", 1234567.8);
+#endif
 	testfmt("1234567.800000", "%f", 1234567.8);
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
 	testfmt("1.23457E+06", "%G", 1234567.8);
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
 	testfmt("1.234568e+06", "%Le", 1234567.8L);
 	testfmt("1234567.800000", "%Lf", 1234567.8L);
 	testfmt("1.23457E+06", "%LG", 1234567.8L);
@@ -77,23 +89,31 @@ main(int argc, char *argv[])
 	//testfmt(" 3.141592653589793238e-4000", "%L27.18Le",
 	//    3.14159265358979323846e-4000L);
 #endif /* (LDBL_MANT_DIG > DBL_MANT_DIG) && !defined(__i386__) */
+#endif
 
 	/*
 	 * Infinities and NaNs
 	 */
-#ifdef NAN
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt("nan", "%e", NAN);
+#endif
 	testfmt("NAN", "%F", NAN);
 	testfmt("nan", "%g", NAN);
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt("NAN", "%LE", (long double)NAN);
 	testfmt("  nan", "%05e", NAN);
-#endif /* NAN */
 
 	testfmt("INF", "%E", HUGE_VAL);
+#endif
 	testfmt("-inf", "%f", -HUGE_VAL);
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
 	testfmt("+inf", "%+g", HUGE_VAL);
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
 	testfmt(" inf", "%4.2Le", HUGE_VALL);
 	testfmt("-inf", "%Lf", -HUGE_VALL);
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt("  inf", "%05e", HUGE_VAL);
 	testfmt(" -inf", "%05e", -HUGE_VAL);
 
@@ -101,29 +121,44 @@ main(int argc, char *argv[])
 	 * Padding
 	 */
 	testfmt("0.000000e+00", "%e", 0.0);
+#endif
 	testfmt("0.000000", "%F", (double)0.0);
 	testfmt("0", "%G", 0.0);
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
 	testfmt("  0", "%3.0Lg", 0.0L);
+#endif
 	testfmt("    0", "%5.0f", 0.001);
 
 	/*
 	 * Precision specifiers
 	 */
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt("1.0123e+00", "%.4e", 1.0123456789);
+#endif
 	testfmt("1.0123", "%.4f", 1.0123456789);
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
 	testfmt("1.012", "%.4g", 1.0123456789);
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt("1.2346e-02", "%.4e", 0.0123456789);
+#endif
 	testfmt("0.0123", "%.4f", 0.0123456789);
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
 	testfmt("0.01235", "%.4g", 0.0123456789);
+#endif
 
 	/*
 	 * Signed conversions
 	 */
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt("+2.500000e-01", "%+e", 0.25);
+#endif
 	testfmt("+0.000000", "%+F", 0.0);
 	testfmt("-1", "%+g", -1.0);
 
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt("-1.000000e+00", "% e", -1.0);
+#endif
 	testfmt("+1.000000", "% +f", 1.0);
 	testfmt(" 1", "% g", 1.0);
 	testfmt(" 0", "% g", 0.0);
@@ -131,17 +166,26 @@ main(int argc, char *argv[])
 	/*
 	 * ``Alternate form''
 	 */
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt("1.250e+00", "%#.3e", 1.25);
+#endif
 	testfmt("123.000000", "%#f", 123.0);
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
 	testfmt(" 12345.", "%#7.5g", 12345.0);
 	testfmt(" 1.00000", "%#8g", 1.0);
 	testfmt("0.0", "%#.2g", 0.0);
+#endif
 
 	/*
 	 * Padding and decimal point placement
 	 */
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt("03.2E+00", "%08.1E", 3.25);
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS
 	testfmt("003.25", "%06.2F", 3.25);
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
 	testfmt("0003.25", "%07.4G", 3.25);
 
 	testfmt("3.14159e-05", "%g", 3.14159e-5);
@@ -149,38 +193,48 @@ main(int argc, char *argv[])
 	testfmt("3.14159e+06", "%g", 3.14159e6);
 	testfmt("314159", "%g", 3.14159e5);
 	testfmt("314159.", "%#g", 3.14159e5);
+#endif
 
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt(" 9.000000e+03", "%13e", 9000.0);
+#endif
 	testfmt(" 9000.000000", "%12f", 9000.0);
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
 	testfmt(" 9000", "%5g", 9000.0);
 	testfmt(" 900000.", "%#8g", 900000.0);
 	testfmt(" 9e+06", "%6g", 9000000.0);
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt(" 9.000000e-04", "%13e", 0.0009);
+#endif
 	testfmt(" 0.000900", "%9f", 0.0009);
+#ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
 	testfmt(" 0.0009", "%7g", 0.0009);
 	testfmt(" 9e-05", "%6g", 0.00009);
 	testfmt(" 9.00000e-05", "%#12g", 0.00009);
 	testfmt(" 9.e-05", "%#7.1g", 0.00009);
+#endif
 
 	testfmt(" 0.0", "%4.1f", 0.0);
 	testfmt("90.0", "%4.1f", 90.0);
 	testfmt(" 100", "%4.0f", 100.0);
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 	testfmt("9.0e+01", "%4.1e", 90.0);
 	testfmt("1e+02", "%4.0e", 100.0);
+#endif
 
 	/*
 	 * Hexadecimal floating point (%a, %A) tests.  Some of these
 	 * are only valid if the implementation converts to hex digits
 	 * on nibble boundaries.
 	 */
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
 	testfmt("0x0p+0", "%a", 0x0.0p0);
 	testfmt("0X0.P+0", "%#LA", 0x0.0p0L);
-#ifdef NAN
 	testfmt("inf", "%La", (long double)INFINITY);
 	testfmt("+INF", "%+A", INFINITY);
 	testfmt("nan", "%La", (long double)NAN);
 	testfmt("NAN", "%A", NAN);
-#endif /* NAN */
 
 	testfmt(" 0x1.23p+0", "%10a", 0x1.23p0);
 	testfmt(" 0x1.23p-500", "%12a", 0x1.23p-500);
@@ -195,6 +249,7 @@ main(int argc, char *argv[])
 #elif LDBL_MANT_DIG == 64
 	testfmt_two_allowed("-0x8.777675747372717p-16248", "-0x1.0eeeceae8e6e4e2ep-16245", "%La",
 			-0x8.777675747372717p-16248L);
+#endif
 #endif
 
 	return (0);

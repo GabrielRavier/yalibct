@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "test-lib/portable-functions/memchr_inv.h"
-#include "test-lib/portable-functions/vstrdupf.h"
+#include "test-lib/portable-symbols/memchr_inv.h"
+#include "test-lib/portable-symbols/vstrdupf.h"
 #include "test-lib/portable-snippets-endian.h"
 #include "test-lib/hedley.h"
 #include <assert.h>

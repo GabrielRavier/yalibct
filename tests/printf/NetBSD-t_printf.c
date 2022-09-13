@@ -27,7 +27,8 @@
  */
 
 #include "test-deps/atf.h"
-#include "test-lib/portable-functions/NAN.h"
+#include "test-lib/portable-symbols/NAN.h"
+#include "test-lib/portable-symbols/INFINITY.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,12 +50,17 @@ ATF_TC_BODY(snprintf_c99, tc)
 	char s[4];
 
 	(void)memset(s, '\0', sizeof(s));
+#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	(void)snprintf(s, sizeof(s), "%#.o", 0);
 	(void)printf("printf = %#.o\n", 0);
 	(void)fprintf(stderr, "snprintf = %s", s);
 
 	ATF_REQUIRE(strlen(s) == 1);
 	ATF_REQUIRE(s[0] == '0');
+#else
+        printf("printf = 0\n");
+        fprintf(stderr, "snprintf = 0");
+#endif
 }
 
 ATF_TC(snprintf_dotzero);
@@ -73,6 +79,7 @@ ATF_TC_BODY(snprintf_dotzero, tc)
 	ATF_REQUIRE_STREQ(s, "0");
 }
 
+#ifndef YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS
 ATF_TC(snprintf_posarg);
 ATF_TC_HEAD(snprintf_posarg, tc)
 {
@@ -120,6 +127,7 @@ ATF_TC_BODY(snprintf_posarg_error, tc)
 
 	ATF_CHECK(snprintf(s, sizeof(s), fmt, -23) == -1);
 }
+#endif
 
 ATF_TC(snprintf_float);
 ATF_TC_HEAD(snprintf_float, tc)
@@ -145,7 +153,9 @@ ATF_TC_BODY(snprintf_float, tc)
 		ul = rand();
 		uh = rand();
 		u.bits = (uint64_t)uh << 32 | ul;
+#ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
 		ATF_CHECK(snprintf(buf, sizeof buf, " %.2f", u.d) != -1);
+#endif
 	}
 }
 
@@ -160,6 +170,7 @@ ATF_TC_BODY(sprintf_zeropad, tc)
 {
 	char str[1024];
 
+#ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
 	ATF_CHECK(sprintf(str, "%010f", 0.0) == 10);
 	ATF_REQUIRE_STREQ(str, "000.000000");
 
@@ -170,6 +181,7 @@ ATF_TC_BODY(sprintf_zeropad, tc)
 	ATF_REQUIRE_STREQ(str, "       nan");
 	ATF_CHECK(sprintf(str, "%010f", INFINITY) == 10);
 	ATF_REQUIRE_STREQ(str, "       inf");
+#endif
 #endif
 }
 
@@ -186,9 +198,11 @@ ATF_TP_ADD_TCS(tp)
 
 	ATF_TP_ADD_TC(tp, snprintf_c99);
 	ATF_TP_ADD_TC(tp, snprintf_dotzero);
+#ifndef YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS
 	ATF_TP_ADD_TC(tp, snprintf_posarg);
 	ATF_TP_ADD_TC(tp, snprintf_posarg_width);
 	ATF_TP_ADD_TC(tp, snprintf_posarg_error);
+#endif
 	ATF_TP_ADD_TC(tp, snprintf_float);
 	ATF_TP_ADD_TC(tp, sprintf_zeropad);
 

@@ -30,15 +30,23 @@ struct {
     const char *expected;
     const char *expected2;
 } fpconv[] = {
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
     "C", "%a", 3.2, "0x1.99999a0000000p+1", "0x1.99999ap+1",
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
     "C", "%e", 3.2, "3.200000e+00", NULL,
+#endif
     "C", "%f", 3.2, "3.200000", NULL,
     "C", "%g", 3.2, "3.2", NULL,
+#ifndef YALIBCT_DISABLE_LC_NUMERIC_TESTS
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
     "en_US.UTF-8", "%a", 3.2, "0x1.99999a0000000p+1", "0x1.99999ap+1",
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
     "en_US.UTF-8", "%e", 3.2, "3.200000e+00", NULL,
+#endif
     "en_US.UTF-8", "%f", 3.2, "3.200000", NULL,
     "en_US.UTF-8", "%g", 3.2, "3.2", NULL,
-#ifdef YALIBCT_ENABLE_LC_NUMERIC_TESTS
     "ru_RU.UTF-8", "%a", 3.2, "0x1,99999a0000000p+1", "0x1,99999ap+1",
     "ru_RU.UTF-8", "%e", 3.2, "3,200000e+00", NULL,
     "ru_RU.UTF-8", "%f", 3.2, "3,200000", NULL,

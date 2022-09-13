@@ -1,8 +1,7 @@
 // Derived from code with this license:
-/* Report a memory allocation failure and exit.
+/* xmalloc.c -- malloc with out of memory checking
 
-   Copyright (C) 1997-2000, 2002-2004, 2006, 2009-2022 Free Software
-   Foundation, Inc.
+   Copyright (C) 1990-2000, 2002-2006, 2008-2022 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,18 +18,28 @@
 
 #pragma once
 
-#include "test-lib/portable-functions/error.h"
+#ifdef YALIBCT_LIBC_HAS_XMALLOC
+#include <xalloc.h>
+#else
+
+#include "test-lib/hedley.h"
+#include "test-lib/portable-symbols/xalloc_die.h"
 #include <stdlib.h>
-#include <libintl.h>
 
-static inline void
-xalloc_die (void)
+static inline void *HEDLEY_PURE
+yalibct_internal_xalloc_nonnull (void *p)
 {
-  error (EXIT_FAILURE, 0, "%s", gettext("memory exhausted"));
-
-  /* _Noreturn cannot be given to error, since it may return if
-     its first argument is 0.  To help compilers understand the
-     xalloc_die does not return, call abort.  Also, the abort is a
-     safety feature if exit_failure is 0 (which shouldn't happen).  */
-  abort ();
+  if (!p)
+    xalloc_die ();
+  return p;
 }
+
+/* Allocate S bytes of memory dynamically, with error checking.  */
+
+static inline void *
+xmalloc (size_t s)
+{
+  return yalibct_internal_xalloc_nonnull (malloc (s));
+}
+
+#endif

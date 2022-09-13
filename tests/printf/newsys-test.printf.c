@@ -59,6 +59,7 @@ static void ok(int ln, const char *expect)
 
 int main()
 {
+#ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
 	TEST("0.000000",	"%f",		0.);
 	TEST("+0.000000",	"%+f",		0.);
 	TEST(" 0.000000",	"% f",		0.);
@@ -93,5 +94,6 @@ int main()
 	
 	TEST("+0.2346   ",	"%+-10.4f",	.234567);
 	TEST("+1.2346   ",	"%+-10.4f",	1.234567);
+#endif
 	return xcode;
 }
