@@ -61,6 +61,17 @@
 
 #define TEST_VERIFY_EXIT assert
 
+/* array_length (VAR) is the number of elements in the array VAR.  VAR
+   must evaluate to an array, not a pointer.  */
+#define array_length(var)                                               \
+  (sizeof (var) / sizeof ((var)[0])                                     \
+   + 0 * sizeof (struct {                                               \
+       _Static_assert (!__builtin_types_compatible_p                    \
+                       (__typeof (var), __typeof (&(var)[0])),          \
+                       "argument must be an array");                    \
+   }))
+
+
 static inline void
 support_test_compare_blob(const void *left, unsigned long int left_length,
                           const void *right, unsigned long int right_length,

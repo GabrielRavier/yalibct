@@ -247,6 +247,7 @@ do_printf_glibc_tst_printf_bz18872_sh_output &
 ./test-binaries/printf-glibc-tst-printf-bz25691 &
 do_mtrace_test ./test-binaries/printf-glibc-tst-printf-fp-free &
 do_mtrace_test ./test-binaries/printf-glibc-tst-printf-fp-leak &
+./test-binaries/printf-glibc-tst-printf-round &
 
 # Wait for all tests to be over before exiting
 wait
