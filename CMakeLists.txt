@@ -257,3 +257,4 @@ yalibct_make_executable(printf-glibc-tst-printfsz tests/printf/glibc-tst-printfs
 yalibct_make_executable(printf-glibc-tst-wc-printf tests/printf/glibc-tst-wc-printf.c)
 yalibct_make_executable(printf-glibc-test-printf-ldbl-compat tests/printf/glibc-test-printf-ldbl-compat.c)
 yalibct_make_executable(printf-glibc-tst-ldbl-nonnormal-printf tests/printf/glibc-tst-ldbl-nonnormal-printf.c)
+yalibct_make_executable(printf-newlib-nulprintf tests/printf/newlib-nulprintf.c)
