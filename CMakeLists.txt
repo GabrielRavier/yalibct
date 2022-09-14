@@ -256,3 +256,4 @@ yalibct_make_executable(printf-glibc-tst-printfsz-islongdouble tests/printf/glib
 yalibct_make_executable(printf-glibc-tst-printfsz tests/printf/glibc-tst-printfsz.c)
 yalibct_make_executable(printf-glibc-tst-wc-printf tests/printf/glibc-tst-wc-printf.c)
 yalibct_make_executable(printf-glibc-test-printf-ldbl-compat tests/printf/glibc-test-printf-ldbl-compat.c)
+yalibct_make_executable(printf-glibc-tst-ldbl-nonnormal-printf tests/printf/glibc-tst-ldbl-nonnormal-printf.c)

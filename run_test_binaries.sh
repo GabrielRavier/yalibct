@@ -56,7 +56,7 @@ do_printf_glibc_tst_printf_bz18872_sh_output()
 
 do_printf_glibc_test_printf_ldbl_compat()
 {
-    do_output_diff_test "./test-binaries/printf-glibc-test-printf-ldbl-compat | sed 's/\-0x1.0000000000p+0/-0x8.0000000000p-3/'" ./test-data/outputs/printf-glibc-test-printf-ldbl-compat
+    do_output_diff_test "./test-binaries/printf-glibc-test-printf-ldbl-compat | sed 's/\-0x1.0000000000p+0/-0x8.0000000000p-3/g'" ./test-data/outputs/printf-glibc-test-printf-ldbl-compat
 }
 
 for i in \
@@ -71,7 +71,7 @@ for i in \
     "do_output_diff_test ./test-binaries/printf-tcc-02_printf ./test-data/outputs/printf-tcc-02_printf" ./test-binaries/printf-wine-msvcrt-printf ./test-binaries/printf-wine-ucrtbase-printf \
     ./test-binaries/printf-glibc-tst-printf-binary ./test-binaries/printf-glibc-tst-obprintf do_printf_glibc_tst_printf_bz18872_sh_output ./test-binaries/printf-glibc-tst-printf-bz25691 \
     "do_mtrace_test ./test-binaries/printf-glibc-tst-printf-fp-free" "do_mtrace_test ./test-binaries/printf-glibc-tst-printf-fp-leak" ./test-binaries/printf-glibc-tst-printf-round \
-    "do_output_diff_test ./test-binaries/printf-glibc-tst-printf ./test-data/outputs/printf-glibc-tst-printf" "./test-binaries/printf-glibc-tst-printfsz-islongdouble | diff -u - <(printf '2k4k')" "do_output_diff_test ./test-binaries/printf-glibc-tst-printfsz ./test-data/outputs/printf-glibc-tst-printfsz" "do_output_diff_test ./test-binaries/printf-glibc-tst-wc-printf ./test-data/outputs/printf-glibc-tst-wc-printf" do_printf_glibc_test_printf_ldbl_compat
+    "do_output_diff_test ./test-binaries/printf-glibc-tst-printf ./test-data/outputs/printf-glibc-tst-printf" "./test-binaries/printf-glibc-tst-printfsz-islongdouble | diff -u - <(printf '2k4k')" "do_output_diff_test ./test-binaries/printf-glibc-tst-printfsz ./test-data/outputs/printf-glibc-tst-printfsz" "do_output_diff_test ./test-binaries/printf-glibc-tst-wc-printf ./test-data/outputs/printf-glibc-tst-wc-printf" do_printf_glibc_test_printf_ldbl_compat ./test-binaries/printf-glibc-tst-ldbl-nonnormal-printf
 do
     eval "$i" &
 done
