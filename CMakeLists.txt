@@ -47,9 +47,9 @@ option(YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS "Whether or not we should error w
 option(YALIBCT_DISABLE_PRINTF_APOSTROPHE_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %' will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %C will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %S will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS "Whether or not tests that depend on the printf family of functions supporting numbered argument conversion specifications (i.e. %n$) will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
 
 # Misc tests that aren't part of any standard but are commonly supported
-option(YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS "Whether or not tests that depend on the printf family of functions supporting numbered argument conversion specifications (i.e. %n$) will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS "Whether or not tests that depend on any locales that aren't defined by the standard that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_RARE_LOCALE_TESTS "Whether or not tests that depend on rare locales that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS})
 option(YALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS "Whether or not tests that depend on the printf family of functions rounding floating point numbers properly will be run. I am unsure of whether the C standard requires this, but it seems like a very useful property for the functions to have regardless" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
@@ -284,3 +284,4 @@ yalibct_make_executable(printf-picolibc-nulprintf tests/printf/picolibc-nulprint
 yalibct_make_executable(printf-picolibc-printf-tests tests/printf/picolibc-printf-tests.c)
 yalibct_make_executable(printf-picolibc-printf_scanf tests/printf/picolibc-printf_scanf.c)
 yalibct_make_executable(printf-dietlibc-printf2 tests/printf/dietlibc-printf2.c)
+yalibct_make_executable(printf-dietlibc-printf tests/printf/dietlibc-printf.c)
