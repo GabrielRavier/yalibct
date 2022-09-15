@@ -286,3 +286,4 @@ yalibct_make_executable(printf-picolibc-printf_scanf tests/printf/picolibc-print
 yalibct_make_executable(printf-dietlibc-printf2 tests/printf/dietlibc-printf2.c)
 yalibct_make_executable(printf-dietlibc-printf tests/printf/dietlibc-printf.c)
 yalibct_make_executable(printf-dietlibc-printftest tests/printf/dietlibc-printftest.c)
+yalibct_make_executable(printf-cloudlibc-printf_scanf_test tests/printf/cloudlibc-printf_scanf_test.c)
