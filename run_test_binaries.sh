@@ -76,7 +76,7 @@ for i in \
     "do_output_diff_test ./test-binaries/printf-glibc-tst-wc-printf ./test-data/outputs/printf-glibc-tst-wc-printf" do_printf_glibc_test_printf_ldbl_compat ./test-binaries/printf-glibc-tst-ldbl-nonnormal-printf \
     "do_output_diff_test ./test-binaries/printf-newlib-nulprintf <(echo 'MMMMMMMM')" ./test-binaries/printf-picolibc-nulprintf ./test-binaries/printf-picolibc-printf-tests ./test-binaries/printf-picolibc-printf_scanf \
     ./test-binaries/printf-dietlibc-printf2 ./test-binaries/printf-dietlibc-printf "do_output_diff_test ./test-binaries/printf-dietlibc-printftest ./test-data/outputs/printf-dietlibc-printftest" \
-    ./test-binaries/printf-cloudlibc-printf_scanf_test
+    ./test-binaries/printf-cloudlibc-printf_scanf_test "do_output_diff_test ./test-binaries/printf-dklibc-test_printf ./test-data/outputs/printf-dklibc-test_printf"
 do
     eval "$i" &
 done
