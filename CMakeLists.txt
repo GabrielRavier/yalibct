@@ -289,3 +289,7 @@ yalibct_make_executable(printf-dietlibc-printftest tests/printf/dietlibc-printft
 yalibct_make_executable(printf-cloudlibc-printf_scanf_test tests/printf/cloudlibc-printf_scanf_test.c)
 yalibct_make_executable(printf-dklibc-test_printf tests/printf/dklibc-test_printf.c)
 yalibct_make_executable(printf-avr-libc-bug-35366-2-printf_flt tests/printf/avr-libc-bug-35366-2-printf_flt.c)
+yalibct_make_executable(printf-libc-test-printf-1e9-oob tests/printf/libc-test-printf-1e9-oob.c)
+yalibct_make_executable(printf-libc-test-printf-fmt-g-round tests/printf/libc-test-printf-fmt-g-round.c)
+yalibct_make_executable(printf-libc-test-printf-fmt-g-zeros tests/printf/libc-test-printf-fmt-g-zeros.c)
+yalibct_make_executable(printf-libc-test-printf-fmt-n tests/printf/libc-test-printf-fmt-n.c)
