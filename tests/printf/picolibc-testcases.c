@@ -17,8 +17,6 @@
 
 */
 
-#include "test-lib/portable-symbols/NL_ARGMAX.h"
-
 # define _WANT_IO_C99_FORMATS
 # define _WANT_IO_LONG_LONG
 # define _WANT_IO_POS_ARGS

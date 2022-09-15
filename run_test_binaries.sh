@@ -74,7 +74,7 @@ for i in \
     "do_output_diff_test ./test-binaries/printf-glibc-tst-printf ./test-data/outputs/printf-glibc-tst-printf" "./test-binaries/printf-glibc-tst-printfsz-islongdouble | diff -u - <(printf '2k4k')" \
     "do_output_diff_test ./test-binaries/printf-glibc-tst-printfsz ./test-data/outputs/printf-glibc-tst-printfsz" \
     "do_output_diff_test ./test-binaries/printf-glibc-tst-wc-printf ./test-data/outputs/printf-glibc-tst-wc-printf" do_printf_glibc_test_printf_ldbl_compat ./test-binaries/printf-glibc-tst-ldbl-nonnormal-printf \
-    "do_output_diff_test ./test-binaries/printf-newlib-nulprintf <(echo 'MMMMMMMM')" ./test-binaries/printf-picolibc-nulprintf ./test-binaries/printf-picolibc-printf-tests
+    "do_output_diff_test ./test-binaries/printf-newlib-nulprintf <(echo 'MMMMMMMM')" ./test-binaries/printf-picolibc-nulprintf ./test-binaries/printf-picolibc-printf-tests ./test-binaries/printf-picolibc-printf_scanf
 do
     eval "$i" &
 done
