@@ -37,7 +37,7 @@
 # define YALIBCT_FLOOR_INTERNAL_MANT_DIG FLT_MANT_DIG
 # define YALIBCT_FLOOR_INTERNAL_L_(literal) literal##f
 #else
-#error bruh
+#error "Need to define the proper macro"
 #endif
 
 /* MSVC with option -fp:strict refuses to compile constant initializers that

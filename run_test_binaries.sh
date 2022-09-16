@@ -77,8 +77,8 @@ for i in \
     "do_output_diff_test ./test-binaries/printf-newlib-nulprintf <(echo 'MMMMMMMM')" ./test-binaries/printf-picolibc-nulprintf ./test-binaries/printf-picolibc-printf-tests ./test-binaries/printf-picolibc-printf_scanf \
     ./test-binaries/printf-dietlibc-printf2 ./test-binaries/printf-dietlibc-printf "do_output_diff_test ./test-binaries/printf-dietlibc-printftest ./test-data/outputs/printf-dietlibc-printftest" \
     ./test-binaries/printf-cloudlibc-printf_scanf_test "do_output_diff_test ./test-binaries/printf-dklibc-test_printf ./test-data/outputs/printf-dklibc-test_printf" ./test-binaries/printf-avr-libc-bug-35366-2-printf_flt \
-    ./test-binaries/printf-libc-test-printf-1e9-oob ./test-binaries/printf-libc-test-printf-fmt-g-round ./test-binaries/printf-libc-test-printf-fmt-g-zeros ./test-binaries/printf-libc-test-printf-fmt-n
-
+    ./test-binaries/printf-libc-test-printf-1e9-oob ./test-binaries/printf-libc-test-printf-fmt-g-round ./test-binaries/printf-libc-test-printf-fmt-g-zeros ./test-binaries/printf-libc-test-printf-fmt-n \
+    "do_output_diff_test ./test-binaries/printf-gnulib-test-printf-posix ./test-data/outputs/printf-gnulib-test-printf-posix"
 do
     eval "$i" || echo "Test '$i' failed" &
 done

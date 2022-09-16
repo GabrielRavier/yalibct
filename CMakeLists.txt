@@ -293,3 +293,4 @@ yalibct_make_executable(printf-libc-test-printf-1e9-oob tests/printf/libc-test-p
 yalibct_make_executable(printf-libc-test-printf-fmt-g-round tests/printf/libc-test-printf-fmt-g-round.c)
 yalibct_make_executable(printf-libc-test-printf-fmt-g-zeros tests/printf/libc-test-printf-fmt-g-zeros.c)
 yalibct_make_executable(printf-libc-test-printf-fmt-n tests/printf/libc-test-printf-fmt-n.c)
+yalibct_make_executable(printf-gnulib-test-printf-posix tests/printf/gnulib-test-printf-posix.c)
