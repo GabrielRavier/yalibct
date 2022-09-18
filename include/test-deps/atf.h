@@ -54,6 +54,7 @@
 #define ATF_REQUIRE_MSG ATF_CHECK_MSG
 #define ATF_TC_WITHOUT_HEAD(test_name)
 #define atf_tc_fail(...) yalibct_print_failed_assertion("", "", 0, "", __VA_ARGS__)
+#define __arraycount(__x)       (sizeof(__x) / sizeof(__x[0]))
 
 static inline bool
 atf_utils_compare_file(const char *name, const char *contents)

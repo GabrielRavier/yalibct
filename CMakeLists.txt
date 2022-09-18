@@ -343,3 +343,5 @@ yalibct_make_executable(printf-gnulib-snprintf-retval-c99 tests/printf/gnulib-sn
 yalibct_make_executable(printf-gnulib-snprintf-size1 tests/printf/gnulib-snprintf-size1.c)
 yalibct_make_executable(printf-gnulib-snprintf-truncation-c99 tests/printf/gnulib-snprintf-truncation-c99.c)
 yalibct_make_executable(printf-gnulib-vsnprintf-zerosize-c99 tests/printf/gnulib-vsnprintf-zerosize-c99.c)
+yalibct_make_executable(strcat-NetBSD-t_strcat tests/strcat/NetBSD-t_strcat.c)
+yalibct_make_executable(strcat-llvm-project-strcat_test tests/strcat/llvm-project-strcat_test.c)

@@ -94,9 +94,10 @@ for i in \
     ./test-binaries/printf-gnulib-printf-directive-n "./test-binaries/printf-gnulib-printf-enomem >/dev/null" ./test-binaries/printf-gnulib-printf-flag-grouping ./test-binaries/printf-gnulib-printf-flag-leftadjust \
     ./test-binaries/printf-gnulib-printf-flag-zero ./test-binaries/printf-gnulib-printf-infinite ./test-binaries/printf-gnulib-printf-infinite-long-double ./test-binaries/printf-gnulib-printf-long-double \
     ./test-binaries/printf-gnulib-printf-positions ./test-binaries/printf-gnulib-printf-precision ./test-binaries/printf-gnulib-snprintf-directive-n ./test-binaries/printf-gnulib-snprintf-retval-c99 \
-    ./test-binaries/printf-gnulib-snprintf-size1 ./test-binaries/printf-gnulib-snprintf-truncation-c99 ./test-binaries/printf-gnulib-vsnprintf-zerosize-c99
+    ./test-binaries/printf-gnulib-snprintf-size1 ./test-binaries/printf-gnulib-snprintf-truncation-c99 ./test-binaries/printf-gnulib-vsnprintf-zerosize-c99 ./test-binaries/strcat-NetBSD-t_strcat \
+    ./test-binaries/strcat-llvm-project-strcat_test
 do
-    eval "$i" || echo "Test '$i' failed with status $?"
+    eval "$i" || echo "Test '$i' failed with status $?" &
 done
 
 # Wait for all tests to be over before exiting
