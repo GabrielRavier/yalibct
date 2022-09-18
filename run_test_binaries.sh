@@ -59,11 +59,22 @@ do_printf_glibc_test_printf_ldbl_compat()
     do_output_diff_test "./test-binaries/printf-glibc-test-printf-ldbl-compat | sed 's/\-0x1.0000000000p+0/-0x8.0000000000p-3/g'" ./test-data/outputs/printf-glibc-test-printf-ldbl-compat
 }
 
+do_printf_gnulib_test_printf_posix2()
+{
+    ./test-binaries/printf-gnulib-test-printf-posix2 1 >/dev/null || echo "FAILED ./test-binaries/printf-gnulib-test-printf-posix2 1"
+    ./test-binaries/printf-gnulib-test-printf-posix2 2 >/dev/null || echo "FAILED ./test-binaries/printf-gnulib-test-printf-posix2 2"
+    ./test-binaries/printf-gnulib-test-printf-posix2 3 >/dev/null || echo "FAILED ./test-binaries/printf-gnulib-test-printf-posix2 3"
+    ./test-binaries/printf-gnulib-test-printf-posix2 4 >/dev/null || echo "FAILED ./test-binaries/printf-gnulib-test-printf-posix2 4"
+    ./test-binaries/printf-gnulib-test-printf-posix2 5 >/dev/null || echo "FAILED ./test-binaries/printf-gnulib-test-printf-posix2 5"
+    ./test-binaries/printf-gnulib-test-printf-posix2 6 >/dev/null || echo "FAILED ./test-binaries/printf-gnulib-test-printf-posix2 6"
+}
+
 for i in \
     ./test-binaries/libc-starts-up ./test-binaries/printf-KOS-mk4-test-positional-printf ./test-binaries/printf-linux-kernel-test_printf do_printf_NetBSD_t_printf \
     ./test-binaries/printf-FreeBSD-printfloat_test ./test-binaries/printf-FreeBSD-atf-printf_test ./test-binaries/printf-FreeBSD-plain-printf_test \
     "do_output_diff_test ./test-binaries/printf-FreeBSD-tap-printf_test ./test-data/outputs/printf-FreeBSD-tap-printf_test" ./test-binaries/printf-fuchsia-printf_tests ./test-binaries/printf-illumos-gate-printf-6961 \
-    ./test-binaries/printf-illumos-gate-printf-9511 ./test-binaries/printf-reactos-printf do_printf_littlekernel_printf_tests "do_output_diff_test ./test-binaries/printf-toaruos-test-printf ./test-data/outputs/printf-toaruos-test-printf" \
+    ./test-binaries/printf-illumos-gate-printf-9511 ./test-binaries/printf-reactos-printf do_printf_littlekernel_printf_tests \
+    "do_output_diff_test ./test-binaries/printf-toaruos-test-printf ./test-data/outputs/printf-toaruos-test-printf" \
     ./test-binaries/printf-newsys-test-printf ./test-binaries/printf-osv-tst-printf ./test-binaries/printf-OpenBSD-fp ./test-binaries/printf-OpenBSD-int \
     ./test-binaries/printf-OpenBSD-string "do_output_diff_test ./test-binaries/printf-llvm-project-printf_test ./test-data/outputs/printf-llvm-project-printf_test" \
     "do_output_diff_test ./test-binaries/printf-gcc-printf ./test-data/outputs/printf-gcc-printf" "do_output_diff_test ./test-binaries/printf-gcc-printf-1 ./test-data/outputs/printf-gcc-printf-1" \
@@ -78,9 +89,14 @@ for i in \
     ./test-binaries/printf-dietlibc-printf2 ./test-binaries/printf-dietlibc-printf "do_output_diff_test ./test-binaries/printf-dietlibc-printftest ./test-data/outputs/printf-dietlibc-printftest" \
     ./test-binaries/printf-cloudlibc-printf_scanf_test "do_output_diff_test ./test-binaries/printf-dklibc-test_printf ./test-data/outputs/printf-dklibc-test_printf" ./test-binaries/printf-avr-libc-bug-35366-2-printf_flt \
     ./test-binaries/printf-libc-test-printf-1e9-oob ./test-binaries/printf-libc-test-printf-fmt-g-round ./test-binaries/printf-libc-test-printf-fmt-g-zeros ./test-binaries/printf-libc-test-printf-fmt-n \
-    "do_output_diff_test ./test-binaries/printf-gnulib-test-printf-posix ./test-data/outputs/printf-gnulib-test-printf-posix"
+    "do_output_diff_test ./test-binaries/printf-gnulib-test-printf-posix ./test-data/outputs/printf-gnulib-test-printf-posix" do_printf_gnulib_test_printf_posix2 ./test-binaries/printf-pdclib-printf \
+    ./test-binaries/printf-gnulib-printf-sizes-c99 ./test-binaries/printf-gnulib-printf-directive-a ./test-binaries/printf-gnulib-printf-directive-f ./test-binaries/printf-gnulib-printf-directive-ls \
+    ./test-binaries/printf-gnulib-printf-directive-n "./test-binaries/printf-gnulib-printf-enomem >/dev/null" ./test-binaries/printf-gnulib-printf-flag-grouping ./test-binaries/printf-gnulib-printf-flag-leftadjust \
+    ./test-binaries/printf-gnulib-printf-flag-zero ./test-binaries/printf-gnulib-printf-infinite ./test-binaries/printf-gnulib-printf-infinite-long-double ./test-binaries/printf-gnulib-printf-long-double \
+    ./test-binaries/printf-gnulib-printf-positions ./test-binaries/printf-gnulib-printf-precision ./test-binaries/printf-gnulib-snprintf-directive-n ./test-binaries/printf-gnulib-snprintf-retval-c99 \
+    ./test-binaries/printf-gnulib-snprintf-size1 ./test-binaries/printf-gnulib-snprintf-truncation-c99 ./test-binaries/printf-gnulib-vsnprintf-zerosize-c99
 do
-    eval "$i" || echo "Test '$i' failed" &
+    eval "$i" || echo "Test '$i' failed with status $?"
 done
 
 # Wait for all tests to be over before exiting

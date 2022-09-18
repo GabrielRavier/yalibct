@@ -48,6 +48,7 @@ option(YALIBCT_DISABLE_PRINTF_APOSTROPHE_FLAG_TESTS "Whether or not tests that d
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %C will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %S will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS "Whether or not tests that depend on the printf family of functions supporting numbered argument conversion specifications (i.e. %n$) will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_ERRNO_TESTS "Whether or not tests that depend on the printf family of functions properly setting errno will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 
 # Misc tests that aren't part of any standard but are commonly supported
 option(YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS "Whether or not tests that depend on any locales that aren't defined by the standard that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
@@ -58,6 +59,7 @@ option(YALIBCT_DISABLE_LC_NUMERIC_TESTS "Whether or not tests that depend on LC_
 include(CheckIncludeFile)
 include(CheckSymbolExists)
 include(CheckLinkerFlag)
+include(CheckCSourceCompiles)
 
 if (NOT DEFINED YALIBCT_COMPILE_DEFINITIONS)
   set(YALIBCT_COMPILE_DEFINITIONS "-D_GNU_SOURCE" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
@@ -167,6 +169,13 @@ function(yalibct_make_executable target_name target_source_file)
 
 endfunction()
 
+function(yalibct_check_source_compiles code result_variable)
+
+  check_c_source_compiles("${code}" ${result_variable})
+  yalibct_append_macro_to_compiler_flags(${result_variable})
+
+endfunction()
+
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_LC_NUMERIC_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_RARE_LOCALE_TESTS)
@@ -195,6 +204,7 @@ yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_J_LENGTH_MODIFIER_T
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_Z_LENGTH_MODIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_T_LENGTH_MODIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_P_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_ERRNO_TESTS)
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 yalibct_check_include_file(obstack.h YALIBCT_LIBC_HAS_OBSTACK_H)
@@ -238,6 +248,24 @@ yalibct_check_c89_libc_symbol(exp math.h YALIBCT_LIBC_HAS_EXP)
 yalibct_check_c89_libc_symbol(floor math.h YALIBCT_LIBC_HAS_FLOOR)
 yalibct_check_c89_libc_symbol(ldexp math.h YALIBCT_LIBC_HAS_LDEXP)
 yalibct_check_c89_libc_symbol(frexp math.h YALIBCT_LIBC_HAS_FREXP)
+
+yalibct_check_source_compiles(
+  "
+// Derived from code with this license:
+/*
+dnl Copyright (C) 2007-2022 Free Software Foundation, Inc.
+dnl This file is free software; the Free Software Foundation
+dnl gives unlimited permission to copy and/or distribute it,
+dnl with or without modifications, as long as this notice is preserved.
+*/
+#include <float.h>
+typedef int check[sizeof (long double) == sizeof (double)
+                              && LDBL_MANT_DIG == DBL_MANT_DIG
+                              && LDBL_MAX_EXP == DBL_MAX_EXP
+                              && LDBL_MIN_EXP == DBL_MIN_EXP
+                              ? 1 : -1];
+  "
+  YALIBCT_LIBC_HAS_SAME_LONG_DOUBLE_AS_DOUBLE)
 
 yalibct_make_executable(libc-starts-up tests/libc-starts-up.c)
 yalibct_make_executable(printf-KOS-mk4-test-positional-printf tests/printf/KOS-mk4-test-positional-printf.c)
@@ -294,3 +322,24 @@ yalibct_make_executable(printf-libc-test-printf-fmt-g-round tests/printf/libc-te
 yalibct_make_executable(printf-libc-test-printf-fmt-g-zeros tests/printf/libc-test-printf-fmt-g-zeros.c)
 yalibct_make_executable(printf-libc-test-printf-fmt-n tests/printf/libc-test-printf-fmt-n.c)
 yalibct_make_executable(printf-gnulib-test-printf-posix tests/printf/gnulib-test-printf-posix.c)
+yalibct_make_executable(printf-gnulib-test-printf-posix2 tests/printf/gnulib-test-printf-posix2.c)
+yalibct_make_executable(printf-pdclib-printf tests/printf/pdclib-printf.c)
+yalibct_make_executable(printf-gnulib-printf-sizes-c99 tests/printf/gnulib-printf-sizes-c99.c)
+yalibct_make_executable(printf-gnulib-printf-directive-a tests/printf/gnulib-printf-directive-a.c)
+yalibct_make_executable(printf-gnulib-printf-directive-f tests/printf/gnulib-printf-directive-f.c)
+yalibct_make_executable(printf-gnulib-printf-directive-ls tests/printf/gnulib-printf-directive-ls.c)
+yalibct_make_executable(printf-gnulib-printf-directive-n tests/printf/gnulib-printf-directive-n.c)
+yalibct_make_executable(printf-gnulib-printf-enomem tests/printf/gnulib-printf-enomem.c)
+yalibct_make_executable(printf-gnulib-printf-flag-grouping tests/printf/gnulib-printf-flag-grouping.c)
+yalibct_make_executable(printf-gnulib-printf-flag-leftadjust tests/printf/gnulib-printf-flag-leftadjust.c)
+yalibct_make_executable(printf-gnulib-printf-flag-zero tests/printf/gnulib-printf-flag-zero.c)
+yalibct_make_executable(printf-gnulib-printf-infinite tests/printf/gnulib-printf-infinite.c)
+yalibct_make_executable(printf-gnulib-printf-infinite-long-double tests/printf/gnulib-printf-infinite-long-double.c)
+yalibct_make_executable(printf-gnulib-printf-long-double tests/printf/gnulib-printf-long-double.c)
+yalibct_make_executable(printf-gnulib-printf-positions tests/printf/gnulib-printf-positions.c)
+yalibct_make_executable(printf-gnulib-printf-precision tests/printf/gnulib-printf-precision.c)
+yalibct_make_executable(printf-gnulib-snprintf-directive-n tests/printf/gnulib-snprintf-directive-n.c)
+yalibct_make_executable(printf-gnulib-snprintf-retval-c99 tests/printf/gnulib-snprintf-retval-c99.c)
+yalibct_make_executable(printf-gnulib-snprintf-size1 tests/printf/gnulib-snprintf-size1.c)
+yalibct_make_executable(printf-gnulib-snprintf-truncation-c99 tests/printf/gnulib-snprintf-truncation-c99.c)
+yalibct_make_executable(printf-gnulib-vsnprintf-zerosize-c99 tests/printf/gnulib-vsnprintf-zerosize-c99.c)

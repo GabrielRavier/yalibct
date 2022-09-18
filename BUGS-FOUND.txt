@@ -1,0 +1,25 @@
+I have filed the following bug reports/patches while working on this testsuite:
+
+total: 16
+
+glibc (1):
+- https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
+
+musl (2):
+- https://www.openwall.com/lists/musl/2022/09/08/4 (not yet merged)
+- https://www.openwall.com/lists/musl/2022/09/06/10 (not yet fixed)
+
+dietlibc (13) (note: the mailing list does not have an archive, so the links don't lead there...):
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-HUGE_VALL-and-INFINITY-both-from-C99-and-requi.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-j-z-and-t-support-to-scanf.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-t-conversion-specifier-to-printf.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-not-working-properly.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-p-in-scanf.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-printf-not-setting-errno-on-MAX_WIDTH-errors.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Implemented-flag-character-in-printf.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fix-Make-it-so-negative-precision-arguments-work-pro.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-printf-f-1-7976931348623157e-308-crashes-with-a-stack-overflow (not yet fixed)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-printf-g-1234567-8-does-not-print-correctly-and-fails-to-null-terminate-an-internal-buffer (not yet fixed)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-printf-hash-flag-is-broken (not yet fixed)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/patch-fix-printf-not-formatting-values-of-narrowed-types-correctly (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/patch-made-it-so-c-supports-more-than-very-basic-formatting (merged)
