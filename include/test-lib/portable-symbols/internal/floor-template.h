@@ -43,7 +43,8 @@
 /* MSVC with option -fp:strict refuses to compile constant initializers that
    contain floating-point operations.  Pacify this compiler.  */
 #if defined _MSC_VER && !defined __clang__
-# pragma fenv_access (off)
+// Note: Figure out whether this can be turned on again if we get there and this is still a problem
+//# pragma fenv_access (off)
 #endif
 
 /* 2^(MANT_DIG-1).  */

@@ -346,3 +346,5 @@ yalibct_make_executable(printf-gnulib-vsnprintf-zerosize-c99 tests/printf/gnulib
 yalibct_make_executable(strcat-NetBSD-t_strcat tests/strcat/NetBSD-t_strcat.c)
 yalibct_make_executable(strcat-llvm-project-strcat_test tests/strcat/llvm-project-strcat_test.c)
 yalibct_make_executable(strcat-gcc-strcat tests/strcat/gcc-strcat.c)
+yalibct_make_executable(strcat-cc65-lib_common_strcat tests/strcat/cc65-lib_common_strcat.c)
+yalibct_make_executable(strcat-scc-0011-strcat tests/strcat/scc-0011-strcat.c)
