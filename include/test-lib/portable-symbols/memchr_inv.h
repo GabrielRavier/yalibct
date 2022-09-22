@@ -87,7 +87,7 @@ static inline void *memchr_inv(const void *const p, int c, size_t size)
     if (p_size < size)
         fortify_panic(__func__);
     return __real_memchr_inv(p, c, size);
-    
+
 }
 
 #endif

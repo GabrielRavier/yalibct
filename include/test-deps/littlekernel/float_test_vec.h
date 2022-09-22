@@ -65,4 +65,3 @@ __attribute__((unused)) static const unsigned int float_test_vec_size = countof(
                 *(const double *)&float_test_vec[i], \
                 *(const double *)&float_test_vec[i], \
                 *(const double *)&float_test_vec[i])
-

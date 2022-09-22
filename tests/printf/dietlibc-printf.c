@@ -65,7 +65,7 @@ YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overflow")
   TEST_SNPRINTF(EXP,  0,                __VA_ARGS__);		\
   TEST_SNPRINTF(EXP,  sizeof(EXP)+ALGN, __VA_ARGS__);		\
   TEST_SNPRINTF_NULL(EXP, __VA_ARGS__)
-  
+
 
 int main()
 {
@@ -106,7 +106,7 @@ int main()
   TEST("42.23",   "%5.2f",  42.23);
   TEST("42.23",   "%5.4g",  42.23);
   TEST(" 42.2",   "%5.3g",  42.23);
-  
+
   TEST("   1",     "%*i",   4, 1);
   TEST("   1",     "%4i",   1);
   TEST("1   ",     "%-4i",  1);
@@ -138,13 +138,13 @@ int main()
 
 #ifndef YALIBCT_DISABLE_RARE_LOCALE_TESTS
   setlocale(LC_ALL, "de_DE");
-  
+
   TEST("1.234",    "%'u", 1234);
 #endif
 #ifndef YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS
   TEST("2 1",      "%2$u %1$u",  1, 2);
 #endif
-  
-  
+
+
   return EXIT_SUCCESS;
 }

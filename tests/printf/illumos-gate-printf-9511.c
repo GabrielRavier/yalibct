@@ -67,7 +67,7 @@ main(void)
 
         (void) sprintf(buf, fpconv[i].convspec, fpconv[i].fp);
         if (strcmp(fpconv[i].expected, buf) != 0) {
-            if (fpconv[i].expected2 == NULL) 
+            if (fpconv[i].expected2 == NULL)
                 errx(1, "locale=%s, convspec=%s, expected=%s, got=%s",
                      fpconv[i].locale, fpconv[i].convspec,
                      fpconv[i].expected, buf);

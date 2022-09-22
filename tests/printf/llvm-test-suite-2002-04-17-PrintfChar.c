@@ -1,4 +1,4 @@
-/* this little micro testcase is due to lli printing out char values 
+/* this little micro testcase is due to lli printing out char values
  * incorrectly through printf.
  */
 int printf(const char*, ...);

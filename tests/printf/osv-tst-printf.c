@@ -61,11 +61,11 @@ int main(int ac, char** av)
     // doesn't do it, as this test demonstrate, and neither should we.
     const char *source = "hello";
     char dest[100] = "test";
-    
+
     int snprintf_retval = snprintf(dest, -1, format, source);
     report(snprintf_retval == 5 || (snprintf_retval == -1 && errno == EOVERFLOW), "snprintf with n=-1");
     report(strcmp(source, dest) == 0 || strcmp(dest, "test") == 0, "strcmp that result");
-    
+
     char dest2[100] = "test2";
     snprintf_retval = snprintf(dest2, 1ULL<<40, format, source);
     report(snprintf_retval == 5 || (snprintf_retval == -1 && errno == EOVERFLOW), "snprintf with n=2^40");

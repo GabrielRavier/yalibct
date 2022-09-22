@@ -24,7 +24,7 @@ static inline void hexdump8_ex(const void *ptr, size_t len, uint64_t disp_addr) 
     size_t i;
 
     disp_addr = 0x00007ffd262ab070;
-    
+
     const char *addr_fmt = ((disp_addr + len) > 0xFFFFFFFF)
                            ? "0x%016llx: "
                            : "0x%08llx: ";

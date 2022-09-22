@@ -27,4 +27,3 @@ int main( void )
     TESTCASE( remove( testfile ) == 0 );
     return TEST_RESULTS;
 }
-

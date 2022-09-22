@@ -299,4 +299,3 @@ _testfmt_two_allowed(const char *result, const char *result2, int line, const ch
 		abort();
 	}
 }
-

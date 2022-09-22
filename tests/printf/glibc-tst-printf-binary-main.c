@@ -126,4 +126,3 @@ do_test (void)
 }
 
 DIAG_POP_NEEDS_COMMENT;
-

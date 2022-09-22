@@ -366,7 +366,7 @@ I am ready for my first lesson today.";
 
   return result != 0;
 }
-
+
 static void
 rfg1 (void)
 {
@@ -477,4 +477,3 @@ rfg3 (void)
     printf ("got: '%s', expected: '%s'\n", buf,
 	    "   12345  1234    11145401322     321.765432   3.217654e+02   5    test-string");
 }
-

@@ -324,7 +324,7 @@ static void test_sprintf( void )
         ok(p_sprintf(buffer + sizeof(buffer) - r - 1, "%p", (void *)56) == r, "Pointers like this should probably print to the same size...");
         ok(strcmp(buffer, buffer + sizeof(buffer) - r - 1) != 0, "Different pointers should not print the same...");
 
-        // Implementation defined and very inconsistent across implementations 
+        // Implementation defined and very inconsistent across implementations
         /*r = p_sprintf(buffer, "%#020p", (void *)57);
         ok(!strcmp(buffer,"  0X0000000000000039"),"Pointer formatted incorrectly '%s'\n", buffer);
         ok( r==20, "return count wrong\n");

@@ -301,7 +301,7 @@ ATF_TC_BODY(thousands_separator_and_other_locale_tests, tc)
 
 	ATF_REQUIRE(setlocale(LC_NUMERIC, "ru_RU.ISO8859-5")); /* decimalpoint==, */
 	testfmt("3,1415", "%g", 3.1415);
-#endif  
+#endif
 
 	ATF_REQUIRE(setlocale(LC_NUMERIC, "C"));
 	testfmt("12345678.062500", "%'f", 12345678.0625);
