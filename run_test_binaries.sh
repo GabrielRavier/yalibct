@@ -95,7 +95,8 @@ for i in \
     ./test-binaries/printf-gnulib-printf-flag-zero ./test-binaries/printf-gnulib-printf-infinite ./test-binaries/printf-gnulib-printf-infinite-long-double ./test-binaries/printf-gnulib-printf-long-double \
     ./test-binaries/printf-gnulib-printf-positions ./test-binaries/printf-gnulib-printf-precision ./test-binaries/printf-gnulib-snprintf-directive-n ./test-binaries/printf-gnulib-snprintf-retval-c99 \
     ./test-binaries/printf-gnulib-snprintf-size1 ./test-binaries/printf-gnulib-snprintf-truncation-c99 ./test-binaries/printf-gnulib-vsnprintf-zerosize-c99 ./test-binaries/strcat-NetBSD-t_strcat \
-    ./test-binaries/strcat-llvm-project-strcat_test ./test-binaries/strcat-gcc-strcat ./test-binaries/strcat-cc65-lib_common_strcat ./test-binaries/strcat-scc-0011-strcat ./test-binaries/strcat-glibc-test-strcat 
+    ./test-binaries/strcat-llvm-project-strcat_test ./test-binaries/strcat-gcc-strcat ./test-binaries/strcat-cc65-lib_common_strcat ./test-binaries/strcat-scc-0011-strcat ./test-binaries/strcat-glibc-test-strcat \
+    ./test-binaries/strcat-cosmopolitan-strcat_test
 do
     eval "$i" || echo "Test '$i' failed with status $?" &
 done

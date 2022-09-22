@@ -252,6 +252,7 @@ yalibct_check_c89_libc_symbol(exp math.h YALIBCT_LIBC_HAS_EXP)
 yalibct_check_c89_libc_symbol(floor math.h YALIBCT_LIBC_HAS_FLOOR)
 yalibct_check_c89_libc_symbol(ldexp math.h YALIBCT_LIBC_HAS_LDEXP)
 yalibct_check_c89_libc_symbol(frexp math.h YALIBCT_LIBC_HAS_FREXP)
+yalibct_check_c95_libc_symbol(wcsncmp wchar.h YALIBCT_LIBC_HAS_WCSNCMP)
 
 yalibct_check_source_compiles(
   "
@@ -353,3 +354,4 @@ yalibct_make_executable(strcat-gcc-strcat tests/strcat/gcc-strcat.c)
 yalibct_make_executable(strcat-cc65-lib_common_strcat tests/strcat/cc65-lib_common_strcat.c)
 yalibct_make_executable(strcat-scc-0011-strcat tests/strcat/scc-0011-strcat.c)
 yalibct_make_executable(strcat-glibc-test-strcat tests/strcat/glibc-test-strcat.c)
+yalibct_make_executable(strcat-cosmopolitan-strcat_test tests/strcat/cosmopolitan-strcat_test.c)
