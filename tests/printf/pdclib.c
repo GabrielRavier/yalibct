@@ -22,7 +22,7 @@ int main( void )
     yalibct_chdir_to_tmpdir();
     FILE * target;
     TESTCASE( ( target = freopen( testfile, "wb+", stdout ) ) != NULL );
-#include "pdclib-printf_testcases.h"
+#include "pdclib_testcases.h"
     TESTCASE( fclose( target ) == 0 );
     TESTCASE( remove( testfile ) == 0 );
     return TEST_RESULTS;

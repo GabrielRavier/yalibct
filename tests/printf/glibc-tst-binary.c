@@ -24,4 +24,4 @@
 #define CHAR char
 #define L_(C) C
 
-#include "glibc-tst-printf-binary-main.h"
+#include "glibc-tst-binary-main.h"
