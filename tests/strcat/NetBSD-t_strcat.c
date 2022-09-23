@@ -100,22 +100,22 @@ ATF_TC_BODY(strcat_basic, tc)
 					 * of first parameter
 					 */
 					if (&buf0[a0] != ret) {
-						fprintf(stderr, "a0 %d, a1 %d, "
-						    "t0 %d, t1 %d\n",
-						    a0, a1, t0, t1);
-						atf_tc_fail("strcat did not "
-						    "return its first arg");
+                                            assert(fprintf(stderr, "a0 %d, a1 %d, "
+                                                           "t0 %d, t1 %d\n",
+                                                           a0, a1, t0, t1) >= 0);
+                                            atf_tc_fail("strcat did not "
+                                                        "return its first arg");
 					}
 
 					/* verify string copied correctly */
 					if (memcmp(&buf0[a0] + tab[t0].len,
 						   &buf1[a1],
 						   tab[t1].len + 1) != 0) {
-						fprintf(stderr, "a0 %d, a1 %d, "
-						    "t0 %d, t1 %d\n",
-						    a0, a1, t0, t1);
-						atf_tc_fail("string not copied "
-						    "correctly");
+                                            assert(fprintf(stderr, "a0 %d, a1 %d, "
+                                                           "t0 %d, t1 %d\n",
+                                                           a0, a1, t0, t1) >= 0);
+                                            atf_tc_fail("string not copied "
+                                                        "correctly");
 					}
 				}
 			}

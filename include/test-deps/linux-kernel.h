@@ -13,8 +13,8 @@
 #define __initdata
 #define __printf HEDLEY_PRINTF_FORMAT
 #define __init
-#define pr_warn(fmt, ...) printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-#define pr_err(fmt, ...) printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+#define pr_warn(fmt, ...) ((void)printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__))
+#define pr_err(fmt, ...) ((void)printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__))
 #define printk(...) fprintf(stderr, __VA_ARGS__)
 #define KERN_WARNING        "warning: "
 #define KERN_ERR        "error: "
@@ -25,29 +25,7 @@
 
 #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
 
-/*
- * This returns a constant expression while determining if an argument is
- * a constant expression, most importantly without evaluating the argument.
- * Glory to Martin Uecker <Martin.Uecker@med.uni-goettingen.de>
- */
-#define __is_constexpr(x) \
-        (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
-#define __typecheck(x, y) \
-        (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-#define __no_side_effects(x, y) \
-                (__is_constexpr(x) && __is_constexpr(y))
-#define __safe_cmp(x, y) \
-                (__typecheck(x, y) && __no_side_effects(x, y))
-#define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-#define __cmp_once(x, y, unique_x, unique_y, op) ({     \
-                typeof(x) unique_x = (x);               \
-                typeof(y) unique_y = (y);               \
-                __cmp(unique_x, unique_y, op); })
-#define __careful_cmp(x, y, op) \
-        __builtin_choose_expr(__safe_cmp(x, y), \
-                __cmp(x, y, op), \
-                __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-#define min(x, y)       __careful_cmp(x, y, <)
+#define min(x, y) (((x) < (y)) ? (x) : (y))
 
 #define __force
 
@@ -231,6 +209,7 @@ static inline u32 prandom_u32_max(u32 ep_ro)
 
 static inline char *kvasprintf(gfp_t gfp, const char *fmt, va_list ap)
 {
+    (void)gfp;
     return vstrdupf(fmt, ap);
 }
 
@@ -241,5 +220,6 @@ static inline void *__must_check ERR_PTR(long error)
 
 static inline void *kmalloc(size_t size, gfp_t flags)
 {
+    (void)flags;
     return malloc(size);
 }

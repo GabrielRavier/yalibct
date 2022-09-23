@@ -212,6 +212,7 @@ yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_ERRNO_TESTS)
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 yalibct_check_include_file(obstack.h YALIBCT_LIBC_HAS_OBSTACK_H)
+yalibct_check_include_file(sys/cdefs.h YALIBCT_LIBC_HAS_SYS_CDEFS_H)
 
 yalibct_check_libc_symbol(vstrdupf string.h YALIBCT_LIBC_HAS_VSTRDUPF)
 yalibct_check_libc_symbol(memchr_inv string.h YALIBCT_LIBC_HAS_MEMCHR_INV)

@@ -44,7 +44,7 @@ do_test_call_varg (FILE *stream, const char *format, ...)
   printf ("\n");
 
   printf ("%15s", "vdprintf: ");
-  fflush(stdout);
+  assert(fflush(stdout) == 0);
   va_start (args, format);
   vdprintf (fileno (stream), format, args);
   va_end (args);
@@ -52,26 +52,26 @@ do_test_call_varg (FILE *stream, const char *format, ...)
 
   printf ("%15s", "vfprintf: ");
   va_start (args, format);
-  vfprintf (stream, format, args);
+  assert(vfprintf (stream, format, args) >= 0);
   va_end (args);
   printf ("\n");
 
   printf ("%15s", "vprintf: ");
   va_start (args, format);
-  vprintf (format, args);
+  assert(vprintf (format, args) >= 0);
   va_end (args);
   printf ("\n");
 
   printf ("%15s", "vsnprintf: ");
   va_start (args, format);
-  vsnprintf (string, 127, format, args);
+  assert(vsnprintf (string, 127, format, args) >= strlen(string));
   va_end (args);
   printf ("%s", string);
   printf ("\n");
 
   printf ("%15s", "vsprintf: ");
   va_start (args, format);
-  vsprintf (string, format, args);
+  assert(vsprintf (string, format, args) >= strlen(string));
   va_end (args);
   printf ("%s", string);
   printf ("\n");
@@ -95,25 +95,25 @@ do_test_call_rarg (FILE *stream, const char *format, long double ld, double d)
   printf ("\n");
 
   printf ("%15s", "dprintf: ");
-  fflush(stdout);
-  dprintf (fileno (stream), format, ld, d);
+  assert(fflush(stdout) == 0);
+  assert(dprintf (fileno (stream), format, ld, d) >= 0);
   printf ("\n");
 
   printf ("%15s", "fprintf: ");
-  fprintf (stream, format, ld, d);
+  assert(fprintf (stream, format, ld, d) >= 0);
   printf ("\n");
 
   printf ("%15s", "printf: ");
-  printf (format, ld, d);
+  assert(printf (format, ld, d) >= 0);
   printf ("\n");
 
   printf ("%15s", "snprintf: ");
-  snprintf (string, 127, format, ld, d);
+  assert(snprintf (string, 127, format, ld, d) == strlen(string));
   printf ("%s", string);
   printf ("\n");
 
   printf ("%15s", "sprintf: ");
-  sprintf (string, format, ld, d);
+  assert(sprintf (string, format, ld, d) == strlen(string));
   printf ("%s", string);
   printf ("\n");
 }

@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <wchar.h>
 #include <string.h>
+#include <assert.h>
 #include <errno.h>
 #include <stdint.h>
 #include <stdarg.h>
@@ -123,7 +124,7 @@ static inline testonly void testlib_showerror(const char *file, int line, const 
   char hostname[128];
   stpcpy(hostname, "unknown");
   gethostname(hostname, sizeof(hostname));
-  kprintf("%serror%s%s:%s:%d%s: %s() in %s(%s) on %s pid %d tid %d\n"
+  kprintf("%serror%s%s:%s:%ld%s: %s() in %s(%s) on %s pid %d tid %d\n"
           "\t%s\n"
           "\t\tneed %s %s\n"
           "\t\t got %s\n"
@@ -194,8 +195,8 @@ dontdiscard testonly static inline char *testlib_formatstr(size_t cw, const void
 
 static inline void testlib_finish(void) {
   if (g_testlib_failed) {
-    fprintf(stderr, "%u / %u %s\n", g_testlib_failed, g_testlib_ran,
-            "tests failed");
+      assert(fprintf(stderr, "%u / %u %s\n", g_testlib_failed, g_testlib_ran,
+                     "tests failed") >= 0);
   }
 }
 
@@ -206,8 +207,8 @@ static inline wontreturn void testlib_abort(void) {
 
 static inline void testlib_incrementfailed(void) {
   if (++g_testlib_failed > 23) {
-    fprintf(stderr, "too many failures, aborting\n");
-    testlib_abort();
+      assert(fprintf(stderr, "too many failures, aborting\n") >= 0);
+      testlib_abort();
   }
 }
 

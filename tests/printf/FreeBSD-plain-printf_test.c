@@ -90,7 +90,7 @@ fprintf__simple_string(void)
 	if (length != strlen(contents))
 		err(EXIT_FAILURE, "fread failed");
 	buffer[length] = '\0';
-	fclose(file);
+	assert(fclose(file) == 0);
 
 	if (strcmp(buffer, contents) != 0)
 		errx(EXIT_FAILURE, "Written and read data differ");

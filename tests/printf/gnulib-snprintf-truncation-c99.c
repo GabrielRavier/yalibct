@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #if 1//HAVE_SNPRINTF
 # define my_snprintf snprintf
 #else
@@ -18,7 +19,7 @@ static char buf[100];
 int main ()
 {
   strcpy (buf, "ABCDEF");
-  my_snprintf (buf, 3, "%d %d", 4567, 89);
+  assert(my_snprintf (buf, 3, "%d %d", 4567, 89) == 7);
   if (memcmp (buf, "45\0DEF", 6) != 0)
     return 1;
   return 0;

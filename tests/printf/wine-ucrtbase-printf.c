@@ -32,6 +32,7 @@
 #include <wchar.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <assert.h>
 
 YALIBCT_DIAGNOSTIC_IGNORE("-Wformat-security")
 YALIBCT_DIAGNOSTIC_IGNORE("-Wcomment")
@@ -189,7 +190,7 @@ static void test_swprintf (void)
     const wchar_t str_justfits[]   = {'j','u','s','t','f','i','t','s',0};
     const wchar_t str_muchlonger[] = {'m','u','c','h','l','o','n','g','e','r',0};
     const wchar_t str_empty[]      = {0};
-    const wchar_t *tests[] = {str_short, str_justfit, str_justfits, str_muchlonger};
+    //const wchar_t *tests[] = {str_short, str_justfit, str_justfits, str_muchlonger};
 
     wchar_t buffer[8];
     char narrow[8], narrow_fmt[16];
@@ -279,6 +280,16 @@ static int WINAPIV vfprintf_wrapper(FILE *file,
     return ret;
 }
 
+static void checked_fclose(FILE *stream)
+{
+    ok(fclose(stream) == 0, "");
+}
+
+static void checked_fgets(char *s, int size, FILE *stream)
+{
+    ok(fgets(s, size, stream) == s, "");
+}
+
 static void test_fprintf(void)
 {
     static const char file_name[] = "fprintf.tst";
@@ -297,20 +308,20 @@ static void test_fprintf(void)
     ret = ftell(fp);
     ok(ret == 26, "ftell returned %d\n", ret);
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
-    fgets(buf, sizeof(buf), fp);
+    checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 12, "ftell returned %d\n", ret);
     ok(!strcmp(buf, "simple test\n"), "buf = %s\n", buf);
 
-    fgets(buf, sizeof(buf), fp);
+    checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen(file_name, "wt");
 
@@ -324,20 +335,20 @@ static void test_fprintf(void)
     ret = ftell(fp);
     ok(ret == 28 || ret == 26, "ftell returned %d\n", ret);
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
-    fgets(buf, sizeof(buf), fp);
+    checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 13 || ret == 12, "ftell returned %d\n", ret);
     ok(!strcmp(buf, "simple test\r\n") || !strcmp(buf, "simple test\n"), "buf = %s\n", buf);
 
-    fgets(buf, sizeof(buf), fp);
+    checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 28 || ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\r\n", 15) || !memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
-    fclose(fp);
+    checked_fclose(fp);
     unlink(file_name);
 }
 
@@ -377,7 +388,7 @@ static void test_fwprintf(void)
     ret = ftell(fp);
     ok(ret == 52 || ret == 26, "ftell returned %d\n", ret);
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
     fgetws(bufw, ARRAY_SIZE(bufw), fp);
@@ -390,7 +401,7 @@ static void test_fwprintf(void)
     ok(ret == 52 || ret == 26, "ret = %d\n", ret);
     ok(!memcmp(bufw, cont, 28), "buf = %ls\n", (bufw));
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen(file_name, "wt");
 
@@ -404,20 +415,20 @@ static void test_fwprintf(void)
     ret = ftell(fp);
     ok(ret == 28 || ret == 26, "ftell returned %d\n", ret);
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
-    fgets(bufa, sizeof(bufa), fp);
+    checked_fgets(bufa, sizeof(bufa), fp);
     ret = ftell(fp);
     ok(ret == 13 || ret == 12, "ftell returned %d\n", ret);
     ok(!strcmp(bufa, "simple test\r\n") || !strcmp(bufa, "simple test\n"), "buf = %s\n", bufa);
 
-    fgets(bufa, sizeof(bufa), fp);
+    checked_fgets(bufa, sizeof(bufa), fp);
     ret = ftell(fp);
     ok(ret == 28 || ret == 26, "ret = %d\n", ret);
     ok(!memcmp(bufa, "contains\0null\r\n", 15) || !memcmp(bufa, "contains\0null\n", 14), "buf = %s\n", bufa);
 
-    fclose(fp);
+    checked_fclose(fp);
     unlink(file_name);
 #endif
 
@@ -551,18 +562,18 @@ static void test_vsnwprintf_s(void)
 
 static void test_printf_legacy_wide(void)
 {
-    const wchar_t wide[] = {'A','B','C','D',0};
+    /*const wchar_t wide[] = {'A','B','C','D',0};
     const char narrow[] = "abcd";
-    const char out[] = "abcd ABCD";
+    const char out[] = "abcd ABCD";*/
     /* The legacy wide flag doesn't affect narrow printfs, so the same
      * format should behave the same both with and without the flag. */
-    const char narrow_fmt[] = "%s %ls";
+    //const char narrow_fmt[] = "%s %ls";
     /* The standard behaviour is to use the same format as for the narrow
      * case, while the legacy case has got a different meaning for %s. */
-    const wchar_t std_wide_fmt[] = {'%','s',' ','%','l','s',0};
+    /*const wchar_t std_wide_fmt[] = {'%','s',' ','%','l','s',0};
     const wchar_t legacy_wide_fmt[] = {'%','h','s',' ','%','s',0};
     char buffer[20];
-    wchar_t wbuffer[20];
+    wchar_t wbuffer[20];*/
 
     // Non-standard and not widely supported
     /*vsprintf_wrapper(0, buffer, sizeof(buffer), narrow_fmt, narrow, wide);
@@ -580,7 +591,7 @@ static void test_printf_legacy_wide(void)
 
 static void test_printf_legacy_msvcrt(void)
 {
-    char buf[50];
+    //char buf[50];
 
     /* In standard mode, %F is a float format conversion, while it is a
      * length modifier in legacy msvcrt mode. In legacy mode, N is also
@@ -610,12 +621,12 @@ static void test_printf_legacy_three_digit_exp(void)
     char buf[20];
 
 #ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
-    snprintf(buf, sizeof(buf), "%E", 1.23);
+    assert(snprintf(buf, sizeof(buf), "%E", 1.23) >= 0);
     ok(!strcmp(buf, "1.230000E+00"), "buf = %s\n", buf);
     // Non-standard and not widely supported
     /*vsprintf_wrapper(_CRT_INTERNAL_PRINTF_LEGACY_THREE_DIGIT_EXPONENTS, buf, sizeof(buf), "%E", 1.23);
       ok(!strcmp(buf, "1.230000E+000"), "buf = %s\n", buf);*/
-    snprintf(buf, sizeof(buf), "%E", 1.23e+123);
+    assert(snprintf(buf, sizeof(buf), "%E", 1.23e+123) >= 0);
     ok(!strcmp(buf, "1.230000E+123"), "buf = %s\n", buf);
 #endif
 }
@@ -625,23 +636,23 @@ static void test_printf_c99(void)
     char buf[30];
 
     /* z modifier accepts size_t argument */
-    snprintf(buf, sizeof(buf), "%zx %d", SIZE_MAX, 1);
+    ok(snprintf(buf, sizeof(buf), "%zx %d", SIZE_MAX, 1) >= 0, "");
     if (sizeof(size_t) == 8)
         ok(!strcmp(buf, "ffffffffffffffff 1"), "buf = %s\n", buf);
     else
         ok(!strcmp(buf, "ffffffff 1"), "buf = %s\n", buf);
 
     /* j modifier with signed format accepts intmax_t argument */
-    snprintf(buf, sizeof(buf), "%jd %d", INTMAX_MIN, 1);
+    ok(snprintf(buf, sizeof(buf), "%jd %d", INTMAX_MIN, 1) >= 0, "");
     ok(!strcmp(buf, "-9223372036854775808 1"), "buf = %s\n", buf);
 
     /* j modifier with unsigned format accepts uintmax_t argument */
-    snprintf(buf, sizeof(buf), "%ju %d", UINTMAX_MAX, 1);
+    ok(snprintf(buf, sizeof(buf), "%ju %d", UINTMAX_MAX, 1) >= 0, "");
     ok(!strcmp(buf, "18446744073709551615 1"), "buf = %s\n", buf);
 
     /* t modifier accepts ptrdiff_t argument */
 #ifndef YALIBCT_DISABLE_PRINTF_T_LENGTH_MODIFIER_TESTS
-    snprintf(buf, sizeof(buf), "%td %d", PTRDIFF_MIN, 1);
+    ok(snprintf(buf, sizeof(buf), "%td %d", PTRDIFF_MIN, 1) >= 0, "");
     if (sizeof(ptrdiff_t) == 8)
         ok(!strcmp(buf, "-9223372036854775808 1"), "buf = %s\n", buf);
     else
@@ -660,11 +671,11 @@ static void test_printf_natural_string(void)
     char buffer[20];
     wchar_t wbuffer[20];
 
-    snprintf(buffer, sizeof(buffer), narrow_fmt, narrow, narrow);
+    assert(snprintf(buffer, sizeof(buffer), narrow_fmt, narrow, narrow) >= 0);
     ok(!strcmp(buffer, narrow_out), "buffer wrong, got=%s\n", buffer);
 
 #ifdef YALIBCT_LIBC_HAS_SWPRINTF
-    swprintf(wbuffer, sizeof(wbuffer), wide_fmt, narrow, wide);
+    assert(swprintf(wbuffer, sizeof(wbuffer), wide_fmt, narrow, wide) >= 0);
     ok(!wcscmp(wbuffer, wide_out), "buffer wrong, got=%ls\n", (wbuffer));
 #endif
 }

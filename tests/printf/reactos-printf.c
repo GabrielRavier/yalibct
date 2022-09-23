@@ -727,12 +727,15 @@ static void test_sprintf( void )
     format = "%hx";
     r = p_sprintf(buffer, format, 0x12345);
     ok(!strcmp(buffer,"2345"), "failed \"%s\"\n", buffer);
+    ok( r==4, "");
 
     format = "%hhx";
     r = p_sprintf(buffer, format, 0x123);
     ok(!strcmp(buffer,"23"), "failed: \"%s\"\n", buffer);
+    ok( r==2, "");
     r = p_sprintf(buffer, format, 0x12345);
     ok(!strcmp(buffer,"45"), "failed \"%s\"\n", buffer);
+    ok( r==2, "");
 
     // Widlly implementation-dependent
     /*format = "%lf";
@@ -828,7 +831,7 @@ static void test_sprintf( void )
     ok(r==14, "r = %d\n", r);
     ok(!strcmp(buffer, "string to copy"), "failed: \"%s\"\n", buffer);
 
-    setlocale(LC_ALL, "C");
+    assert(setlocale(LC_ALL, "C") != NULL);
 }
 
 static void test_swprintf( void )
@@ -839,7 +842,7 @@ static void test_swprintf( void )
     const wchar_t TwentyThreePoint15e[]= {'%','+','#','2','3','.','1','5','e',0};
     const wchar_t e008[] = {'e','+','0','0','8',0};
     const wchar_t string_w[] = {'s','t','r','i','n','g',0};
-    const char string[] = "string";
+    //const char string[] = "string";
     const wchar_t S[]={'%','S',0};
     const wchar_t hs[] = {'%', 'h', 's', 0};
 
@@ -875,11 +878,16 @@ static void test_snprintf (void)
         const char *fmt  = tests[i].format;
         const int expect = tests[i].expected;
         const int n      = snprintf (buffer, bufsiz, fmt);
-        const int valid  = n < 0 ? bufsiz : (n == bufsiz ? n : n+1);
+        //const int valid  = n < 0 ? bufsiz : (n == bufsiz ? n : n+1);
 
         ok (n == expect, "\"%s\": expected %d, returned %d\n",
             fmt, expect, n);
     }
+}
+
+static void checked_fclose(FILE *fp)
+{
+    ok(fclose(fp) == 0, "");
 }
 
 static void test_fprintf(void)
@@ -903,7 +911,7 @@ static void test_fprintf(void)
     ret = ftell(fp);
     ok(ret == 26, "ftell returned %d\n", ret);
 
-    fclose(fp);
+    checked_fclose(fp);
     fp = fopen(file_name, "a");
     ok(fp != NULL, "");
 
@@ -914,7 +922,7 @@ static void test_fprintf(void)
     ok(ret == 34, "ftell returned %d\n", ret);
 #endif
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
     ret = fscanf(fp, "%[^\n] ", buf);
@@ -930,14 +938,14 @@ static void test_fprintf(void)
 
 #ifdef YALIBCT_LIBC_HAS_FWPRINTF
     memset(buf, 0, sizeof(buf));
-    fgets(buf, sizeof(buf), fp);
+    ok(fgets(buf, sizeof(buf), fp) == buf, "");
     ret = ftell(fp);
     ok(ret == 34, "ret =  %d\n", ret);
     ok(!memcmp(buf, "unicode\n", sizeof("unicode\n")),
             "buf = %ls\n", ((WCHAR*)buf));
 #endif
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen(file_name, "wt");
 
@@ -951,7 +959,7 @@ static void test_fprintf(void)
     ret = ftell(fp);
     ok(ret == 28 || ret == 26, "ftell returned %d\n", ret);
 
-    fclose(fp);
+    checked_fclose(fp);
     fp = fopen(file_name, "at");
     ok(fp != NULL, "");
 
@@ -962,7 +970,7 @@ static void test_fprintf(void)
     ok(ret == 37 || ret == 34, "ftell returned %d\n", ret);
 #endif
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
     ret = fscanf(fp, "%[^\n] ", buf);
@@ -977,13 +985,13 @@ static void test_fprintf(void)
     ok(!memcmp(buf, "contains\0null\r\n", 15) || !memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
 #ifdef YALIBCT_LIBC_HAS_FWPRINTF
-    fgets(buf, sizeof(buf), fp);
+    ok(fgets(buf, sizeof(buf), fp) == buf, "");
     ret = ftell(fp);
     ok(ret == 37 || ret == 34, "ret =  %d\n", ret);
     ok(!strcmp(buf, "unicode\r\n") || !strcmp(buf, "unicode\n"), "buf = %s\n", buf);
 #endif
 
-    fclose(fp);
+    checked_fclose(fp);
     unlink(file_name);
 }
 

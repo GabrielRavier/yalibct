@@ -20,7 +20,7 @@ static int TEST_RESULTS = 0;
     else \
     { \
        TEST_RESULTS += 1; \
-       fprintf(stderr, "FAILED: " __FILE__ ", line %d - %s\n", __LINE__, #x ); \
+       assert(fprintf(stderr, "FAILED: " __FILE__ ", line %d - %s\n", __LINE__, #x ) >= 0); \
     }
 
 #define GET_RESULT                                                      \

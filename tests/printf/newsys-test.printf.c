@@ -27,20 +27,21 @@
 #include <string.h>
 #include <stdio.h>
 #include <err.h>
+#include <assert.h>
 
 #define VERBOSE	0
 
-#define TEST(expect, ...)				\
-	do {						\
-		char buf[256];				\
-							\
-		snprintf(buf, sizeof buf, __VA_ARGS__);	\
-		buf[sizeof buf - 1] = 0;		\
-		if (strcmp(expect, buf))		\
-			fail(__LINE__, expect, buf);	\
-		else					\
-			ok(__LINE__, expect);		\
-	} while (0)
+#define TEST(expect, ...)                                               \
+    do {                                                                \
+        char buf[256];                                                  \
+                                                                        \
+        assert(snprintf(buf, sizeof buf, __VA_ARGS__) == strlen(buf));  \
+        buf[sizeof buf - 1] = 0;                                        \
+        if (strcmp(expect, buf))                                        \
+            fail(__LINE__, expect, buf);                                \
+        else                                                            \
+            ok(__LINE__, expect);                                       \
+    } while (0)
 
 static int xcode;
 

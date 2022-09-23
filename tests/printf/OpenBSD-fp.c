@@ -49,7 +49,7 @@ void _testfmt_two_allowed(const char *, const char *, int, const char *, const c
 void smash_stack(void);
 
 int
-main(int argc, char *argv[])
+main(void)
 {
 	/*
 	 * Basic tests of decimal output functionality.
@@ -274,13 +274,14 @@ _testfmt(const char *result, int line, const char *argstr, const char *fmt,...)
 
 	va_start(ap, fmt);
 	smash_stack();
-	vsnprintf(s, sizeof(s), fmt, ap);
+	assert(vsnprintf(s, sizeof(s), fmt, ap) == strlen(s));
 	if (strcmp(result, s) != 0) {
-		fprintf(stderr,
-		    "%d: printf(\"%s\", %s) ==> [%s], expected [%s]\n",
-		    line, fmt, argstr, s, result);
-		abort();
+            assert(fprintf(stderr,
+                           "%d: printf(\"%s\", %s) ==> [%s], expected [%s]\n",
+                           line, fmt, argstr, s, result) >= 0);
+            abort();
 	}
+        va_end(ap);
 }
 
 void
@@ -291,11 +292,12 @@ _testfmt_two_allowed(const char *result, const char *result2, int line, const ch
 
 	va_start(ap, fmt);
 	smash_stack();
-	vsnprintf(s, sizeof(s), fmt, ap);
+	assert(vsnprintf(s, sizeof(s), fmt, ap) == strlen(s));
 	if (strcmp(result, s) != 0 && strcmp(result2, s) != 0) {
-		fprintf(stderr,
-		    "%d: printf(\"%s\", %s) ==> [%s], expected [%s] or [%s]\n",
-                        line, fmt, argstr, s, result, result2);
-		abort();
+            assert(fprintf(stderr,
+                           "%d: printf(\"%s\", %s) ==> [%s], expected [%s] or [%s]\n",
+                           line, fmt, argstr, s, result, result2) >= 0);
+            abort();
 	}
+        va_end(ap);
 }

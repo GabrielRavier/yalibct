@@ -28,7 +28,7 @@ SIGNATURE_CHECK (printf, int, (char const *, ...));
 #include "gnulib-test-printf-posix.h"
 
 int
-main (int argc, char *argv[])
+main (void)
 {
   test_function (printf);
   return 0;

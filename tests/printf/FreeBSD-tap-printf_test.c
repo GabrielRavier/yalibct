@@ -149,7 +149,7 @@ fprintf__simple_string(void)
 	}
 	pass();
 	buffer[length] = '\0';
-	fclose(file);
+	assert(fclose(file) == 0);
 
 	if (strcmp(buffer, contents) != 0)
 		fail("Written and read data differ");

@@ -410,7 +410,7 @@ static void test_sprintf( void )
     ok(r==-1 || broken(!r), "r = %d\n", r);
 #endif
 
-    setlocale(LC_ALL, "C");
+    ok(setlocale(LC_ALL, "C") != NULL, "");
 
     // UB and not widely supported
     /*r = p_sprintf(buffer, "%*1d", 1, 3);
@@ -448,12 +448,12 @@ static void test_sprintf( void )
 
 static void test_swprintf( void )
 {
-    wchar_t buffer[100];
+    // Well this is some broken MSVC shit lmao
+    /*wchar_t buffer[100];
     double pnumber = 789456123;
     const char string[] = "string";
 
-    // Well this is some broken MSVC shit lmao
-    /*swprintf(buffer, L"%+#23.15e", pnumber);
+    swprintf(buffer, L"%+#23.15e", pnumber);
     ok(wcsstr(buffer, L"e+008") != 0, "Sprintf different\n");
     swprintf(buffer, L"%I64d", ((ULONGLONG)0xffffffff)*0xffffffff);
     ok(wcslen(buffer) == 11, "Problem with long long\n");
@@ -483,11 +483,21 @@ static void test_snprintf (void)
         const char *fmt  = tests[i].format;
         const int expect = tests[i].expected;
         const int n      = snprintf (buffer, bufsiz, fmt);
-        const int valid  = n < 0 ? bufsiz : (n == bufsiz ? n : n+1);
+        //const int valid  = n < 0 ? bufsiz : (n == bufsiz ? n : n+1);
 
         ok (n == expect, "\"%s\": expected %d, returned %d\n",
             fmt, expect, n);
     }
+}
+
+static void checked_fclose(FILE *stream)
+{
+    ok(fclose(stream) == 0, "");
+}
+
+static void checked_fgets(char *s, int size, FILE *stream)
+{
+    ok(fgets(s, size, stream) == s, "");
 }
 
 static void test_fprintf(void)
@@ -508,7 +518,7 @@ static void test_fprintf(void)
     ret = ftell(fp);
     ok(ret == 26, "ftell returned %d\n", ret);
 
-    fclose(fp);
+    checked_fclose(fp);
     fp = fopen("fprintf.tst", "a");
     ok(fp != NULL, "");
 
@@ -519,7 +529,7 @@ static void test_fprintf(void)
     ok(ret == 42 || ret == 34, "ftell returned %d\n", ret);
 #endif
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen("fprintf.tst", "rb");
     ret = fscanf(fp, "%[^\n] ", buf);
@@ -528,7 +538,7 @@ static void test_fprintf(void)
     ok(ret == 12, "ftell returned %d\n", ret);
     ok(!strcmp(buf, "simple test"), "buf = %s\n", buf);
 
-    fgets(buf, sizeof(buf), fp);
+    checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
@@ -536,13 +546,13 @@ static void test_fprintf(void)
 
 #ifdef YALIBCT_LIBC_HAS_FWPRINTF
     memset(buf, 0, sizeof(buf));
-    fgets(buf, sizeof(buf), fp);
+    checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 41 || ret == 34, "ret = %d\n", ret);
     ok(!strcmp(buf, "unicode\n"), "buf = %ls\n", ((WCHAR*)buf));
 #endif
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen("fprintf.tst", "wt");
 
@@ -556,7 +566,7 @@ static void test_fprintf(void)
     ret = ftell(fp);
     ok(ret == 28 || ret == 26, "ftell returned %d\n", ret);
 
-    fclose(fp);
+    checked_fclose(fp);
     fp = fopen("fprintf.tst", "at");
     ok(fp != NULL, "");
 
@@ -567,7 +577,7 @@ static void test_fprintf(void)
     ok(ret == 37 || ret == 34, "ftell returned %d\n", ret);
 #endif
 
-    fclose(fp);
+    checked_fclose(fp);
 
     fp = fopen("fprintf.tst", "rb");
     ret = fscanf(fp, "%[^\n] ", buf);
@@ -576,19 +586,19 @@ static void test_fprintf(void)
     ok(ret == 13 || ret == 12, "ftell returned %d\n", ret);
     ok(!strcmp(buf, "simple test\r") || !strcmp(buf, "simple test"), "buf = %s\n", buf);
 
-    fgets(buf, sizeof(buf), fp);
+    checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 28 || ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\r\n", 15) || !memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
 #ifdef YALIBCT_LIBC_HAS_FWPRINTF
-    fgets(buf, sizeof(buf), fp);
+    checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 37 || ret == 34, "ret = %d\n", ret);
     ok(!strcmp(buf, "unicode\r\n") || !strcmp(buf, "unicode\n"), "buf = %s\n", buf);
 #endif
 
-    fclose(fp);
+    checked_fclose(fp);
     unlink("fprintf.tst");
 }
 
@@ -951,7 +961,7 @@ static void test_vswprintf(void)
     wchar_t buf[20];
     int ret;
 
-    if (!p_vswprintf || !p__vswprintf || !p__vswprintf_l ||!p__vswprintf_c
+    if (!p__vswprintf_l ||!p__vswprintf_c
             || !p__vswprintf_c_l || !p__vswprintf_p_l)
     {
         win_skip("_vswprintf or vswprintf not available\n");

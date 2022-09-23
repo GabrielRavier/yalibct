@@ -7,8 +7,10 @@
 #include <locale.h>
 #include <stdint.h>
 
+#ifndef __clang__
 YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overread")
 YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overflow")
+#endif
 
 #define ALGN		5
 
@@ -137,7 +139,7 @@ int main()
   TEST("  1234",   "%6.5s", "1234");
 
 #ifndef YALIBCT_DISABLE_RARE_LOCALE_TESTS
-  setlocale(LC_ALL, "de_DE");
+  assert(setlocale(LC_ALL, "de_DE") != NULL);
 
   TEST("1.234",    "%'u", 1234);
 #endif

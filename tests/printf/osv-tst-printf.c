@@ -13,6 +13,7 @@
 #include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include <errno.h>
 #include <stdarg.h>
 #include <stdbool.h>
@@ -28,7 +29,9 @@ static void report(bool ok, const char * msg)
     ++tests;
     fails += !ok;
     if (!ok)
-        printf("%s: %s\n", (ok ? "PASS" : "FAIL"), msg);
+        printf("FAIL: %s\n", msg);
+    /*else
+        printf("PASS: %s\n", msg);*/
 }
 
 // Strangely, it appears (?) that if the format is a constant, gcc
@@ -46,14 +49,14 @@ char *print(const char* fmt, ...){
     if(size<=nsize){ //fail delete buffer and try again
         free(buffer);
         buffer = xmalloc(nsize+1); //+1 for /0
-        nsize = vsnprintf(buffer, size, fmt, vl);
+        assert(vsnprintf(buffer, size, fmt, vl) == nsize);
     }
     va_end(vl);
     return buffer;
 }
 
 
-int main(int ac, char** av)
+int main(void)
 {
     // Test that when snprintf is given a >32-bit length, including -1,
     // it works rather than not copying and returning EOVERFLOW.

@@ -24,6 +24,7 @@
 #include <sys/resource.h>
 #include <string.h>
 #include <errno.h>
+#include <assert.h>
 
 int
 main (int argc, char *argv[])
@@ -64,6 +65,7 @@ main (int argc, char *argv[])
     return 77;
 #endif
 
+  assert(argc > 1);
   arg = atoi (argv[1]);
   switch (arg)
     {
@@ -73,6 +75,7 @@ main (int argc, char *argv[])
         if (memory == NULL)
           return 1;
         memset (memory, 17, 10000000);
+        free(memory);
         return 78;
       }
 #ifndef YALIBCT_DISABLE_PRINTF_ERRNO_TESTS

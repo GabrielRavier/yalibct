@@ -255,7 +255,7 @@ if (NL_ARGMAX > 11)
     /* 166: excluded for C */
     /* 167: excluded for C */
 #ifdef TINY_STDIO
-    result |= test(__LINE__, "(null)", "%s", NULL);
+    result |= test(__LINE__, "(null)", "%s", (char *)NULL);
 #endif
     result |= test(__LINE__, "%%%%", "%s", "%%%%");
     result |= test(__LINE__, "4294967295", "%u", -1);

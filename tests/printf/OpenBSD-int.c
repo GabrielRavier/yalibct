@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <assert.h>
 
 enum	int_size {
 	S_CHAR,
@@ -177,10 +178,10 @@ tu(const char *fmt, enum int_size sz, unsigned long long i, const char *want)
 int
 main(int argc, char *argv[])
 {
-	int		 badarg, picky;
+	int		 badarg, picky = 0;
 	int		 ch;
 
-	badarg = picky = 0;
+	badarg = 0;
         picky = 1;
 	while ((ch = getopt(argc, argv, "pv")) != -1) {
 		switch (ch) {
@@ -202,8 +203,8 @@ main(int argc, char *argv[])
 		badarg = 1;
 	}
 	if (badarg) {
-		fputs("usage: int [-pv]\n", stderr);
-		return 1;
+            assert(fputs("usage: int [-pv]\n", stderr) >= 0);
+            return 1;
 	}
 
 	/*

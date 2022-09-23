@@ -10,6 +10,8 @@ trap_exit () {
 
 trap trap_exit ERR
 
+
+
 # Commented out for now, but will likely have to be reintroduced whenether we start testing allocator failures
 # export ASAN_OPTIONS=${ASAN_OPTIONS}:allocator_may_return_null=true
 
@@ -24,6 +26,8 @@ checked_add_to_ld_preload()
 
 checked_add_to_ld_preload /lib64/libc_malloc_debug.so.0
 checked_add_to_ld_preload /lib/libc_malloc_debug.so.0
+
+
 
 do_mtrace_test()
 {
@@ -68,6 +72,10 @@ do_printf_gnulib_test_printf_posix2()
     ./test-binaries/printf-gnulib-test-printf-posix2 5 >/dev/null || echo "FAILED ./test-binaries/printf-gnulib-test-printf-posix2 5"
     ./test-binaries/printf-gnulib-test-printf-posix2 6 >/dev/null || echo "FAILED ./test-binaries/printf-gnulib-test-printf-posix2 6"
 }
+
+
+
+[ ! -e test-binaries ] && { echo "Literally none of the tests will run correctly if the binaries aren't present, so please build this project so there's something in ./test-binaries..."; exit 1; }
 
 for i in \
     ./test-binaries/libc-starts-up ./test-binaries/printf-KOS-mk4-test-positional-printf ./test-binaries/printf-linux-kernel-test_printf do_printf_NetBSD_t_printf \

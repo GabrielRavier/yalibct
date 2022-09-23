@@ -67,18 +67,18 @@ _testfmt(const char *result, const char *argstr, const char *fmt,...)
 	va_start(ap, fmt);
 	va_copy(ap2, ap);
 	smash_stack();
-	vsnprintf(s, sizeof(s), fmt, ap);
+	assert(vsnprintf(s, sizeof(s), fmt, ap) == strlen(s));
 	ATF_CHECK_MSG(strcmp(result, s) == 0,
 	    "printf(\"%s\", %s) ==> [%s], expected [%s]",
 	    fmt, argstr, s, result);
 
 	smash_stack();
-	mbstowcs(ws, s, BUF - 1);
-	mbstowcs(wfmt, fmt, BUF - 1);
-	mbstowcs(wresult, result, BUF - 1);
+	assert(mbstowcs(ws, s, BUF - 1) != (size_t)-1);
+	assert(mbstowcs(wfmt, fmt, BUF - 1) != (size_t)-1);
+	assert(mbstowcs(wresult, result, BUF - 1) != (size_t)-1);
 
 #ifdef YALIBCT_LIBC_HAS_VSWPRINTF
-	vswprintf(ws, sizeof(ws) / sizeof(ws[0]), wfmt, ap2);
+	assert(vswprintf(ws, sizeof(ws) / sizeof(ws[0]), wfmt, ap2) == wcslen(ws));
 	ATF_CHECK_MSG(wcscmp(wresult, ws) == 0,
 	    "wprintf(\"%ls\", %s) ==> [%ls], expected [%ls]",
 	    wfmt, argstr, ws, wresult);
@@ -101,16 +101,16 @@ _testfmt_two_allowed(const char *result, const char *result2, const char *argstr
 	va_start(ap, fmt);
 	va_copy(ap2, ap);
 	smash_stack();
-	vsnprintf(s, sizeof(s), fmt, ap);
+	assert(vsnprintf(s, sizeof(s), fmt, ap) == strlen(s));
 	ATF_CHECK_MSG(strcmp(result, s) == 0 || strcmp(result2, s) == 0,
 	    "printf(\"%s\", %s) ==> [%s], expected [%s]",
 	    fmt, argstr, s, result);
 
 	smash_stack();
-	mbstowcs(ws, s, BUF - 1);
-	mbstowcs(wfmt, fmt, BUF - 1);
-	mbstowcs(wresult, result, BUF - 1);
-	mbstowcs(wresult2, result2, BUF - 1);
+	assert(mbstowcs(ws, s, BUF - 1) != (size_t)-1);
+	assert(mbstowcs(wfmt, fmt, BUF - 1) != (size_t)-1);
+	assert(mbstowcs(wresult, result, BUF - 1) != (size_t)-1);
+	assert(mbstowcs(wresult2, result2, BUF - 1) != (size_t)-1);
 
 #ifdef YALIBCT_LIBC_HAS_VSWPRINFT
 	vswprintf(ws, sizeof(ws) / sizeof(ws[0]), wfmt, ap2);
@@ -137,20 +137,20 @@ _testfmt_three_allowed(const char *result, const char *result2, const char *resu
 	va_start(ap, fmt);
 	va_copy(ap2, ap);
 	smash_stack();
-	vsnprintf(s, sizeof(s), fmt, ap);
+	assert(vsnprintf(s, sizeof(s), fmt, ap) == strlen(s));
 	ATF_CHECK_MSG(strcmp(result, s) == 0 || strcmp(result2, s) == 0 || strcmp(result3, s) == 0,
 	    "printf(\"%s\", %s) ==> [%s], expected [%s]",
 	    fmt, argstr, s, result);
 
 	smash_stack();
-	mbstowcs(ws, s, BUF - 1);
-	mbstowcs(wfmt, fmt, BUF - 1);
-	mbstowcs(wresult, result, BUF - 1);
-	mbstowcs(wresult2, result2, BUF - 1);
-	mbstowcs(wresult3, result3, BUF - 1);
+	assert(mbstowcs(ws, s, BUF - 1) != (size_t)-1);
+	assert(mbstowcs(wfmt, fmt, BUF - 1) != (size_t)-1);
+	assert(mbstowcs(wresult, result, BUF - 1) != (size_t)-1);
+	assert(mbstowcs(wresult2, result2, BUF - 1) != (size_t)-1);
+	assert(mbstowcs(wresult3, result3, BUF - 1) != (size_t)-1);
 
 #ifdef YALIBCT_LIBC_HAS_VSWPRINTF
-	vswprintf(ws, sizeof(ws) / sizeof(ws[0]), wfmt, ap2);
+	assert(vswprintf(ws, sizeof(ws) / sizeof(ws[0]), wfmt, ap2) == wcslen(ws));
 	ATF_CHECK_MSG(wcscmp(wresult, ws) == 0 || wcscmp(wresult2, ws) == 0 || wcscmp(wresult3, ws) == 0,
 	    "wprintf(\"%ls\", %s) ==> [%ls], expected [%ls]",
 	    wfmt, argstr, ws, wresult);

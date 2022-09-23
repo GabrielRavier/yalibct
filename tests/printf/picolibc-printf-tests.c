@@ -126,6 +126,6 @@ static int test2(int serial, char *expect, char *expect2, char *fmt, ...) {
 
 int main(void) {
     int result = 0;
-#include "picolibc-testcases.c"
+#include "picolibc-testcases.h"
     return result;
 }

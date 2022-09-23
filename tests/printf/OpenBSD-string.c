@@ -26,6 +26,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <wchar.h>
+#include <assert.h>
 
 void	 tc(const char *, int, const char *);
 void	 tlc(const char *, wint_t, const char *);
@@ -257,7 +258,7 @@ main(int argc, char *argv[])
 	int		 badarg, picky;
 	int		 ch;
 
-	badarg = picky = 0;
+	badarg = 0;
         picky = 1;
 	while ((ch = getopt(argc, argv, "pv")) != -1) {
 		switch (ch) {
@@ -279,8 +280,8 @@ main(int argc, char *argv[])
 		badarg = 1;
 	}
 	if (badarg) {
-		fputs("usage: string [-pv]\n", stderr);
-		return 1;
+            assert(fputs("usage: string [-pv]\n", stderr) >= 0);
+            return 1;
 	}
 
 	/*

@@ -42,6 +42,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stddef.h>
@@ -69,6 +70,11 @@ check_vsnprintf(char *str, size_t size, const char *format, ...)
 	return i;
 }
 
+static void checked_fflush(FILE *fp)
+{
+    assert(fflush(fp) == 0);
+}
+
 int
 main(void)
 {
@@ -87,24 +93,24 @@ main(void)
 
 	for (a = 1e-10; a < 1e10; a *= 10.0) {
 		printf("g format: %10.3g %10.3g\n", 1.2345678 * a, 1.1 * a);
-		fflush(stdout);
+		checked_fflush(stdout);
 	}
 	for (a = 1e-10; a < 1e10; a *= 10.0) {
 		printf("f format: %10.3f %10.3f\n", 1.2345678 * a, 1.1 * a);
-		fflush(stdout);
+		checked_fflush(stdout);
 	}
 	for (a = 1e-10; a < 1e10; a *= 10.0) {
 		printf("e format: %10.3e %10.3e\n", 1.2345678 * a, 1.1 * a);
-		fflush(stdout);
+		checked_fflush(stdout);
 	}
 	printf ("%g\n", exp(11));
 #endif
 #if defined(TINY_STDIO) || !defined(NO_FLOATING_POINT)
-	sprintf(buf, "%g", printf_float(0.0f));
+	assert(sprintf(buf, "%g", printf_float(0.0f)) == 1);
 	if (strcmp(buf, "0") != 0) {
 		printf("0: wanted \"0\" got \"%s\"\n", buf);
 		errors++;
-		fflush(stdout);
+		checked_fflush(stdout);
 	}
 #endif
 
@@ -114,7 +120,7 @@ main(void)
         if (x != 4 || y != 3 || r != 2) {
             printf("pos: wanted %d %d (ret %d) got %d %d (ret %d)", 4, 3, 2, x, y, r);
             errors++;
-            fflush(stdout);
+            checked_fflush(stdout);
         }
 #endif
 
@@ -159,12 +165,12 @@ main(void)
 #define FMT(prefix,conv) "%" prefix conv
 
 #define VERIFY(prefix, conv) do {                                       \
-        sprintf(buf, FMT(prefix, conv), v);                             \
-        sscanf(buf, FMT(prefix, conv), &r);                             \
+        assert(sprintf(buf, FMT(prefix, conv), v) == strlen(buf));  \
+        assert(sscanf(buf, FMT(prefix, conv), &r) == 1);                \
         if (v != r) {                                                   \
                 printf("\t%3d: " prefix " " conv " wanted " FMT(prefix, conv) " got " FMT(prefix, conv) "\n", x, v, r); \
                 errors++;                                               \
-                fflush(stdout);                                         \
+                checked_fflush(stdout);                                         \
         }                                                               \
 } while(0)
 
@@ -216,81 +222,81 @@ main(void)
 			float_type e;
 
 #ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
-			sprintf(buf, "%.55f", printf_float(v));
-			sscanf(buf, scanf_format, &r);
+			assert(sprintf(buf, "%.55f", printf_float(v)) >= 0);
+			assert(sscanf(buf, scanf_format, &r) == 1);
 			e = fabs(v-r) / v;
 			if (e > (float_type) ERROR_MAX) {
 				printf("\tf %3d: wanted %.7e got %.7e (error %.7e, buf %s)\n", x,
 				       printf_float(v), printf_float(r), printf_float(e), buf);
 				errors++;
-				fflush(stdout);
+				checked_fflush(stdout);
 			}
 #endif
 
 
 #ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
-			sprintf(buf, "%.20e", printf_float(v));
-			sscanf(buf, scanf_format, &r);
+			assert(sprintf(buf, "%.20e", printf_float(v)) >= 0);
+			assert(sscanf(buf, scanf_format, &r) == 1);
 			e = fabs(v-r) / v;
 			if (e > (float_type) ERROR_MAX)
 			{
 				printf("\te %3d: wanted %.7e got %.7e (error %.7e, buf %s)\n", x,
 				       printf_float(v), printf_float(r), printf_float(e), buf);
 				errors++;
-				fflush(stdout);
+				checked_fflush(stdout);
 			}
 #endif
 
 
 #ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
-			sprintf(buf, "%.20g", printf_float(v));
-			sscanf(buf, scanf_format, &r);
+			assert(sprintf(buf, "%.20g", printf_float(v)) >= 0);
+			assert(sscanf(buf, scanf_format, &r) == 1);
 			e = fabs(v-r) / v;
 			if (e > (float_type) ERROR_MAX)
 			{
 				printf("\tg %3d: wanted %.7e got %.7e (error %.7e, buf %s)\n", x,
 				       printf_float(v), printf_float(r), printf_float(e), buf);
 				errors++;
-				fflush(stdout);
+				checked_fflush(stdout);
 			}
 #endif
 
 #ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
-			sprintf(buf, "%.20a", printf_float(v));
-			sscanf(buf, scanf_format, &r);
+			assert(sprintf(buf, "%.20a", printf_float(v)) >= 0);
+			assert(sscanf(buf, scanf_format, &r) == 1);
 			e = fabs(v-r) / v;
 			if (e > (float_type) ERROR_MAX)
 			{
 				printf("\ta %3d: wanted %.7e got %.7e (error %.7e, buf %s)\n", x,
 				       printf_float(v), printf_float(r), printf_float(e), buf);
 				errors++;
-				fflush(stdout);
+				checked_fflush(stdout);
 			}
 #endif
 
 		}
 #ifndef YALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
-                sprintf(buf, "0x0.0p%+d", x);
-                sscanf(buf, scanf_format, &r);
+                assert(sprintf(buf, "0x0.0p%+d", x) >= 0);
+                assert(sscanf(buf, scanf_format, &r) == 1);
                 if (r != (float_type) 0.0)
                 {
                     printf("\tg %3d: wanted 0.0 got %.7e (buf %s)\n", x,
                            printf_float(r), buf);
                     errors++;
-                    fflush(stdout);
+                    checked_fflush(stdout);
                 }
 
-                sprintf(buf, "0x1p%+d", x);
-                sscanf(buf, scanf_format, &r);
+                assert(sprintf(buf, "0x1p%+d", x) >= 0);
+                assert(sscanf(buf, scanf_format, &r) == 1);
                 if (r != (float_type) ldexp(1.0, x))
                 {
                     printf("\tg %3d: wanted 1 got %.7e (buf %s)\n", x,
                            printf_float(r), buf);
                     errors++;
-                    fflush(stdout);
+                    checked_fflush(stdout);
                 }
 #endif
 	}
-	fflush(stdout);
+	checked_fflush(stdout);
 	return errors;
 }

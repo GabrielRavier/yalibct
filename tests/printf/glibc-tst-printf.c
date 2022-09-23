@@ -201,7 +201,7 @@ I am ready for my first lesson today.";
 
     while (niter-- != 0)
       printf ("%.17e\n", d / 2);
-    fflush (stdout);
+    assert(fflush (stdout) == 0);
   }
 
   printf ("%15.5e\n", 4.9406564584124654e-324);
@@ -296,7 +296,7 @@ I am ready for my first lesson today.";
   {
     char buf[200];
 
-    sprintf(buf,"%*s%*s%*s",-1,"one",-20,"two",-30,"three");
+    assert(sprintf(buf,"%*s%*s%*s",-1,"one",-20,"two",-30,"three") == strlen(buf));
 
     result |= strcmp (buf,
 		      "onetwo                 three                         ");
@@ -349,7 +349,7 @@ I am ready for my first lesson today.";
     char buf[20];
 
     memset (bytes, '\xff', sizeof bytes);
-    sprintf (buf, "foo%hhn\n", &bytes[3]);
+    assert(sprintf (buf, "foo%hhn\n", &bytes[3]) == strlen(buf));
     if (bytes[0] != '\xff' || bytes[1] != '\xff' || bytes[2] != '\xff'
 	|| bytes[4] != '\xff' || bytes[5] != '\xff' || bytes[6] != '\xff')
       {
@@ -372,33 +372,33 @@ rfg1 (void)
 {
   char buf[100];
 
-  sprintf (buf, "%5.s", "xyz");
+  assert(sprintf (buf, "%5.s", "xyz") == strlen(buf));
   if (strcmp (buf, "     ") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "     ");
-  sprintf (buf, "%5.f", 33.3);
+  assert(sprintf (buf, "%5.f", 33.3) == strlen(buf));
   if (strcmp (buf, "   33") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "   33");
 #ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
-  sprintf (buf, "%5.Lf", (long double) 33.3);
+  assert(sprintf (buf, "%5.Lf", (long double) 33.3) == strlen(buf));
   if (strcmp (buf, "   33") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "   33");
 #endif
 #ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
-  sprintf (buf, "%8.e", 33.3e7);
+  assert(sprintf (buf, "%8.e", 33.3e7) == strlen(buf));
   if (strcmp (buf, "   3e+08") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "   3e+08");
-  sprintf (buf, "%8.E", 33.3e7);
+  assert(sprintf (buf, "%8.E", 33.3e7) == strlen(buf));
   if (strcmp (buf, "   3E+08") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "   3E+08");
 #endif
 #ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
-  sprintf (buf, "%.g", 33.3);
+  assert(sprintf (buf, "%.g", 33.3) == strlen(buf));
   if (strcmp (buf, "3e+01") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "3e+01");
-  sprintf (buf, "%.Lg", (long double) 33.3);
+  assert(sprintf (buf, "%.Lg", (long double) 33.3) == strlen(buf));
   if (strcmp (buf, "3e+01") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "3e+01");
-  sprintf (buf, "%.G", 33.3);
+  assert(sprintf (buf, "%.G", 33.3) == strlen(buf));
   if (strcmp (buf, "3E+01") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "3E+01");
 #endif
@@ -411,46 +411,46 @@ rfg2 (void)
   char buf[100];
 
   prec = 0;
-  sprintf (buf, "%.*g", prec, 3.3);
+  assert(sprintf (buf, "%.*g", prec, 3.3) == strlen(buf));
   if (strcmp (buf, "3") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "3");
   prec = 0;
-  sprintf (buf, "%.*G", prec, 3.3);
+  assert(sprintf (buf, "%.*G", prec, 3.3) == strlen(buf));
   if (strcmp (buf, "3") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "3");
   prec = 0;
-  sprintf (buf, "%7.*G", prec, 3.33);
+  assert(sprintf (buf, "%7.*G", prec, 3.33) == strlen(buf));
   if (strcmp (buf, "      3") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "      3");
 #ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
   prec = 0;
-  sprintf (buf, "%.*Lg", prec, (long double) 3.3);
+  assert(sprintf (buf, "%.*Lg", prec, (long double) 3.3) == strlen(buf));
   if (strcmp (buf, "3") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "3");
   prec = 0;
-  sprintf (buf, "%.*LG", prec, (long double) 3.3);
+  assert(sprintf (buf, "%.*LG", prec, (long double) 3.3) == strlen(buf));
   if (strcmp (buf, "3") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "3");
   prec = 0;
-  sprintf (buf, "%7.*LG", prec, (long double) 3.33);
+  assert(sprintf (buf, "%7.*LG", prec, (long double) 3.33) == strlen(buf));
   if (strcmp (buf, "      3") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "      3");
 #endif
 #ifndef YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS
   prec = 3;
-  sprintf (buf, "%04.*o", prec, 33);
+  assert(sprintf (buf, "%04.*o", prec, 33) == strlen(buf));
   if (strcmp (buf, " 041") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, " 041");
   prec = 7;
-  sprintf (buf, "%09.*u", prec, 33);
+  assert(sprintf (buf, "%09.*u", prec, 33) == strlen(buf));
   if (strcmp (buf, "  0000033") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, "  0000033");
   prec = 3;
-  sprintf (buf, "%04.*x", prec, 33);
+  assert(sprintf (buf, "%04.*x", prec, 33) == strlen(buf));
   if (strcmp (buf, " 021") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, " 021");
   prec = 3;
-  sprintf (buf, "%04.*X", prec, 33);
+  assert(sprintf (buf, "%04.*X", prec, 33) == strlen(buf));
   if (strcmp (buf, " 021") != 0)
     printf ("got: '%s', expected: '%s'\n", buf, " 021");
 #endif
@@ -469,9 +469,9 @@ rfg3 (void)
 
   if (NL_ARGMAX < 13)
       return;
-  sprintf (buf,
+  assert(sprintf (buf,
 	   "%1$*5$d %2$*6$hi %3$*7$lo %4$*8$f %9$*12$e %10$*13$g %11$*14$s",
-	   i, h, l, d, 8, 5, 14, 14, d, g, s, 14, 3, 14);
+	   i, h, l, d, 8, 5, 14, 14, d, g, s, 14, 3, 14) == strlen(buf));
   if (strcmp (buf,
 	      "   12345  1234    11145401322     321.765432   3.217654e+02   5    test-string") != 0)
     printf ("got: '%s', expected: '%s'\n", buf,

@@ -1,8 +1,13 @@
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
 
-#define runtest(fmt,arg,wanted) memset(buf,0,sizeof(buf)); sprintf(buf,fmt,arg); assert(!strcmp(buf,wanted));
+#ifdef __clang__
+YALIBCT_DIAGNOSTIC_IGNORE("-Wformat")
+#endif
+
+#define runtest(fmt,arg,wanted) memset(buf,0,sizeof(buf)); assert(sprintf(buf,fmt,arg) == strlen(buf)); assert(!strcmp(buf,wanted));
 
 int main() {
   char buf[100];

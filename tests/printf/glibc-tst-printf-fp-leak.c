@@ -28,6 +28,6 @@ do_test (void)
   FILE *fp = fopen ("/dev/full", "w");
   TEST_VERIFY_EXIT (fp != NULL);
   TEST_COMPARE (fprintf (fp, "%.65536f", 1.0), -1);
-  fclose (fp);
+  assert(fclose (fp) == 0);
   return 0;
 }

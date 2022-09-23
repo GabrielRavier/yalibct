@@ -24,6 +24,12 @@
 #define YALIBCT_ATTRIBUTE_NOIPA
 #endif
 
+#if HEDLEY_GNUC_HAS_ATTRIBUTE(__noclone__, 4, 8, 0)
+#define YALIBCT_ATTRIBUTE_NOCLONE __attribute__((__noclone__))
+#else
+#define YALIBCT_ATTRIBUTE_NOCLONE
+#endif
+
 #if HEDLEY_GNUC_HAS_ATTRIBUTE(__optimize__, 4, 4, 0)
 #define YALIBCT_ATTRIBUTE_OPTIMIZE_O0 __attribute__((__optimize__("O0")))
 #elif HEDLEY_HAS_ATTRIBUTE(__optnone__) || defined(__clang__)

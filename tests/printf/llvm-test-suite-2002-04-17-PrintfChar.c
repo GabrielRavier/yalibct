@@ -3,7 +3,7 @@
  */
 int printf(const char*, ...);
 
-void printArgsNoRet(char a3, char* a5) {
+void printArgsNoRet(char a3, const char* a5) {
   printf("'%c' '%c'\n", (int)a3, (int)*a5);
 }
 

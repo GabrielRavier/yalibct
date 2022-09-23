@@ -7,11 +7,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 const char m[8] = {'M','M','M','M','M','M','M','M'};
 
 int main()
 {
-  printf ("%.*s\n", 8, m);
+    assert(printf ("%.*s\n", 8, m) == 9);
   exit (0);
 }

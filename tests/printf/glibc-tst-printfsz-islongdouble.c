@@ -50,5 +50,6 @@ do_test (void)
   return 0;
 #else
   printf("2k4k");
+  return 0;
 #endif
 }

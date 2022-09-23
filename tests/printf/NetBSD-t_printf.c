@@ -51,7 +51,7 @@ ATF_TC_BODY(snprintf_c99, tc)
 
 	(void)memset(s, '\0', sizeof(s));
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
-	(void)snprintf(s, sizeof(s), "%#.o", 0);
+	assert(snprintf(s, sizeof(s), "%#.o", 0) == strlen(s));
 	(void)printf("printf = %#.o\n", 0);
 	(void)fprintf(stderr, "snprintf = %s", s);
 
@@ -123,7 +123,7 @@ ATF_TC_BODY(snprintf_posarg_error, tc)
 {
 	char s[16], fmt[32];
 
-	snprintf(fmt, sizeof(fmt), "%%%zu$d", SIZE_MAX / sizeof(size_t));
+	assert(snprintf(fmt, sizeof(fmt), "%%%zu$d", SIZE_MAX / sizeof(size_t)) == strlen(fmt));
 
 	ATF_CHECK(snprintf(s, sizeof(s), fmt, -23) == -1);
 }
@@ -147,7 +147,7 @@ ATF_TC_BODY(snprintf_float, tc)
 	time_t now;
 	char buf[1000];
 
-	time(&now);
+	now = time(NULL);
 	srand(now);
 	for (size_t i = 0; i < 10000; i++) {
 		ul = rand();

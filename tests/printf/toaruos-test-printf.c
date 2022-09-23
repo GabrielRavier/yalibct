@@ -8,7 +8,7 @@
  */
 #include <stdio.h>
 
-int main(int argc, char * argv[]) {
+int main(void) {
 	printf("%.3d\n", 42);
 	printf("%.10d\n", 12345);
 	printf("%.1d\n", 0);

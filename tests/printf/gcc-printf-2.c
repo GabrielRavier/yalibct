@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 YALIBCT_ATTRIBUTE_NOIPA void
 write_file (void)
@@ -37,13 +38,13 @@ int main (void)
     }
 
   write_file ();
-  fclose (f);
+  assert(fclose (f) == 0);
 
   f = fopen (tmpfname, "r");
   if (!f)
     {
       perror ("fopen for reading");
-      remove (tmpfname);
+      assert(remove (tmpfname) == 0);
       return 1;
     }
 
@@ -51,13 +52,13 @@ int main (void)
   if (1 != fscanf (f, "%s", buf))
     {
       perror ("fscanf");
-      fclose (f);
-      remove (tmpfname);
+      assert(fclose (f) == 0);
+      assert(remove (tmpfname) == 0);
       return 1;
     }
 
-  fclose (f);
-  remove (tmpfname);
+  assert(fclose (f) == 0);
+  assert(remove (tmpfname) == 0);
 
   if (strcmp (buf, "123456789"))
     abort ();

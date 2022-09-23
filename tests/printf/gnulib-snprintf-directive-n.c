@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #if 1// HAVE_SNPRINTF
 # define my_snprintf snprintf
 #else
@@ -24,7 +25,7 @@ int main ()
      support %n in format strings in read-only memory but not in writable
      memory.  */
   strcpy (fmtstring, "%d %n");
-  my_snprintf (buf, 4, fmtstring, 12345, &count, 33, 44, 55);
+  assert(my_snprintf (buf, 4, fmtstring, 12345, &count, 33, 44, 55) == 6);
   if (count != 6)
     return 1;
 #endif

@@ -131,7 +131,7 @@ ATF_TC_BODY(fprintf__simple_string, tc)
 
 	FILE *output = fopen("test.txt", "w");
 	ATF_REQUIRE(fprintf(output, "%s", contents) > 0);
-	fclose(output);
+	assert(fclose(output) == 0);
 
 	/* The ATF C library provides more than just macros to verify the
 	 * outcome of expressions.  It also includes various helper functions

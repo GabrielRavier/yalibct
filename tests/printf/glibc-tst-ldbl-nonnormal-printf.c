@@ -29,7 +29,7 @@
 
 /* Fill the stack with non-zero values.  This makes a crash in
    snprintf more likely.  */
-static void __attribute__ ((noinline, noclone))
+static void HEDLEY_NEVER_INLINE YALIBCT_ATTRIBUTE_NOCLONE
 fill_stack (void)
 {
   char buffer[65536];

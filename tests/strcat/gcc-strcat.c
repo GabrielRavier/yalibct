@@ -11,7 +11,7 @@
 #define RESET_DST_WITH(FILLER) \
   do { memset (dst, 'X', sizeof (dst)); strcpy (dst, (FILLER)); } while (0)
 
-void main (void)
+int main (void)
 {
   const char *const s1 = "hello world";
   const char *const s2 = "";

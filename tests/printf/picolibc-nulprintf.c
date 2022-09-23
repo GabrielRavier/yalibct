@@ -15,7 +15,7 @@ const char m[8] = {'M','M','M','M','M','M','M','M'};
 int main(void)
 {
   char buf[20];
-  sprintf (buf, "%.*s\n", 8, m);
+  assert(sprintf (buf, "%.*s\n", 8, m) == 9);
   CHECK(strcmp(buf, "MMMMMMMM\n") == 0);
   exit (0);
 }

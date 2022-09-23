@@ -34,8 +34,9 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
-#ifdef	__AVR__
+#if 0//def	__AVR__
 # include <avr/pgmspace.h>
 # define PUTS(s)
 #else
@@ -46,7 +47,7 @@ void foo (char *s, size_t n, const char *fmt, ...)
 {
     va_list ap;
     va_start (ap, fmt);
-    vsnprintf (s, n, fmt, ap);
+    assert(vsnprintf (s, n, fmt, ap) == strlen(s));
     va_end (ap);
 }
 
