@@ -1,6 +1,6 @@
 I have filed the following bug reports/patches while working on this testsuite:
 
-total: 16
+total: 17
 
 glibc (1):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
@@ -9,7 +9,7 @@ musl (2):
 - https://www.openwall.com/lists/musl/2022/09/08/4 (not yet merged)
 - https://www.openwall.com/lists/musl/2022/09/06/10 (not yet fixed)
 
-dietlibc (13) (note: the mailing list does not have an archive, so the links don't lead there...):
+dietlibc (14) (note: the mailing list does not have an archive, so the links don't lead there...):
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-HUGE_VALL-and-INFINITY-both-from-C99-and-requi.patch (not yet merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-j-z-and-t-support-to-scanf.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-t-conversion-specifier-to-printf.patch (merged)

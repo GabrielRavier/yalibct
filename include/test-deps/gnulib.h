@@ -18,6 +18,7 @@
 
 #include "test-lib/compiler-features.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #if defined __MACH__ && defined __APPLE__
@@ -66,6 +67,44 @@
   _GL_UNUSED static ret (*signature_check ## id) args = fn
 #define _GL_ATTRIBUTE_MAYBE_UNUSED YALIBCT_ATTRIBUTE_MAYBE_UNUSED
 #define _GL_UNUSED _GL_ATTRIBUTE_MAYBE_UNUSED
+
+#define SIZEOF(array) (sizeof (array) / sizeof (array[0]))
+
+/* Define ASSERT_STREAM before including this file if ASSERT must
+   target a stream other than stderr.  */
+#ifndef ASSERT_STREAM
+# define ASSERT_STREAM stderr
+#endif
+
+
+/* ASSERT (condition);
+   verifies that the specified condition is fulfilled.  If not, a message
+   is printed to ASSERT_STREAM if defined (defaulting to stderr if
+   undefined) and the program is terminated with an error code.
+
+   This macro has the following properties:
+     - The programmer specifies the expected condition, not the failure
+       condition.  This simplifies thinking.
+     - The condition is tested always, regardless of compilation flags.
+       (Unlike the macro from <assert.h>.)
+     - On Unix platforms, the tester can debug the test program with a
+       debugger (provided core dumps are enabled: "ulimit -c unlimited").
+     - For the sake of platforms where no debugger is available (such as
+       some mingw systems), an error message is printed on the error
+       stream that includes the source location of the ASSERT invocation.
+ */
+#define ASSERT(expr) \
+  do                                                                         \
+    {                                                                        \
+      if (!(expr))                                                           \
+        {                                                                    \
+          fprintf (ASSERT_STREAM, "%s:%d: assertion '%s' failed\n",          \
+                   __FILE__, __LINE__, #expr);                               \
+          fflush (ASSERT_STREAM);                                            \
+          abort ();                                                          \
+        }                                                                    \
+    }                                                                        \
+  while (0)
 
 /* The Microsoft MSVC 9 compiler chokes on the expression 1.0 / 0.0.
    The IBM XL C compiler on z/OS complains.
