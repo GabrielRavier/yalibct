@@ -6,10 +6,10 @@
 
 #pragma once
 
+#include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include <limits.h>
-
-static int TEST_RESULTS = 0;
 
 /* TESTCASE() - generic test */
 #define TESTCASE( x ) \
@@ -203,7 +203,10 @@ static int TEST_RESULTS = 0;
 #endif
 
 
+static int TEST_RESULTS = 0;
 
 static const char testfile[] = "test_support_testfile";
 static const char testfile1[] = "test_support_testfile1";
 static const char testfile2[] = "test_support_testfile2";
+static const char abcde[] = "abcde";
+static const char abcdx[] = "abcdx";
