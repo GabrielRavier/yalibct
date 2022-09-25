@@ -381,3 +381,4 @@ yalibct_make_executable(strlen-open-posix-testsuite-1-1 tests/strlen/open-posix-
 yalibct_make_executable(strlen-NetBSD-t tests/strlen/NetBSD-t.c)
 yalibct_make_executable(strlen-arm-optimized-routines tests/strlen/arm-optimized-routines.c)
 yalibct_make_executable(strlen-reactos-crt tests/strlen/reactos-crt.c)
+yalibct_make_executable(strlen-llvm-project-test tests/strlen/llvm-project-test.c)
