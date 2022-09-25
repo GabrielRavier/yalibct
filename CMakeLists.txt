@@ -377,3 +377,4 @@ yalibct_make_executable(strcat-gnulib-test-u8 tests/strcat/gnulib-test-u8.c)
 yalibct_make_executable(strcat-pdclib tests/strcat/pdclib.c)
 
 yalibct_make_executable(strlen-linux-kernel tests/strlen/linux-kernel.c)
+yalibct_make_executable(strlen-open-posix-testsuite-1-1 tests/strlen/open-posix-testsuite-1-1.c)
