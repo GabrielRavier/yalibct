@@ -105,7 +105,7 @@ for i in \
     ./test-binaries/printf-gnulib-sn-size1 ./test-binaries/printf-gnulib-sn-truncation-c99 ./test-binaries/printf-gnulib-vsn-zerosize-c99 ./test-binaries/strcat-NetBSD-t \
     ./test-binaries/strcat-llvm-project_test ./test-binaries/strcat-gcc ./test-binaries/strcat-cc65-lib_common ./test-binaries/strcat-scc-0011 ./test-binaries/strcat-glibc-test \
     ./test-binaries/strcat-cosmopolitan_test ./test-binaries/strcat-cloudlibc-test ./test-binaries/strcat-gnulib-test-u8 ./test-binaries/strcat-pdclib ./test-binaries/strlen-linux-kernel \
-    ./test-binaries/strlen-open-posix-testsuite-1-1 ./test-binaries/strlen-NetBSD-t
+    ./test-binaries/strlen-open-posix-testsuite-1-1 ./test-binaries/strlen-NetBSD-t ./test-binaries/strlen-arm-optimized-routines
 do
     eval "$i" || echo "Test '$i' failed with status $?" &
 done
