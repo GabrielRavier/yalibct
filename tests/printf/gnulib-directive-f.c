@@ -1,5 +1,9 @@
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <string.h>
+
+YALIBCT_DIAGNOSTIC_IGNORE("-Wformat-extra-args")
+
 static char buf[100];
 static double zero = 0.0;
 int main ()

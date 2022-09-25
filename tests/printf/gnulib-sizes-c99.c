@@ -5,6 +5,8 @@ dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
 */
 
+#include "test-lib/compiler-features.h"
+
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -15,6 +17,9 @@ dnl with or without modifications, as long as this notice is preserved.
 #if 1//HAVE_INTTYPES_H_WITH_UINTMAX
 # include <inttypes.h>
 #endif
+
+YALIBCT_DIAGNOSTIC_IGNORE("-Wformat-extra-args")
+
 static char buf[100];
 int main ()
 {

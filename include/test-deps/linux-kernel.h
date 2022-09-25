@@ -7,7 +7,12 @@
 #include "test-lib/portable-symbols/vstrdupf.h"
 #include "test-lib/portable-snippets-endian.h"
 #include "test-lib/hedley.h"
+#include <unistd.h>
+#include <sys/wait.h>
+#include <signal.h>
 #include <assert.h>
+#include <errno.h>
+#include <stdbool.h>
 
 #define KSTM_MODULE_GLOBALS()
 #define __initdata
@@ -182,6 +187,8 @@
 #define MODULE_AUTHOR(author)
 #define MODULE_LICENSE(license)
 #define KSTM_MODULE_LOADERS(module)
+#define GIT_VERSION "unknown (this isn't the linux kernel itself lol)"
+#define MAGIC_SKIP_RETURN_VALUE 99
 
 static int total_tests = 0;
 static int skipped_tests = 0;
@@ -222,4 +229,150 @@ static inline void *kmalloc(size_t size, gfp_t flags)
 {
     (void)flags;
     return malloc(size);
+}
+
+static inline void test_start(char *name)
+{
+    //printf("test: %s\n", name);
+}
+
+static inline void test_set_git_version(char *value)
+{
+    //printf("tags: git_version:%s\n", value);
+}
+
+static inline void test_harness_internal_sig_handler(int signum)
+{
+        /* Just wake us up from waitpid */
+}
+
+static inline void test_error(char *name)
+{
+        printf("error: %s\n", name);
+}
+
+static struct sigaction test_harness_internal_sig_action = {
+        .sa_handler = test_harness_internal_sig_handler,
+};
+
+/* Setting timeout to -1 disables the alarm */
+static uint64_t test_harness_internal_timeout = 120;
+
+#define TEST_HARNESS_INTERNAL_KILL_TIMEOUT    5
+
+static inline int test_harness_internal_run_test(int (test_function)(void), char *name)
+{
+        bool terminated;
+        int rc, status;
+        pid_t pid;
+
+        /* Make sure output is flushed before forking */
+        fflush(stdout);
+
+        pid = fork();
+        if (pid == 0) {
+                setpgid(0, 0);
+                exit(test_function());
+        } else if (pid == -1) {
+                perror("fork");
+                return 1;
+        }
+
+        setpgid(pid, pid);
+
+        if (test_harness_internal_timeout != -1)
+                /* Wake us up in test_harness_internal_timeout seconds */
+                alarm(test_harness_internal_timeout);
+        terminated = false;
+
+wait:
+        rc = waitpid(pid, &status, 0);
+        if (rc == -1) {
+                if (errno != EINTR) {
+                        printf("unknown error from waitpid\n");
+                        return 1;
+                }
+
+                if (terminated) {
+                        printf("!! force killing %s\n", name);
+                        kill(-pid, SIGKILL);
+                        return 1;
+                } else {
+                        printf("!! killing %s\n", name);
+                        kill(-pid, SIGTERM);
+                        terminated = true;
+                        alarm(TEST_HARNESS_INTERNAL_KILL_TIMEOUT);
+                        goto wait;
+                }
+        }
+
+        /* Kill anything else in the process group that is still running */
+        kill(-pid, SIGTERM);
+
+        if (WIFEXITED(status))
+                status = WEXITSTATUS(status);
+        else {
+                if (WIFSIGNALED(status))
+                        printf("!! child died by signal %d\n", WTERMSIG(status));
+                else
+                        printf("!! child died by unknown cause\n");
+
+                status = 1; /* Signal or other */
+        }
+
+        return status;
+}
+
+static inline void test_skip(char *name)
+{
+        printf("skip: %s\n", name);
+}
+
+static inline void test_failure(char *name)
+{
+        printf("failure: %s\n", name);
+}
+
+static inline void test_success(char *name)
+{
+    //printf("success: %s\n", name);
+}
+
+static inline void test_finish(char *name, int status)
+{
+        if (status)
+                test_failure(name);
+        else
+                test_success(name);
+}
+
+static inline int test_harness(int (test_function)(void), char *name)
+{
+        int rc;
+
+        test_start(name);
+        test_set_git_version(GIT_VERSION);
+
+        if (sigaction(SIGINT, &test_harness_internal_sig_action, NULL)) {
+                perror("sigaction (sigint)");
+                test_error(name);
+                return 1;
+        }
+
+        if (sigaction(SIGALRM, &test_harness_internal_sig_action, NULL)) {
+                perror("sigaction (sigalrm)");
+                test_error(name);
+                return 1;
+        }
+
+        rc = test_harness_internal_run_test(test_function, name);
+
+        if (rc == MAGIC_SKIP_RETURN_VALUE) {
+                test_skip(name);
+                /* so that skipped test is not marked as failed */
+                rc = 0;
+        } else
+                test_finish(name, rc);
+
+        return rc;
 }

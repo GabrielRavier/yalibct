@@ -17,24 +17,24 @@ TEST
 
     SourceString[i] = 0;
 
-    ASSERT_AreEqual(SourceStringSize, strlen(SourceString), "%u", "Source string initialization or 'strlen()' problem!");
+    ASSERT_AreEqual((size_t)SourceStringSize, strlen(SourceString), "%zu", "Source string initialization or 'strlen()' problem!");
 
     /* Ensure empty destination string */
     DestinationString[0] = 0;
 
-    ASSERT_AreEqual(0, strlen(DestinationString), "%u", "Destination string initialization or 'strlen()' problem!");
+    ASSERT_AreEqual((size_t)0, strlen(DestinationString), "%zu", "Destination string initialization or 'strlen()' problem!");
 
     /* Test concatenation to empty buffer */
 
     strcat(DestinationString, SourceString);
 
-    ASSERT_AreEqual(SourceStringSize, strlen(DestinationString), "%u", "Unexpected string length while string concatenation to empty buffer!");
+    ASSERT_AreEqual((size_t)SourceStringSize, strlen(DestinationString), "%zu", "Unexpected string length while string concatenation to empty buffer!");
 
     /* Test concatenation to non empty buffer */
 
     p = strcat(DestinationString, SourceString);
 
-    ASSERT_AreEqual(2*SourceStringSize, strlen(DestinationString), "%u", "Unexpected string length while string concatenation to non-empty buffer!");
+    ASSERT_AreEqual((size_t)(2*SourceStringSize), strlen(DestinationString), "%zu", "Unexpected string length while string concatenation to non-empty buffer!");
 
     /* Test return value */
 

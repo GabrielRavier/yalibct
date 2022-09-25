@@ -19,7 +19,9 @@
 #include <stdbool.h>
 
 #ifdef __clang__
-YALIBCT_DIAGNOSTIC_IGNORE("-Wfortify-source");
+YALIBCT_DIAGNOSTIC_IGNORE("-Wfortify-source")
+#else
+YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overflow")
 #endif
 
 static int tests = 0, fails = 0;

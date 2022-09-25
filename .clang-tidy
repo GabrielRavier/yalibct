@@ -67,7 +67,7 @@ Checks: "abseil-cleanup-ctad,abseil-duration-addition,abseil-duration-comparison
         portability-simd-intrinsics,portability-std-allocator-const,readability-avoid-const-params-in-decls,readability-const-return-type,readability-container-contains,readability-container-data-pointer, \
         readability-container-size-empty,readability-convert-member-functions-to-static,readability-delete-null-pointer,readability-duplicate-include, \
         readability-identifier-naming,readability-implicit-bool-conversion,readability-inconsistent-declaration-parameter-name,readability-make-member-function-const, \
-        readability-misplaced-array-index,readability-non-const-parameter,readability-qualified-auto,readability-redundant-access-specifiers, \
+        readability-misplaced-array-index,readability-non-const-parameter,readability-qualified-auto, \
         readability-redundant-control-flow,readability-redundant-function-ptr-dereference,readability-redundant-member-init,readability-redundant-preprocessor,readability-redundant-smartptr-get, \
         readability-redundant-string-cstr,readability-redundant-string-init,readability-simplify-boolean-expr,readability-simplify-subscript-expr,readability-static-accessed-through-instance, \
         readability-static-definition-in-anonymous-namespace,readability-string-compare,readability-suspicious-call-argument,readability-uniqueptr-delete-release, \

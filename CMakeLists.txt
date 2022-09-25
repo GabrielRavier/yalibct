@@ -39,8 +39,9 @@ option(YALIBCT_DISABLE_SCANF_P_CONVERSION_SPECIFIER_TESTS "Whether or not tests 
 option(YALIBCT_DISABLE_C11_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the C11 standard will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C11_SYMBOLS "Whether or not we should error when we're told a C11 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C11_TESTS_BY_DEFAULT})
 
-option(YALIBCT_DISABLE_C2X_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the upcoming C2x standard will be run by default" ${YALIBCT_DISABLE_C11_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %b/%B will be run by default" ${YALIBCT_DISABLE_C2X_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the upcoming C23 standard will be run by default" ${YALIBCT_DISABLE_C11_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_MANDATING_C23_SYMBOLS "Whether or not we should error when we're told a C23 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %b/%B will be run by default" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
 
 option(YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the POSIX standard will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS "Whether or not we should error when we're told a POSIX symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
@@ -119,19 +120,30 @@ endfunction()
 
 function(yalibct_check_standard_libc_symbol symbol_name include_filename macro_name error_controlling_macro_name standard_name)
 
-  message(DEBUG "${symbol_name} value before defined test is ${${macro_name}}")
+  message(DEBUG "${macro_name} value before defined test is ${${macro_name}}")
 
   # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
   if (DEFINED ${macro_name} AND NOT ${macro_name})
     return()
   endif()
-  message(DEBUG "${symbol_name} value after defined test is ${${macro_name}}")
+  message(DEBUG "${macro_name} value after defined test is ${${macro_name}}")
   yalibct_check_libc_symbol(${symbol_name} "${include_filename}" ${macro_name})
-  message(DEBUG "${symbol_name} value after yalibct_check_libc_symbol test is ${${macro_name}}")
-  if (NOT ${error_controlling_macro_name} AND NOT ${${macro_name}})
+  message(DEBUG "${macro_name} value after yalibct_check_libc_symbol test is ${${macro_name}}")
+  message(DEBUG "error_controlling_macro_name value is ${error_controlling_macro_name}")
+  if (NOT ${error_controlling_macro_name})
+    message(DEBUG "NOT expand error_controlling_macro_name is true")
+  endif()
+  if (${macro_name} STREQUAL "")
+    message(DEBUG "expand macro STREQUAL empty string is true")
+  endif()
+  if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
     message(SEND_ERROR "${standard_name} mandates ${symbol_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
   endif()
 
+endfunction()
+
+function(yalibct_check_c23_libc_symbol symbol_name include_filename macro_name)
+  yalibct_check_standard_libc_symbol(${symbol_name} "${include_filename}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C23_SYMBOLS} "C23")
 endfunction()
 
 function(yalibct_check_c11_libc_symbol symbol_name include_filename macro_name)
@@ -254,6 +266,9 @@ yalibct_check_c89_libc_symbol(floor math.h YALIBCT_LIBC_HAS_FLOOR)
 yalibct_check_c89_libc_symbol(ldexp math.h YALIBCT_LIBC_HAS_LDEXP)
 yalibct_check_c89_libc_symbol(frexp math.h YALIBCT_LIBC_HAS_FREXP)
 yalibct_check_c95_libc_symbol(wcsncmp wchar.h YALIBCT_LIBC_HAS_WCSNCMP)
+yalibct_check_libc_symbol(alignalloc alignalloc.h YALIBCT_LIBC_HAS_ALIGNALLOC)
+yalibct_check_c23_libc_symbol(ckd_add stdckdint.h YALIBCT_LIBC_HAS_CKD_ADD)
+yalibct_check_c11_libc_symbol(alignof stdalign.h YALIBCT_LIBC_HAS_ALIGNOF)
 
 yalibct_check_source_compiles(
   "
@@ -349,6 +364,7 @@ yalibct_make_executable(printf-gnulib-sn-retval-c99 tests/printf/gnulib-sn-retva
 yalibct_make_executable(printf-gnulib-sn-size1 tests/printf/gnulib-sn-size1.c)
 yalibct_make_executable(printf-gnulib-sn-truncation-c99 tests/printf/gnulib-sn-truncation-c99.c)
 yalibct_make_executable(printf-gnulib-vsn-zerosize-c99 tests/printf/gnulib-vsn-zerosize-c99.c)
+
 yalibct_make_executable(strcat-NetBSD-t tests/strcat/NetBSD-t.c)
 yalibct_make_executable(strcat-llvm-project_test tests/strcat/llvm-project_test.c)
 yalibct_make_executable(strcat-gcc tests/strcat/gcc.c)
@@ -359,3 +375,5 @@ yalibct_make_executable(strcat-cosmopolitan_test tests/strcat/cosmopolitan_test.
 yalibct_make_executable(strcat-cloudlibc-test tests/strcat/cloudlibc-test.c)
 yalibct_make_executable(strcat-gnulib-test-u8 tests/strcat/gnulib-test-u8.c)
 yalibct_make_executable(strcat-pdclib tests/strcat/pdclib.c)
+
+yalibct_make_executable(strlen-linux-kernel tests/strlen/linux-kernel.c)

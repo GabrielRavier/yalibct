@@ -1,5 +1,8 @@
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <string.h>
+
+YALIBCT_DIAGNOSTIC_IGNORE("-Wformat")
 
 char * format[] = {
   "%",
@@ -116,8 +119,8 @@ int main()
   printf("#%i#\n",18);
   printf("#%d#\n",18);
   printf("#%u#\n",18);
-  printf("#%lu#\n",18);
-  printf("#%li#\n",18);
+  printf("#%lu#\n",18ul);
+  printf("#%li#\n",18l);
   printf("#%-+#06d#\n", -123);
   printf("#%-+#6d#\n", -123);
   printf("#%+#06d#\n", -123);
@@ -161,7 +164,7 @@ int main()
 	    buf);
     memset(buf2,0,sizeof(buf));
     i=snprintf(buf2, 256, "%.9999u", 10);
-    printf("%i %i\n",i,strlen(buf2));
+    printf("%i %i\n",i,(int)strlen(buf2));
 
 #ifndef YALIBCT_DISABLE_PRINTF_PRECISION_TESTS
     printf ("snprintf (\"%%.999999u\", 10) == %d\n",
