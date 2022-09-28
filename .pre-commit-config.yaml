@@ -32,6 +32,7 @@ repos:
       - id: destroyed-symlinks
       - id: detect-private-key
       - id: end-of-file-fixer
+        exclude: ^(test-data/outputs)
       - id: fix-byte-order-marker
       - id: mixed-line-ending
         args: ['--fix=no']

@@ -102,10 +102,14 @@ for i in \
     ./test-binaries/printf-gnulib-directive-n "./test-binaries/printf-gnulib-enomem >/dev/null" ./test-binaries/printf-gnulib-flag-grouping ./test-binaries/printf-gnulib-flag-leftadjust \
     ./test-binaries/printf-gnulib-flag-zero ./test-binaries/printf-gnulib-infinite ./test-binaries/printf-gnulib-infinite-long-double ./test-binaries/printf-gnulib-long-double \
     ./test-binaries/printf-gnulib-positions ./test-binaries/printf-gnulib-precision ./test-binaries/printf-gnulib-sn-directive-n ./test-binaries/printf-gnulib-sn-retval-c99 \
-    ./test-binaries/printf-gnulib-sn-size1 ./test-binaries/printf-gnulib-sn-truncation-c99 ./test-binaries/printf-gnulib-vsn-zerosize-c99 ./test-binaries/strcat-NetBSD-t \
-    ./test-binaries/strcat-llvm-project_test ./test-binaries/strcat-gcc ./test-binaries/strcat-cc65-lib_common ./test-binaries/strcat-scc-0011 ./test-binaries/strcat-glibc-test \
-    ./test-binaries/strcat-cosmopolitan_test ./test-binaries/strcat-cloudlibc-test ./test-binaries/strcat-gnulib-test-u8 ./test-binaries/strcat-pdclib ./test-binaries/strlen-linux-kernel \
-    ./test-binaries/strlen-open-posix-testsuite-1-1 ./test-binaries/strlen-NetBSD-t ./test-binaries/strlen-arm-optimized-routines ./test-binaries/strlen-reactos-crt ./test-binaries/strlen-llvm-project-test
+    ./test-binaries/printf-gnulib-sn-size1 ./test-binaries/printf-gnulib-sn-truncation-c99 ./test-binaries/printf-gnulib-vsn-zerosize-c99 \
+    "do_output_diff_test ./test-binaries/printf-mpaland-test_suite ./test-data/outputs/printf-mpaland-test_suite" \
+    \
+    ./test-binaries/strcat-NetBSD-t ./test-binaries/strcat-llvm-project_test ./test-binaries/strcat-gcc ./test-binaries/strcat-cc65-lib_common ./test-binaries/strcat-scc-0011 ./test-binaries/strcat-glibc-test \
+    ./test-binaries/strcat-cosmopolitan_test ./test-binaries/strcat-cloudlibc-test ./test-binaries/strcat-gnulib-test-u8 ./test-binaries/strcat-pdclib \
+    \
+    ./test-binaries/strlen-linux-kernel ./test-binaries/strlen-open-posix-testsuite-1-1 ./test-binaries/strlen-NetBSD-t ./test-binaries/strlen-arm-optimized-routines ./test-binaries/strlen-reactos-crt \
+    ./test-binaries/strlen-llvm-project-test
 do
     eval "$i" || echo "Test '$i' failed with status $?" &
 done
