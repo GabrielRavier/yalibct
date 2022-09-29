@@ -1,0 +1,87 @@
+Buffer: 'foo Z bar<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '123      4321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '000004321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-4321 -432 -43<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '18446744073709547295 1844674407<00>'
+Buffer: '0      4321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '     -321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-00000321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  -- printf comparison:      -321 -00000321
+Buffer: '1fe 13f1 0xdeadbeef<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: 'foo bar quux:123<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '<ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '<ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: 'foo: b<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: 'foo: ba<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: 'foo: bar<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: 'unbounded print foo<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+--- pos/neg fixed width test, i=0
+Buffer: '321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |321| |-321|
+Buffer: '321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |321| |-321|
+--- pos/neg fixed width test, i=1
+Buffer: '321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |321| |-321|
+Buffer: '321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |321| |-321|
+--- pos/neg fixed width test, i=2
+Buffer: '321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |321| |-321|
+Buffer: '321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |321| |-321|
+--- pos/neg fixed width test, i=3
+Buffer: '321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |321| |-321|
+Buffer: '321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |321| |-321|
+--- pos/neg fixed width test, i=4
+Buffer: '0321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |0321| |-321|
+Buffer: ' 321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: | 321| |-321|
+--- pos/neg fixed width test, i=5
+Buffer: '00321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-0321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |00321| |-0321|
+Buffer: '  321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: ' -321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |  321| | -321|
+--- pos/neg fixed width test, i=6
+Buffer: '000321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-00321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |000321| |-00321|
+Buffer: '   321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '  -321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |   321| |  -321|
+--- pos/neg fixed width test, i=7
+Buffer: '0000321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-000321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |0000321| |-000321|
+Buffer: '    321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '   -321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |    321| |   -321|
+--- pos/neg fixed width test, i=8
+Buffer: '00000321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-0000321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |00000321| |-0000321|
+Buffer: '     321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '    -321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |     321| |    -321|
+--- pos/neg fixed width test, i=9
+Buffer: '000000321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '-00000321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |000000321| |-00000321|
+Buffer: '      321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+Buffer: '     -321<00><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff><ff>'
+  ==> printf: |      321| |     -321|
