@@ -106,12 +106,12 @@ for i in \
     "do_output_diff_test ./test-binaries/printf-mpaland-test_suite ./test-data/outputs/printf-mpaland-test_suite" "do_output_diff_test ./test-binaries/printf-duktape-test ./test-data/outputs/printf-duktape-test" \
     \
     ./test-binaries/strcat-NetBSD-t ./test-binaries/strcat-llvm-project_test ./test-binaries/strcat-gcc ./test-binaries/strcat-cc65-lib_common ./test-binaries/strcat-scc-0011 ./test-binaries/strcat-glibc-test \
-    ./test-binaries/strcat-cosmopolitan_test ./test-binaries/strcat-cloudlibc-test ./test-binaries/strcat-gnulib-test-u8 ./test-binaries/strcat-pdclib \
+    ./test-binaries/strcat-cosmopolitan_test ./test-binaries/strcat-cloudlibc-test ./test-binaries/strcat-gnulib-test-u8 ./test-binaries/strcat-pdclib ./test-binaries/strcat-embeddedartistry-libc \
     \
     ./test-binaries/strlen-linux-kernel ./test-binaries/strlen-open-posix-testsuite-1-1 ./test-binaries/strlen-NetBSD-t ./test-binaries/strlen-arm-optimized-routines ./test-binaries/strlen-reactos-crt \
-    ./test-binaries/strlen-llvm-project-test
+    ./test-binaries/strlen-llvm-project-test ./test-binaries/strlen-embeddedartistry-libc
 do
-    eval "$i" || echo "Test '$i' failed with status $?" &
+    eval "$i" || printf "\nTest '$i' failed with status $?\n" &
 done
 
 # Wait for all tests to be over before exiting
