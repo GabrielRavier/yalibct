@@ -77,6 +77,8 @@ do_printf_gnulib_test_posix2()
 
 [ ! -e test-binaries ] && { echo "Literally none of the tests will run correctly if the binaries aren't present, so please build this project so there's something in ./test-binaries..."; exit 1; }
 
+TEMP_WORK_FILE=$(mktemp)
+
 for i in \
     ./test-binaries/libc-starts-up ./test-binaries/printf-KOS-mk4-test-positional ./test-binaries/printf-linux-kernel-test do_printf_NetBSD_t \
     ./test-binaries/printf-FreeBSD-printfloat_test ./test-binaries/printf-FreeBSD-atf_test ./test-binaries/printf-FreeBSD-plain_test \
@@ -109,10 +111,26 @@ for i in \
     ./test-binaries/strcat-cosmopolitan_test ./test-binaries/strcat-cloudlibc-test ./test-binaries/strcat-gnulib-test-u8 ./test-binaries/strcat-pdclib ./test-binaries/strcat-embeddedartistry-libc \
     \
     ./test-binaries/strlen-linux-kernel ./test-binaries/strlen-open-posix-testsuite-1-1 ./test-binaries/strlen-NetBSD-t ./test-binaries/strlen-arm-optimized-routines ./test-binaries/strlen-reactos-crt \
-    ./test-binaries/strlen-llvm-project-test ./test-binaries/strlen-embeddedartistry-libc
+    ./test-binaries/strlen-llvm-project-test ./test-binaries/strlen-embeddedartistry-libc ./test-binaries/strlen-gcc-builtins-2 ./test-binaries/strlen-gcc-builtins-3 ./test-binaries/strlen-gcc-builtins \
+    ./test-binaries/strlen-gcc-execute-1 ./test-binaries/strlen-gcc-execute-2 ./test-binaries/strlen-gcc-execute-3 ./test-binaries/strlen-gcc-execute-4 ./test-binaries/strlen-gcc-execute-5 ./test-binaries/strlen-gcc-execute-6 \
+    ./test-binaries/strlen-gcc-execute-7 ./test-binaries/strlen-gcc-ldist-1 ./test-binaries/strlen-gcc-ldist-2 ./test-binaries/strlen-gcc-opt-10 \
+    ./test-binaries/strlen-gcc-opt-11 ./test-binaries/strlen-gcc-opt-12 ./test-binaries/strlen-gcc-opt-12g ./test-binaries/strlen-gcc-opt-13 ./test-binaries/strlen-gcc-opt-14g ./test-binaries/strlen-gcc-opt-14gf \
+    ./test-binaries/strlen-gcc-opt-15 ./test-binaries/strlen-gcc-opt-16g ./test-binaries/strlen-gcc-opt-17g ./test-binaries/strlen-gcc-opt-18g ./test-binaries/strlen-gcc-opt-19 ./test-binaries/strlen-gcc-opt-1 \
+    ./test-binaries/strlen-gcc-opt-1f ./test-binaries/strlen-gcc-opt-20 ./test-binaries/strlen-gcc-opt-21 ./test-binaries/strlen-gcc-opt-22 ./test-binaries/strlen-gcc-opt-22g ./test-binaries/strlen-gcc-opt-23 \
+    ./test-binaries/strlen-gcc-opt-24 ./test-binaries/strlen-gcc-opt-25 ./test-binaries/strlen-gcc-opt-26 ./test-binaries/strlen-gcc-opt-27 ./test-binaries/strlen-gcc-opt-28 ./test-binaries/strlen-gcc-opt-29 \
+    ./test-binaries/strlen-gcc-opt-2 ./test-binaries/strlen-gcc-opt-2f ./test-binaries/strlen-gcc-opt-31 ./test-binaries/strlen-gcc-opt-31g ./test-binaries/strlen-gcc-opt-32 \
+    ./test-binaries/strlen-gcc-opt-33 ./test-binaries/strlen-gcc-opt-33g ./test-binaries/strlen-gcc-opt-34 ./test-binaries/strlen-gcc-opt-35 \
+    ./test-binaries/strlen-gcc-opt-3 ./test-binaries/strlen-gcc-opt-46 ./test-binaries/strlen-gcc-opt-4 ./test-binaries/strlen-gcc-opt-4g ./test-binaries/strlen-gcc-opt-4gf \
+    ./test-binaries/strlen-gcc-opt-5 ./test-binaries/strlen-gcc-opt-63 ./test-binaries/strlen-gcc-opt-64 ./test-binaries/strlen-gcc-opt-66 ./test-binaries/strlen-gcc-opt-68 \
+    ./test-binaries/strlen-gcc-opt-6 ./test-binaries/strlen-gcc-opt-71 ./test-binaries/strlen-gcc-opt-74 ./test-binaries/strlen-gcc-opt-75 ./test-binaries/strlen-gcc-opt-76 ./test-binaries/strlen-gcc-opt-79 \
+    ./test-binaries/strlen-gcc-opt-7 ./test-binaries/strlen-gcc-opt-81 ./test-binaries/strlen-gcc-opt-84 ./test-binaries/strlen-gcc-opt-87 ./test-binaries/strlen-gcc-opt-88 ./test-binaries/strlen-gcc-opt-8 \
+    ./test-binaries/strlen-gcc-opt-92 ./test-binaries/strlen-gcc-opt-94 ./test-binaries/strlen-gcc-opt-9
 do
-    eval "$i" || printf "\nTest '$i' failed with status $?\n" &
+    eval "$i" && printf "Test '%s' succeeded\n" "$i" >>"$TEMP_WORK_FILE" || printf "Test '%s' failed with status $?\n" "$i" >>"$TEMP_WORK_FILE"  &
 done
 
 # Wait for all tests to be over before exiting
 wait
+
+printf '%s tests failed out of %s tests\n' $(grep -cE '^Test .* failed with status .?.?.?$' "$TEMP_WORK_FILE") $(<"$TEMP_WORK_FILE" wc -l)
+grep -qE '^Test .* failed with status .?.?.?$' "$TEMP_WORK_FILE" && { echo 'Failed tests:'; grep -E '^Test .* failed with status .?.?.?$' "$TEMP_WORK_FILE"; }

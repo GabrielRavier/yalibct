@@ -124,14 +124,22 @@ static inline testonly void testlib_showerror(const char *file, int line, const 
   char hostname[128];
   stpcpy(hostname, "unknown");
   gethostname(hostname, sizeof(hostname));
-  kprintf("%serror%s%s:%s:%ld%s: %s() in %s(%s) on %s pid %d tid %d\n"
+  kprintf("%serror%s%s:%s:%ld%s: %s() in %s(%s) on %s pid %d"
+#ifdef YALIBCT_LIBC_HAS_GETTID
+          "tid %d"
+#endif
+          "\n"
           "\t%s\n"
           "\t\tneed %s %s\n"
           "\t\t got %s\n"
           "\t%s%s\n"
           "\t%s%s\n",
           RED2, UNBOLD, BLUE1, file, (long)line, RESET, method, func,
-          g_fixturename, hostname, getpid(), gettid(), code, v1, symbol, v2,
+          g_fixturename, hostname, getpid(),
+#ifdef YALIBCT_LIBC_HAS_GETTID
+          gettid(),
+#endif
+          code, v1, symbol, v2,
           SUBTLE, strerror(errno), GetProgramExecutableName(), RESET);
   free(v1);
   free(v2);

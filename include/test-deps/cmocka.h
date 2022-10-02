@@ -464,7 +464,7 @@ static inline void _fail(const char * const file, const int line) {
 
     if (output & CM_OUTPUT_STANDARD) {
         cmocka_print_error("[   LINE   ] --- " CMOCKA_INTERNAL_SOURCE_LOCATION_FORMAT
-                       ": error: Failure!",
+                       ": error: Failure!\n",
                        file, line);
     }
     if ((output & CM_OUTPUT_SUBUNIT) || (output & CM_OUTPUT_TAP) ||
