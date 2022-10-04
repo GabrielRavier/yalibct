@@ -271,6 +271,7 @@ yalibct_check_c23_libc_symbol(ckd_add stdckdint.h YALIBCT_LIBC_HAS_CKD_ADD)
 yalibct_check_c11_libc_symbol(alignof stdalign.h YALIBCT_LIBC_HAS_ALIGNOF)
 yalibct_check_libc_symbol(__builtin_abort stdlib.h YALIBCT_LIBC_HAS___BUILTIN_ABORT)
 yalibct_check_libc_symbol(gettid unistd.h YALIBCT_LIBC_HAS_GETTID)
+yalibct_check_libc_symbol(__STRING "sys/cdefs.h" YALIBCT_LIBC_HAS___STRING)
 
 yalibct_check_source_compiles(
   "
@@ -460,3 +461,4 @@ yalibct_make_executable(strlen-gcc-opt-9 tests/strlen/gcc-opt-9.c)
 yalibct_make_executable(strlen-gcc-ldist-1 tests/strlen/gcc-ldist-1.c)
 yalibct_make_executable(strlen-gcc-ldist-2 tests/strlen/gcc-ldist-2.c)
 yalibct_make_executable(strlen-scc-0018 tests/strlen/scc-0018.c)
+yalibct_make_executable(strlen-glibc-test tests/strlen/glibc-test.c)

@@ -20,6 +20,7 @@
 #pragma once
 
 #include "test-lib/portable-symbols/error.h"
+#include "test-lib/portable-symbols/__STRING.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,6 +35,32 @@
 # define BUF1PAGES 1
 #endif
 
+// You need to define an array called yalibct_glibc_string_impls of type impl_t and put all the implementations in it
+#define IMPL USE_IMPL_INITIALIZER_WITHIN_THE_ARRAY
+
+#define IMPL_INITIALIZER(name, test) \
+  /* impl_t tst_ ## name                                               \
+     __attribute__ ((section ("impls"), aligned (sizeof (void *))))  \
+     = */ { __STRING (name), (void (*) (void))name, test } //;
+
+#define CALL(impl, ...) \
+  (* (proto_t) (impl)->fn) (__VA_ARGS__)
+
+# define FOR_EACH_IMPL(impl, notall) \
+  for (impl_t *impl = __start_impls; impl < __stop_impls; ++impl)       \
+    if (!notall || impl->test)
+
+#define __start_impls (&yalibct_glibc_string_impls[0])
+#define __stop_impls (&yalibct_glibc_string_impls[sizeof(yalibct_glibc_string_impls) / sizeof(yalibct_glibc_string_impls[0])])
+
+#define test_main main
+
+typedef struct
+{
+  const char *name;
+  void (*fn) (void);
+  long test;
+} impl_t;
 
 static int ret;
 static size_t page_size;
