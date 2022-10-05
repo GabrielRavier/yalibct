@@ -124,9 +124,9 @@ for i in \
     ./test-binaries/strlen-gcc-opt-5 ./test-binaries/strlen-gcc-opt-63 ./test-binaries/strlen-gcc-opt-64 ./test-binaries/strlen-gcc-opt-66 ./test-binaries/strlen-gcc-opt-68 \
     ./test-binaries/strlen-gcc-opt-6 ./test-binaries/strlen-gcc-opt-71 ./test-binaries/strlen-gcc-opt-74 ./test-binaries/strlen-gcc-opt-75 ./test-binaries/strlen-gcc-opt-76 ./test-binaries/strlen-gcc-opt-79 \
     ./test-binaries/strlen-gcc-opt-7 ./test-binaries/strlen-gcc-opt-81 ./test-binaries/strlen-gcc-opt-84 ./test-binaries/strlen-gcc-opt-87 ./test-binaries/strlen-gcc-opt-88 ./test-binaries/strlen-gcc-opt-8 \
-    ./test-binaries/strlen-gcc-opt-92 ./test-binaries/strlen-gcc-opt-94 ./test-binaries/strlen-gcc-opt-9 ./test-binaries/strlen-scc-0018 ./test-binaries/strlen-glibc-test
+    ./test-binaries/strlen-gcc-opt-92 ./test-binaries/strlen-gcc-opt-94 ./test-binaries/strlen-gcc-opt-9 ./test-binaries/strlen-scc-0018 ./test-binaries/strlen-glibc-test ./test-binaries/strlen-glibc-tst
 do
-    eval "$i" && printf "Test '%s' succeeded\n" "$i" >>"$TEMP_WORK_FILE" || printf "Test '%s' failed with status $?\n" "$i" >>"$TEMP_WORK_FILE"  &
+    eval "$i" && printf "Test '%s' succeeded\n" "$i" >>"$TEMP_WORK_FILE" || printf "Test '%s' failed with status $?\n" "$i" | tee -a "$TEMP_WORK_FILE"  &
 done
 
 # Wait for all tests to be over before exiting

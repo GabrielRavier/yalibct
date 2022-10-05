@@ -1,15 +1,16 @@
 I have filed the following bug reports/patches while working on this testsuite:
 
-total: 19
+total: 20
+fixed/merged: 7
 
-glibc (1):
+glibc (1 filed, 0 fixed):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
 
-musl (2):
+musl (2 filed, 0 fixed):
 - https://www.openwall.com/lists/musl/2022/09/08/4 (not yet merged)
 - https://www.openwall.com/lists/musl/2022/09/06/10 (not yet fixed)
 
-dietlibc (16) (note: the mailing list does not have an archive, so the links don't lead there...):
+dietlibc (17 filed, 7 fixed) (note: the mailing list does not have an archive, so the links don't lead there...):
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-HUGE_VALL-and-INFINITY-both-from-C99-and-requi.patch (not yet merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-j-z-and-t-support-to-scanf.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-t-conversion-specifier-to-printf.patch (merged)
@@ -26,3 +27,4 @@ dietlibc (16) (note: the mailing list does not have an archive, so the links don
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-wcsncmp-going-past-the-end-of-the-string-if-n-is.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fixed-printf-not-ignoring-the-0-flag-when-the-flag-i.patch (not yet merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fixed-printf-not-taking-printed-characters-into-acco.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-memchr-is-broken-with-large-sizes (not yet fixed)

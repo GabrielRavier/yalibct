@@ -6,6 +6,7 @@
  */
 
 #include "test-deps/atf.h"
+#include "test-lib/portable-symbols/strnlen.h"
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
