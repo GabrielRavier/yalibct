@@ -98,9 +98,9 @@
     {                                                                        \
       if (!(expr))                                                           \
         {                                                                    \
-          fprintf (ASSERT_STREAM, "%s:%d: assertion '%s' failed\n",          \
+          (void)fprintf (ASSERT_STREAM, "%s:%d: assertion '%s' failed\n",    \
                    __FILE__, __LINE__, #expr);                               \
-          fflush (ASSERT_STREAM);                                            \
+          (void)fflush (ASSERT_STREAM);                                      \
           abort ();                                                          \
         }                                                                    \
     }                                                                        \
