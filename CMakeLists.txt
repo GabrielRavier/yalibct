@@ -62,6 +62,9 @@ include(CheckSymbolExists)
 include(CheckLinkerFlag)
 include(CheckCSourceCompiles)
 
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+
 if (NOT DEFINED YALIBCT_COMPILE_DEFINITIONS)
   set(YALIBCT_COMPILE_DEFINITIONS "-D_GNU_SOURCE -D_BSD_SOURCE -D_DEFAULT_SOURCE" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
 endif()
@@ -179,9 +182,11 @@ function(yalibct_make_executable target_name target_source_file)
     )
   foreach(LOOP_LIB ${YALIBCT_POTENTIALLY_WANTED_LIBRARIES})
     if (${YALIBCT_HAS_LIBRARY_${LOOP_LIB}})
-      target_link_libraries(${target_name} ${LOOP_LIB})
+      target_link_libraries(${target_name} PRIVATE ${LOOP_LIB})
     endif()
   endforeach()
+
+  target_link_libraries(${target_name} PRIVATE Threads::Threads)
 
 endfunction()
 
@@ -466,3 +471,4 @@ yalibct_make_executable(strlen-scc-0018 tests/strlen/scc-0018.c)
 yalibct_make_executable(strlen-glibc-test tests/strlen/glibc-test.c)
 yalibct_make_executable(strlen-glibc-tst tests/strlen/glibc-tst.c)
 yalibct_make_executable(strlen-glibc-tst-rsi tests/strlen/glibc-tst-rsi.c)
+yalibct_make_executable(strlen-cosmopolitan_test tests/strlen/cosmopolitan_test.c)
