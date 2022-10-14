@@ -476,4 +476,6 @@ yalibct_make_executable(strlen-nlibc tests/strlen/nlibc.c)
 yalibct_make_executable(strlen-cloudlibc tests/strlen/cloudlibc.c)
 yalibct_make_executable(strlen-dietlibc tests/strlen/dietlibc.c)
 yalibct_make_executable(strlen-gnulib-test-u8 tests/strlen/gnulib-test-u8.c)
+
 yalibct_make_executable(isdigit-llvm-project-test tests/isdigit/llvm-project-test.c)
+yalibct_make_executable(isdigit-avr-libc-1 tests/isdigit/avr-libc-1.c)
