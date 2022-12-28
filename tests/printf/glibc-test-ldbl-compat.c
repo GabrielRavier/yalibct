@@ -17,10 +17,9 @@
    <https://www.gnu.org/licenses/>.  */
 
 #include "test-deps/glibc.h"
-#include <stdarg.h>
-#include <stdint.h>
-#include <stdio.h>
+#include "test-lib/portable-symbols/dprintf.h"
 #include <stdlib.h>
+#include <stdarg.h>
 
 #ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
 static void

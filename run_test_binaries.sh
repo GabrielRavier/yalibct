@@ -129,7 +129,7 @@ for i in \
     \
     ./test-binaries/isdigit-llvm-project-test ./test-binaries/isdigit-avr-libc-1
 do
-    eval "$i" && printf "Test '%s' succeeded\n" "$i" >>"$TEMP_WORK_FILE" || printf "Test '%s' failed with status $?\n" "$i" | tee -a "$TEMP_WORK_FILE"  &
+    eval "$i" && printf "Test '%s' succeeded\n" "$i" >>"$TEMP_WORK_FILE" || printf "Test '%s' failed with status $?\n" "$i" | tee -a "$TEMP_WORK_FILE" &
 done
 
 # Wait for all tests to be over before exiting

@@ -47,10 +47,12 @@ struct {
 #endif
     "en_US.UTF-8", "%f", 3.2, "3.200000", NULL,
     "en_US.UTF-8", "%g", 3.2, "3.2", NULL,
+#ifndef YALIBCT_DISABLE_RARE_LOCALE_TESTS
     "ru_RU.UTF-8", "%a", 3.2, "0x1,99999a0000000p+1", "0x1,99999ap+1",
     "ru_RU.UTF-8", "%e", 3.2, "3,200000e+00", NULL,
     "ru_RU.UTF-8", "%f", 3.2, "3,200000", NULL,
     "ru_RU.UTF-8", "%g", 3.2, "3,2", NULL,
+#endif
 #endif
     NULL, NULL, 0, NULL, NULL,
 };

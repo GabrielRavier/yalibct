@@ -1,4 +1,4 @@
-// Derived from code with this license
+// Derived from code with this license:
 /* Emulation for ldexpl.
    Contributed by Paolo Bonzini
 

@@ -1,3 +1,4 @@
+// Derived from code with this license:
 /* Split a double into fraction and mantissa.
    Copyright (C) 2007-2022 Free Software Foundation, Inc.
 

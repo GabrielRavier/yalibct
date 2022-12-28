@@ -107,9 +107,9 @@ function(yalibct_check_libc_symbol symbol_name include_filename macro_name)
       list(POP_BACK CMAKE_REQUIRED_LIBRARIES)
     endif()
   endforeach()
-  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS)
-  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS)
-  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS)
+  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D_DEFAULT_SOURCE
+  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D_BSD_SOURCE
+  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D_GNU_SOURCE
   set(${macro_name} "${${macro_name}}" CACHE INTERNAL "${macro_name}")
   if (${${macro_name}})
     list(APPEND YALIBCT_COMPILE_DEFINITIONS "${macro_name}")
@@ -277,8 +277,17 @@ yalibct_check_c11_libc_symbol(alignof stdalign.h YALIBCT_LIBC_HAS_ALIGNOF)
 yalibct_check_libc_symbol(__builtin_abort stdlib.h YALIBCT_LIBC_HAS___BUILTIN_ABORT)
 yalibct_check_libc_symbol(gettid unistd.h YALIBCT_LIBC_HAS_GETTID)
 yalibct_check_libc_symbol(__STRING "sys/cdefs.h" YALIBCT_LIBC_HAS___STRING)
-yalibct_check_libc_symbol(strnlen string.h YALIBCT_LIBC_HAS_STRNLEN)
-yalibct_check_libc_symbol(memchr string.h YALIBCT_LIBC_HAS_MEMCHR)
+yalibct_check_posix_libc_symbol(strnlen string.h YALIBCT_LIBC_HAS_STRNLEN)
+yalibct_check_c89_libc_symbol(memchr string.h YALIBCT_LIBC_HAS_MEMCHR)
+yalibct_check_posix_libc_symbol(vdprintf stdio.h YALIBCT_LIBC_HAS_VDPRINTF)
+yalibct_check_posix_libc_symbol(dprintf stdio.h YALIBCT_LIBC_HAS_DPRINTF)
+yalibct_check_libc_symbol(vasnprintf stdio.h YALIBCT_LIBC_HAS_VASNPRINTF)
+yalibct_check_libc_symbol(alloca alloca.h YALIBCT_LIBC_HAS_ALLOCA)
+yalibct_check_c99_libc_symbol(mbrtowc wchar.h YALIBCT_LIBC_HAS_MBRTOWC)
+yalibct_check_c99_libc_symbol(wcrtomb wchar.h YALIBCT_LIBC_HAS_WCRTOMB)
+yalibct_check_libc_symbol(full_write full-write.h YALIBCT_LIBC_HAS_FULL_WRITE)
+yalibct_check_libc_symbol(safe_write safe-write.h YALIBCT_LIBC_HAS_SAFE_WRITE)
+yalibct_check_libc_symbol(SYS_BUFSIZE_MAX sys-limits.h YALIBCT_LIBC_HAS_SYS_BUFSIZE_MAX)
 
 yalibct_check_source_compiles(
   "

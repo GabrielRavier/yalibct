@@ -50,7 +50,7 @@
 # define _WANT_IO_C99_FORMATS
 # define _WANT_IO_LONG_LONG
 # define _WANT_IO_POS_ARGS
-# define printf_float(x) (x)
+# define printf_float(x) ((double) (x))
 
 #ifdef YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS
 #define NO_POS_ARGS

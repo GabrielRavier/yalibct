@@ -1,4 +1,4 @@
-// Adapted from code with this license:
+// Derived from code with this license:
 // SPDX-License-Identifier: GPL-2.0
 /*
  *  linux/lib/string.c
