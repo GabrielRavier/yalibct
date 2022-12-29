@@ -128,7 +128,11 @@ for i in \
     ./test-binaries/strlen-glibc-tst-rsi ./test-binaries/strlen-cosmopolitan_test ./test-binaries/strlen-nlibc ./test-binaries/strlen-cloudlibc ./test-binaries/strlen-dietlibc ./test-binaries/strlen-gnulib-test-u8 \
     \
     ./test-binaries/isdigit-llvm-project-test ./test-binaries/isdigit-avr-libc-1 "do_output_diff_test ./test-binaries/isdigit-open-watcom-v2 ./test-data/outputs/isdigit-open-watcom-v2" ./test-binaries/isdigit-z88dk \
-    ./test-binaries/isdigit-embeddedartistry-libc ./test-binaries/isdigit-pdclib
+    ./test-binaries/isdigit-embeddedartistry-libc ./test-binaries/isdigit-pdclib \
+    \
+    ./test-binaries/isalpha-llvm-project-test ./test-binaries/isalpha-z88dk-test ./test-binaries/isalpha-avr-libc-1 ./test-binaries/isalpha-embeddedartistry-libc ./test-binaries/isalpha-pdclib \
+    \
+    "do_output_diff_test ./test-binaries/putchar-pdclib ./test-data/outputs/putchar-pdclib"
 do
     eval "$i" && printf "Test '%s' succeeded\n" "$i" >>"$TEMP_WORK_FILE" || printf "Test '%s' failed with status $?\n" "$i" | tee -a "$TEMP_WORK_FILE" &
 done

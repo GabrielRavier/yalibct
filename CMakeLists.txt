@@ -310,6 +310,7 @@ typedef int check[sizeof (long double) == sizeof (double)
   YALIBCT_LIBC_HAS_SAME_LONG_DOUBLE_AS_DOUBLE)
 
 yalibct_make_executable(libc-starts-up tests/libc-starts-up.c)
+
 yalibct_make_executable(printf-KOS-mk4-test-positional tests/printf/KOS-mk4-test-positional.c)
 yalibct_make_executable(printf-linux-kernel-test tests/printf/linux-kernel-test.c)
 yalibct_make_executable(printf-NetBSD-t tests/printf/NetBSD-t.c)
@@ -494,3 +495,11 @@ yalibct_make_executable(isdigit-open-watcom-v2 tests/isdigit/open-watcom-v2.c)
 yalibct_make_executable(isdigit-z88dk tests/isdigit/z88dk.c)
 yalibct_make_executable(isdigit-embeddedartistry-libc tests/isdigit/embeddedartistry-libc.c)
 yalibct_make_executable(isdigit-pdclib tests/isdigit/pdclib.c)
+
+yalibct_make_executable(isalpha-llvm-project-test tests/isalpha/llvm-project-test.c)
+yalibct_make_executable(isalpha-z88dk-test tests/isalpha/z88dk-test.c)
+yalibct_make_executable(isalpha-avr-libc-1 tests/isalpha/avr-libc-1.c)
+yalibct_make_executable(isalpha-embeddedartistry-libc tests/isalpha/embeddedartistry-libc.c)
+yalibct_make_executable(isalpha-pdclib tests/isalpha/pdclib.c)
+
+yalibct_make_executable(putchar-pdclib tests/putchar/pdclib.c)

@@ -17,7 +17,7 @@
 static void good_input(void** state)
 {
     (void)state;
-    for(char c = (char)'0'; c <= (char)'9'; c++)
+    for(char c = '0'; c <= (char)'9'; c++)
 	{
 		assert_int_not_equal(isdigit(c), 0);
 	}
@@ -41,8 +41,11 @@ static void bad_input(void** state)
 	assert_int_equal(isdigit(123), 0);
 	assert_int_equal(isdigit(1024), 0);
 	assert_int_equal(isdigit(15185), 0);
-        assert_int_equal(isdigit(-1), 0);
+	//assert_int_equal(isdigit(1808303), 0); // UB
+	//assert_int_equal(isdigit(INT_MAX), 0); // UB
+	assert_int_equal(isdigit(-1), 0);
 	assert_int_equal(isdigit(-100), 0);
+	//assert_int_equal(isdigit(-INT_MAX), 0); // UB
 }
 
 int main(void)
