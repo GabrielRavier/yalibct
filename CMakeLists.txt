@@ -230,6 +230,7 @@ yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_ERRNO_TESTS)
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 yalibct_check_include_file(obstack.h YALIBCT_LIBC_HAS_OBSTACK_H)
 yalibct_check_include_file(sys/cdefs.h YALIBCT_LIBC_HAS_SYS_CDEFS_H)
+yalibct_check_include_file(signal.h YALIBCT_LIBC_HAS_SIGNAL_H)
 
 yalibct_check_libc_symbol(vstrdupf string.h YALIBCT_LIBC_HAS_VSTRDUPF)
 yalibct_check_libc_symbol(memchr_inv string.h YALIBCT_LIBC_HAS_MEMCHR_INV)
@@ -288,6 +289,7 @@ yalibct_check_c99_libc_symbol(wcrtomb wchar.h YALIBCT_LIBC_HAS_WCRTOMB)
 yalibct_check_libc_symbol(full_write full-write.h YALIBCT_LIBC_HAS_FULL_WRITE)
 yalibct_check_libc_symbol(safe_write safe-write.h YALIBCT_LIBC_HAS_SAFE_WRITE)
 yalibct_check_libc_symbol(SYS_BUFSIZE_MAX sys-limits.h YALIBCT_LIBC_HAS_SYS_BUFSIZE_MAX)
+yalibct_check_posix_libc_symbol(siglongjmp setjmp.h YALIBCT_LIBC_HAS_SIGLONGJMP)
 
 yalibct_check_source_compiles(
   "
@@ -488,3 +490,7 @@ yalibct_make_executable(strlen-gnulib-test-u8 tests/strlen/gnulib-test-u8.c)
 
 yalibct_make_executable(isdigit-llvm-project-test tests/isdigit/llvm-project-test.c)
 yalibct_make_executable(isdigit-avr-libc-1 tests/isdigit/avr-libc-1.c)
+yalibct_make_executable(isdigit-open-watcom-v2 tests/isdigit/open-watcom-v2.c)
+yalibct_make_executable(isdigit-z88dk tests/isdigit/z88dk.c)
+yalibct_make_executable(isdigit-embeddedartistry-libc tests/isdigit/embeddedartistry-libc.c)
+yalibct_make_executable(isdigit-pdclib tests/isdigit/pdclib.c)
