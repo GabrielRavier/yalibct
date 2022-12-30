@@ -290,6 +290,7 @@ yalibct_check_libc_symbol(full_write full-write.h YALIBCT_LIBC_HAS_FULL_WRITE)
 yalibct_check_libc_symbol(safe_write safe-write.h YALIBCT_LIBC_HAS_SAFE_WRITE)
 yalibct_check_libc_symbol(SYS_BUFSIZE_MAX sys-limits.h YALIBCT_LIBC_HAS_SYS_BUFSIZE_MAX)
 yalibct_check_posix_libc_symbol(siglongjmp setjmp.h YALIBCT_LIBC_HAS_SIGLONGJMP)
+yalibct_check_posix_libc_symbol(strsignal string.h YALIBCT_LIBC_HAS_STRSIGNAL)
 
 yalibct_check_source_compiles(
   "

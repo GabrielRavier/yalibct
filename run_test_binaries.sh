@@ -75,7 +75,7 @@ do_printf_gnulib_test_posix2()
 
 
 
-[ ! -e test-binaries ] && { echo "Literally none of the tests will run correctly if the binaries aren't present, so please build this project so there's something in ./test-binaries..."; exit 1; }
+[ ! -e ./test-binaries ] && { echo "Literally none of the tests will run correctly if the binaries aren't present, so please build this project so there's something in ./test-binaries..."; exit 1; }
 
 TEMP_WORK_FILE=$(mktemp)
 
@@ -142,3 +142,4 @@ wait
 
 printf '%s tests failed out of %s tests\n' $(grep -cE '^Test .* failed with status .?.?.?$' "$TEMP_WORK_FILE") $(<"$TEMP_WORK_FILE" wc -l)
 grep -qE '^Test .* failed with status .?.?.?$' "$TEMP_WORK_FILE" && { echo 'Failed tests:'; grep -E '^Test .* failed with status .?.?.?$' "$TEMP_WORK_FILE"; }
+rm "$TEMP_WORK_FILE"
