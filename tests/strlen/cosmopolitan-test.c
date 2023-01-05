@@ -73,7 +73,7 @@ TEST(strlen, test_nonconst) {
 }
 
 TEST(strnlen, testconst) {
-  // One of those shit functions that are even more poorly standardized...
+  // One of those shit functions that should never have been standardized...
   //ASSERT_EQ(0, strnlen_s(NULL, 3));
   ASSERT_EQ(0, strnlen("", 3));
   ASSERT_EQ(0, strnlen("a", 0));
@@ -119,7 +119,7 @@ TEST(strlen, fuzz) {
   char *b;
   size_t n, n1, n2;
   for (n = 2; n < 1026; ++n) {
-    b = rngset(calloc(1, n), n - 1, rand64, -1);
+    b = rngset(calloc(1, n), n - 1, _rand64, -1);
     n1 = strlen(b);
     n2 = strlen_pure(b);
     ASSERT_EQ(n1, n2, "%#.*s", n, b);
@@ -137,10 +137,10 @@ int main()
   strlen_whatMemoryLooksLike();
   strlen_test_const();
   strlen_test_nonconst();
-  strnlen_testconst();
+  HEDLEY_CONCAT(strnlen, _testconst)();
   strlen_testnonconst();
   strnlen_s_null_ReturnsZero();
-  strnlen_nulNotFound_ReturnsSize();
+  HEDLEY_CONCAT(strnlen, _nulNotFound_ReturnsSize)();
   strnlen_s_nulNotFound();
   strlen_fuzz();
 }

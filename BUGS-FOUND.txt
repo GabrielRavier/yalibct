@@ -1,16 +1,17 @@
 I have filed the following bug reports/patches while working on this testsuite:
 
-total: 20
-fixed/merged: 7
+total: 23
+fixed/merged: 9
 
 glibc (1 filed, 0 fixed):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
 
-musl (2 filed, 0 fixed):
+musl (3 filed, 0 fixed):
 - https://www.openwall.com/lists/musl/2022/09/08/4 (not yet merged)
 - https://www.openwall.com/lists/musl/2022/09/06/10 (not yet fixed)
+- https://www.openwall.com/lists/musl/2023/01/04/1 (not yet merged)
 
-dietlibc (17 filed, 7 fixed) (note: the mailing list does not have an archive, so the links don't lead there...):
+dietlibc (19 filed, 9 fixed) (note: the mailing list does not have an archive, so the links can't lead there...):
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-HUGE_VALL-and-INFINITY-both-from-C99-and-requi.patch (not yet merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-j-z-and-t-support-to-scanf.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-t-conversion-specifier-to-printf.patch (merged)
@@ -25,13 +26,8 @@ dietlibc (17 filed, 7 fixed) (note: the mailing list does not have an archive, s
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/patch-fix-printf-not-formatting-values-of-narrowed-types-correctly (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/patch-made-it-so-c-supports-more-than-very-basic-formatting (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-wcsncmp-going-past-the-end-of-the-string-if-n-is.patch (merged)
-- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fixed-printf-not-ignoring-the-0-flag-when-the-flag-i.patch (not yet merged)
-- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fixed-printf-not-taking-printed-characters-into-acco.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fixed-printf-not-ignoring-the-0-flag-when-the-flag-i.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fixed-printf-not-taking-printed-characters-into-acco.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-memchr-is-broken-with-large-sizes (not yet fixed)
-
-
-Configuration needed to get each of these to run as-is as of right now:
-- glibc: -DYALIBCT_LIBC_HAS_ECVT=OFF -DYALIBCT_LIBC_HAS_CKD_ADD=OFF
-- musl: -DYALIBCT_DISABLE_LC_NUMERIC_TESTS=ON -DYALIBCT_LIBC_HAS_{F,E}CVT=OFF -DYALIBCT_DISABLE_RARE_LOCALE_TESTS=ON -DYALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_LIBC_HAS_CKD_ADD=OFF
-- dietlibc git: -DYALIBCT_LIBC_HAS_FCVT=OFF -DYALIBCT_LIBC_HAS_ECVT=OFF -DYALIBCT_LIBC_HAS_VSWPRINTF=OFF -DYALIBCT_LIBC_HAS_FESETROUND=OFF -DYALIBCT_LIBC_HAS_FWPRINTF=OFF -DYALIBCT_LIBC_HAS_NAN=OFF -DYALIBCT_LIBC_HAS_SWPRINTF=OFF -DYALIBCT_LIBC_HAS_VFWPRINTF=OFF -DYALIBCT_LIBC_HAS_INFINITY=OFF -DYALIBCT_LIBC_HAS_NL_ARGMAX=OFF -DYALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_LC_NUMERIC_TESTS=ON -DYALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS=ON -DYALIBCT_DISABLE_PRINTF_UPPERCASE_S_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS=ON -DYALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_N_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_UPPERCASE_C_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS=ON -DYALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_0_FLAG_TESTS=ON -DYALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS=ON -DYALIBCT_DISABLE_PRINTF_PRECISION_TESTS=ON -DYALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_LIBC_HAS_FEGETROUND=OFF -DYALIBCT_LIBC_HAS_CKD_ADD=OFF -DYALIBCT_LIBC_HAS_STRNLEN=OFF -DYALIBCT_LIBC_HAS_MEMCHR=OFF
-- dietlibc as installed on my current system: -DYALIBCT_LIBC_HAS_FCVT=OFF -DYALIBCT_LIBC_HAS_ECVT=OFF -DYALIBCT_LIBC_HAS_VSWPRINTF=OFF -DYALIBCT_LIBC_HAS_FESETROUND=OFF -DYALIBCT_LIBC_HAS_FWPRINTF=OFF -DYALIBCT_LIBC_HAS_NAN=OFF -DYALIBCT_LIBC_HAS_SWPRINTF=OFF -DYALIBCT_LIBC_HAS_VFWPRINTF=OFF -DYALIBCT_LIBC_HAS_INFINITY=OFF -DYALIBCT_LIBC_HAS_NL_ARGMAX=OFF -DYALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_LC_NUMERIC_TESTS=ON -DYALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS=ON -DYALIBCT_DISABLE_PRINTF_UPPERCASE_S_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS=ON -DYALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_N_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_UPPERCASE_C_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS=ON -DYALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_0_FLAG_TESTS=ON -DYALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS=ON -DYALIBCT_DISABLE_PRINTF_HH_LENGTH_MODIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_PRECISION_TESTS=ON -DYALIBCT_DISABLE_PRINTF_T_LENGTH_MODIFIER_TESTS=ON -DYALIBCT_DISABLE_PRINTF_APOSTROPHE_FLAG_TESTS=ON -DYALIBCT_DISABLE_PRINTF_C_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_LIBC_HAS_STATIC_ASSERT=OFF -DYALIBCT_LIBC_HAS_FEGETROUND=OFF -DYALIBCT_LIBC_HAS_LDEXP=OFF -DYALIBCT_LIBC_HAS_POW=OFF -DYALIBCT_LIBC_HAS_EXP=OFF -DYALIBCT_LIBC_HAS_FLOOR=OFF -DYALIBCT_DISABLE_SCANF_{Z,J,T}_LENGTH_MODIFIER_TESTS=ON -DYALIBCT_DISABLE_SCANF_P_CONVERSION_SPECIFIER_TESTS=ON -DYALIBCT_LIBC_HAS_FREXP=OFF -DYALIBCT_DISABLE_PRINTF_ERRNO_TESTS=ON -DYALIBCT_LIBC_HAS_WCSNCMP=OFF -DYALIBCT_LIBC_HAS_LOG=OFF -DYALIBCT_LIBC_HAS_CKD_ADD=OFF -DYALIBCT_LIBC_HAS_STRNLEN=OFF -DYALIBCT_LIBC_HAS_MEMCHR=OFF
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fix-return-value-of-wcs-n-cmp-for-near-limits-signed.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-strcasecmp-on-negative-and-close-to-limits-numbe.patch (not yet merged)

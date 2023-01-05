@@ -58,14 +58,19 @@
 #define YALIBCT_ATTRIBUTE_MAYBE_UNUSED YALIBCT_ATTRIBUTE_UNUSED
 #endif
 
-#define YALIBCT_STRINGIFY_1(s) #s
-#define YALIBCT_STRINGIFY(s) YALIBCT_STRINGIFY_1(s)
-
 #ifdef __clang__
-#define YALIBCT_DIAGNOSTIC_IGNORE(option) _Pragma(YALIBCT_STRINGIFY(clang diagnostic ignored option))
+#define YALIBCT_DIAGNOSTIC_IGNORE(option) _Pragma(HEDLEY_STRINGIFY(clang diagnostic ignored option))
 #else
-#define YALIBCT_DIAGNOSTIC_IGNORE(option) _Pragma(YALIBCT_STRINGIFY(GCC diagnostic ignored option))
+#define YALIBCT_DIAGNOSTIC_IGNORE(option) _Pragma(HEDLEY_STRINGIFY(GCC diagnostic ignored option))
 #endif
+
+#if HEDLEY_GNUC_VERSION_CHECK(11, 0, 0)
+#define YALIBCT_ATTRIBUTE_MALLOC_WITH_ARGUMENTS(deallocator, pointer_index) __attribute__((__malloc__ ((deallocator), (pointer_index))))
+#else
+#define YALIBCT_ATTRIBUTE_MALLOC_WITH_ARGUMENTS(deallocator, pointer_index)
+#endif
+
+#define YALIBCT_ATTRIBUTE_DEALLOC_RESULT_WITH_FREE YALIBCT_ATTRIBUTE_MALLOC_WITH_ARGUMENTS(free, 1)
 
 #define YALIBCT_EXPRESSION_NO_WARNING(option, block) \
     HEDLEY_DIAGNOSTIC_PUSH;                                         \

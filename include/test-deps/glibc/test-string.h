@@ -23,12 +23,14 @@
 #include "test-lib/portable-symbols/__STRING.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <time.h>
 #include <string.h>
+#include <sys/mman.h>
 #include <errno.h>
 #include <stddef.h>
 #include <limits.h>
 #include <unistd.h>
-#include <sys/mman.h>
 
 #  define ITERATIONS iterations
 #ifndef BUF1PAGES
@@ -36,7 +38,7 @@
 #endif
 
 // You need to define an array called yalibct_glibc_string_impls of type impl_t and put all the implementations in it
-#define IMPL USE_IMPL_INITIALIZER_WITHIN_THE_ARRAY
+#define IMPL(a, b) USE_IMPL_INITIALIZER_WITHIN_THE_ARRAY
 
 #define IMPL_INITIALIZER(name, test) \
   /* impl_t tst_ ## name                                               \
@@ -90,7 +92,7 @@ test_init (void)
   if (mprotect (buf2 + page_size, page_size, PROT_NONE))
     error (EXIT_FAILURE, errno, "mprotect failed");
 
-#if 0
+#if 1
   int fdr = open ("/dev/urandom", O_RDONLY);
   if (fdr < 0 || read (fdr, &seed, sizeof (seed)) != sizeof (seed))
       seed = time (NULL);
@@ -101,10 +103,26 @@ test_init (void)
 
   if (do_srandom)
     {
-      printf ("Setting seed to 0x%x\n", seed);
+        //printf ("Setting seed to 0x%x\n", seed);
       srandom (seed);
     }
 
   memset (buf1, 0xa5, BUF1PAGES * page_size);
   memset (buf2, 0x5a, page_size);
 }
+
+enum
+  {
+    /* Test exit status which indicates that the feature is
+       unsupported. */
+    EXIT_UNSUPPORTED = 77,
+
+    /* Default timeout is twenty seconds.  Tests should normally
+       complete faster than this, but if they don't, that's abnormal
+       (a bug) anyways.  */
+    DEFAULT_TIMEOUT = 20,
+
+    /* Used for command line argument parsing.  */
+    OPT_DIRECT = 1000,
+    OPT_TESTDIR,
+  };

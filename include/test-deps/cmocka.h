@@ -18,6 +18,7 @@
 
 #pragma once
 
+#include "test-lib/hedley.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -620,13 +621,7 @@ static const ExceptionCodeInfo exception_codes[] = {
 # endif /* _WIN32 */
 #endif /* YALIBCT_LIBC_HAS_SIGNAL_H */
 
-#if defined(__GNUC__)
-#define CMOCKA_NORETURN __attribute__ ((noreturn))
-#elif defined(_MSC_VER)
-#define CMOCKA_NORETURN __declspec(noreturn)
-#else
-#define CMOCKA_NORETURN
-#endif
+#define CMOCKA_NORETURN HEDLEY_NO_RETURN
 
 #ifdef YALIBCT_LIBC_HAS_SIGNAL_H
 CMOCKA_NORETURN static void exception_handler(int sig) {

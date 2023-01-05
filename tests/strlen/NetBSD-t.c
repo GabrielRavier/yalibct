@@ -5,7 +5,7 @@
  * Public domain.
  */
 
-#include "test-deps/atf.h"
+#include "test-deps/atf-c.h"
 #include "test-lib/portable-symbols/strnlen.h"
 #include <string.h>
 #include <unistd.h>

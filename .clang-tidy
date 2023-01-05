@@ -6,7 +6,7 @@ Checks: "abseil-cleanup-ctad,abseil-duration-addition,abseil-duration-comparison
         abseil-string-find-startswith,abseil-string-find-str-contains,abseil-time-comparison,abseil-time-subtraction,abseil-upgrade-duration-conversions,altera-kernel-name-restriction,altera-single-work-item-barrier, \
         android-cloexec-accept,android-cloexec-accept4,android-cloexec-creat,android-cloexec-dup,android-cloexec-epoll-create,android-cloexec-epoll-create1,android-cloexec-inotify-init, \
         android-cloexec-inotify-init1,android-cloexec-memfd-create,android-cloexec-open,android-cloexec-pipe,android-cloexec-pipe2,android-cloexec-socket,android-comparison-in-temp-failure-retry,boost-use-to-string, \
-        bugprone-argument-comment,bugprone-assert-side-effect,bugprone-assignment-in-if-condition,bugprone-bad-signal-to-kill-thread,bugprone-bool-pointer-implicit-conversion,bugprone-branch-clone, \
+        bugprone-argument-comment,bugprone-assert-side-effect,bugprone-assignment-in-if-condition,bugprone-bad-signal-to-kill-thread,bugprone-bool-pointer-implicit-conversion, \
         bugprone-copy-constructor-init,bugprone-dangling-handle,bugprone-dynamic-static-initializers,bugprone-exception-escape,bugprone-fold-init-type, \
         bugprone-forward-declaration-namespace,bugprone-forwarding-reference-overload,bugprone-inaccurate-erase,bugprone-incorrect-roundings, \
         bugprone-infinite-loop,bugprone-integer-division,bugprone-lambda-function-name,bugprone-macro-repeated-side-effects,bugprone-misplaced-operator-in-strlen-in-alloc, \
@@ -32,7 +32,7 @@ Checks: "abseil-cleanup-ctad,abseil-duration-addition,abseil-duration-comparison
         clang-analyzer-osx.cocoa.SelfInit,clang-analyzer-osx.cocoa.SuperDealloc,clang-analyzer-osx.cocoa.UnusedIvars,clang-analyzer-osx.cocoa.VariadicMethodTypes,clang-analyzer-osx.coreFoundation.CFError, \
         clang-analyzer-osx.coreFoundation.CFNumber,clang-analyzer-osx.coreFoundation.CFRetainRelease,clang-analyzer-osx.coreFoundation.containers.OutOfBounds,clang-analyzer-osx.coreFoundation.containers.PointerSizedValues, \
         clang-analyzer-osx.MIG,clang-analyzer-osx.NumberObjectConversion,clang-analyzer-osx.ObjCProperty,clang-analyzer-osx.OSObjectRetainCount,clang-analyzer-osx.SecKeychainAPI,clang-analyzer-security.FloatLoopCounter, \
-        clang-analyzer-security.insecureAPI.bcopy,clang-analyzer-security.insecureAPI.bzero,clang-analyzer-security.insecureAPI.getpw,clang-analyzer-security.insecureAPI.gets, \
+        clang-analyzer-security.insecureAPI.bcopy,clang-analyzer-security.insecureAPI.getpw,clang-analyzer-security.insecureAPI.gets, \
         clang-analyzer-security.insecureAPI.mkstemp,clang-analyzer-security.insecureAPI.mktemp,clang-analyzer-security.insecureAPI.rand, \
         clang-analyzer-security.insecureAPI.UncheckedReturn,clang-analyzer-security.insecureAPI.vfork,clang-analyzer-unix.API,clang-analyzer-unix.cstring.BadSizeArg,clang-analyzer-unix.cstring.NullArg, \
         clang-analyzer-unix.Malloc,clang-analyzer-unix.MallocSizeof,clang-analyzer-unix.MismatchedDeallocator,clang-analyzer-unix.Vfork,clang-analyzer-valist.CopyToSelf,clang-analyzer-valist.Uninitialized, \
@@ -71,12 +71,12 @@ Checks: "abseil-cleanup-ctad,abseil-duration-addition,abseil-duration-comparison
         readability-redundant-control-flow,readability-redundant-function-ptr-dereference,readability-redundant-member-init,readability-redundant-preprocessor,readability-redundant-smartptr-get, \
         readability-redundant-string-cstr,readability-redundant-string-init,readability-simplify-boolean-expr,readability-simplify-subscript-expr,readability-static-accessed-through-instance, \
         readability-static-definition-in-anonymous-namespace,readability-string-compare,readability-suspicious-call-argument,readability-uniqueptr-delete-release, \
-        readability-use-anyofallof,security.FloatLoopCounter,security.insecureAPI.bcopy,security.insecureAPI.bzero,security.insecureAPI.getpw,security.insecureAPI.gets,security.insecureAPI.mkstemp, \
+        readability-use-anyofallof,security.FloatLoopCounter,security.insecureAPI.bcopy,security.insecureAPI.getpw,security.insecureAPI.gets,security.insecureAPI.mkstemp, \
         security.insecureAPI.mktemp,security.insecureAPI.rand,security.insecureAPI.UncheckedReturn,security.insecureAPI.vfork,unix.API,unix.cstring.BadSizeArg,unix.cstring.NullArg,unix.Malloc, \
         unix.MallocSizeof,unix.MismatchedDeallocator,unix.Vfork,zircon-temporary-objects, \
         \
         -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-clang-diagnostic-format,-clang-analyzer-security.insecureAPI.strcpy,-clang-diagnostic-format-extra-args,-clang-analyzer-security.insecureAPI.bcmp, \
-        -clang-analyzer-optin.performance.Padding"
+        -clang-analyzer-optin.performance.Padding,-clang-analyzer-security.insecureAPI.bzero"
 
 CheckOptions:
     - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
