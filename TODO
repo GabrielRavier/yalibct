@@ -1,5 +1,3 @@
-Get the project working on musl-clang
-
 Add /home/gravier/src/libraries/libc/implementations/libcmini/tests/strcmp/strcmp.c
 Add /home/gravier/src/libraries/libc/implementations/libcmini/tests/printf_formatting/printf_formatting.c
 
@@ -14,3 +12,7 @@ Also https://github.com/novafacing/libc-fuzzer
 All the rest of the stuff from PDP7 and anything afterwards
 
 See also https://code.google.com/archive/p/regfuzz when we get to regex
+
+
+
+See later if we can get the project working on musl-clang once it doesn't randomly error out anymore (would be nice if it didn't give me 300 warnings before then too - they seem unrelated to the root issue that musl-clang somehow doesn't know about x86intrin.h even though it effectively advertises support for it...)
