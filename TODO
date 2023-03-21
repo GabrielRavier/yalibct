@@ -1,0 +1,16 @@
+Get the project working on musl-clang
+
+Add /home/gravier/src/libraries/libc/implementations/libcmini/tests/strcmp/strcmp.c
+Add /home/gravier/src/libraries/libc/implementations/libcmini/tests/printf_formatting/printf_formatting.c
+
+Fuzzing stuff from all the previously done functions:
+/home/gravier/src/programs/programming-tools/compilers/llvm-project/libc/fuzzing/string/strcmp_fuzz.cpp
+(yes there isn't anything else, surprising tbh)
+(how tf am I gonna implement -fsanitize=fuzzer portably lmao)
+
+Look at https://sourceware.org/glibc/wiki/FuzzingLibc
+Also https://github.com/novafacing/libc-fuzzer
+
+All the rest of the stuff from PDP7 and anything afterwards
+
+See also https://code.google.com/archive/p/regfuzz when we get to regex

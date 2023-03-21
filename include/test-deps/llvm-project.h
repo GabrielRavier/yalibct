@@ -10,8 +10,13 @@
 #define TEST(a, b) static void a ## b()
 #define constexpr
 #define __llvm_libc
-#define EXPECT_EQ(a, b) assert((a) == (b))
-#define EXPECT_NE(a, b) assert((a) != (b))
+#define EXPECT_EQ(LHS, RHS) assert((LHS) == (RHS))
+#define EXPECT_STREQ(LHS, RHS) assert(strcmp((LHS), (RHS)) == 0)
+#define EXPECT_NE(LHS, RHS) assert((LHS) != (RHS))
 #define static_cast
-#define ASSERT_EQ(LHS, RHS) EXPECT_EQ((LHS), (RHS))
-#define ASSERT_STREQ(LHS, RHS) assert(strcmp((LHS), (RHS)) == 0)
+#define ASSERT_EQ EXPECT_EQ
+#define ASSERT_STREQ EXPECT_STREQ
+#define ASSERT_LT EXPECT_LT
+#define ASSERT_GT EXPECT_GT
+#define EXPECT_LT(LHS, RHS) assert((LHS) < (RHS))
+#define EXPECT_GT(LHS, RHS) assert((LHS) > (RHS))
