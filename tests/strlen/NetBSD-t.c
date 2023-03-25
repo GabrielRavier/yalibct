@@ -13,9 +13,7 @@
 #include <stdlib.h>
 #include <dlfcn.h>
 
-#ifndef __clang__
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overread")
-#endif
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
 
 static void	write_num(int);
 

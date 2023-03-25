@@ -46,14 +46,14 @@
 #define ATF_REQUIRE_STREQ(x, y) \
     ATF_REQUIRE_MSG(strcmp(x, y) == 0, "%s != %s (%s != %s)", #x, #y, x, y)
 #define ATF_CHECK_STREQ ATF_REQUIRE_STREQ
-#define ATF_TP_ADD_TCS(idk) static int yalibct_atf_tp_add_tcs_run_tests(); int main() { yalibct_chdir_to_tmpdir(); yalibct_atf_tp_add_tcs_run_tests(); } static int yalibct_atf_tp_add_tcs_run_tests()
+#define ATF_TP_ADD_TCS(idk) static int yalibct_atf_tp_add_tcs_run_tests(); int main() { yalibct_chdir_to_tmpdir(); yalibct_atf_tp_add_tcs_run_tests(); yalibct_chdir_to_tmpdir_remove_tmpdir(); } static int yalibct_atf_tp_add_tcs_run_tests()
 #define ATF_TP_ADD_TC(idk, test_name) test_name ## _head (); test_name ## _body();
 #define ATF_TP_ADD_TC_NO_HEAD(idk, test_name) test_name ## _body();
 #define atf_no_error() 0
 #define ATF_CHECK_MSG(expr, ...) YALIBCT_ASSERT_WITH_MESSAGE(expr, __VA_ARGS__)
 #define ATF_REQUIRE_MSG ATF_CHECK_MSG
 #define ATF_TC_WITHOUT_HEAD(test_name)
-#define atf_tc_fail(...) yalibct_print_failed_assertion("", "", 0, "", __VA_ARGS__)
+#define atf_tc_fail(...) yalibct_internal_assert_with_message_print_failed_assertion("", "", 0, "", __VA_ARGS__)
 #define __arraycount(__x)       (sizeof(__x) / sizeof(__x[0]))
 
 static inline bool

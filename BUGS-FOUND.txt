@@ -1,7 +1,7 @@
-I have filed the following bug reports/patches while working on this testsuite:
+I have filed the following bug reports/patches as a result of working on this testsuite:
 
-total: 23
-fixed/merged: 9
+total: 41
+fixed/merged: 12
 
 glibc (1 filed, 0 fixed):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
@@ -11,7 +11,7 @@ musl (3 filed, 0 fixed):
 - https://www.openwall.com/lists/musl/2022/09/06/10 (not yet fixed)
 - https://www.openwall.com/lists/musl/2023/01/04/1 (not yet merged)
 
-dietlibc (19 filed, 9 fixed) (note: the mailing list does not have an archive, so the links can't lead there...):
+dietlibc (21 filed, 11 fixed) (note: dietlibc's mailing list does not have an archive, so the links can't lead there...):
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-HUGE_VALL-and-INFINITY-both-from-C99-and-requi.patch (not yet merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-j-z-and-t-support-to-scanf.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-t-conversion-specifier-to-printf.patch (merged)
@@ -29,5 +29,27 @@ dietlibc (19 filed, 9 fixed) (note: the mailing list does not have an archive, s
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fixed-printf-not-ignoring-the-0-flag-when-the-flag-i.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fixed-printf-not-taking-printed-characters-into-acco.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-memchr-is-broken-with-large-sizes (not yet fixed)
-- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fix-return-value-of-wcs-n-cmp-for-near-limits-signed.patch (not yet merged)
-- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-strcasecmp-on-negative-and-close-to-limits-numbe.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fix-return-value-of-wcs-n-cmp-for-near-limits-signed.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-strcasecmp-on-negative-and-close-to-limits-numbe.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-fputc-sometimes-calls-pthread-version-when-unappropriate (not yet fixed)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-printing-alternative-form-hex-0-in-printf-family.patch (not yet merged)
+
+nanoprintf (1 filed, 1 fixed):
+- https://github.com/charlesnicholson/nanoprintf/issues/244 (fixed)
+
+cosmopolitan (15 filed, 0 fixed):
+- https://github.com/jart/cosmopolitan/issues/771 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/772 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/773 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/774 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/775 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/776 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/777 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/778 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/779 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/780 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/781 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/782 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/783 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/784 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/785 (not yet fixed)

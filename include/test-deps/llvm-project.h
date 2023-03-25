@@ -5,7 +5,11 @@
 
 #pragma once
 
+#include "test-lib/chdir-to-tmpdir.h"
+#include <unistd.h>
+#include <sys/stat.h>
 #include <assert.h>
+#include <errno.h>
 
 #define TEST(a, b) static void a ## b()
 #define constexpr
@@ -20,3 +24,21 @@
 #define ASSERT_GT EXPECT_GT
 #define EXPECT_LT(LHS, RHS) assert((LHS) < (RHS))
 #define EXPECT_GT(LHS, RHS) assert((LHS) > (RHS))
+
+static inline void yalibct_llvm_project_chdir_to_tmpdir_and_create_testdata_dir()
+{
+    yalibct_chdir_to_tmpdir();
+
+    errno = 0;
+    assert(mkdir("testdata", 0700) == 0);
+    assert(errno == 0);
+}
+
+static inline void yalibct_llvm_project_chdir_to_tmpdir_remove_testdata_dir_and_tmpdir()
+{
+    errno = 0;
+    assert(rmdir("testdata") == 0);
+    assert(errno == 0);
+
+    yalibct_chdir_to_tmpdir_remove_tmpdir();
+}

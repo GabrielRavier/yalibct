@@ -65,8 +65,13 @@ DEFINE_EXPECT(invalid_parameter_handler);
 
 static inline float __port_ind(void)
 {
-    static const unsigned __ind_bytes = 0xffc00000;
-    return *(const float *)&__ind_bytes;
+    static const uint32_t __ind_bytes = 0xffc00000;
+    // breaks strict aliasing rules
+    //return *(const float *)&__ind_bytes;
+
+    float result;
+    memcpy(&result, &__ind_bytes, sizeof(float));
+    return result;
 }
 #define IND __port_ind()
 

@@ -218,7 +218,7 @@ ATF_TC_BODY(infinities_and_nans, tc)
 #endif
 	testfmt("NAN", "%F", NAN);
 	testfmt("nan", "%g", NAN);
-#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_CONVERSION_SPECIFIER_TESTS) && !defined(YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS)
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS) && !defined(YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS)
 	testfmt("NAN", "%LE", (long double)NAN);
 #endif
 #ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
@@ -407,14 +407,18 @@ ATF_TC_BODY(decimal_rounding, tc)
 	fesetround(FE_DOWNWARD);
 	testfmt("4.437", "%.3f", 4.4375);
 	testfmt("-4.438", "%.3f", -4.4375);
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
 	testfmt("4.437", "%.3Lf", 4.4375L);
 	testfmt("-4.438", "%.3Lf", -4.4375L);
+#endif
 
 	fesetround(FE_UPWARD);
 	testfmt("4.438", "%.3f", 4.4375);
 	testfmt("-4.437", "%.3f", -4.4375);
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
 	testfmt("4.438", "%.3Lf", 4.4375L);
 	testfmt("-4.437", "%.3Lf", -4.4375L);
+#endif
 
 	fesetround(FE_TOWARDZERO);
 #endif
@@ -429,8 +433,10 @@ ATF_TC_BODY(decimal_rounding, tc)
 	fesetround(FE_TONEAREST);
 	testfmt("4.438", "%.3f", 4.4375);
 	testfmt("-4.438", "%.3f", -4.4375);
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
 	testfmt("4.438", "%.3Lf", 4.4375L);
 	testfmt("-4.438", "%.3Lf", -4.4375L);
+#endif
 #endif
 }
 

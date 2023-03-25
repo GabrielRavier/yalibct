@@ -36,14 +36,20 @@
 #include <string.h>
 #include <wchar.h>
 #include <unistd.h>
+#include <stdint.h>
 
 YALIBCT_DIAGNOSTIC_IGNORE("-Wcomment")
 YALIBCT_DIAGNOSTIC_IGNORE("-Wformat-security")
 
 static inline float __port_ind(void)
 {
-    static const unsigned __ind_bytes = 0xffc00000;
-    return *(const float *)&__ind_bytes;
+    static const uint32_t __ind_bytes = 0xffc00000;
+    // breaks strict aliasing rules
+    //return *(const float *)&__ind_bytes;
+
+    float result;
+    memcpy(&result, &__ind_bytes, sizeof(float));
+    return result;
 }
 #define IND __port_ind()
 
@@ -360,6 +366,7 @@ static void test_sprintf( void )
     ok(!strcmp(buffer,"00000000"), "Hexadecimal zero-padded precision \"%s\"\n",buffer);
     ok( r==8, "return count wrong\n");
 
+#ifndef YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS
     format = "%#-08.2x";
     r = p_sprintf(buffer,format,1);
     ok(!strcmp(buffer,"0x01    "), "Hexadecimal zero-padded not left-adjusted \"%s\"\n",buffer);
@@ -368,6 +375,7 @@ static void test_sprintf( void )
     r = p_sprintf(buffer,format,0);
     ok(!strcmp(buffer,"00      "), "Hexadecimal zero-padded not left-adjusted \"%s\"\n",buffer);
     ok( r==8, "return count wrong\n");
+#endif
 
     format = "%#.0x";
     r = p_sprintf(buffer,format,1);
@@ -925,6 +933,7 @@ static void test_fprintf(void)
     checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
+#ifndef YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS
     ret = fscanf(fp, "%[^\n] ", buf);
     ok(ret == 1, "ret = %d\n", ret);
     ret = ftell(fp);
@@ -943,6 +952,7 @@ static void test_fprintf(void)
     ok(ret == 34, "ret =  %d\n", ret);
     ok(!memcmp(buf, "unicode\n", sizeof("unicode\n")),
             "buf = %ls\n", ((WCHAR*)buf));
+#endif
 #endif
 
     checked_fclose(fp);
@@ -972,6 +982,7 @@ static void test_fprintf(void)
 
     checked_fclose(fp);
 
+#ifndef YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS
     fp = fopen(file_name, "rb");
     ret = fscanf(fp, "%[^\n] ", buf);
     ok(ret == 1, "ret = %d\n", ret);
@@ -989,6 +1000,7 @@ static void test_fprintf(void)
     ret = ftell(fp);
     ok(ret == 37 || ret == 34, "ret =  %d\n", ret);
     ok(!strcmp(buf, "unicode\r\n") || !strcmp(buf, "unicode\n"), "buf = %s\n", buf);
+#endif
 #endif
 
     checked_fclose(fp);
@@ -1608,4 +1620,6 @@ START_TEST(printf)
     test_vsnwprintf_s();
     test_vsprintf_p();
     test__get_output_format();
+
+    yalibct_chdir_to_tmpdir_remove_tmpdir();
 }

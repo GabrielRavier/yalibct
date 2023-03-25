@@ -92,7 +92,7 @@ VASNPRINTF (DCHAR_T *resultbuf, size_t *lengthp,
        sprintf or snprintf.  */
     buf_neededlength =
       xsum4 (7, d.max_width_length, d.max_precision_length, 6);
-#if YALIBCT_LIBC_HAS_ALLOCA
+#ifdef YALIBCT_LIBC_HAS_ALLOCA
     if (buf_neededlength < 4000 / sizeof (TCHAR_T))
       {
         buf = (TCHAR_T *) alloca (buf_neededlength * sizeof (TCHAR_T));

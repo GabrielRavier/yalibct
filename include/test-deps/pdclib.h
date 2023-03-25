@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
@@ -29,7 +30,13 @@
     {                                                                   \
         fprintf( stderr, "GET_RESULT failed." );                        \
     }
-#define RESULT_MISMATCH( act, exp ) strcmp( result_buffer, exp ) != 0
+
+// Sadly old versions of GCC are very bad at handling any potential NULL values with the subsequent macros and give out completely wrong warnings here so we have to suppress it
+#if !HEDLEY_GNUC_VERSION_CHECK(9, 3, 0)
+YALIBCT_DIAGNOSTIC_IGNORE("-Wnonnull")
+#endif
+
+#define RESULT_MISMATCH( act, exp ) (strcmp( result_buffer, exp ) != 0)
 #define RESULT_STRING( tgt ) result_buffer
 
 

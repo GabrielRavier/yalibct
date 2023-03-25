@@ -6,9 +6,11 @@
 #include <string.h>
 #include <time.h>
 
-#define SIZE 256
-#define ITERATIONS 1000
-#define ITERATIONS_BENCH 100000
+enum {
+    SIZE = 256,
+    ITERATIONS = 1000,
+    ITERATIONS_BENCH = 100000,
+};
 
 static inline size_t test_strlen(const char *s)
 {
@@ -28,8 +30,8 @@ static void test_one(char *s)
 		int x, y;
 		unsigned long i;
 
-		y = strlen(s + offset);
 		x = test_strlen(s + offset);
+		y = strlen(s + offset);
 
 		if (x != y) {
 			printf("strlen() returned %d, should have returned %d (%p offset %ld)\n", x, y, s, offset);
@@ -61,7 +63,7 @@ static int testcase(void)
 	char *s;
 	unsigned long i;
 
-	s = alignalloc(128, SIZE);
+	s = alignalloc(128, SIZE + 1);
 	if (!s) {
 		perror("memalign");
 		exit(1);
@@ -69,7 +71,7 @@ static int testcase(void)
 
 	srandom(1);
 
-	memset(s, 0, SIZE);
+	memset(s, 0, SIZE + 1);
 	for (i = 0; i < SIZE; i++) {
 		char c;
 

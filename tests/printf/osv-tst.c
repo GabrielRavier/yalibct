@@ -20,9 +20,8 @@
 
 #ifdef __clang__
 YALIBCT_DIAGNOSTIC_IGNORE("-Wfortify-source")
-#else
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overflow")
 #endif
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERFLOW
 
 static int tests = 0, fails = 0;
 

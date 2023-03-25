@@ -24,11 +24,11 @@
 #else
 
 #include "test-lib/portable-symbols/getprogname.h"
+#include "test-lib/portable-symbols/gettext.h"
 #include "test-lib/hedley.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libintl.h>
 #include <fcntl.h>
 #include <stdarg.h>
 

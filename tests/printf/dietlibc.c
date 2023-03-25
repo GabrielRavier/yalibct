@@ -1,4 +1,5 @@
 #include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/MIN.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -7,10 +8,8 @@
 #include <locale.h>
 #include <stdint.h>
 
-#ifndef __clang__
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overread")
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overflow")
-#endif
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERFLOW
 
 #define ALGN		5
 

@@ -24,8 +24,8 @@
 #else
 
 #include "test-lib/portable-symbols/error.h"
+#include "test-lib/portable-symbols/gettext.h"
 #include <stdlib.h>
-#include <libintl.h>
 
 static inline void
 xalloc_die (void)

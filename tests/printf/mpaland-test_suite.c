@@ -221,8 +221,10 @@ TEST_CASE(plus_flag, "[]" ) {
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%+15d", -42);
   REQUIRE(!strcmp(buffer, "            -42"));
 
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%+s", "Hello testing");
   REQUIRE(!strcmp(buffer, "Hello testing"));
+#endif
 
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%+d", 1024);
   REQUIRE(!strcmp(buffer, "+1024"));
@@ -260,8 +262,10 @@ TEST_CASE(plus_flag, "[]" ) {
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%+X", 3989525555U);
   REQUIRE(!strcmp(buffer, "EDCB5433"));
 
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_CONVERSION_SPECIFIER_TESTS
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%+c", 'x');
   REQUIRE(!strcmp(buffer, "x"));
+#endif
 
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%+.0d", 0);
   REQUIRE(!strcmp(buffer, "+"));
@@ -391,7 +395,7 @@ TEST_CASE(hash_flag, "[]" ) {
   REQUIRE(!strcmp(buffer, ""));
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%#.8x", 0x614e);
   REQUIRE(!strcmp(buffer, "0x0000614e"));
-#ifndef YALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS
+#ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_B_CONVERSION_SPECIFIER_TESTS
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer,"%#b", 6);
   REQUIRE(!strcmp(buffer, "0b110"));
 #endif
@@ -822,11 +826,13 @@ TEST_CASE(padding_hash_020, "[]" ) {
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%#020x", 3989525555U);
   REQUIRE(!strcmp(buffer, "0x0000000000edcb5433"));
 
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%#020X", 305441741);
   REQUIRE(!strcmp(buffer, "0X00000000001234ABCD"));
 
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%#020X", 3989525555U);
   REQUIRE(!strcmp(buffer, "0X0000000000EDCB5433"));
+#endif
 #endif
 }
 
@@ -865,11 +871,13 @@ TEST_CASE(padding_hash_20, "[]" ) {
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%#20x", 3989525555U);
   REQUIRE(!strcmp(buffer, "          0xedcb5433"));
 
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%#20X", 305441741);
   REQUIRE(!strcmp(buffer, "          0X1234ABCD"));
 
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%#20X", 3989525555U);
   REQUIRE(!strcmp(buffer, "          0XEDCB5433"));
+#endif
 #endif
 }
 
@@ -1327,7 +1335,7 @@ TEST_CASE(types, "[]" ) {
     REQUIRE(!strcmp(buffer, "-2147483647"));
   }
 
-#ifndef YALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS
+#ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_B_CONVERSION_SPECIFIER_TESTS
   ASSERT_STRLEN_EQ_BUFFER_sprintf(buffer, "%b", 60000);
   REQUIRE(!strcmp(buffer, "1110101001100000"));
 

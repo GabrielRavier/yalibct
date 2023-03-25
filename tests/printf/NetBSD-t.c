@@ -50,7 +50,7 @@ ATF_TC_BODY(snprintf_c99, tc)
 	char s[4];
 
 	(void)memset(s, '\0', sizeof(s));
-#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
+#if !defined(YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS) && !defined(YALIBCT_DISABLE_PRINTF_PRECISION_TESTS)
 	assert(snprintf(s, sizeof(s), "%#.o", 0) == strlen(s));
 	(void)printf("printf = %#.o\n", 0);
 	(void)fprintf(stderr, "snprintf = %s", s);
@@ -190,9 +190,9 @@ ATF_TP_ADD_TCS(tp)
 	struct rlimit rl;
 
 #ifndef __SANITIZE_ADDRESS__
-	rl.rlim_cur = rl.rlim_max = 1;
+	rl.rlim_cur = rl.rlim_max = 8 * 1024 * 1024;
 	ATF_CHECK(setrlimit(RLIMIT_AS, &rl) != -1);
-	rl.rlim_cur = rl.rlim_max = 1;
+	rl.rlim_cur = rl.rlim_max = 8 * 1024 * 1024;
 	ATF_CHECK(setrlimit(RLIMIT_DATA, &rl) != -1);
 #endif
 

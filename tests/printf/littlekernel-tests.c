@@ -56,7 +56,7 @@ void printf_tests(void) {
     printf("usize_t: %zx %zx %zx\n", (size_t)-12345678, (size_t)0, (size_t)12345678);
 
     printf("alt/sign:\n");
-#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
+#if !defined(YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS) && !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS)
     printf("uint: %#x %#X\n", 0xabcdef, 0xabcdef);
 #else
     puts("uint: 0xabcdef 0XABCDEF");

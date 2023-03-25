@@ -5,9 +5,7 @@
 #include "test-lib/compiler-features.h"
 #include "gcc-opt.h"
 
-#ifndef __clang__
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overread")
-#endif
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
 
 #define NOIPA   YALIBCT_ATTRIBUTE_NOIPA
 

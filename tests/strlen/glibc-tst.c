@@ -12,10 +12,8 @@
 YALIBCT_DIAGNOSTIC_IGNORE("-Wformat-invalid-specifier")
 #endif
 YALIBCT_DIAGNOSTIC_IGNORE("-Wformat-extra-args")
-#ifndef __clang__
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overread")
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overflow")
-#endif
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERFLOW
 
 int
 do_test (void)

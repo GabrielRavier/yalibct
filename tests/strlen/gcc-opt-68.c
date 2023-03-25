@@ -33,7 +33,9 @@ equal_4_gs0_gs3_ga5_m1 (int i)
   strcpy (ga5, "1234");
   const char *p = i < 0 ? gs0 : 0 < i ? gs3 : ga5;
 
+#ifndef YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS
   A (snprintf (0, 0, "%s", p) == 0);
+#endif
 }
 
 YALIBCT_ATTRIBUTE_NOCLONE __attribute__ ((noinline)) YALIBCT_ATTRIBUTE_NOIPA void
@@ -61,7 +63,9 @@ equal_4_gs0_ga5_gs3_m1 (int i)
   strcpy (ga5, "1234");
   const char *p = i < 0 ? gs0 : 0 < i ? ga5 : gs3;
 
+#ifndef YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS
   A (snprintf (0, 0, "%s", p) == 0);
+#endif
 }
 
 YALIBCT_ATTRIBUTE_NOCLONE __attribute__ ((noinline)) YALIBCT_ATTRIBUTE_NOIPA void
@@ -107,7 +111,9 @@ equal_4_ga5_gs0_gs3_p1 (int i)
   strcpy (ga5, "1234");
   const char *p = i < 0 ? ga5 : 0 < i ? gs0 : gs3;
 
+#ifndef YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS
   A (snprintf (0, 0, "%s", p) == 0);
+#endif
 }
 
 
@@ -126,7 +132,9 @@ equal_4_ga5_gs3_gs0_0 (int i)
   strcpy (ga5, "1234");
   const char *p = i < 0 ? ga5 : 0 < i ? gs3 : gs0;
 
+#ifndef YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS
   A (snprintf (0, 0, "%s", p) == 0);
+#endif
 }
 
 YALIBCT_ATTRIBUTE_NOCLONE __attribute__ ((noinline)) YALIBCT_ATTRIBUTE_NOIPA void
@@ -163,7 +171,9 @@ equal_4_gs3_gs0_ga5_p1 (int i)
   strcpy (ga5, "1234");
   const char *p = i < 0 ? gs3 : 0 < i ? gs0 : ga5;
 
+#ifndef YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS
   A (snprintf (0, 0, "%s", p) == 0);
+#endif
 }
 
 
@@ -177,7 +187,9 @@ min_4_gc_gs3_ga5_m1 (int i)
   memcpy (ga5, "1234", 4);
   const char *p = i < 0 ? &gc : 0 < i ? gs3 : ga5;
 
+#ifndef YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS
   A (snprintf (0, 0, "%s", p) == 0);
+#endif
 }
 
 YALIBCT_ATTRIBUTE_NOCLONE __attribute__ ((noinline)) YALIBCT_ATTRIBUTE_NOIPA void
@@ -208,7 +220,9 @@ min_4_gc_ga5_gs3_m1 (int i)
   memcpy (ga5, "1234", 4);
   const char *p = i < 0 ? &gc : 0 < i ? ga5 : gs3;
 
+#ifndef YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS
   A (snprintf (0, 0, "%s", p) == 0);
+#endif
 }
 
 YALIBCT_ATTRIBUTE_NOCLONE __attribute__ ((noinline)) YALIBCT_ATTRIBUTE_NOIPA void
@@ -259,7 +273,9 @@ min_4_ga5_gc_gs3_p1 (int i)
   memcpy (ga5, "1234", 4);
   const char *p = i < 0 ? ga5 : 0 < i ? &gc : gs3;
 
+#ifndef YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS
   A (snprintf (0, 0, "%s", p) == 0);
+#endif
 }
 
 
@@ -280,7 +296,9 @@ min_4_ga5_gs3_gc_0 (int i)
   memcpy (ga5, "1234", 4);
   const char *p = i < 0 ? ga5 : 0 < i ? gs3 : &gc;
 
+#ifndef YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS
   A (snprintf (0, 0, "%s", p) == 0);
+#endif
 }
 
 YALIBCT_ATTRIBUTE_NOCLONE __attribute__ ((noinline)) YALIBCT_ATTRIBUTE_NOIPA void
@@ -321,7 +339,9 @@ min_4_gs3_gc_ga5_p1 (int i)
   memcpy (ga5, "1234", 4);
   const char *p = i < 0 ? gs3 : 0 < i ? &gc : ga5;
 
+#ifndef YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS
   A (snprintf (0, 0, "%s", p) == 0);
+#endif
 }
 
 

@@ -143,6 +143,8 @@ ATF_TC_BODY(fprintf__simple_string, tc)
 	 * temporary files we created in this test.  Kyua takes care of
 	 * this cleanup automatically and tests can (and should) rely on
 	 * this behavior. */
+        // Note: comment is wrong in the context of yalibct - we do need to remove the files ourselves
+        ATF_REQUIRE(remove("test.txt") == 0);
 }
 
 /*

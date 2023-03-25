@@ -11,7 +11,7 @@ size_t b;
 __attribute__((noinline)) YALIBCT_ATTRIBUTE_NOCLONE char *
 foo (void)
 {
-  char *p = memcpy (a, "a", 2) + 1;
+  char *p = (char *)memcpy (a, "a", 2) + 1;
   memcpy (&a[1], "b", 2);
   b = strlen (a) + strlen (&a[1]) + strlen (p);
   return p;

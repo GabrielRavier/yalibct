@@ -10,29 +10,37 @@ option(YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT "If this is set to ON, then non
 
 option(YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the C89 standard will be run by default" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C89_SYMBOLS "Whether or not we should error when we're told a C89 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %c will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_PRECISION_TESTS "Whether or not tests that depend on the printf family of functions supporting %.<num> will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %0 will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %f will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_N_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %n will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %# will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %L will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %g/%G will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %e/%E will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_H_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %h will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %c will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_PRECISION_TESTS "Whether or not tests that depend on the printf family of functions supporting %.<num> will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %0 will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %f will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_N_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %n will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %# will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %L will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %g/%G will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %e/%E will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_H_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %h will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %X will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS "Whether or not tests that depend on the scanf family of functions supporting %- will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %+s will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %+c will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_FIELD_LENGTH_ON_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %*s will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %s will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %f will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_SCANF_LOWERCASE_X_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %x will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %[ will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 
 option(YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the C95 standard will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C95_SYMBOLS "Whether or not we should error when we're told a C95 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %lc will be run by default" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %ls will be run by default" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %lc will be run" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %ls will be run" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
 
 option(YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the C99 standard will be run by default" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C99_SYMBOLS "Whether or not we should error when we're told a C99 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %a/%A will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_T_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %t will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_HH_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %hh will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_SCANF_J_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %j will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %a/%A will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_T_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %t will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_HH_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %hh will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_SCANF_J_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %j will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_Z_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %z will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_T_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %t will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_P_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %p will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
@@ -42,15 +50,17 @@ option(YALIBCT_DISABLE_MANDATING_C11_SYMBOLS "Whether or not we should error whe
 
 option(YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the upcoming C23 standard will be run by default" ${YALIBCT_DISABLE_C11_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C23_SYMBOLS "Whether or not we should error when we're told a C23 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %b/%B will be run by default" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_LOWERCASE_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %b will be run by default" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_UPPERCASE_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %B will be run by default" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
 
 option(YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the POSIX standard will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS "Whether or not we should error when we're told a POSIX symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_APOSTROPHE_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %' will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %C will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %S will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS "Whether or not tests that depend on the printf family of functions supporting numbered argument conversion specifications (i.e. %n$) will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS "Whether or not tests that depend on the printf family of functions supporting numbered argument conversion specifications (i.e. %n$) will be run" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_ERRNO_TESTS "Whether or not tests that depend on the printf family of functions properly setting errno will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_SCANF_NUMBERED_ARGUMENTS_TESTS "Whether or not tests that depend on the printf family of functions supporting numbered argument conversion specifications (i.e. %n$) will be run" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 
 # Misc tests that aren't part of any standard but are commonly supported
 option(YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS "Whether or not tests that depend on any locales that aren't defined by the standard that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
@@ -62,6 +72,7 @@ include(CheckIncludeFile)
 include(CheckSymbolExists)
 include(CheckLinkerFlag)
 include(CheckCSourceCompiles)
+include(CheckCSourceRuns)
 
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
@@ -200,10 +211,18 @@ function(yalibct_check_source_compiles code result_variable)
 
 endfunction()
 
+function(yalibct_check_source_runs code result_variable)
+
+  check_c_source_runs("${code}" ${result_variable})
+  yalibct_append_macro_to_compiler_flags(${result_variable})
+
+endfunction()
+
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_LC_NUMERIC_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_RARE_LOCALE_TESTS)
-yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_LOWERCASE_B_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_UPPERCASE_B_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
@@ -230,12 +249,22 @@ yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_T_LENGTH_MODIFIER_T
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_P_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_ERRNO_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_H_LENGTH_MODIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_NUMBERED_ARGUMENTS_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_LOWERCASE_X_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_FIELD_LENGTH_ON_S_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS)
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 yalibct_check_include_file(obstack.h YALIBCT_LIBC_HAS_OBSTACK_H)
 yalibct_check_include_file(sys/cdefs.h YALIBCT_LIBC_HAS_SYS_CDEFS_H)
 yalibct_check_include_file(signal.h YALIBCT_LIBC_HAS_SIGNAL_H)
 yalibct_check_include_file(sys/mman.h YALIBCT_LIBC_HAS_SYS_MMAN_H)
+yalibct_check_include_file(nanoprintf.h YALIBCT_HAS_SYSTEM_NANOPRINTF_H)
 
 yalibct_check_libc_symbol(vstrdupf string.h YALIBCT_LIBC_HAS_VSTRDUPF)
 yalibct_check_libc_symbol(memchr_inv string.h YALIBCT_LIBC_HAS_MEMCHR_INV)
@@ -303,6 +332,12 @@ yalibct_check_c95_libc_symbol(wcscmp wchar.h YALIBCT_LIBC_HAS_WCSCMP)
 yalibct_check_posix_libc_symbol(open_memstream stdio.h YALIBCT_LIBC_HAS_OPEN_MEMSTREAM)
 yalibct_check_posix_libc_symbol(wcscasecmp wchar.h YALIBCT_LIBC_HAS_WCSCASECMP)
 yalibct_check_posix_libc_symbol(strcasecmp strings.h YALIBCT_LIBC_HAS_STRCASECMP)
+yalibct_check_libc_symbol(last_component basename-lgpl.h YALIBCT_LIBC_HAS_LAST_COMPONENT)
+yalibct_check_libc_symbol(gettext libintl.h YALIBCT_LIBC_HAS_GETTEXT)
+yalibct_check_c89_libc_symbol(tmpnam stdio.h YALIBCT_LIBC_HAS_TMPNAM)
+yalibct_check_libc_symbol(MIN "sys/param.h" YALIBCT_LIBC_HAS_MIN)
+yalibct_check_c99_libc_symbol(SCNdFAST16 inttypes.h YALIBCT_LIBC_HAS_SCNDFAST16)
+yalibct_check_c89_libc_symbol(fgetc stdio.h YALIBCT_LIBC_HAS_FGETC)
 
 yalibct_check_source_compiles(
   "
@@ -319,8 +354,40 @@ typedef int check[sizeof (long double) == sizeof (double)
                               && LDBL_MAX_EXP == DBL_MAX_EXP
                               && LDBL_MIN_EXP == DBL_MIN_EXP
                               ? 1 : -1];
+
+int main(){}
   "
-  YALIBCT_LIBC_HAS_SAME_LONG_DOUBLE_AS_DOUBLE)
+  YALIBCT_LIBC_HAS_SAME_LONG_DOUBLE_AS_DOUBLE
+)
+yalibct_check_source_compiles(
+  "
+#include <stddef.h>
+void *__memcpy_chk(void *dest, const void *src, size_t len, size_t destlen);
+void *memcpy_chk_ptr = __memcpy_chk;
+
+int main(){return !memcpy_chk_ptr;}
+  "
+  YALIBCT_LIBC_HAS___MEMCPY_CHK
+)
+yalibct_check_source_compiles(
+  "
+#include <signal.h>
+int check[] = {
+  SIGABRT,
+  SIGFPE,
+  SIGILL,
+  SIGINT,
+  SIGSEGV,
+  SIGTERM,
+#ifdef SIGBUS
+  SIGBUS,
+#endif
+ };
+
+int main(){}
+  "
+  YALIBCT_LIBC_HAS_ACTUALLY_CONSTANT_SIGNAL_CONSTANTS
+)
 
 yalibct_make_executable(libc-starts-up tests/libc-starts-up.c)
 
@@ -402,6 +469,11 @@ yalibct_make_executable(printf-gnulib-vsn-zerosize-c99 tests/printf/gnulib-vsn-z
 yalibct_make_executable(printf-mpaland-test_suite tests/printf/mpaland-test_suite.c)
 yalibct_make_executable(printf-duktape-test tests/printf/duktape-test.c)
 yalibct_make_executable(printf-cosmopolitan-kprintf_test tests/printf/cosmopolitan-kprintf_test.c)
+yalibct_make_executable(printf-libcmini_formatting-1 tests/printf/libcmini_formatting-1.c)
+yalibct_make_executable(printf-libcmini_formatting-2 tests/printf/libcmini_formatting-2.c)
+yalibct_make_executable(printf-libcmini_formatting-3 tests/printf/libcmini_formatting-3.c)
+yalibct_make_executable(printf-libcmini_formatting-4 tests/printf/libcmini_formatting-4.c)
+yalibct_make_executable(printf-libcmini_formatting-5 tests/printf/libcmini_formatting-5.c)
 
 yalibct_make_executable(strcat-NetBSD-t tests/strcat/NetBSD-t.c)
 yalibct_make_executable(strcat-llvm-project-test tests/strcat/llvm-project-test.c)
@@ -541,3 +613,8 @@ yalibct_make_executable(strcmp-avr-libc tests/strcmp/avr-libc.c)
 yalibct_make_executable(strcmp-arm-optimized-routines tests/strcmp/arm-optimized-routines.c)
 yalibct_make_executable(strcmp-embeddedartistry-libc tests/strcmp/embeddedartistry-libc.c)
 yalibct_make_executable(strcmp-pdclib tests/strcmp/pdclib.c)
+yalibct_make_executable(strcmp-libcmini tests/strcmp/libcmini.c)
+yalibct_make_executable(strcmp-llvm-project_fuzz tests/strcmp/llvm-project_fuzz.c)
+yalibct_make_executable(strcmp-compilerai-bug-reports-dietlibc_fast_correct tests/strcmp/compilerai-bug-reports-dietlibc_fast_correct.c)
+
+yalibct_make_executable(stat-llvm-project_test tests/stat/llvm-project_test.c)

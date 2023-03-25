@@ -316,7 +316,9 @@ main(int argc, char *argv[])
 #ifndef YALIBCT_DISABLE_PRINTF_C_CONVERSION_SPECIFIER_TESTS
 		tc("<%#c>", '=', "<=>");
 		tc("<% -3c>", '=', "<=  >");
-		tc("<%+-3c>", '=', "<=  >");
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_CONVERSION_SPECIFIER_TESTS
+                tc("<%+-3c>", '=', "<=  >");
+#endif
                 // UB and not widely supported
 		//tc("<%03c>", '=', "<00=>");
 		tc("<%-03c>", '=', "<=  >");
@@ -327,7 +329,9 @@ main(int argc, char *argv[])
 
 		ts("<%#s>", "text", "<text>");
 		ts("<% -6s>", "text", "<text  >");
-		ts("<%+-6s>", "text", "<text  >");
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS
+                ts("<%+-6s>", "text", "<text  >");
+#endif
                 // UB and not widely supported
 		//ts("<%06s>", "text", "<00text>");
 		ts("<%-06s>", "text", "<text  >");
@@ -342,7 +346,8 @@ main(int argc, char *argv[])
 #ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS
 	tlc("<%lc>", L'=', "<=>");
 	tlc("<%lc>", L'\t', "<\t>");
-	tlc_expect_fail("<%lc>", 0x03c0);
+        // Unspecified and not widely supported
+	//tlc_expect_fail("<%lc>", 0x03c0);
 	tlc("<%-lc>", L'=', "<=>");
 	tlc("<%2lc>", L'=', "< =>");
 	tlc("<%-2lc>", L'=', "<= >");
@@ -350,8 +355,9 @@ main(int argc, char *argv[])
 
 #ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS
 	tls("<%ls>", L"text", "<text>");
-	tls_expect_fail("<%ls>", ws);
-	tls_expect_fail("<%ls>", wsbad);
+        // Unspecified and not widely supported
+	//tls_expect_fail("<%ls>", ws);
+	//tls_expect_fail("<%ls>", wsbad);
 	tls("<%-ls>", L"text", "<text>");
 	tls("<%6ls>", L"text", "<  text>");
 	tls("<%-6ls>", L"text", "<text  >");
@@ -370,8 +376,8 @@ main(int argc, char *argv[])
 #ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS
 		tlc("<%#lc>", L'=', "<=>");
 		tlc("<% -3lc>", L'=', "<=  >");
-		tlc("<%+-3lc>", L'=', "<=  >");
-                // UB and not widely supported
+                tlc("<%+-3lc>", L'=', "<=  >");
+		// UB and not widely supported
 		//tlc("<%03lc>", L'=', "<00=>");
 		tlc("<%-03lc>", L'=', "<=  >");
 		tlc("<%3.2lc>", L'=', "<  =>");
@@ -382,8 +388,8 @@ main(int argc, char *argv[])
 #ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS
 		tls("<%#ls>", L"text", "<text>");
 		tls("<% -6ls>", L"text", "<text  >");
-		tls("<%+-6ls>", L"text", "<text  >");
-                // UB and not widely supported
+                tls("<%+-6ls>", L"text", "<text  >");
+		// UB and not widely supported
 		//tls("<%06ls>", L"text", "<00text>");
 		tls("<%-06ls>", L"text", "<text  >");
 #endif
@@ -405,7 +411,7 @@ main(int argc, char *argv[])
 	tlc("<%lc>", L'\t', "<\t>");
 	tlc("<%lc>", 0x00fe, "<\xc3\xbe>");
 	tlc("<%lc>", 0x03c0, "<\xcf\x80>");
-        // Non-standard and not widely supported
+        // Unspecified and not widely supported
 	//tlc_expect_fail("<%lc>", 0x123456);
 	tlc("<%-lc>", L'=', "<=>");
 	tlc("<%-lc>", 0x03c0, "<\xcf\x80>");

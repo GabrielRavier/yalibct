@@ -233,7 +233,9 @@ main(int argc, char *argv[])
 	ti("<%4.3d>", S_INT, 42, "< 042>");
 	ti("<% 5.3d>", S_INT, 42, "<  042>");
 	ti("<%+5.3d>", S_INT, 42, "< +042>");
+#ifndef YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS
 	ti("<%-4.3d>", S_INT, 42, "<042 >");
+#endif
 #ifndef YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS
 	ti("<%04.3d>", S_INT, 42, "< 042>");
 #endif
@@ -309,7 +311,9 @@ main(int argc, char *argv[])
 	tu("<%04u>", S_INT, 42, "<0042>");
 	tu("<%-04u>", S_INT, 42, "<42  >");
 	tu("<%4.3u>", S_INT, 42, "< 042>");
+#ifndef YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS
 	tu("<%-4.3u>", S_INT, 42, "<042 >");
+#endif
 #ifndef YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS
 	tu("<%04.3u>", S_INT, 42, "< 042>");
 #endif
@@ -356,33 +360,41 @@ main(int argc, char *argv[])
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hx>", S_SHORT, 0, "<0>");
 #endif
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
 	tu("<%hX>", S_SHORT, 0, "<0>");
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hX>", S_SHORT, 0, "<0>");
+#endif
 #endif
 	tu("<%hx>", S_SHORT, 1, "<1>");
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hx>", S_SHORT, 1, "<0x1>");
 #endif
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
 	tu("<%hX>", S_SHORT, 1, "<1>");
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hX>", S_SHORT, 1, "<0X1>");
+#endif
 #endif
 	tu("<%hx>", S_SHORT, 10, "<a>");
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hx>", S_SHORT, 10, "<0xa>");
 #endif
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
 	tu("<%hX>", S_SHORT, 10, "<A>");
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hX>", S_SHORT, 10, "<0XA>");
+#endif
 #endif
 	tu("<%hx>", S_SHORT, UINT16_MAX, "<ffff>");
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hx>", S_SHORT, UINT16_MAX, "<0xffff>");
 #endif
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
 	tu("<%hX>", S_SHORT, UINT16_MAX, "<FFFF>");
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
 	tu("<%#hX>", S_SHORT, UINT16_MAX, "<0XFFFF>");
+#endif
 #endif
 
 	/*

@@ -9,9 +9,8 @@
 #include "test-lib/compiler-features.h"
 #include "test-lib/portable-symbols/__builtin_printf.h"
 #include "test-lib/portable-symbols/__builtin_abort.h"
+#include <stdbool.h>
 
-#define false (0 == 1)
-#define true (0 == 0)
 #define assert(e)							\
   ((e) ? (void)0 : (__builtin_printf ("assertion failed on line %i\n",	\
 				      __LINE__), __builtin_abort ()))

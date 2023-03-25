@@ -175,21 +175,27 @@ if (NL_ARGMAX > 11)
 #ifdef TINY_STDIO
     result |= test(__LINE__, "%_1lld", "%_1lld", 100LL);
 #endif
+#ifndef YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS
     result |= test(__LINE__, "-00100", "%-1.5lld", -100LL);
+#endif
     result |= test(__LINE__, "  100", "%5lld", 100LL);
     result |= test(__LINE__, " -100", "%5lld", -100LL);
+#ifndef YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS
     result |= test(__LINE__, "100  ", "%-5lld", 100LL);
     result |= test(__LINE__, "-100 ", "%-5lld", -100LL);
     result |= test(__LINE__, "00100", "%-.5lld", 100LL);
     result |= test(__LINE__, "-00100", "%-.5lld", -100LL);
     result |= test(__LINE__, "00100   ", "%-8.5lld", 100LL);
     result |= test(__LINE__, "-00100  ", "%-8.5lld", -100LL);
+#endif
     result |= test(__LINE__, "00100", "%05lld", 100LL);
     result |= test(__LINE__, "-0100", "%05lld", -100LL);
     result |= test(__LINE__, " 100", "% lld", 100LL);
     result |= test(__LINE__, "-100", "% lld", -100LL);
     result |= test(__LINE__, "  100", "% 5lld", 100LL);
     result |= test(__LINE__, " -100", "% 5lld", -100LL);
+
+#ifndef YALIBCT_DISABLE_PRINTF_PRECISION_TESTS
     result |= test(__LINE__, " 00100", "% .5lld", 100LL);
     result |= test(__LINE__, "-00100", "% .5lld", -100LL);
     result |= test(__LINE__, "   00100", "% 8.5lld", 100LL);
@@ -213,13 +219,16 @@ if (NL_ARGMAX > 11)
     result |= test(__LINE__, " 0000000000000000000000000000000000000001", "% .40lld", 1LL);
 #endif
     result |= test(__LINE__, " 0000000000000000000000000000000000000001", "% .40d", 1);
+#endif
     /* 121: excluded for C */
     /* 124: excluded for C */
     result |= test(__LINE__, " 1", "% d", 1);
     result |= test(__LINE__, "+1", "%+ d", 1);
     result |= test(__LINE__, "0x0000000001", "%#012x", 1);
     result |= test(__LINE__, "0x00000001", "%#04.8x", 1);
+#ifndef YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS
     result |= test(__LINE__, "0x01    ", "%#-08.2x", 1);
+#endif
     result |= test(__LINE__, "00000001", "%#08o", 1);
     result |= test(__LINE__, "0x39", "%p", (void *)57ULL);
     result |= test(__LINE__, "0x39", "%p", (void *)57U);
@@ -288,7 +297,10 @@ if (NL_ARGMAX > 11)
     result |= test(__LINE__, "EDCB5433", "%X", 3989525555U);
     result |= test(__LINE__, "x", "%c", 'x');
     result |= test(__LINE__, "%", "%%");
+
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS
     result |= test(__LINE__, "Hallo heimur", "%+s", "Hallo heimur");
+#endif
     result |= test(__LINE__, "+1024", "%+d", 1024);
     result |= test(__LINE__, "-1024", "%+d", -1024);
     result |= test(__LINE__, "+1024", "%+i", 1024);
@@ -301,7 +313,9 @@ if (NL_ARGMAX > 11)
     result |= test(__LINE__, "edcb5433", "%+x", 3989525555U);
     result |= test(__LINE__, "1234ABCD", "%+X", 305441741);
     result |= test(__LINE__, "EDCB5433", "%+X", 3989525555U);
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_CONVERSION_SPECIFIER_TESTS
     result |= test(__LINE__, "x", "%+c", 'x');
+#endif
     result |= test(__LINE__, "Hallo heimur", "% s", "Hallo heimur");
     result |= test(__LINE__, " 1024", "% d", 1024);
     result |= test(__LINE__, "-1024", "% d", -1024);
@@ -316,7 +330,9 @@ if (NL_ARGMAX > 11)
     result |= test(__LINE__, "1234ABCD", "% X", 305441741);
     result |= test(__LINE__, "EDCB5433", "% X", 3989525555U);
     result |= test(__LINE__, "x", "% c", 'x');
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS
     result |= test(__LINE__, "Hallo heimur", "%+ s", "Hallo heimur");
+#endif
     result |= test(__LINE__, "+1024", "%+ d", 1024);
     result |= test(__LINE__, "-1024", "%+ d", -1024);
     result |= test(__LINE__, "+1024", "%+ i", 1024);
@@ -329,14 +345,18 @@ if (NL_ARGMAX > 11)
     result |= test(__LINE__, "edcb5433", "%+ x", 3989525555U);
     result |= test(__LINE__, "1234ABCD", "%+ X", 305441741);
     result |= test(__LINE__, "EDCB5433", "%+ X", 3989525555U);
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_CONVERSION_SPECIFIER_TESTS
     result |= test(__LINE__, "x", "%+ c", 'x');
+#endif
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
     result |= test(__LINE__, "0777", "%#o", 511);
     result |= test(__LINE__, "037777777001", "%#o", 4294966785U);
     result |= test(__LINE__, "0x1234abcd", "%#x", 305441741);
     result |= test(__LINE__, "0xedcb5433", "%#x", 3989525555U);
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
     result |= test(__LINE__, "0X1234ABCD", "%#X", 305441741);
     result |= test(__LINE__, "0XEDCB5433", "%#X", 3989525555U);
+#endif
     result |= test(__LINE__, "0", "%#o", 0U);
     result |= test(__LINE__, "0", "%#x", 0U);
     result |= test(__LINE__, "0", "%#X", 0U);
@@ -404,14 +424,18 @@ if (NL_ARGMAX > 11)
     result |= test(__LINE__, "        037777777001", "%#20o", 4294966785U);
     result |= test(__LINE__, "          0x1234abcd", "%#20x", 305441741);
     result |= test(__LINE__, "          0xedcb5433", "%#20x", 3989525555U);
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
     result |= test(__LINE__, "          0X1234ABCD", "%#20X", 305441741);
     result |= test(__LINE__, "          0XEDCB5433", "%#20X", 3989525555U);
+#endif
     result |= test(__LINE__, "00000000000000000777", "%#020o", 511);
     result |= test(__LINE__, "00000000037777777001", "%#020o", 4294966785U);
     result |= test(__LINE__, "0x00000000001234abcd", "%#020x", 305441741);
     result |= test(__LINE__, "0x0000000000edcb5433", "%#020x", 3989525555U);
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
     result |= test(__LINE__, "0X00000000001234ABCD", "%#020X", 305441741);
     result |= test(__LINE__, "0X0000000000EDCB5433", "%#020X", 3989525555U);
+#endif
     result |= test(__LINE__, "Hallo               ", "%0-20s", "Hallo");
     result |= test(__LINE__, "1024                ", "%0-20d", 1024);
     result |= test(__LINE__, "-1024               ", "%0-20d", -1024);

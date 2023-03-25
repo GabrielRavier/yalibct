@@ -27,7 +27,9 @@ do_test (void)
   mtrace ();
   FILE *fp = fopen ("/dev/full", "w");
   TEST_VERIFY_EXIT (fp != NULL);
+#ifndef YALIBCT_DISABLE_PRINTF_PRECISION_TESTS
   TEST_COMPARE (fprintf (fp, "%.65536f", 1.0), -1);
+#endif
   assert(fclose (fp) == 0);
   return 0;
 }

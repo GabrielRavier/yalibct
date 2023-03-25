@@ -22,9 +22,7 @@
 #include "test-lib/portable-symbols/wcscasecmp.h"
 #include "test-lib/portable-symbols/strcasecmp.h"
 
-#ifndef __clang__
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overread")
-#endif
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
 
 int (*memcmpi)(const void *, const void *, size_t) = memcmp;
 
@@ -59,9 +57,7 @@ TEST(strncmp, nullString) {
   ASSERT_EQ(0, strncmp(s1, s2, 0));
 }
 
-#ifndef __clang__
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overflow")
-#endif
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERFLOW
 
 TEST(strncmp, emptyString) {
   char *s1 = strcpy(malloc(1), "");

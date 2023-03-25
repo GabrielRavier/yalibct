@@ -6,9 +6,7 @@
 #include "test-lib/portable-symbols/__builtin_abort.h"
 #include <stdio.h>
 
-#ifndef __clang__
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overread")
-#endif
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
 
 extern __SIZE_TYPE__ strlen (const char *);
 

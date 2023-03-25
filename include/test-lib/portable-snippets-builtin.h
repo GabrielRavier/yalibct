@@ -57,7 +57,7 @@
 #    define PSNIP_BUILTIN__ENABLE_X86
 #  elif defined(__GNUC__)
 #    define PSNIP_BUILTIN__ENABLE_X86
-#    include <x86intrin.h>
+//#    include <x86intrin.h>
 #  endif
 #endif
 
@@ -66,7 +66,7 @@
 #    define PSNIP_BUILTIN__ENABLE_AMD64
 #  elif defined(__GNUC__)
 #    define PSNIP_BUILTIN__ENABLE_AMD64
-#    include <x86intrin.h>
+//#    include <x86intrin.h>
 #  endif
 #endif
 

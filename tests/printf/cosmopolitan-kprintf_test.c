@@ -64,8 +64,10 @@ static const struct {
 #ifndef YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
     {"  0x001337", "%#010.6x", 0x1337},                   //
+#ifndef YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS
     {"0x001337  ", "%#-010.6x", 0x1337},                  //
     {"0x1337    ", "%#-010.2x", 0x1337},                  //
+#endif
     {"    0x1337", "%#010.2x", 0x1337},                   //
 #endif
     {"0000001337", "%010d", 1337},                        //
@@ -74,12 +76,14 @@ static const struct {
     {"   +001337", "%+010.6d", 1337},                     //
     {"    001337", "%010.6x", 0x1337},                    //
     {"      1337", "%010.2x", 0x1337},                    //
+#ifndef YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS
     {"1337      ", "%-010d", 1337},                       //
     {"001337    ", "%-010.6d", 1337},                     //
     {"+1337     ", "%+-010d", 1337},                      //
     {"+001337   ", "%+-010.6d", 1337},                    //
     {"001337    ", "%-010.6x", 0x1337},                   //
     {"1337      ", "%-010.2x", 0x1337},                   //
+#endif
 #endif
     // UB and not widely supported
     //{"000001'337", "%'010d", 1337},                       //
@@ -88,7 +92,7 @@ static const struct {
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
     {"0", "%#x"},                                         //
     {"0", "%#o"},                                         //
-#ifndef YALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS
+#ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_B_CONVERSION_SPECIFIER_TESTS
     {"0", "%#b"},                                         //
 #endif
     {"0", "%#d"},                                         //
@@ -97,7 +101,7 @@ static const struct {
     //{"0", "%p"},                                          //
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
     {"00000000", "%#.8x"},                                //
-#ifndef YALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS
+#ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_B_CONVERSION_SPECIFIER_TESTS
     {"00000000", "%#.8b"},                                //
 #endif
     {"00000000", "%#.8o"},                                //
@@ -120,7 +124,7 @@ static const struct {
 #endif
     {"            deadbeef", "%20x", 0xdeadbeef},         //
     {"          0xdeadbeef", "%20p", 0xdeadbeef},         //
-#ifndef YALIBCT_DISABLE_PRINTF_B_CONVERSION_SPECIFIER_TESTS
+#ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_B_CONVERSION_SPECIFIER_TESTS
     {"101", "%b", 0b101},                                 //
 #endif
     {"123", "%x", 0x123},                                 //
@@ -190,8 +194,10 @@ static const struct {
     {"þell", "%.*s", 5, S("þello world")},                //
     // UB and not widely supported
     //{"þello", "%.*hs", 5, S(u"þello world")},             //
+#ifndef YALIBCT_DISABLE_PRINTF_FIELD_LENGTH_ON_S_CONVERSION_SPECIFIER_TESTS
     {"  þeeeeee", "%10s", S("þeeeeee")},                 //
     {"☺☻♥♦♣♠!", "%10s", S("☺☻♥♦♣♠!")},                 //
+#endif
     // UB and not widely supported
     /*{"☺☻♥♦♣♠    ", "%10hs", S(u"☺☻♥♦♣♠")},                //
       {"𐌰𐌱𐌲𐌳𐌴𐌵𐌶𐌷  ", "%10hs", S(u"𐌰𐌱𐌲𐌳𐌴𐌵𐌶𐌷")},              //*/

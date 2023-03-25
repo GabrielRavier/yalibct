@@ -35,6 +35,7 @@
 
 #include "test-lib/portable-symbols/log.h"
 #include "test-lib/portable-symbols/pow.h"
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <math.h>
 #include <unistd.h>
@@ -51,10 +52,6 @@
 # define _WANT_IO_LONG_LONG
 # define _WANT_IO_POS_ARGS
 # define printf_float(x) ((double) (x))
-
-#ifdef YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS
-#define NO_POS_ARGS
-#endif
 
 static const double test_vals[] = { 1.234567, 1.1, M_PI };
 
@@ -114,7 +111,7 @@ main(void)
 	}
 #endif
 
-#ifndef NO_POS_ARGS
+#ifndef YALIBCT_DISABLE_SCANF_NUMBERED_ARGUMENTS_TESTS
         x = y = 0;
         int r = sscanf("3 4", "%2$d %1$d", &x, &y);
         if (x != 4 || y != 3 || r != 2) {
@@ -164,6 +161,7 @@ main(void)
 
 #define FMT(prefix,conv) "%" prefix conv
 
+#undef VERIFY
 #define VERIFY(prefix, conv) do {                                       \
         assert(sprintf(buf, FMT(prefix, conv), v) == strlen(buf));  \
         assert(sscanf(buf, FMT(prefix, conv), &r) == 1);                \
@@ -174,13 +172,19 @@ main(void)
         }                                                               \
 } while(0)
 
+#ifndef YALIBCT_DISABLE_SCANF_LOWERCASE_X_CONVERSION_SPECIFIER_TESTS
+#define VERIFY_x(prefix) VERIFY(prefix, "x")
+#else
+#define VERIFY_x(prefix)
+#endif
+
 #define CHECK_RT(type, prefix) do {                                     \
         for (x = 0; x < (int) (sizeof(type) * 8); x++) {            \
                 type v = (type) (0x123456789abcdef0LL >> (64 - sizeof(type) * 8)) >> x; \
                 type r = ~v;                                            \
                 VERIFY(prefix, "d");                                    \
                 VERIFY(prefix, "u");                                    \
-                VERIFY(prefix, "x");                                    \
+                VERIFY_x(prefix);                                       \
                 VERIFY(prefix, "o");                                    \
         }                                                               \
         } while(0)
@@ -223,6 +227,7 @@ main(void)
 
 #ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
 			assert(sprintf(buf, "%.55f", printf_float(v)) >= 0);
+#ifndef YALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
 			assert(sscanf(buf, scanf_format, &r) == 1);
 			e = fabs(v-r) / v;
 			if (e > (float_type) ERROR_MAX) {
@@ -232,10 +237,12 @@ main(void)
 				checked_fflush(stdout);
 			}
 #endif
+#endif
 
 
 #ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
 			assert(sprintf(buf, "%.20e", printf_float(v)) >= 0);
+#ifndef YALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
 			assert(sscanf(buf, scanf_format, &r) == 1);
 			e = fabs(v-r) / v;
 			if (e > (float_type) ERROR_MAX)
@@ -246,10 +253,12 @@ main(void)
 				checked_fflush(stdout);
 			}
 #endif
+#endif
 
 
 #ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
 			assert(sprintf(buf, "%.20g", printf_float(v)) >= 0);
+#ifndef YALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
 			assert(sscanf(buf, scanf_format, &r) == 1);
 			e = fabs(v-r) / v;
 			if (e > (float_type) ERROR_MAX)
@@ -260,9 +269,11 @@ main(void)
 				checked_fflush(stdout);
 			}
 #endif
+#endif
 
 #ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
 			assert(sprintf(buf, "%.20a", printf_float(v)) >= 0);
+#ifndef YALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
 			assert(sscanf(buf, scanf_format, &r) == 1);
 			e = fabs(v-r) / v;
 			if (e > (float_type) ERROR_MAX)
@@ -272,6 +283,7 @@ main(void)
 				errors++;
 				checked_fflush(stdout);
 			}
+#endif
 #endif
 
 		}

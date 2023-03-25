@@ -8,9 +8,7 @@
 #include "test-lib/portable-symbols/__builtin_printf.h"
 #include "test-lib/portable-symbols/__builtin_abort.h"
 
-#ifndef __clang__
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overread")
-#endif
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
 
 extern int printf (const char*, ...);
 extern __SIZE_TYPE__ strlen (const char*);

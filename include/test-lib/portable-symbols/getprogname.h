@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <limits.h>
+#include "test-lib/portable-symbols/last_component.h"
 
 char const *
 getprogname (void)

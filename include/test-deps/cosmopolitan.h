@@ -56,6 +56,7 @@
 #define EXPECT_STREQ(WANT, GOT) \
   assertStringEquals(FILIFU sizeof(*(WANT)), WANT, GOT, #GOT, false)
 
+#undef forceinline
 #define forceinline HEDLEY_ALWAYS_INLINE
 
 #define FILIFU           __FILE__, __LINE__, __FUNCTION__,
@@ -138,11 +139,14 @@ void testlib_showerror(const char *file, int line, const char *func,
   //free(v2);
 }
 
+#undef dontdiscard
 #define dontdiscard HEDLEY_WARN_UNUSED_RESULT
 
 #define _weaken(symbol)      symbol
 
+#undef relegated
 #define relegated YALIBCT_ATTRIBUTE_COLD
+#undef wontreturn
 #define wontreturn HEDLEY_NO_RETURN
 
 #define _Exitr _Exit
@@ -315,6 +319,7 @@ uint64_t lemur64(void) {
    (uint64_t)(255 & (S)[3]) << 030 | (uint64_t)(255 & (S)[2]) << 020 | \
    (uint64_t)(255 & (S)[1]) << 010 | (uint64_t)(255 & (S)[0]) << 000)
 
+#undef noasan
 #define noasan
 
 /**
@@ -510,7 +515,7 @@ void testlib_showerror_(int line, const char *wantcode, const char *gotcode,
   printf("\t%s%s%s\n"
           "\t%s%s @ %s%s\n",
           SUBTLE, strerror(e), RESET, SUBTLE,
-          firstnonnull(program_invocation_name, "unknown"), hostname, RESET);
+          firstnonnull(getprogname(), "unknown"), hostname, RESET);
   //free(FREED_want);
   //free(FREED_got);
   ++g_testlib_failed;

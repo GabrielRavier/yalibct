@@ -16,7 +16,7 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
-#include <sys/param.h>
+#include "test-lib/portable-symbols/MIN.h"
 
 #define TEST_LEN (getpagesize () * 3)
 #define MIN_PAGE_SIZE (TEST_LEN + 2 * getpagesize ())

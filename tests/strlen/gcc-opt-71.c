@@ -8,7 +8,9 @@
 #include "gcc-opt.h"
 #include <stdio.h>
 
+#ifndef CHAR_BIT
 #define CHAR_BIT __CHAR_BIT__
+#endif
 
 typedef __UINT16_TYPE__ uint16_t;
 typedef __UINT32_TYPE__ uint32_t;

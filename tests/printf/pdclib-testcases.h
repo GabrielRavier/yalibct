@@ -40,7 +40,7 @@
     PRINTF_TEST( ULLONG_DIG, ULLONG_MAX_DEZ_STR, "%llu", ULLONG_MAX );
     PRINTF_TEST( ULLONG_DIG, ULLONG_MAX_DEZ_STR, "%llu", -1ull );
     PRINTF_TEST( ( int )strlen( INT_HEXDIG ) + 1, "F" INT_HEXDIG, "%X", UINT_MAX );
-#ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
+#if !defined(YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS) && !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS)
     PRINTF_TEST( ( int )strlen( INT_HEXDIG ) + 3, "0XF" INT_HEXDIG, "%#X", -1u );
 #endif
     PRINTF_TEST( ( int )strlen( INT_HEXDIG ) + 1, "f" INT_hexdig, "%x", UINT_MAX );
@@ -235,7 +235,9 @@
     /* Mit %c kann man auch Nullbytes ausgeben */
     PRINTF_TEST(1, "\0", "%c", '\0');
     /* Vorzeichen erzwingen (Flag +) */
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS
     PRINTF_TEST(12, "Hallo heimur", "%+s", "Hallo heimur");
+#endif
     PRINTF_TEST(5, "+1024", "%+d", 1024);
     PRINTF_TEST(5, "-1024", "%+d", -1024);
     PRINTF_TEST(5, "+1024", "%+i", 1024);
@@ -248,7 +250,9 @@
     PRINTF_TEST(8, "edcb5433", "%+x", -0x1234abcdu);
     PRINTF_TEST(8, "1234ABCD", "%+X", 0x1234abcdu);
     PRINTF_TEST(8, "EDCB5433", "%+X", -0x1234abcdu);
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_CONVERSION_SPECIFIER_TESTS
     PRINTF_TEST(1, "x", "%+c", 'x');
+#endif
     /* Vorzeichenplatzhalter erzwingen (Flag <space>) */
     PRINTF_TEST(12, "Hallo heimur", "% s", "Hallo heimur");
     PRINTF_TEST(5, " 1024", "% d", 1024);
@@ -265,7 +269,9 @@
     PRINTF_TEST(8, "EDCB5433", "% X", -0x1234abcdu);
     PRINTF_TEST(1, "x", "% c", 'x');
     /* Flag + hat Vorrang über <space> */
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS
     PRINTF_TEST(12, "Hallo heimur", "%+ s", "Hallo heimur");
+#endif
     PRINTF_TEST(5, "+1024", "%+ d", 1024);
     PRINTF_TEST(5, "-1024", "%+ d", -1024);
     PRINTF_TEST(5, "+1024", "%+ i", 1024);
@@ -278,15 +284,19 @@
     PRINTF_TEST(8, "edcb5433", "%+ x", -0x1234abcdu);
     PRINTF_TEST(8, "1234ABCD", "%+ X", 0x1234abcdu);
     PRINTF_TEST(8, "EDCB5433", "%+ X", -0x1234abcdu);
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_CONVERSION_SPECIFIER_TESTS
     PRINTF_TEST(1, "x", "%+ c", 'x');
+#endif
 #ifndef YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS
     /* Alternative Form */
     PRINTF_TEST(4, "0777", "%#o", 0777u);
     PRINTF_TEST(12, "037777777001", "%#o", -0777u);
     PRINTF_TEST(10, "0x1234abcd", "%#x", 0x1234abcdu);
     PRINTF_TEST(10, "0xedcb5433", "%#x", -0x1234abcdu);
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
     PRINTF_TEST(10, "0X1234ABCD", "%#X", 0x1234abcdu);
     PRINTF_TEST(10, "0XEDCB5433", "%#X", -0x1234abcdu);
+#endif
     PRINTF_TEST(1, "0", "%#o", 0u);
     PRINTF_TEST(1, "0", "%#x", 0u);
     PRINTF_TEST(1, "0", "%#X", 0u);
@@ -359,14 +369,18 @@
     PRINTF_TEST(20, "        037777777001", "%#20o", -0777u);
     PRINTF_TEST(20, "          0x1234abcd", "%#20x", 0x1234abcdu);
     PRINTF_TEST(20, "          0xedcb5433", "%#20x", -0x1234abcdu);
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
     PRINTF_TEST(20, "          0X1234ABCD", "%#20X", 0x1234abcdu);
     PRINTF_TEST(20, "          0XEDCB5433", "%#20X", -0x1234abcdu);
+#endif
     PRINTF_TEST(20, "00000000000000000777", "%#020o", 0777u);
     PRINTF_TEST(20, "00000000037777777001", "%#020o", -0777u);
     PRINTF_TEST(20, "0x00000000001234abcd", "%#020x", 0x1234abcdu);
     PRINTF_TEST(20, "0x0000000000edcb5433", "%#020x", -0x1234abcdu);
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS
     PRINTF_TEST(20, "0X00000000001234ABCD", "%#020X", 0x1234abcdu);
     PRINTF_TEST(20, "0X0000000000EDCB5433", "%#020X", -0x1234abcdu);
+#endif
 #endif
 #ifndef YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS
     /* Feldbreite: - hat Vorrang vor 0 */

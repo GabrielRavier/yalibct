@@ -25,5 +25,8 @@ int main( void )
 #include "pdclib-testcases.h"
     TESTCASE( fclose( target ) == 0 );
     TESTCASE( remove( testfile ) == 0 );
+
+    yalibct_chdir_to_tmpdir_remove_tmpdir();
+
     return TEST_RESULTS;
 }

@@ -9,12 +9,12 @@
 
 #pragma once
 
+#include "test-lib/portable-symbols/MIN.h"
+
 #include <stdio.h>
 #include <ctype.h>
 #include <stdint.h>
 #include <stddef.h>
-
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
 
 typedef uintptr_t addr_t;
 

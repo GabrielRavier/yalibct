@@ -125,7 +125,11 @@ int main()
   printf("#%-+#6d#\n", -123);
   printf("#%+#06d#\n", -123);
   printf("#%06d#\n", -123);
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS
   printf("#%+15s#\n","ABCDEF");
+#else
+  puts("#         ABCDEF#");
+#endif
   /* from ncurses make_keys */
   printf("{ %4d, %-*.*s },\t/* %s */\n", 139, 16, 16, "KEY_A1", "key_a1");
   printf("{ %4d, %-*.*s },\t/* %s */\n", 139, 16,  2, "KEY_A1", "key_a1");
@@ -164,12 +168,13 @@ int main()
 	    buf);
     memset(buf2,0,sizeof(buf));
     i=snprintf(buf2, 256, "%.9999u", 10);
-    printf("%i %i\n",i,(int)strlen(buf2));
 
 #ifndef YALIBCT_DISABLE_PRINTF_PRECISION_TESTS
+    printf("%i %i\n",i,(int)strlen(buf2));
     printf ("snprintf (\"%%.999999u\", 10) == %d\n",
     	    snprintf(buf2, sizeof(buf2), "%.999999u", 10));
 #else
+    puts("9999 255");
     puts("snprintf (\"%.999999u\", 10) == 999999");
 #endif
   }

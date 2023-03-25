@@ -21,9 +21,7 @@
 #include "test-lib/portable-symbols/strnlen.h"
 
 YALIBCT_DIAGNOSTIC_IGNORE("-Wcomment")
-#ifndef __clang__
-YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overread")
-#endif
+YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
 
 char u8[] = "utf-8 ☻";
 //char16_t u16[] = u"utf16 ☻";

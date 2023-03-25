@@ -29,6 +29,7 @@ write_file (void)
 
 int main (void)
 {
+#ifdef YALIBCT_LIBC_HAS_TMPNAM
   char *tmpfname = gcc_tmpnam (0);
   FILE *f = freopen (tmpfname, "w", stdout);
   if (!f)
@@ -62,6 +63,7 @@ int main (void)
 
   if (strcmp (buf, "123456789"))
     abort ();
+#endif
 
   return 0;
 }

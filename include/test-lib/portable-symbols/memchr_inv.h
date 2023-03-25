@@ -62,7 +62,7 @@ static inline void *__real_memchr_inv(const void *start, int c, size_t bytes)
         r = __real_memchr_inv_check_bytes8(start, value, prefix);
         if (r)
             return r;
-        start += prefix;
+        start = (void *)((unsigned char *)start + prefix);
         bytes -= prefix;
     }
 
@@ -71,7 +71,7 @@ static inline void *__real_memchr_inv(const void *start, int c, size_t bytes)
     while (words) {
         if (*(uint64_t *)start != value64)
             return __real_memchr_inv_check_bytes8(start, value, 8);
-        start += 8;
+        start = (void *)((unsigned char *)start + 8);
         words--;
     }
 

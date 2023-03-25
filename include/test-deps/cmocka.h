@@ -559,7 +559,12 @@ static void cmprintf_group_start(const char *group_name,
 /** Get the size of an array */
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 
-#ifdef YALIBCT_LIBC_HAS_SIGNAL_H
+#if defined(YALIBCT_LIBC_HAS_SIGNAL_H) &&                                      \
+    defined(YALIBCT_LIBC_HAS_ACTUALLY_CONSTANT_SIGNAL_CONSTANTS)
+#define YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY
+#endif
+
+#ifdef YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY
 /* Signals caught by exception_handler(). */
 static const int exception_signals[] = {
     SIGFPE,
@@ -578,7 +583,7 @@ typedef void (*SignalFunction)(int signal);
 static SignalFunction default_signal_functions[
     ARRAY_SIZE(exception_signals)];
 
-#else /* YALIBCT_LIBC_HAS_SIGNAL_H */
+#else /* YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY */
 
 # ifdef _WIN32
 /* The default exception filter. */
@@ -615,19 +620,19 @@ static const ExceptionCodeInfo exception_codes[] = {
     EXCEPTION_CODE_INFO(EXCEPTION_STACK_OVERFLOW),
 };
 # else
-#  if defined(__GNUC__) || defined(__clang__)
+#  if (defined(__GNUC__) || defined(__clang__)) && defined(YALIBCT_LIBC_HAS_ACTUALLY_CONSTANT_SIGNAL_CONSTANTS)
 #    warning "Support for exception handling available on this platform!"
 #  endif
 # endif /* _WIN32 */
-#endif /* YALIBCT_LIBC_HAS_SIGNAL_H */
+#endif /* YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY */
 
 #define CMOCKA_NORETURN HEDLEY_NO_RETURN
 
-#ifdef YALIBCT_LIBC_HAS_SIGNAL_H
+#ifdef YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY
 CMOCKA_NORETURN static void exception_handler(int sig) {
     const char *sig_strerror = "";
 
-#if YALIBCT_LIBC_HAS_STRSIGNAL
+#ifdef YALIBCT_LIBC_HAS_STRSIGNAL
     sig_strerror = strsignal(sig);
 #endif
 
@@ -676,7 +681,7 @@ static LONG WINAPI exception_filter(EXCEPTION_POINTERS *exception_pointers) {
     return EXCEPTION_CONTINUE_SEARCH;
 }
 # endif /* _WIN32 */
-#endif /* YALIBCT_LIBC_HAS_SIGNAL_H */
+#endif /* YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY */
 
 /* Keeps a map of the values that functions will have to return to provide */
 /* mocked interfaces. */
@@ -1164,18 +1169,18 @@ static int cmocka_run_one_test_or_fixture(const char *function_name,
 
 
     if (handle_exceptions) {
-#ifdef YALIBCT_LIBC_HAS_SIGNAL_H
+#ifdef YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY
         unsigned int i;
         for (i = 0; i < ARRAY_SIZE(exception_signals); i++) {
             default_signal_functions[i] = signal(
                     exception_signals[i], exception_handler);
         }
-#else /* YALIBCT_LIBC_HAS_SIGNAL_H */
+#else /* YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY */
 # ifdef _WIN32
         previous_exception_filter = SetUnhandledExceptionFilter(
                 exception_filter);
 # endif /* _WIN32 */
-#endif /* YALIBCT_LIBC_HAS_SIGNAL_H */
+#endif /* YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY */
     }
 
     /* Init the test structure */
@@ -1219,19 +1224,19 @@ static int cmocka_run_one_test_or_fixture(const char *function_name,
     teardown_testing(function_name);
 
     if (handle_exceptions) {
-#ifdef YALIBCT_LIBC_HAS_SIGNAL_H
+#ifdef YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY
         unsigned int i;
         for (i = 0; i < ARRAY_SIZE(exception_signals); i++) {
             signal(exception_signals[i], default_signal_functions[i]);
         }
-#else /* YALIBCT_LIBC_HAS_SIGNAL_H */
+#else /* YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY */
 # ifdef _WIN32
         if (previous_exception_filter) {
             SetUnhandledExceptionFilter(previous_exception_filter);
             previous_exception_filter = NULL;
         }
 # endif /* _WIN32 */
-#endif /* YALIBCT_LIBC_HAS_SIGNAL_H */
+#endif /* YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY */
     }
 
     return rc;

@@ -100,7 +100,9 @@ main(void)
 	testfmt("NAN", "%F", NAN);
 	testfmt("nan", "%g", NAN);
 #ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
+#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
 	testfmt("NAN", "%LE", (long double)NAN);
+#endif
 	testfmt("  nan", "%05e", NAN);
 
 	testfmt("INF", "%E", HUGE_VAL);

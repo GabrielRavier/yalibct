@@ -11,9 +11,9 @@
 #include "test-lib/portable-symbols/__builtin_puts.h"
 #include "test-lib/portable-symbols/__builtin_printf_unlocked.h"
 
-extern int printf (const char *, ...);
-extern int printf_unlocked (const char *, ...);
-extern void abort(void);
+extern int (printf) (const char *, ...);
+extern int (printf_unlocked) (const char *, ...);
+extern void (abort)(void);
 
 void
 main_test (void)

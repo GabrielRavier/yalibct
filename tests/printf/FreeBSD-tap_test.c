@@ -49,7 +49,9 @@
 static	int failed;
 static	int test_num = 1;
 
-#define	TEST_COUNT	7
+enum {
+    TEST_COUNT = 7,
+};
 
 static void
 fail(const char *fmt, ...)
@@ -159,6 +161,8 @@ fprintf__simple_string(void)
 	/* Of special note here is that we are NOT deleting the temporary
 	 * files we created in this test.  Kyua takes care of this cleanup
 	 * automatically and tests can (and should) rely on this behavior. */
+        // Note: comment is wrong in the context of yalibct - we do need to remove the files ourselves
+        assert(remove("test.txt") == 0);
 }
 
 int
@@ -182,6 +186,8 @@ main(void)
 	snprintf__two_formatters();
 	snprintf__overflow();
 	fprintf__simple_string();
+
+        yalibct_chdir_to_tmpdir_remove_tmpdir();
 
 	return (failed);
 }

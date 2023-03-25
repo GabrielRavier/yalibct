@@ -29,42 +29,42 @@ char *stpcpy (char *__restrict, const char *__restrict);
 int sprintf (char * __restrict, const char *__restrict, ...);
 int snprintf (char * __restrict, size_t, const char *__restrict, ...);
 
-#if defined(FORTIFY_SOURCE) && FORTIFY_SOURCE > 0 && __OPTIMIZE__
+#if defined(FORTIFY_SOURCE) && FORTIFY_SOURCE > 0 && __OPTIMIZE__ && defined(YALIBCT_LIBC_HAS___MEMCPY_CHK)
 # define bos(ptr) __builtin_object_size (ptr, FORTIFY_SOURCE > 0)
 # define bos0(ptr) __builtin_object_size (ptr, 0)
 
-extern inline __attribute__((gnu_inline, always_inline, artificial)) void *
+extern inline __attribute__((gnu_inline, always_inline, __artificial__)) void *
 memcpy (void *__restrict dest, const void *__restrict src, size_t len)
 {
   return __builtin___memcpy_chk (dest, src, len, bos0 (dest));
 }
 
-extern inline __attribute__((gnu_inline, always_inline, artificial)) void *
+extern inline __attribute__((gnu_inline, always_inline, __artificial__)) void *
 memmove (void *dest, const void *src, size_t len)
 {
   return __builtin___memmove_chk (dest, src, len, bos0 (dest));
 }
 
-extern inline __attribute__((gnu_inline, always_inline, artificial)) char *
+extern inline __attribute__((gnu_inline, always_inline, __artificial__)) char *
 strcpy (char *__restrict dest, const char *__restrict src)
 {
   return __builtin___strcpy_chk (dest, src, bos (dest));
 }
 
-extern inline __attribute__((gnu_inline, always_inline, artificial)) char *
+extern inline __attribute__((gnu_inline, always_inline, __artificial__)) char *
 strcat (char *__restrict dest, const char *__restrict src)
 {
   return __builtin___strcat_chk (dest, src, bos (dest));
 }
 
 # ifdef USE_GNU
-extern inline __attribute__((gnu_inline, always_inline, artificial)) void *
+extern inline __attribute__((gnu_inline, always_inline, __artificial__)) void *
 mempcpy (void *__restrict dest, const void *__restrict src, size_t len)
 {
   return __builtin___mempcpy_chk (dest, src, len, bos0 (dest));
 }
 
-extern inline __attribute__((gnu_inline, always_inline, artificial)) char *
+extern inline __attribute__((gnu_inline, always_inline, __artificial__)) char *
 stpcpy (char *__restrict dest, const char *__restrict src)
 {
   return __builtin___stpcpy_chk (dest, src, bos (dest));

@@ -12,9 +12,11 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
-#define BUF_SIZE 256
-#define PAD_SIZE 16
-#define FILL_CHAR '$'
+enum {
+    BUF_SIZE = 256,
+    PAD_SIZE = 16,
+    FILL_CHAR = '$'
+};
 
 #define NOWARN(option, comment, block) YALIBCT_EXPRESSION_NO_WARNING(option, block)
 
@@ -156,6 +158,9 @@ test_number(void)
                 test("-128", "%hhd", 128);
 		test("0|1|1|128|255", "%hhu|%hhu|%hhu|%hhu|%hhu", 0, 1, 257, 128, -1);
 		test("0|1|1|-128|-1", "%hhd|%hhd|%hhd|%hhd|%hhd", 0, 1, 257, 128, -1);
+		test("2015", "%ho", 1037);
+		test("12242", "%ho", 5282);
+		test("0151225", "%#ho", -11627);
 		test("2015122420151225", "%ho%ho%#ho", 1037, 5282, -11627);
 	})
 #endif
@@ -310,7 +315,7 @@ static void __init
 errptr(void)
 {
 	/* Check that %pe with a non-ERR_PTR gets treated as ordinary %p. */
-	BUILD_BUG_ON(IS_ERR(PTR));
+	//BUILD_BUG_ON(IS_ERR(PTR));
 
 #ifdef CONFIG_SYMBOLIC_ERRNAME
 	test("(-ENOTSOCK)", "(%pe)", ERR_PTR(-ENOTSOCK));

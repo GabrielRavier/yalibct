@@ -204,6 +204,7 @@ do_test (void)
 #endif
     }
 
+#ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
   for (size_t i = 0; i < array_length (hex_tests); i++)
     {
       result |= test_hex_in_one_mode (hex_tests[i].d, hex_tests[i].fmt,
@@ -235,6 +236,7 @@ do_test (void)
 #endif
 #endif
     }
+#endif
 #endif
 
   return result;

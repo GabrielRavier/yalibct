@@ -1,18 +1,13 @@
-Add /home/gravier/src/libraries/libc/implementations/libcmini/tests/strcmp/strcmp.c
-Add /home/gravier/src/libraries/libc/implementations/libcmini/tests/printf_formatting/printf_formatting.c
+Run dos2unix over all files
 
-Fuzzing stuff from all the previously done functions:
-/home/gravier/src/programs/programming-tools/compilers/llvm-project/libc/fuzzing/string/strcmp_fuzz.cpp
-(yes there isn't anything else, surprising tbh)
-(how tf am I gonna implement -fsanitize=fuzzer portably lmao)
+printf tests just found in nanoprintf (add these ASAP)
 
-Look at https://sourceware.org/glibc/wiki/FuzzingLibc
-Also https://github.com/novafacing/libc-fuzzer
+Functions to do present in PDP7:
+- stat
+- (list is not complete)
 
 All the rest of the stuff from PDP7 and anything afterwards
 
 See also https://code.google.com/archive/p/regfuzz when we get to regex
-
-
 
 See later if we can get the project working on musl-clang once it doesn't randomly error out anymore (would be nice if it didn't give me 300 warnings before then too - they seem unrelated to the root issue that musl-clang somehow doesn't know about x86intrin.h even though it effectively advertises support for it...)

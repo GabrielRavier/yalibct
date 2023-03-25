@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: BSD-2-Clause
 
 #include "test-deps/gtest.h"
+#include "test-lib/portable-symbols/SCNdFAST16.h"
 #include <inttypes.h>
 #include <stdint.h>
 #include <stdio.h>

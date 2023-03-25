@@ -35,6 +35,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fenv.h>
+#include <stdint.h>
 
 #pragma STDC FENV_ACCESS ON
 
@@ -44,8 +45,13 @@ YALIBCT_DIAGNOSTIC_IGNORE("-Wcomment")
 
 static inline float __port_ind(void)
 {
-    static const unsigned __ind_bytes = 0xffc00000;
-    return *(const float *)&__ind_bytes;
+    static const uint32_t __ind_bytes = 0xffc00000;
+    // breaks strict aliasing rules
+    //return *(const float *)&__ind_bytes;
+
+    float result;
+    memcpy(&result, &__ind_bytes, sizeof(float));
+    return result;
 }
 #define IND __port_ind()
 
@@ -177,8 +183,10 @@ static void test_sprintf( void )
         { "%#012x", "000000000000", 0, INT_ARG, 0 },
         { "%#04.8x", "0x00000001", 0, INT_ARG, 1 },
         { "%#04.8x", "00000000", 0, INT_ARG, 0 },
+#ifndef YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS
         { "%#-08.2x", "0x01    ", 0, INT_ARG, 1 },
         { "%#-08.2x", "00      ", 0, INT_ARG, 0 },
+#endif
         { "%#.0x", "0x1", 0, INT_ARG, 1 },
         { "%#.0x", "", 0, INT_ARG, 0 },
         { "%#08o", "00000001", 0, INT_ARG, 1 },
@@ -532,6 +540,7 @@ static void test_fprintf(void)
     checked_fclose(fp);
 
     fp = fopen("fprintf.tst", "rb");
+#ifndef YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS
     ret = fscanf(fp, "%[^\n] ", buf);
     ok(ret == 1, "ret = %d\n", ret);
     ret = ftell(fp);
@@ -550,6 +559,8 @@ static void test_fprintf(void)
     ret = ftell(fp);
     ok(ret == 41 || ret == 34, "ret = %d\n", ret);
     ok(!strcmp(buf, "unicode\n"), "buf = %ls\n", ((WCHAR*)buf));
+#endif
+
 #endif
 
     checked_fclose(fp);
@@ -580,6 +591,7 @@ static void test_fprintf(void)
     checked_fclose(fp);
 
     fp = fopen("fprintf.tst", "rb");
+#ifndef YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS
     ret = fscanf(fp, "%[^\n] ", buf);
     ok(ret == 1, "ret = %d\n", ret);
     ret = ftell(fp);
@@ -596,6 +608,8 @@ static void test_fprintf(void)
     ret = ftell(fp);
     ok(ret == 37 || ret == 34, "ret = %d\n", ret);
     ok(!strcmp(buf, "unicode\r\n") || !strcmp(buf, "unicode\n"), "buf = %s\n", buf);
+#endif
+
 #endif
 
     checked_fclose(fp);
@@ -1201,4 +1215,6 @@ START_TEST(printf)
     test_vsnwprintf_s();
     test_vsprintf_p();
     test__get_output_format();
+
+    yalibct_chdir_to_tmpdir_remove_tmpdir();
 }

@@ -127,6 +127,19 @@
 #define cpu_to_be16 psnip_endian_be16
 #define cpu_to_be32 psnip_endian_be32
 
+#ifndef __noreturn
+#define __noreturn HEDLEY_NO_RETURN
+#endif
+
+/*
+ * Optional: only supported since clang >= 14.0
+ *
+ *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-error-function-attribute
+ */
+
+#define __compiletime_error YALIBCT_ATTRIBUTE_ERROR
+
+
 #ifdef __OPTIMIZE__
 # define __compiletime_assert(condition, msg, prefix, suffix)           \
         do {                                                            \

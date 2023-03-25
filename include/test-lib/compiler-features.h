@@ -3,7 +3,18 @@
 #include "test-lib/hedley.h"
 
 #ifdef NDEBUG
-#error "AAAAAAAAAAAAA!!!! NOOOOOOOOO !! DON'T DISABLE ASSERT !!!!!!!!!!!!!!!"
+#error "ARGGGHHHH!!!! NOOOOOOOOO !! DON'T DISABLE ASSERT !!!!!!!!!!!!!!!"
+#endif
+
+// Makes cosmopolitan have some features that are sometimes missing
+#ifdef __COSMOPOLITAN__
+STATIC_YOINK("__fmt_dtoa");
+STATIC_YOINK("__die");
+STATIC_YOINK("__zipos_get");
+STATIC_YOINK("PrintBacktraceUsingSymbols");
+STATIC_YOINK("ShowBacktrace");
+STATIC_YOINK("malloc_inspect_all");
+STATIC_YOINK("GetSymbolByAddr");
 #endif
 
 #ifdef __has_c_attribute
@@ -77,3 +88,15 @@
     YALIBCT_DIAGNOSTIC_IGNORE(#option);                             \
     block;                                                          \
     HEDLEY_DIAGNOSTIC_POP;
+
+#if !defined(__clang__) && HEDLEY_GNUC_VERSION_CHECK(11, 0, 0)
+#define YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overread")
+#else
+#define YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
+#endif
+
+#ifndef __clang__
+#define YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERFLOW YALIBCT_DIAGNOSTIC_IGNORE("-Wstringop-overflow")
+#else
+#define YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERFLOW
+#endif
