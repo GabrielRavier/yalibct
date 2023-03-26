@@ -190,10 +190,6 @@ function(yalibct_make_executable target_name target_source_file)
     PRIVATE "${CMAKE_SOURCE_DIR}/include"
   )
   target_compile_definitions(${target_name} PRIVATE "${YALIBCT_COMPILE_DEFINITIONS}")
-  set_target_properties(${target_name}
-    PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/test-binaries"
-    )
   foreach(LOOP_LIB ${YALIBCT_POTENTIALLY_WANTED_LIBRARIES})
     if (${YALIBCT_HAS_LIBRARY_${LOOP_LIB}})
       target_link_libraries(${target_name} PRIVATE ${LOOP_LIB})

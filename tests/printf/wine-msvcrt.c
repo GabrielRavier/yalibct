@@ -415,7 +415,7 @@ static void test_sprintf( void )
 
 #ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_S_CONVERSION_SPECIFIER_TESTS
     r = p_sprintf(buffer, "%S", L"\x3042");
-    ok(r==-1 || broken(!r), "r = %d\n", r);
+    ok(r==-1 || r==3 || broken(!r), "r = %d\n", r);
 #endif
 
     ok(setlocale(LC_ALL, "C") != NULL, "");

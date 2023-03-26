@@ -1,5 +1,7 @@
 Run dos2unix over all files
 
+Try to use Copilot to generate some testcases
+
 printf tests just found in nanoprintf (add these ASAP)
 
 Functions to do present in PDP7:
