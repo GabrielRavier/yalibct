@@ -1,15 +1,15 @@
 I have filed the following bug reports/patches as a result of working on this testsuite:
 
-total: 41
-fixed/merged: 12
+total: 43
+fixed/merged: 21
 
 glibc (1 filed, 0 fixed):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
 
-musl (3 filed, 0 fixed):
+musl (3 filed, 1 fixed):
 - https://www.openwall.com/lists/musl/2022/09/08/4 (not yet merged)
 - https://www.openwall.com/lists/musl/2022/09/06/10 (not yet fixed)
-- https://www.openwall.com/lists/musl/2023/01/04/1 (not yet merged)
+- https://www.openwall.com/lists/musl/2023/01/04/1 (merged)
 
 dietlibc (21 filed, 11 fixed) (note: dietlibc's mailing list does not have an archive, so the links can't lead there...):
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-HUGE_VALL-and-INFINITY-both-from-C99-and-requi.patch (not yet merged)
@@ -37,19 +37,21 @@ dietlibc (21 filed, 11 fixed) (note: dietlibc's mailing list does not have an ar
 nanoprintf (1 filed, 1 fixed):
 - https://github.com/charlesnicholson/nanoprintf/issues/244 (fixed)
 
-cosmopolitan (15 filed, 0 fixed):
-- https://github.com/jart/cosmopolitan/issues/771 (not yet fixed)
-- https://github.com/jart/cosmopolitan/issues/772 (not yet fixed)
-- https://github.com/jart/cosmopolitan/issues/773 (not yet fixed)
-- https://github.com/jart/cosmopolitan/issues/774 (not yet fixed)
+cosmopolitan (17 filed, 8 fixed):
+- https://github.com/jart/cosmopolitan/issues/771 (fixed)
+- https://github.com/jart/cosmopolitan/issues/772 (fixed)
+- https://github.com/jart/cosmopolitan/issues/773 (fixed)
+- https://github.com/jart/cosmopolitan/issues/774 (fixed)
 - https://github.com/jart/cosmopolitan/issues/775 (not yet fixed)
 - https://github.com/jart/cosmopolitan/issues/776 (not yet fixed)
-- https://github.com/jart/cosmopolitan/issues/777 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/777 (fixed)
 - https://github.com/jart/cosmopolitan/issues/778 (not yet fixed)
 - https://github.com/jart/cosmopolitan/issues/779 (not yet fixed)
 - https://github.com/jart/cosmopolitan/issues/780 (not yet fixed)
 - https://github.com/jart/cosmopolitan/issues/781 (not yet fixed)
-- https://github.com/jart/cosmopolitan/issues/782 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/782 (fixed)
 - https://github.com/jart/cosmopolitan/issues/783 (not yet fixed)
 - https://github.com/jart/cosmopolitan/issues/784 (not yet fixed)
-- https://github.com/jart/cosmopolitan/issues/785 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/785 (fixed)
+- https://github.com/jart/cosmopolitan/issues/789 (fixed)
+- https://github.com/jart/cosmopolitan/pull/796 (not yet merged)

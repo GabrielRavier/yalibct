@@ -141,7 +141,7 @@ TEMP_TESTS_RESULTS_FILE=$(mktemp)
 
 run_one_test()
 {
-    eval "$1" && printf "Test '%s' succeeded\n" "$1" | tee -a "$TEMP_TESTS_RESULTS_FILE" >/dev/null || printf "Test '%s' failed with status $?\n" "$1" | tee -a "$TEMP_TESTS_RESULTS_FILE" >/dev/stderr &
+    eval "$1" |& { ! grep . 1>&2; } && printf "Test '%s' succeeded\n" "$1" | tee -a "$TEMP_TESTS_RESULTS_FILE" >/dev/null || printf "Test '%s' failed with status $?\n" "$1" | tee -a "$TEMP_TESTS_RESULTS_FILE" >/dev/stderr &
 }
 
 for i in \

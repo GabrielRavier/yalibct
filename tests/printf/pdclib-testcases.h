@@ -488,7 +488,9 @@
      * + hat Vorrang vor <space>, - hat Vorrang vor 0 (das eh ignoriert wird,
      * weil eine Präzision angegeben ist)
      */
+#ifndef YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS
     PRINTF_TEST(20, "Hallo               ", "% -0+*.*s", 20, 5, "Hallo heimur");
+#endif
     PRINTF_TEST(20, "+01024              ", "% -0+*.*d", 20, 5, 1024);
     PRINTF_TEST(20, "-01024              ", "% -0+*.*d", 20, 5, -1024);
     PRINTF_TEST(20, "+01024              ", "% -0+*.*i", 20, 5, 1024);
