@@ -26,6 +26,7 @@ option(YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS "Wheth
 option(YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %+c will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_FIELD_LENGTH_ON_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %*s will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %s will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS "Whether or not tests that depend on the printf family of functions returning a negative value when an output error occurs will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %f will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_LOWERCASE_X_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %x will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %[ will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
@@ -254,6 +255,7 @@ yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_C
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_FIELD_LENGTH_ON_S_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS)
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 yalibct_check_include_file(obstack.h YALIBCT_LIBC_HAS_OBSTACK_H)

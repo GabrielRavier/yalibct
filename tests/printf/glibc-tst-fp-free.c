@@ -29,7 +29,7 @@ do_test (void)
   TEST_VERIFY_EXIT (fp != NULL);
   char buf[131072];
   TEST_VERIFY_EXIT (setvbuf (fp, buf, _IOFBF, sizeof buf) == 0);
-#ifndef YALIBCT_DISABLE_PRINTF_PRECISION_TESTS
+#if !defined(YALIBCT_DISABLE_PRINTF_PRECISION_TESTS) && !defined(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS)
   int fprintf_result = fprintf (fp, "%-1000000.65536f", 1.0);
   TEST_COMPARE (fprintf_result, -1);
 #endif
