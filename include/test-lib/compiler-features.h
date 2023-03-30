@@ -6,7 +6,7 @@
 #error "ARGGGHHHH!!!! NOOOOOOOOO !! DON'T DISABLE ASSERT !!!!!!!!!!!!!!!"
 #endif
 
-// Makes cosmopolitan have some features that are sometimes missing
+// Makes cosmopolitan have some features that are sometimes missing (in particular those useful for debugging)
 #ifdef __COSMOPOLITAN__
 STATIC_YOINK("__fmt_dtoa");
 STATIC_YOINK("__die");

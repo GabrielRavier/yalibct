@@ -1,7 +1,7 @@
 I have filed the following bug reports/patches as a result of working on this testsuite:
 
 total: 43
-fixed/merged: 22
+fixed/merged: 23
 
 glibc (1 filed, 0 fixed):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
@@ -37,7 +37,7 @@ dietlibc (21 filed, 11 fixed) (note: dietlibc's mailing list does not have an ar
 nanoprintf (1 filed, 1 fixed):
 - https://github.com/charlesnicholson/nanoprintf/issues/244 (fixed)
 
-cosmopolitan (17 filed, 9 fixed):
+cosmopolitan (17 filed, 10 fixed):
 - https://github.com/jart/cosmopolitan/issues/771 (fixed)
 - https://github.com/jart/cosmopolitan/issues/772 (fixed)
 - https://github.com/jart/cosmopolitan/issues/773 (fixed)
@@ -54,4 +54,4 @@ cosmopolitan (17 filed, 9 fixed):
 - https://github.com/jart/cosmopolitan/issues/784 (not yet fixed)
 - https://github.com/jart/cosmopolitan/issues/785 (fixed)
 - https://github.com/jart/cosmopolitan/issues/789 (fixed)
-- https://github.com/jart/cosmopolitan/pull/796 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/796 (merged)

@@ -1,5 +1,9 @@
 Run dos2unix over all files
 
+Add cosmopolitan test/libc/fmt/printf_uppercase_e_static_yoink_test.c
+Add cosmopolitan test/libc/fmt/printf_uppercase_f_static_yoink_test.c
+Add cosmopolitan test/libc/fmt/printf_uppercase_g_static_yoink_test.c
+
 Try to use Copilot to generate some testcases
 
 printf tests just found in nanoprintf (add these ASAP)
