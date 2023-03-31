@@ -616,3 +616,8 @@ yalibct_make_executable(strcmp-llvm-project_fuzz tests/strcmp/llvm-project_fuzz.
 yalibct_make_executable(strcmp-compilerai-bug-reports-dietlibc_fast_correct tests/strcmp/compilerai-bug-reports-dietlibc_fast_correct.c)
 
 yalibct_make_executable(stat-llvm-project_test tests/stat/llvm-project_test.c)
+yalibct_make_executable(stat-binutils-1 tests/stat/binutils-1.c)
+yalibct_make_executable(stat-binutils-2 tests/stat/binutils-2.c)
+yalibct_make_executable(stat-binutils-3 tests/stat/binutils-3.c)
+yalibct_make_executable(stat-binutils-4 tests/stat/binutils-4.c)
+yalibct_make_executable(stat-binutils-5 tests/stat/binutils-5.c)
