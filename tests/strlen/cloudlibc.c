@@ -4,7 +4,7 @@
 
 #include <string.h>
 
-#include "test-deps/gtest.h"
+#include "test-deps/googletest.h"
 
 TEST(strlen, all) {
   ASSERT_EQ(0, strlen(""));

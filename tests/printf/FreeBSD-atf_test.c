@@ -44,7 +44,7 @@
  * use a similar naming scheme for your own tests.
  */
 
-#include "test-deps/atf-c.h"
+#include "test-deps/atf.h"
 #include <stdio.h>
 #include <string.h>
 

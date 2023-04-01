@@ -165,7 +165,7 @@ for i in \
     strcmp-{NetBSD-t,llvm-project-test,gcc-{builtins,execute-1,dg-{1,opt_{1,2,3,5,6,9,12}}},z88dk,scc-0013,{glibc,cosmopolitan}-test,newlib-1,nlibc,cloudlibc-test,avr-libc,arm-optimized-routines,embeddedartistry-libc,pdclib} \
     strcmp-{libcmini,llvm-project_fuzz,compilerai-bug-reports-dietlibc_fast_correct} \
     \
-    stat-{llvm-project_test,binutils-{1,2,3,4,5},cygwin-0{1,2,3,5,6}}
+    stat-{llvm-project_test,binutils-{1,2,3,4,5},cygwin-0{1,2,3,5,6},valgrind,gvisor}
 do
     run_one_test "test_runner $i"
 done

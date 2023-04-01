@@ -79,7 +79,7 @@ set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 
 if (NOT DEFINED YALIBCT_COMPILE_DEFINITIONS)
-  set(YALIBCT_COMPILE_DEFINITIONS "-D_GNU_SOURCE -D_BSD_SOURCE -D_DEFAULT_SOURCE -D__STDC_WANT_LIB_EXT1__" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
+  set(YALIBCT_COMPILE_DEFINITIONS "-D_GNU_SOURCE -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_POSIX_C_SOURCE=200809L -D__STDC_WANT_LIB_EXT1__" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
 endif()
 
 set(YALIBCT_POTENTIALLY_WANTED_LIBRARIES m;compat)
@@ -109,6 +109,7 @@ function(yalibct_check_libc_symbol symbol_name include_filename macro_name)
   list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
   list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_BSD_SOURCE)
   list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_DEFAULT_SOURCE)
+  list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_POSIX_C_SOURCE=200809L)
   list(APPEND CMAKE_REQUIRED_DEFINITIONS -D__STDC_WANT_LIB_EXT1__)
   foreach(LOOP_LIB ${YALIBCT_POTENTIALLY_WANTED_LIBRARIES})
     if (YALIBCT_HAS_LIBRARY_${LOOP_LIB})
@@ -122,6 +123,7 @@ function(yalibct_check_libc_symbol symbol_name include_filename macro_name)
     endif()
   endforeach()
   list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D__STDC_WANT_LIB_EXT1__
+  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D_POSIX_C_SOURCE=200809L
   list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D_DEFAULT_SOURCE
   list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D_BSD_SOURCE
   list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D_GNU_SOURCE
@@ -626,3 +628,5 @@ yalibct_make_executable(stat-cygwin-02 tests/stat/cygwin-02.c)
 yalibct_make_executable(stat-cygwin-03 tests/stat/cygwin-03.c)
 yalibct_make_executable(stat-cygwin-05 tests/stat/cygwin-05.c)
 yalibct_make_executable(stat-cygwin-06 tests/stat/cygwin-06.c)
+yalibct_make_executable(stat-valgrind tests/stat/valgrind.c)
+yalibct_make_executable(stat-gvisor tests/stat/gvisor.c)

@@ -5,7 +5,7 @@
  * Public domain.
  */
 
-#include "test-deps/atf-c.h"
+#include "test-deps/atf.h"
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>

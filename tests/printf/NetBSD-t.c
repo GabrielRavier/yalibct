@@ -26,7 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "test-deps/atf-c.h"
+#include "test-deps/atf.h"
 #include "test-lib/portable-symbols/NAN.h"
 #include "test-lib/portable-symbols/INFINITY.h"
 #include <stdio.h>

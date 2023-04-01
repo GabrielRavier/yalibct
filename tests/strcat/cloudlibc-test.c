@@ -4,7 +4,7 @@
 
 #define _CLOUDLIBC_UNSAFE_STRING_FUNCTIONS
 
-#include "test-deps/gtest.h"
+#include "test-deps/googletest.h"
 #include <string.h>
 
 TEST(strcat, example) {
