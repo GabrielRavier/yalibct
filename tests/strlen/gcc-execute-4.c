@@ -76,8 +76,8 @@ void test_array_ptr (void)
 
   /* Compute the length of the string past the second nul.  */
   A (*(&a[0][0] + 0) + 5, 0);
-  A (*(&a[0][0] + 1) + 10, 0);
-  A (*(&a[0][0] + 2) + 14, 0);
+//  A (*(&a[0][0] + 1) + 10, 0); // Seems like this is UB (at least, according to fsanitize)
+//  A (*(&a[0][0] + 2) + 14, 0); // Seems like this is UB (at least, according to fsanitize)
 
   int i0 = 0;
   int i1 = i0 + 1;

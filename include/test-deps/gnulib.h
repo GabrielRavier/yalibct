@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "test-lib/portable-symbols/internal/gnulib/attribute.h"
 #include "test-lib/compiler-features.h"
 
 #include <stdio.h>
@@ -65,8 +66,6 @@
   SIGNATURE_CHECK2 (fn, ret, args, id) /* macroexpand line */
 # define SIGNATURE_CHECK2(fn, ret, args, id) \
   _GL_UNUSED static ret (*signature_check ## id) args = fn
-#define _GL_ATTRIBUTE_MAYBE_UNUSED YALIBCT_ATTRIBUTE_MAYBE_UNUSED
-#define _GL_UNUSED _GL_ATTRIBUTE_MAYBE_UNUSED
 
 #define SIZEOF(array) (sizeof (array) / sizeof (array[0]))
 

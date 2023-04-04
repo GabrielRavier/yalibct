@@ -21,10 +21,10 @@
 #include "full-write.h"
 #else
 
-#include "test-lib/portable-symbols/safe_write.h"
+#include "test-lib/portable-symbols/internal/gnulib/safe_write.h"
 #include <errno.h>
 
-# define safe_rw safe_write
+# define safe_rw yalibct_internal_gnulib_safe_write
 # define full_rw full_write
 
 /* Some buggy drivers return 0 when one tries to write beyond

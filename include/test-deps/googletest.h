@@ -39,11 +39,15 @@
 #define ASSERT_NE(val1, val2) assert((val1) != (val2))
 #define ASSERT_STREQ(s1, s2) assert(strcmp((s1), (s2)) == 0)
 #define ASSERT_GT(val1, val2) assert((val1) > (val2))
+#define ASSERT_GE(val1, val2) assert((val1) >= (val2))
 #define ASSERT_LT(val1, val2) assert((val1) < (val2))
+#define ASSERT_LE(val1, val2) assert((val1) <= (val2))
 
 #define EXPECT_GT ASSERT_GT
+#define EXPECT_GE ASSERT_GE
 #define EXPECT_EQ ASSERT_EQ
 #define EXPECT_NE ASSERT_NE
+#define EXPECT_LE ASSERT_LE
 
 // Boolean assertions. Condition can be either a Boolean expression or an
 // AssertionResult. For more information on how to use AssertionResult with

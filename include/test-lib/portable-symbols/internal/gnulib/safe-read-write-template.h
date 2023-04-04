@@ -22,7 +22,7 @@
 #include <errno.h>
 
 #ifdef YALIBCT_SAFE_READ_WRITE_INTERNAL_IS_WRITE
-# define YALIBCT_SAFE_READ_WRITE_INTERNAL_safe_rw safe_write
+# define YALIBCT_SAFE_READ_WRITE_INTERNAL_safe_rw yalibct_internal_gnulib_safe_write
 # define YALIBCT_SAFE_READ_WRITE_INTERNAL_rw write
 #else
 #error "TODO"

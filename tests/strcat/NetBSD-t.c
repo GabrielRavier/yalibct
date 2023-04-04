@@ -6,10 +6,12 @@
  */
 
 #include "test-deps/atf.h"
+#include "test-deps/NetBSD.h"
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 ATF_TC(strcat_basic);
 ATF_TC_HEAD(strcat_basic, tc)

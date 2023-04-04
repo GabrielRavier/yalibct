@@ -19,6 +19,7 @@
 #pragma once
 
 #include "test-lib/hedley.h"
+#include "test-lib/portable-symbols/MAX.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -559,24 +560,43 @@ static void cmprintf_group_start(const char *group_name,
 /** Get the size of an array */
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 
-#if defined(YALIBCT_LIBC_HAS_SIGNAL_H) &&                                      \
-    defined(YALIBCT_LIBC_HAS_ACTUALLY_CONSTANT_SIGNAL_CONSTANTS)
+#if defined(YALIBCT_LIBC_HAS_SIGNAL_H)
 #define YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY
 #endif
 
 #ifdef YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY
 /* Signals caught by exception_handler(). */
-static const int exception_signals[] = {
-    SIGFPE,
-    SIGILL,
-    SIGSEGV,
+static int exception_signals[] = {
+    0,
+    0,
+    0,
 #ifdef SIGBUS
-    SIGBUS,
+    0,
 #endif
 #ifdef SIGSYS
-    SIGSYS,
+    0,
 #endif
 };
+
+static void init_exception_signals_array()
+{
+    static bool done_already = false;
+
+    if (done_already)
+        return;
+    done_already = true;
+
+    int i = 0;
+    exception_signals[i++] = SIGFPE;
+    exception_signals[i++] = SIGILL;
+    exception_signals[i++] = SIGSEGV;
+#ifdef SIGBUS
+    exception_signals[i++] = SIGBUS;
+#endif
+#ifdef SIGSYS
+    exception_signals[i++] = SIGSYS;
+#endif
+}
 
 /* Default signal functions that should be restored after a test is complete. */
 typedef void (*SignalFunction)(int signal);
@@ -620,7 +640,7 @@ static const ExceptionCodeInfo exception_codes[] = {
     EXCEPTION_CODE_INFO(EXCEPTION_STACK_OVERFLOW),
 };
 # else
-#  if (defined(__GNUC__) || defined(__clang__)) && defined(YALIBCT_LIBC_HAS_ACTUALLY_CONSTANT_SIGNAL_CONSTANTS)
+#  if (defined(__GNUC__) || defined(__clang__))
 #    warning "Support for exception handling available on this platform!"
 #  endif
 # endif /* _WIN32 */
@@ -1171,6 +1191,7 @@ static int cmocka_run_one_test_or_fixture(const char *function_name,
     if (handle_exceptions) {
 #ifdef YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY
         unsigned int i;
+        init_exception_signals_array();
         for (i = 0; i < ARRAY_SIZE(exception_signals); i++) {
             default_signal_functions[i] = signal(
                     exception_signals[i], exception_handler);
@@ -1226,6 +1247,7 @@ static int cmocka_run_one_test_or_fixture(const char *function_name,
     if (handle_exceptions) {
 #ifdef YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY
         unsigned int i;
+        init_exception_signals_array();
         for (i = 0; i < ARRAY_SIZE(exception_signals); i++) {
             signal(exception_signals[i], default_signal_functions[i]);
         }
@@ -1598,10 +1620,6 @@ static void cmprintf_group_finish_tap(const char *group_name,
     }
     print_message("# %s - %s\n", status, group_name);
 }
-
-#ifndef MAX
-#define MAX(a,b) ((a) < (b) ? (b) : (a))
-#endif
 
 static int c_strreplace(char *src,
                         size_t src_len,

@@ -121,4 +121,4 @@
 /* Use the signed type 'ptrdiff_t'.  */
 /* Note: ISO C does not mandate that 'size_t' and 'ptrdiff_t' have the same
    size, but it is so on all platforms we have seen since 1990.  */
-typedef ptrdiff_t idx_t;
+typedef ptrdiff_t yalibct_internal_gnulib_idx_t;

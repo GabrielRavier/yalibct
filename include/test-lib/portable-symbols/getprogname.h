@@ -27,7 +27,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <limits.h>
-#include "test-lib/portable-symbols/last_component.h"
+#include "test-lib/portable-symbols/internal/gnulib/last_component.h"
 
 char const *
 getprogname (void)
@@ -47,7 +47,7 @@ getprogname (void)
 # elif YALIBCT_LIBC_HAS___ARGV                                     /* mingw, MSVC */
   /* https://docs.microsoft.com/en-us/cpp/c-runtime-library/argc-argv-wargv */
   const char *p = __argv && __argv[0] ? __argv[0] : "?";
-  return last_component (p);
+  return yalibct_internal_gnulib_last_component (p);
 # elif YALIBCT_LIBC_HAS___PROGNAME                                  /* OpenBSD, Android, QNX */
   /* https://man.openbsd.org/style.9 */
   /* http://www.qnx.de/developers/docs/6.5.0/index.jsp?topic=%2Fcom.qnx.doc.neutrino_lib_ref%2Fp%2F__progname.html */

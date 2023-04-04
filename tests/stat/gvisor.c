@@ -185,19 +185,18 @@ TEST_F(StatTest, PathCanContainDotDot) {
       TempPath_CreateFileIn(subdir);
   char *file_name = Basename(file);
 
-// NOLINTBEGIN(readability-suspicious-call-argument)
+
   // Stat the file through a path that includes '..' and '.' but still resolves
   // to the file.
   char *tmp_path1 = JoinPath(basedir, subdir_name);
   char *tmp_path2 = JoinPath(tmp_path1, "..");
   free(tmp_path1);
-  tmp_path1 = JoinPath(tmp_path2, subdir_name);
+  tmp_path1 = JoinPath(tmp_path2, subdir_name); // NOLINT(readability-suspicious-call-argument)
   free(tmp_path2);
   tmp_path2 = JoinPath(tmp_path1, ".");
   free(tmp_path1);
-  char *good_path = JoinPath(tmp_path2, file_name);
+  char *good_path = JoinPath(tmp_path2, file_name); // NOLINT(readability-suspicious-call-argument)
   free(tmp_path2);
-// NOLINTEND(readability-suspicious-call-argument)
 
   struct stat buf;
   assert(lstat(good_path, &buf) == 0);

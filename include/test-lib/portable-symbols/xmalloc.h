@@ -23,14 +23,14 @@
 #else
 
 #include "test-lib/hedley.h"
-#include "test-lib/portable-symbols/xalloc_die.h"
+#include "test-lib/portable-symbols/internal/gnulib/xalloc_die.h"
 #include <stdlib.h>
 
 static inline void *HEDLEY_PURE
 yalibct_internal_xalloc_nonnull (void *p)
 {
   if (!p)
-    xalloc_die ();
+    yalibct_internal_gnulib_xalloc_die ();
   return p;
 }
 

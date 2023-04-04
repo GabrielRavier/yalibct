@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.12)
 
 project(yalibct
   VERSION 0.1
@@ -30,6 +30,7 @@ option(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS "Whether or not te
 option(YALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %f will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_LOWERCASE_X_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %x will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %[ will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_WORK_AROUND_NAMESPACE_VIOLATIONS "Whether or not known cases of libc implementations wrongly trampling on user namespace for no real reason should be worked around or if the subsequence error should deliberately be allowed to occur" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 
 option(YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the C95 standard will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C95_SYMBOLS "Whether or not we should error when we're told a C95 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
@@ -74,12 +75,14 @@ include(CheckSymbolExists)
 include(CheckLinkerFlag)
 include(CheckCSourceCompiles)
 include(CheckCSourceRuns)
+include(CheckStructHasMember)
+include(cmake/CheckTypeExists.cmake)
 
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 
 if (NOT DEFINED YALIBCT_COMPILE_DEFINITIONS)
-  set(YALIBCT_COMPILE_DEFINITIONS "-D_GNU_SOURCE -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_POSIX_C_SOURCE=200809L -D__STDC_WANT_LIB_EXT1__" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
+  set(YALIBCT_COMPILE_DEFINITIONS -D_GNU_SOURCE -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_POSIX_C_SOURCE=200809L -D__STDC_WANT_LIB_EXT1__ CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
 endif()
 
 set(YALIBCT_POTENTIALLY_WANTED_LIBRARIES m;compat)
@@ -88,102 +91,129 @@ foreach(YALIBCT_POTENTIALLY_WANTED_LIBRARIES_LOOP_VAR ${YALIBCT_POTENTIALLY_WANT
   check_linker_flag(C -l${YALIBCT_POTENTIALLY_WANTED_LIBRARIES_LOOP_VAR} YALIBCT_HAS_LIBRARY_${YALIBCT_POTENTIALLY_WANTED_LIBRARIES_LOOP_VAR})
 endforeach()
 
+foreach(LOOP_LIB ${YALIBCT_POTENTIALLY_WANTED_LIBRARIES})
+  if (${YALIBCT_HAS_LIBRARY_${LOOP_LIB}})
+    list(APPEND YALIBCT_WANTED_LIBRARIES ${LOOP_LIB})
+  endif()
+endforeach()
+
+list(APPEND CMAKE_REQUIRED_DEFINITIONS ${YALIBCT_COMPILE_DEFINITIONS})
+list(APPEND CMAKE_REQUIRED_LIBRARIES ${YALIBCT_WANTED_LIBRARIES})
+
 function(yalibct_append_macro_to_compiler_flags macro_name)
 
   if (${macro_name})
-    list(APPEND YALIBCT_COMPILE_DEFINITIONS ${macro_name})
+    list(APPEND YALIBCT_COMPILE_DEFINITIONS "-D${macro_name}")
     set(YALIBCT_COMPILE_DEFINITIONS "${YALIBCT_COMPILE_DEFINITIONS}" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
   endif()
 
 endfunction()
 
-function(yalibct_check_include_file include_filename macro_name)
+function(yalibct_check_include_file header_filenames macro_name)
 
-  CHECK_INCLUDE_FILE(${include_filename} ${macro_name})
+  CHECK_INCLUDE_FILE(${header_filenames} ${macro_name})
   yalibct_append_macro_to_compiler_flags("${macro_name}")
 
 endfunction()
 
-function(yalibct_check_libc_symbol symbol_name include_filename macro_name)
+function(yalibct_check_libc_symbol symbol_name header_filenames macro_name)
 
-  list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_BSD_SOURCE)
-  list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_DEFAULT_SOURCE)
-  list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_POSIX_C_SOURCE=200809L)
-  list(APPEND CMAKE_REQUIRED_DEFINITIONS -D__STDC_WANT_LIB_EXT1__)
-  foreach(LOOP_LIB ${YALIBCT_POTENTIALLY_WANTED_LIBRARIES})
-    if (YALIBCT_HAS_LIBRARY_${LOOP_LIB})
-      list(APPEND CMAKE_REQUIRED_LIBRARIES ${LOOP_LIB})
-    endif()
-  endforeach()
-  check_symbol_exists(${symbol_name} "${include_filename}" ${macro_name})
-  foreach(LOOP_LIB ${YALIBCT_POTENTIALLY_WANTED_LIBRARIES})
-    if (YALIBCT_HAS_LIBRARY_${LOOP_LIB})
-      list(POP_BACK CMAKE_REQUIRED_LIBRARIES)
-    endif()
-  endforeach()
-  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D__STDC_WANT_LIB_EXT1__
-  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D_POSIX_C_SOURCE=200809L
-  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D_DEFAULT_SOURCE
-  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D_BSD_SOURCE
-  list(POP_BACK CMAKE_REQUIRED_DEFINITIONS) # -D_GNU_SOURCE
+  check_symbol_exists(${symbol_name} "${header_filenames}" ${macro_name})
+
   set(${macro_name} "${${macro_name}}" CACHE INTERNAL "${macro_name}")
   if (${${macro_name}})
-    list(APPEND YALIBCT_COMPILE_DEFINITIONS "${macro_name}")
+    list(APPEND YALIBCT_COMPILE_DEFINITIONS "-D${macro_name}")
     set(YALIBCT_COMPILE_DEFINITIONS "${YALIBCT_COMPILE_DEFINITIONS}" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
   else()
-    list(APPEND YALIBCT_COMPILE_DEFINITIONS "${symbol_name}=THE_LIBC_THIS_WAS_COMPILED_UNDER_DOESNT_HAVE_${symbol_name}")
+    list(APPEND YALIBCT_COMPILE_DEFINITIONS "-D${symbol_name}=THE_LIBC_THIS_WAS_COMPILED_UNDER_DOESNT_HAVE_${symbol_name}")
     set(YALIBCT_COMPILE_DEFINITIONS "${YALIBCT_COMPILE_DEFINITIONS}" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
   endif()
 
 endfunction()
 
-function(yalibct_check_standard_libc_symbol symbol_name include_filename macro_name error_controlling_macro_name standard_name)
+function(yalibct_check_libc_struct_has_member struct_name member_name header_filenames macro_name)
 
-  message(DEBUG "${macro_name} value before defined test is ${${macro_name}}")
+  CHECK_STRUCT_HAS_MEMBER(${struct_name} ${member_name} "${header_filenames}" ${macro_name})
+
+  set(${macro_name} "${${macro_name}}" CACHE INTERNAL "${macro_name}")
+  yalibct_append_macro_to_compiler_flags("${macro_name}")
+
+endfunction()
+
+function(yalibct_check_libc_type_exists type_name header_filenames macro_name)
+
+  CHECK_TYPE_EXISTS(${type_name} "${header_filenames}" ${macro_name})
+
+  set(${macro_name} "${${macro_name}}" CACHE INTERNAL "${macro_name}")
+  yalibct_append_macro_to_compiler_flags("${macro_name}")
+
+endfunction()
+
+function(yalibct_check_standard_libc_symbol symbol_name header_filenames macro_name error_controlling_macro_name standard_name)
 
   # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
   if (DEFINED ${macro_name} AND NOT ${macro_name})
     return()
   endif()
-  message(DEBUG "${macro_name} value after defined test is ${${macro_name}}")
-  yalibct_check_libc_symbol(${symbol_name} "${include_filename}" ${macro_name})
-  message(DEBUG "${macro_name} value after yalibct_check_libc_symbol test is ${${macro_name}}")
-  message(DEBUG "error_controlling_macro_name value is ${error_controlling_macro_name}")
-  if (NOT ${error_controlling_macro_name})
-    message(DEBUG "NOT expand error_controlling_macro_name is true")
-  endif()
-  if (${macro_name} STREQUAL "")
-    message(DEBUG "expand macro STREQUAL empty string is true")
-  endif()
+  yalibct_check_libc_symbol(${symbol_name} "${header_filenames}" ${macro_name})
   if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
     message(SEND_ERROR "${standard_name} mandates ${symbol_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
   endif()
 
 endfunction()
 
-function(yalibct_check_c23_libc_symbol symbol_name include_filename macro_name)
-  yalibct_check_standard_libc_symbol(${symbol_name} "${include_filename}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C23_SYMBOLS} "C23")
+function(yalibct_check_standard_libc_type_exists type_name header_filenames macro_name error_controlling_macro_name standard_name)
+
+  # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
+  if (DEFINED ${macro_name} AND NOT ${macro_name})
+    return()
+  endif()
+  yalibct_check_libc_type_exists(${type_name} "${header_filenames}" ${macro_name})
+  if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
+    message(SEND_ERROR "${standard_name} mandates ${type_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
+  endif()
+
 endfunction()
 
-function(yalibct_check_c11_libc_symbol symbol_name include_filename macro_name)
-  yalibct_check_standard_libc_symbol(${symbol_name} "${include_filename}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C11_SYMBOLS} "C11")
+function(yalibct_check_standard_libc_struct_has_member struct_name member_name header_filenames macro_name error_controlling_macro_name standard_name)
+
+  # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
+  if (DEFINED ${macro_name} AND NOT ${macro_name})
+    return()
+  endif()
+  yalibct_check_libc_struct_has_member(${struct_name} ${member_name} "${header_filenames}" ${macro_name})
+  if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
+    message(SEND_ERROR "${standard_name} mandates ${struct_name}::${member_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
+  endif()
+
 endfunction()
 
-function(yalibct_check_c99_libc_symbol symbol_name include_filename macro_name)
-  yalibct_check_standard_libc_symbol(${symbol_name} "${include_filename}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C99_SYMBOLS} "C99")
+function(yalibct_check_c23_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C23_SYMBOLS} "C23")
 endfunction()
 
-function(yalibct_check_c95_libc_symbol symbol_name include_filename macro_name)
-  yalibct_check_standard_libc_symbol(${symbol_name} "${include_filename}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C95_SYMBOLS} "C95")
+function(yalibct_check_c11_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C11_SYMBOLS} "C11")
 endfunction()
 
-function(yalibct_check_c89_libc_symbol symbol_name include_filename macro_name)
-  yalibct_check_standard_libc_symbol(${symbol_name} "${include_filename}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C89_SYMBOLS} "C89")
+function(yalibct_check_c99_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C99_SYMBOLS} "C99")
 endfunction()
 
-function(yalibct_check_posix_libc_symbol symbol_name include_filename macro_name)
-  yalibct_check_standard_libc_symbol(${symbol_name} "${include_filename}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS} "POSIX")
+function(yalibct_check_c95_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C95_SYMBOLS} "C95")
+endfunction()
+
+function(yalibct_check_c89_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C89_SYMBOLS} "C89")
+endfunction()
+
+function(yalibct_check_posix_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS} "POSIX")
+endfunction()
+
+function(yalibct_check_posix_libc_struct_has_member struct_name member_name header_filenames macro_name)
+  yalibct_check_standard_libc_struct_has_member("${struct_name}" "${member_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS} "POSIX")
 endfunction()
 
 function(yalibct_make_executable target_name target_source_file)
@@ -193,10 +223,9 @@ function(yalibct_make_executable target_name target_source_file)
     PRIVATE "${CMAKE_SOURCE_DIR}/include"
   )
   target_compile_definitions(${target_name} PRIVATE "${YALIBCT_COMPILE_DEFINITIONS}")
-  foreach(LOOP_LIB ${YALIBCT_POTENTIALLY_WANTED_LIBRARIES})
-    if (${YALIBCT_HAS_LIBRARY_${LOOP_LIB}})
-      target_link_libraries(${target_name} PRIVATE ${LOOP_LIB})
-    endif()
+
+  foreach(LOOP_LIB ${YALIBCT_WANTED_LIBRARIES})
+    target_link_libraries(${target_name} PRIVATE ${LOOP_LIB})
   endforeach()
 
   target_link_libraries(${target_name} PRIVATE Threads::Threads)
@@ -258,13 +287,14 @@ yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_FIELD_LENGTH_ON_S_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_WORK_AROUND_NAMESPACE_VIOLATIONS)
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 yalibct_check_include_file(obstack.h YALIBCT_LIBC_HAS_OBSTACK_H)
 yalibct_check_include_file(sys/cdefs.h YALIBCT_LIBC_HAS_SYS_CDEFS_H)
 yalibct_check_include_file(signal.h YALIBCT_LIBC_HAS_SIGNAL_H)
 yalibct_check_include_file(sys/mman.h YALIBCT_LIBC_HAS_SYS_MMAN_H)
-yalibct_check_include_file(nanoprintf.h YALIBCT_HAS_SYSTEM_NANOPRINTF_H)
+yalibct_check_include_file(sys/vfs.h YALIBCT_LIBC_HAS_SYS_VFS_H)
 
 yalibct_check_libc_symbol(vstrdupf string.h YALIBCT_LIBC_HAS_VSTRDUPF)
 yalibct_check_libc_symbol(memchr_inv string.h YALIBCT_LIBC_HAS_MEMCHR_INV)
@@ -272,7 +302,6 @@ yalibct_check_c99_libc_symbol(NAN math.h YALIBCT_LIBC_HAS_NAN)
 yalibct_check_posix_libc_symbol(fcvt stdlib.h YALIBCT_LIBC_HAS_FCVT)
 yalibct_check_posix_libc_symbol(ecvt stdlib.h YALIBCT_LIBC_HAS_ECVT)
 yalibct_check_libc_symbol(xmalloc xalloc.h YALIBCT_LIBC_HAS_XMALLOC)
-yalibct_check_libc_symbol(xalloc_die xalloc.h YALIBCT_LIBC_HAS_XALLOC_DIE)
 yalibct_check_libc_symbol(error error.h YALIBCT_LIBC_HAS_ERROR)
 yalibct_check_libc_symbol(getprogname stdlib.h YALIBCT_LIBC_HAS_GETPROGNAME)
 yalibct_check_libc_symbol(program_invocation_short_name errno.h YALIBCT_LIBC_HAS_PROGRAM_INVOCATION_SHORT_NAME)
@@ -316,12 +345,10 @@ yalibct_check_posix_libc_symbol(strnlen string.h YALIBCT_LIBC_HAS_STRNLEN)
 yalibct_check_c89_libc_symbol(memchr string.h YALIBCT_LIBC_HAS_MEMCHR)
 yalibct_check_posix_libc_symbol(vdprintf stdio.h YALIBCT_LIBC_HAS_VDPRINTF)
 yalibct_check_posix_libc_symbol(dprintf stdio.h YALIBCT_LIBC_HAS_DPRINTF)
-yalibct_check_libc_symbol(vasnprintf stdio.h YALIBCT_LIBC_HAS_VASNPRINTF)
 yalibct_check_libc_symbol(alloca alloca.h YALIBCT_LIBC_HAS_ALLOCA)
 yalibct_check_c99_libc_symbol(mbrtowc wchar.h YALIBCT_LIBC_HAS_MBRTOWC)
 yalibct_check_c99_libc_symbol(wcrtomb wchar.h YALIBCT_LIBC_HAS_WCRTOMB)
 yalibct_check_libc_symbol(full_write full-write.h YALIBCT_LIBC_HAS_FULL_WRITE)
-yalibct_check_libc_symbol(safe_write safe-write.h YALIBCT_LIBC_HAS_SAFE_WRITE)
 yalibct_check_libc_symbol(SYS_BUFSIZE_MAX sys-limits.h YALIBCT_LIBC_HAS_SYS_BUFSIZE_MAX)
 yalibct_check_posix_libc_symbol(siglongjmp setjmp.h YALIBCT_LIBC_HAS_SIGLONGJMP)
 yalibct_check_posix_libc_symbol(strsignal string.h YALIBCT_LIBC_HAS_STRSIGNAL)
@@ -332,12 +359,32 @@ yalibct_check_c95_libc_symbol(wcscmp wchar.h YALIBCT_LIBC_HAS_WCSCMP)
 yalibct_check_posix_libc_symbol(open_memstream stdio.h YALIBCT_LIBC_HAS_OPEN_MEMSTREAM)
 yalibct_check_posix_libc_symbol(wcscasecmp wchar.h YALIBCT_LIBC_HAS_WCSCASECMP)
 yalibct_check_posix_libc_symbol(strcasecmp strings.h YALIBCT_LIBC_HAS_STRCASECMP)
-yalibct_check_libc_symbol(last_component basename-lgpl.h YALIBCT_LIBC_HAS_LAST_COMPONENT)
 yalibct_check_libc_symbol(gettext libintl.h YALIBCT_LIBC_HAS_GETTEXT)
 yalibct_check_c89_libc_symbol(tmpnam stdio.h YALIBCT_LIBC_HAS_TMPNAM)
 yalibct_check_libc_symbol(MIN "sys/param.h" YALIBCT_LIBC_HAS_MIN)
+yalibct_check_libc_symbol(MAX "sys/param.h" YALIBCT_LIBC_HAS_MAX)
 yalibct_check_c99_libc_symbol(SCNdFAST16 inttypes.h YALIBCT_LIBC_HAS_SCNDFAST16)
 yalibct_check_c89_libc_symbol(fgetc stdio.h YALIBCT_LIBC_HAS_FGETC)
+yalibct_check_posix_libc_struct_has_member("struct stat" st_atim "sys/stat.h" YALIBCT_LIBC_HAS_STRUCT_STAT_ST_ATIM)
+yalibct_check_posix_libc_struct_has_member("struct stat" st_mtim "sys/stat.h" YALIBCT_LIBC_HAS_STRUCT_STAT_ST_MTIM)
+yalibct_check_posix_libc_struct_has_member("struct stat" st_ctim "sys/stat.h" YALIBCT_LIBC_HAS_STRUCT_STAT_ST_CTIM)
+yalibct_check_libc_symbol(optreset unistd.h YALIBCT_LIBC_HAS_OPTRESET)
+yalibct_check_libc_symbol(fts_open fts.h YALIBCT_LIBC_HAS_FTS_OPEN)
+yalibct_check_libc_type_exists(FTS fts.h YALIBCT_LIBC_HAS_FTS)
+yalibct_check_libc_type_exists(FTSENT fts.h YALIBCT_LIBC_HAS_FTSENT)
+yalibct_check_libc_type_exists("struct stat64" "sys/stat.h" YALIBCT_LIBC_HAS_STRUCT_STAT64)
+yalibct_check_posix_libc_symbol(O_SEARCH fcntl.h YALIBCT_LIBC_HAS_O_SEARCH)
+yalibct_check_libc_symbol(fts_read fts.h YALIBCT_LIBC_HAS_FTS_READ)
+yalibct_check_libc_type_exists(__fsword_t "sys/vfs.h" YALIBCT_LIBC_HAS___FSWORD_T)
+yalibct_check_libc_symbol(fstatfs "sys/vfs.h" YALIBCT_LIBC_HAS_FSTATFS)
+yalibct_check_libc_struct_has_member("struct statfs" f_type "sys/vfs.h" YALIBCT_LIBC_HAS_STRUCT_STATFS_F_TYPE)
+yalibct_check_libc_struct_has_member("struct dirent" d_type "dirent.h" YALIBCT_LIBC_HAS_STRUCT_DIRENT_D_TYPE)
+yalibct_check_libc_symbol(fts_set fts.h YALIBCT_LIBC_HAS_FTS_SET)
+yalibct_check_libc_symbol(chflags unistd.h YALIBCT_LIBC_HAS_CHFLAGS)
+yalibct_check_libc_symbol(fts_close fts.h YALIBCT_LIBC_HAS_FTS_CLOSE)
+yalibct_check_posix_libc_symbol(UTIME_NOW "sys/stat.h" YALIBCT_LIBC_HAS_UTIME_NOW)
+yalibct_check_posix_libc_symbol(UTIME_OMIT "sys/stat.h" YALIBCT_LIBC_HAS_UTIME_OMIT)
+yalibct_check_c89_libc_symbol(fopen stdio.h YALIBCT_LIBC_HAS_FOPEN)
 
 yalibct_check_source_compiles(
   "
@@ -630,3 +677,13 @@ yalibct_make_executable(stat-cygwin-05 tests/stat/cygwin-05.c)
 yalibct_make_executable(stat-cygwin-06 tests/stat/cygwin-06.c)
 yalibct_make_executable(stat-valgrind tests/stat/valgrind.c)
 yalibct_make_executable(stat-gvisor tests/stat/gvisor.c)
+yalibct_make_executable(stat-gvisor_times_part1 tests/stat/gvisor_times_part1.c)
+yalibct_make_executable(stat-gvisor_times_part2 tests/stat/gvisor_times_part2.c)
+yalibct_make_executable(stat-gvisor_times_part3 tests/stat/gvisor_times_part3.c)
+yalibct_make_executable(stat-gvisor_times_part4 tests/stat/gvisor_times_part4.c)
+yalibct_make_executable(stat-gvisor_times_part5 tests/stat/gvisor_times_part5.c)
+yalibct_make_executable(stat-gvisor_times_part6 tests/stat/gvisor_times_part6.c)
+yalibct_make_executable(stat-linux-test-project-01 tests/stat/linux-test-project-01.c)
+yalibct_make_executable(stat-linux-test-project-02 tests/stat/linux-test-project-02.c)
+yalibct_make_executable(stat-NetBSD-t tests/stat/NetBSD-t.c)
+yalibct_make_executable(stat-glibc-test tests/stat/glibc-test.c)

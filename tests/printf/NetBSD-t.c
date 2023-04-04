@@ -35,6 +35,7 @@
 #include <math.h>
 #include <time.h>
 #include <sys/resource.h>
+#include <assert.h>
 #include <stdint.h>
 
 ATF_TC(snprintf_c99);

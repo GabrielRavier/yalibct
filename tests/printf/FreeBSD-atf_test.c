@@ -47,6 +47,7 @@
 #include "test-deps/atf.h"
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 /*
  * This is the simplest form of a test case definition: a test case
@@ -129,6 +130,7 @@ ATF_TC_BODY(fprintf__simple_string, tc)
 {
 	const char *contents = "This is a message\n";
 
+#ifdef YALIBCT_LIBC_HAS_FOPEN
 	FILE *output = fopen("test.txt", "w");
 	ATF_REQUIRE(fprintf(output, "%s", contents) > 0);
 	assert(fclose(output) == 0);
@@ -145,6 +147,7 @@ ATF_TC_BODY(fprintf__simple_string, tc)
 	 * this behavior. */
         // Note: comment is wrong in the context of yalibct - we do need to remove the files ourselves
         ATF_REQUIRE(remove("test.txt") == 0);
+#endif
 }
 
 /*
@@ -153,9 +156,9 @@ ATF_TC_BODY(fprintf__simple_string, tc)
  */
 ATF_TP_ADD_TCS(tp)
 {
-	ATF_TP_ADD_TC_NO_HEAD(tp, snprintf__two_formatters);
+	ATF_TP_ADD_TC(tp, snprintf__two_formatters);
 	ATF_TP_ADD_TC(tp, snprintf__overflow);
-	ATF_TP_ADD_TC_NO_HEAD(tp, fprintf__simple_string);
+	ATF_TP_ADD_TC(tp, fprintf__simple_string);
 
 	return (atf_no_error());
 }

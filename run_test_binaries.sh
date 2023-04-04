@@ -78,6 +78,7 @@ do_mtrace_test()
     export MALLOC_TRACE=$(mktemp)
     test_runner "$@"
     mtrace $(get_test_executable_path "$1") "$MALLOC_TRACE" | diff -u - <(echo 'No memory leaks.')
+    rm "$MALLOC_TRACE"
     unset MALLOC_TRACE
 }
 
@@ -165,7 +166,7 @@ for i in \
     strcmp-{NetBSD-t,llvm-project-test,gcc-{builtins,execute-1,dg-{1,opt_{1,2,3,5,6,9,12}}},z88dk,scc-0013,{glibc,cosmopolitan}-test,newlib-1,nlibc,cloudlibc-test,avr-libc,arm-optimized-routines,embeddedartistry-libc,pdclib} \
     strcmp-{libcmini,llvm-project_fuzz,compilerai-bug-reports-dietlibc_fast_correct} \
     \
-    stat-{llvm-project_test,binutils-{1,2,3,4,5},cygwin-0{1,2,3,5,6},valgrind,gvisor}
+    stat-{llvm-project_test,binutils-{1,2,3,4,5},cygwin-0{1,2,3,5,6},valgrind,gvisor{,_times_part{1,2,3,4,5,6}},linux-test-project-0{1,2},NetBSD-t,glibc-test}
 do
     run_one_test "test_runner $i"
 done

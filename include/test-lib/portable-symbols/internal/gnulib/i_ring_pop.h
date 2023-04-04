@@ -1,10 +1,10 @@
 // Derived from code with this license:
-/* An interface to write that retries after interrupts.
-   Copyright (C) 2002, 2009-2022 Free Software Foundation, Inc.
+/* a simple ring buffer
+   Copyright (C) 2006, 2009-2023 Free Software Foundation, Inc.
 
    This file is free software: you can redistribute it and/or modify
    it under the terms of the GNU Lesser General Public License as
-   published by the Free Software Foundation; either version 2.1 of the
+   published by the Free Software Foundation, either version 3 of the
    License, or (at your option) any later version.
 
    This file is distributed in the hope that it will be useful,
@@ -14,13 +14,25 @@
 
    You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
+
+/* written by Jim Meyering */
+
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_SAFE_WRITE
-#include "safe-write.h"
-#else
+#include "test-lib/portable-symbols/internal/gnulib/i_ring_empty.h"
+#include <stdlib.h>
 
-#define YALIBCT_SAFE_READ_WRITE_INTERNAL_IS_WRITE
-#include "test-lib/portable-symbols/internal/safe-read-write-template.h"
-
-#endif
+int
+i_ring_pop (I_ring *ir)
+{
+  int top_val;
+  if (i_ring_empty (ir))
+    abort ();
+  top_val = ir->ir_data[ir->ir_front];
+  ir->ir_data[ir->ir_front] = ir->ir_default_val;
+  if (ir->ir_front == ir->ir_back)
+    ir->ir_empty = true;
+  else
+    ir->ir_front = ((ir->ir_front + I_RING_SIZE - 1) % I_RING_SIZE);
+  return top_val;
+}

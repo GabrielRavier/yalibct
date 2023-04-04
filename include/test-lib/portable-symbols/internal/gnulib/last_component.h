@@ -18,10 +18,6 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_LAST_COMPONENT
-#include <basename-lgpl.h>
-#else
-
 #include <stdbool.h>
 
 /* Filename support.
@@ -73,7 +69,7 @@
 #endif
 
 char *
-last_component (char const *name)
+yalibct_internal_gnulib_last_component (char const *name)
 {
   char const *base = name + yalibct_internal_last_component_FILE_SYSTEM_PREFIX_LEN (name);
   char const *p;
@@ -95,5 +91,3 @@ last_component (char const *name)
 
   return (char *) base;
 }
-
-#endif

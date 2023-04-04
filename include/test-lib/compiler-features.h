@@ -11,6 +11,7 @@
 STATIC_YOINK("__fmt_dtoa");
 STATIC_YOINK("__die");
 STATIC_YOINK("__zipos_get");
+STATIC_YOINK("__zipos_parseuri");
 STATIC_YOINK("PrintBacktraceUsingSymbols");
 STATIC_YOINK("ShowBacktrace");
 STATIC_YOINK("malloc_inspect_all");

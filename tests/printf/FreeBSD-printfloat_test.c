@@ -35,6 +35,7 @@
 #include <fenv.h>
 #include <float.h>
 #include <string.h>
+#include <assert.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -579,19 +580,19 @@ ATF_TC_BODY(subnormal_float, tc)
 ATF_TP_ADD_TCS(tp)
 {
 
-	ATF_TP_ADD_TC_NO_HEAD(tp, float_within_limits);
-	ATF_TP_ADD_TC_NO_HEAD(tp, infinities_and_nans);
-	ATF_TP_ADD_TC_NO_HEAD(tp, padding);
-	ATF_TP_ADD_TC_NO_HEAD(tp, precision_specifiers);
-	ATF_TP_ADD_TC_NO_HEAD(tp, thousands_separator_and_other_locale_tests);
-	ATF_TP_ADD_TC_NO_HEAD(tp, signed_conversions);
-	ATF_TP_ADD_TC_NO_HEAD(tp, alternate_form);
-	ATF_TP_ADD_TC_NO_HEAD(tp, padding_and_decimal_point_placement);
-	ATF_TP_ADD_TC_NO_HEAD(tp, decimal_rounding);
-	ATF_TP_ADD_TC_NO_HEAD(tp, hexadecimal_floating_point);
-	ATF_TP_ADD_TC_NO_HEAD(tp, hexadecimal_rounding);
-	ATF_TP_ADD_TC_NO_HEAD(tp, subnormal_double);
-	ATF_TP_ADD_TC_NO_HEAD(tp, subnormal_float);
+	ATF_TP_ADD_TC(tp, float_within_limits);
+	ATF_TP_ADD_TC(tp, infinities_and_nans);
+	ATF_TP_ADD_TC(tp, padding);
+	ATF_TP_ADD_TC(tp, precision_specifiers);
+	ATF_TP_ADD_TC(tp, thousands_separator_and_other_locale_tests);
+	ATF_TP_ADD_TC(tp, signed_conversions);
+	ATF_TP_ADD_TC(tp, alternate_form);
+	ATF_TP_ADD_TC(tp, padding_and_decimal_point_placement);
+	ATF_TP_ADD_TC(tp, decimal_rounding);
+	ATF_TP_ADD_TC(tp, hexadecimal_floating_point);
+	ATF_TP_ADD_TC(tp, hexadecimal_rounding);
+	ATF_TP_ADD_TC(tp, subnormal_double);
+	ATF_TP_ADD_TC(tp, subnormal_float);
 
 	return (atf_no_error());
 }

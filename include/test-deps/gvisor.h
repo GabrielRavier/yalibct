@@ -17,12 +17,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <dirent.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <assert.h>
 #include <errno.h>
 #include <stdint.h>
-#include <assert.h>
+#include <stdbool.h>
 
 static char GetAbsoluteTestTmpdir_internal_tmpdir_template[] = "/tmp/yalibct.gvisor.XXXXXX";
 
@@ -294,3 +296,104 @@ static char *TempPath_CreateSymlinkTo(const char *parent, const char *dest) {
 }
 
 #define GVISOR_MAKE_MAIN() static void real_user_main(); int main() { real_user_main(); GetAbsoluteTestTmpdir_remove_dir(); } static void real_user_main()
+
+#define RetryEINTR(RetryEINTR_return_var, f, f_callback_data, ...)      \
+    while (true) {                                                      \
+        errno = 0;                                                      \
+        RetryEINTR_return_var = (f)((f_callback_data), __VA_ARGS__);    \
+        if (RetryEINTR_return_var != 1 || errno != EINTR)               \
+            break;                                                      \
+    }
+
+ssize_t internal_ApplyFileIoSyscall(ssize_t (*f)(void *callback_data, size_t completed), void *f_callback_data, size_t const count) {
+  size_t completed = 0;
+  // `do ... while` because some callers actually want to make a syscall with a
+  // count of 0.
+  do {
+      ssize_t cur;
+      RetryEINTR(cur, f, f_callback_data, completed);
+    if (cur < 0) {
+      return cur;
+    } else if (cur == 0) {
+      break;
+    }
+    completed += cur;
+  } while (completed < count);
+  return completed;
+}
+
+struct WriteFd_internal_lambda_callback_data {
+    int fd;
+    const void *buf;
+    size_t count;
+};
+
+static ssize_t WriteFd_internal_lambda(void *callback_data_void_ptr, size_t completed)
+{
+    struct WriteFd_internal_lambda_callback_data *callback_data = (struct WriteFd_internal_lambda_callback_data *)callback_data_void_ptr;
+
+    return write(callback_data->fd, (char const*)(callback_data->buf) + completed,
+                 callback_data->count - completed);
+}
+
+static inline ssize_t WriteFd(int fd, void const* buf, size_t count) {
+    struct WriteFd_internal_lambda_callback_data callback_data = { fd, buf, count };
+
+    return internal_ApplyFileIoSyscall(WriteFd_internal_lambda, &callback_data,
+      count);
+}
+
+struct ReadFd_internal_lambda_callback_data {
+    int fd;
+    const void *buf;
+    size_t count;
+};
+
+static ssize_t ReadFd_internal_lambda(void *callback_data_void_ptr, size_t completed)
+{
+    struct ReadFd_internal_lambda_callback_data *callback_data = (struct ReadFd_internal_lambda_callback_data *)callback_data_void_ptr;
+
+    return read(callback_data->fd, (char*)(callback_data->buf) + completed, callback_data->count - completed);
+}
+
+static inline ssize_t ReadFd(int fd, void* buf, size_t count) {
+    struct ReadFd_internal_lambda_callback_data callback_data = { fd, buf, count };
+    return internal_ApplyFileIoSyscall(ReadFd_internal_lambda, &callback_data, count);
+}
+
+struct ListDir_retval {
+    char **filenames;
+    size_t filename_count;
+};
+
+struct ListDir_retval ListDir(const char *abspath, bool skipdots) {
+    struct ListDir_retval files = { NULL, 0 };
+
+  DIR* dir = opendir(abspath);
+  assert(dir != NULL);
+  while (true) {
+    // Readdir(3): If the end of the directory stream is reached, NULL is
+    // returned and errno is not changed.  If an error occurs, NULL is returned
+    // and errno is set appropriately.  To distinguish end of stream and from an
+    // error, set errno to zero before calling readdir() and then check the
+    // value of errno if NULL is returned.
+    errno = 0;
+    struct dirent* dp = readdir(dir);
+    if (dp == NULL) {
+      assert(errno == 0);
+      break;  // We're done.
+    }
+
+    if (strcmp(dp->d_name, ".") == 0 || strcmp(dp->d_name, "..") == 0) {
+      if (skipdots) {
+        continue;
+      }
+    }
+    files.filenames = realloc(files.filenames, ++files.filename_count * sizeof(char *));
+    assert(files.filenames != NULL);
+    files.filenames[files.filename_count - 1] = strdup(dp->d_name);
+  }
+
+  assert(closedir(dir) == 0);
+  return files;
+}

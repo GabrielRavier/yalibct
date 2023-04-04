@@ -28,7 +28,7 @@
 #include <stdlib.h>
 
 static inline void
-xalloc_die (void)
+yalibct_internal_gnulib_xalloc_die (void)
 {
   error (EXIT_FAILURE, 0, "%s", gettext("memory exhausted"));
 

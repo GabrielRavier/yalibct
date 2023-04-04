@@ -22,7 +22,7 @@
 #include <alignalloc.h>
 #else
 
-#include "test-lib/portable-symbols/idx_t.h"
+#include "test-lib/portable-symbols/internal/gnulib/idx_t.h"
 #include "test-lib/portable-symbols/ckd_add.h"
 #include "test-lib/portable-symbols/alignof.h"
 #include "test-lib/portable-symbols/static_assert.h"
@@ -30,7 +30,7 @@
 /* Return P aligned down to ALIGNMENT, which should be a power of two.  */
 
 static void *
-yalibct_internal_alignalloc_align_down (void *p, idx_t alignment)
+yalibct_internal_alignalloc_align_down (void *p, yalibct_internal_gnulib_idx_t alignment)
 {
   char *c = p;
   return c - ((uintptr_t) p & (alignment - 1));
@@ -60,7 +60,7 @@ yalibct_internal_alignalloc_address_of_pointer_to_malloced (unsigned char *r)
    To free storage later, call alignfree.  */
 
 void *
-alignalloc (idx_t alignment, idx_t size)
+alignalloc (yalibct_internal_gnulib_idx_t alignment, yalibct_internal_gnulib_idx_t size)
 {
   /* malloc (ALIGNMENT + SIZE); if it succeeds, there must be at least
      one byte available before the returned pointer.  It's OK if
@@ -76,7 +76,7 @@ alignalloc (idx_t alignment, idx_t size)
     }
 
   unsigned char *r = yalibct_internal_alignalloc_align_down (q + alignment, alignment);
-  idx_t offset = r - q;
+  yalibct_internal_gnulib_idx_t offset = r - q;
 
   if (offset <= UCHAR_MAX)
     r[-1] = offset;

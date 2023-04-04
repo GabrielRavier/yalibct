@@ -24,4 +24,5 @@ static inline void yalibct_chdir_to_tmpdir_remove_tmpdir()
     assert(strcmp(g_yalibct_chdir_to_tmpdir_tmpdir_path, "/tmp/yalibct.XXXXXX") != 0);
     assert(strncmp(g_yalibct_chdir_to_tmpdir_tmpdir_path, "/tmp/yalibct.", 13) == 0);
     assert(remove(g_yalibct_chdir_to_tmpdir_tmpdir_path) == 0);
+    assert(strcpy(g_yalibct_chdir_to_tmpdir_tmpdir_path, "/tmp/yalibct.XXXXXX") == g_yalibct_chdir_to_tmpdir_tmpdir_path);
 }

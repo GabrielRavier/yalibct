@@ -4,8 +4,8 @@
 #include <stdio.h>
 #else
 
-#include "test-lib/portable-symbols/vasnprintf.h"
-#include "test-lib/portable-symbols/full_write.h"
+#include "test-lib/portable-symbols/internal/gnulib/vasnprintf.h"
+#include "test-lib/portable-symbols/internal/gnulib/full_write.h"
 #include <stdarg.h>
 #include <limits.h>
 
@@ -20,7 +20,7 @@ vdprintf (int fd, const char *format, va_list args)
   size_t len;
   size_t lenbuf = sizeof (buf);
 
-  output = vasnprintf (buf, &lenbuf, format, args);
+  output = yalibct_internal_gnulib_vasnprintf (buf, &lenbuf, format, args);
   len = lenbuf;
 
   if (!output)
