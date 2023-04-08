@@ -151,7 +151,7 @@ for i in \
     printf-{KOS-mk4-test-positional,linux-kernel-test,FreeBSD-{printfloat,atf,plain}_test,fuchsia-tests,illumos-gate-{6961,9511},reactos,newsys-test,osv-tst,OpenBSD-{fp,int,string},gcc-2,wine-{msvcrt,ucrtbase}} \
     printf-{glibc-tst-{binary,ob,bz25691,round,ldbl-nonnormal},picolibc-{nul,tests,scanf},dietlibc{2,},cloudlibc-scanf_test,avr-libc-bug-35366-2_flt,libc-test-{1e9-oob,fmt-{g-{round,zeros},n}},pdclib} \
     printf-gnulib-{sizes-c99,directive-{a,f,ls,n},flag-{grouping,leftadjust,zero},infinite{,-long-double},long-double,positions,precision,sn-{directive-n,retval-c99,size1,truncation-c99},vsn-zerosize-c99} \
-    printf-cosmopolitan-kprintf_test \
+    printf-cosmopolitan-{kprintf_test,uppercase-{e,f,g}-static-yoink-test} \
     \
     strcat-{NetBSD-t,llvm-project-test,gcc,cc65-lib_common,scc-0011,{glibc,cosmopolitan,cloudlibc}-test,gnulib-test-u8,pdclib,embeddedartistry-libc} \
     \

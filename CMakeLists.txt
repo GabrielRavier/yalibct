@@ -521,6 +521,9 @@ yalibct_make_executable(printf-libcmini_formatting-2 tests/printf/libcmini_forma
 yalibct_make_executable(printf-libcmini_formatting-3 tests/printf/libcmini_formatting-3.c)
 yalibct_make_executable(printf-libcmini_formatting-4 tests/printf/libcmini_formatting-4.c)
 yalibct_make_executable(printf-libcmini_formatting-5 tests/printf/libcmini_formatting-5.c)
+yalibct_make_executable(printf-cosmopolitan-uppercase-e-static-yoink-test tests/printf/cosmopolitan-uppercase-e-static-yoink-test.c)
+yalibct_make_executable(printf-cosmopolitan-uppercase-f-static-yoink-test tests/printf/cosmopolitan-uppercase-f-static-yoink-test.c)
+yalibct_make_executable(printf-cosmopolitan-uppercase-g-static-yoink-test tests/printf/cosmopolitan-uppercase-g-static-yoink-test.c)
 
 yalibct_make_executable(strcat-NetBSD-t tests/strcat/NetBSD-t.c)
 yalibct_make_executable(strcat-llvm-project-test tests/strcat/llvm-project-test.c)

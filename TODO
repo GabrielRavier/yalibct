@@ -1,10 +1,4 @@
-Add cosmopolitan test/libc/fmt/printf_uppercase_e_static_yoink_test.c
-Add cosmopolitan test/libc/fmt/printf_uppercase_f_static_yoink_test.c
-Add cosmopolitan test/libc/fmt/printf_uppercase_g_static_yoink_test.c
-
 Redo glibc.h test-deps headers ASAP (move test-deps/gnulib/string-buffer.h into test-lib at the same time)
-
-Try to use Copilot to generate some testcases
 
 printf tests just found in nanoprintf (add these ASAP)
 
@@ -22,8 +16,10 @@ Go make a patch to fix absence of UTIME_OMIT and UTIME_NOW in dietlibc.
 
 File an issue for cosmopolitan namespace violations like timespec_cmp - (see also timespec_cmp_avoid_cosmopolitan_namespace_violation)
 
+Try to use Copilot to generate some testcases
+
 Functions to do present in PDP7:
-- (list is not complete - anything after stat, I think)
+- (list is not complete - anything after stat, I guess)
 
 All the rest of the stuff from PDP7 and anything afterwards
 
