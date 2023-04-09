@@ -402,6 +402,9 @@ yalibct_check_libc_type_exists("struct option" getopt.h YALIBCT_LIBC_HAS_STRUCT_
 yalibct_check_posix_libc_symbol(optopt unistd.h YALIBCT_LIBC_HAS_OPTOPT)
 yalibct_check_posix_libc_symbol(optind unistd.h YALIBCT_LIBC_HAS_OPTIND)
 yalibct_check_posix_libc_symbol(opterr unistd.h YALIBCT_LIBC_HAS_OPTERR)
+yalibct_check_libc_symbol(obstack_free obstack.h YALIBCT_LIBC_HAS_OBSTACK_FREE)
+yalibct_check_libc_symbol(obstack_alloc obstack.h YALIBCT_LIBC_HAS_OBSTACK_ALLOC)
+yalibct_check_libc_symbol(obstack_blank obstack.h YALIBCT_LIBC_HAS_OBSTACK_BLANK)
 
 yalibct_check_source_compiles(
   "

@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include "test-lib/portable-symbols/obstack_init.h"
 #include "test-lib/portable-symbols/internal/gnulib/hash-common.h"
 #include "test-lib/portable-symbols/internal/gnulib/rotr_sz.h"
 
@@ -90,6 +91,11 @@ hash_initialize (size_t candidate, const Hash_tuning *tuning,
   table->data_freer = data_freer;
 
   table->free_entry_list = NULL;
+#if 1//USE_OBSTACK
+#  define obstack_chunk_alloc malloc
+#  define obstack_chunk_free free
+  obstack_init (&table->entry_stack);
+#endif
   return table;
 
  fail:

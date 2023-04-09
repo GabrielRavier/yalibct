@@ -99,14 +99,51 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_OBSTACK_ROOM
+#ifdef YALIBCT_LIBC_HAS_OBSTACK_FREE
 #include <obstack.h>
 #else
 
-#include "test-lib/portable-symbols/struct_obstack.h"
+#include "test-lib/portable-symbols/internal/gnulib/obstack-common.h"
 
-#undef obstack_room
-# define obstack_room(h)                              \
-  ((_OBSTACK_SIZE_T) ((h)->chunk_limit - (h)->next_free))
+#undef obstack_free
+# define obstack_free(h, obj)                             \
+  ((h)->temp.p = (void *) (obj),                          \
+   (((h)->temp.p > (void *) (h)->chunk                        \
+     && (h)->temp.p < (void *) (h)->chunk_limit)                  \
+    ? (void) ((h)->next_free = (h)->object_base = (char *) (h)->temp.p)       \
+    : _obstack_free ((h), (h)->temp.p)))
+
+/* Free objects in obstack H, including OBJ and everything allocate
+   more recently than OBJ.  If OBJ is zero, free everything in H.  */
+
+void
+_obstack_free (struct obstack *h, void *obj)
+{
+  struct _obstack_chunk *lp;    /* below addr of any objects in this chunk */
+  struct _obstack_chunk *plp;   /* point to previous chunk if any */
+
+  lp = h->chunk;
+  /* We use >= because there cannot be an object at the beginning of a chunk.
+     But there can be an empty object at that address
+     at the end of another chunk.  */
+  while (lp != 0 && ((void *) lp >= obj || (void *) (lp)->limit < obj))
+    {
+      plp = lp->prev;
+      call_freefun (h, lp);
+      lp = plp;
+      /* If we switch chunks, we can't tell whether the new current
+         chunk contains an empty object, so assume that it may.  */
+      h->maybe_empty_object = 1;
+    }
+  if (lp)
+    {
+      h->object_base = h->next_free = (char *) (obj);
+      h->chunk_limit = lp->limit;
+      h->chunk = lp;
+    }
+  else if (obj != 0)
+    /* obj is not in any of the chunks! */
+    abort ();
+}
 
 #endif

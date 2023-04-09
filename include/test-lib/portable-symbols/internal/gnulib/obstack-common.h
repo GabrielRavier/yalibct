@@ -19,6 +19,8 @@
 #pragma once
 
 #include "test-lib/portable-symbols/struct_obstack.h"
+#include "test-lib/portable-symbols/obstack_alloc_failed_handler.h"
+#include <string.h>
 
 /* Call functions with either the traditional malloc/free calling
    interface, or the mmalloc/mfree interface (that adds an extra first
@@ -62,3 +64,69 @@ struct _obstack_chunk           /* Lives at front of each chunk. */
 #define __PTR_ALIGN(B, P, A)                              \
   __BPTR_ALIGN (sizeof (ptrdiff_t) < sizeof (void *) ? (B) : (char *) 0,      \
                 P, A)
+
+static void
+call_freefun (struct obstack *h, void *old_chunk)
+{
+  if (h->use_extra_arg)
+    h->freefun.extra (h->extra_arg, old_chunk);
+  else
+    h->freefun.plain (old_chunk);
+}
+
+/* Allocate a new current chunk for the obstack *H
+   on the assumption that LENGTH bytes need to be added
+   to the current object, or a new object of length LENGTH allocated.
+   Copies any partial object from the end of the old chunk
+   to the beginning of the new one.  */
+
+void
+_obstack_newchunk (struct obstack *h, _OBSTACK_SIZE_T length)
+{
+  struct _obstack_chunk *old_chunk = h->chunk;
+  struct _obstack_chunk *new_chunk = 0;
+  size_t obj_size = h->next_free - h->object_base;
+  char *object_base;
+
+  /* Compute size for new chunk.  */
+  size_t sum1 = obj_size + length;
+  size_t sum2 = sum1 + h->alignment_mask;
+  size_t new_size = sum2 + (obj_size >> 3) + 100;
+  if (new_size < sum2)
+    new_size = sum2;
+  if (new_size < h->chunk_size)
+    new_size = h->chunk_size;
+
+  /* Allocate and initialize the new chunk.  */
+  if (obj_size <= sum1 && sum1 <= sum2)
+    new_chunk = call_chunkfun (h, new_size);
+  if (!new_chunk)
+    (*obstack_alloc_failed_handler)();
+  h->chunk = new_chunk;
+  new_chunk->prev = old_chunk;
+  new_chunk->limit = h->chunk_limit = (char *) new_chunk + new_size;
+
+  /* Compute an aligned object_base in the new chunk */
+  object_base =
+    __PTR_ALIGN ((char *) new_chunk, new_chunk->contents, h->alignment_mask);
+
+  /* Move the existing object to the new chunk.  */
+  memcpy (object_base, h->object_base, obj_size);
+
+  /* If the object just copied was the only data in OLD_CHUNK,
+     free that chunk and remove it from the chain.
+     But not if that chunk might contain an empty object.  */
+  if (!h->maybe_empty_object
+      && (h->object_base
+          == __PTR_ALIGN ((char *) old_chunk, old_chunk->contents,
+                          h->alignment_mask)))
+    {
+      new_chunk->prev = old_chunk->prev;
+      call_freefun (h, old_chunk);
+    }
+
+  h->object_base = object_base;
+  h->next_free = h->object_base + obj_size;
+  /* The new chunk certainly contains no empty object yet.  */
+  h->maybe_empty_object = 0;
+}

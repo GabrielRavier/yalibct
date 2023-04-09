@@ -65,6 +65,7 @@ hash_remove (Hash_table *table, const void *entry)
                      is low, we can at least be kind and free any
                      spare entries, rather than keeping them tied up
                      in the free entry list.  */
+#if 0//! USE_OBSTACK
                   struct hash_entry *cursor = table->free_entry_list;
                   struct hash_entry *next;
                   while (cursor)
@@ -74,6 +75,7 @@ hash_remove (Hash_table *table, const void *entry)
                       cursor = next;
                     }
                   table->free_entry_list = NULL;
+#endif
                 }
             }
         }

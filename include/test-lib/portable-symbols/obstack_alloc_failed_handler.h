@@ -97,9 +97,6 @@
           as you would with a stack.)
  */
 
-
-/* Don't do the contents of this file more than once.  */
-
 #pragma once
 
 #ifdef YALIBCT_LIBC_HAS_OBSTACK_ROOM

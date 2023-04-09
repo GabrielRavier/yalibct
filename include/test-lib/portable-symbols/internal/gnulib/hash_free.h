@@ -23,6 +23,7 @@
 #pragma once
 
 #include "test-lib/portable-symbols/internal/gnulib/hash-common.h"
+#include "test-lib/portable-symbols/obstack_free.h"
 
 void
 hash_free (Hash_table *table)
@@ -44,6 +45,12 @@ hash_free (Hash_table *table)
         }
     }
 
+#if 1//USE_OBSTACK
+
+  obstack_free (&table->entry_stack, NULL);
+
+#else
+
   /* Free all bucket overflowed entries.  */
   for (bucket = table->bucket; bucket < table->bucket_limit; bucket++)
     {
@@ -60,6 +67,8 @@ hash_free (Hash_table *table)
       next = cursor->next;
       free (cursor);
     }
+
+#endif
 
   /* Free the remainder of the hash table structure.  */
   free (table->bucket);

@@ -23,6 +23,7 @@
 #pragma once
 
 #include "test-lib/portable-symbols/internal/gnulib/hash-common.h"
+#include "test-lib/portable-symbols/obstack_alloc.h"
 
 /* Insertion and deletion.  */
 
@@ -41,7 +42,12 @@ allocate_entry (Hash_table *table)
     }
   else
     {
+#if 1//USE_OBSTACK
+      new = obstack_alloc (&table->entry_stack, sizeof *new);
+#else
       new = malloc (sizeof *new);
+#endif
+
     }
 
   return new;
@@ -167,6 +173,10 @@ hash_rehash (Hash_table *table, size_t candidate)
      allocation failure mid-transfer.  */
 
   /* Merely reuse the extra old space into the new table.  */
+#if 1//USE_OBSTACK
+  new_table->entry_stack = table->entry_stack;
+#endif
+
   new_table->free_entry_list = table->free_entry_list;
 
   if (transfer_entries (new_table, table, false))

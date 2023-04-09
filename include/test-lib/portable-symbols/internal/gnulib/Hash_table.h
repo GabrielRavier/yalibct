@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include "test-lib/portable-symbols/struct_obstack.h"
 #include "test-lib/portable-symbols/internal/gnulib/Hash_tuning.h"
 #include "test-lib/portable-symbols/internal/gnulib/Hash_hasher.h"
 #include "test-lib/portable-symbols/internal/gnulib/Hash_comparator.h"
@@ -52,6 +53,12 @@ struct hash_table
 
     /* A linked list of freed struct hash_entry structs.  */
     struct hash_entry *free_entry_list;
+#if 1//USE_OBSTACK
+    /* Whenever obstacks are used, it is possible to allocate all overflowed
+       entries into a single stack, so they all can be freed in a single
+       operation.  It is not clear if the speedup is worth the trouble.  */
+    struct obstack entry_stack;
+#endif
   };
 
 

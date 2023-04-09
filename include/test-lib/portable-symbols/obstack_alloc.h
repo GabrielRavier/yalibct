@@ -99,14 +99,15 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_OBSTACK_ROOM
+#ifdef YALIBCT_LIBC_HAS_OBSTACK_ALLOC
 #include <obstack.h>
 #else
 
-#include "test-lib/portable-symbols/struct_obstack.h"
+#include "test-lib/portable-symbols/obstack_blank.h"
+#include "test-lib/portable-symbols/obstack_finish.h"
 
-#undef obstack_room
-# define obstack_room(h)                              \
-  ((_OBSTACK_SIZE_T) ((h)->chunk_limit - (h)->next_free))
+#undef obstack_alloc
+# define obstack_alloc(h, length)                       \
+  (obstack_blank ((h), (length)), obstack_finish ((h)))
 
 #endif
