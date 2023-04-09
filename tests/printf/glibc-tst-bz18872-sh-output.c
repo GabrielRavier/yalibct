@@ -1,7 +1,11 @@
-#include "test-deps/glibc.h"
+#include "test-lib/compiler-features.h"
 #include "test-lib/portable-symbols/mtrace.h"
 #include "test-lib/portable-symbols/NL_ARGMAX.h"
 #include <stdio.h>
+#include <assert.h>
+#include <limits.h>
+
+int (*volatile printf_ptr)(const char *restrict format, ...) = &printf;
 
 /*
   Compile do_test without optimization: GCC 4.9/5.0/6.0 takes a long time
@@ -12,7 +16,7 @@ int do_test (void)
 {
     mtrace ();
 #ifndef YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS
-    if (printf (
+    if (printf_ptr (
 "%1$s" "%2$s" "%3$s" "%4$s" "%5$s" "%6$s" "%7$s" "%8$s" "%9$s" "%10$s"
 "%11$s" "%12$s" "%13$s" "%14$s" "%15$s" "%16$s" "%17$s" "%18$s" "%19$s" "%20$s"
 "%21$s" "%22$s" "%23$s" "%24$s" "%25$s" "%26$s" "%27$s" "%28$s" "%29$s" "%30$s"
@@ -2022,5 +2026,9 @@ int do_test (void)
             putchar('a');
         putchar('\n');
     }
+
   return 0;
 }
+
+#define TEST_FUNCTION do_test ()
+#include "test-deps/glibc/test-skeleton.h"

@@ -15,13 +15,16 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
+/* We need to define:
 #define _FILE_OFFSET_BITS 64
 #define _LARGEFILE64_SOURCE 1
+*/
 
-#include "test-deps/glibc.h"
+#include <assert.h>
+#include <stddef.h>
 #include <sys/stat.h>
 
-int
+static int
 do_test (void)
 {
 #ifdef YALIBCT_LIBC_HAS_STRUCT_STAT64
@@ -63,3 +66,6 @@ do_test (void)
 #endif
   return 0;
 }
+
+#define TEST_FUNCTION do_test ()
+#include "test-deps/glibc/test-skeleton.h"

@@ -1,16 +1,13 @@
-#include "test-deps/glibc.h"
 #include "test-lib/portable-symbols/mcheck_pedantic.h"
 #include "test-lib/portable-symbols/mcheck_check_all.h"
-#ifdef YALIBCT_LIBC_HAS_OBSTACK_H
-#include <obstack.h>
-#endif
-#include <stdio.h>
+#include "test-lib/portable-symbols/obstack_init.h"
+#include "test-lib/portable-symbols/obstack_printf.h"
+#include "test-lib/portable-symbols/obstack_finish.h"
 #include <stdlib.h>
 
-int
+static int
 do_test (void)
 {
-#ifdef YALIBCT_LIBC_HAS_OBSTACK_H
   struct obstack ob;
   int n;
 
@@ -41,9 +38,9 @@ do_test (void)
 
   /* And a final check.  */
   mcheck_check_all ();
-  obstack_free(&ob, NULL);
-  mcheck_check_all();
-#endif
 
   return 0;
 }
+
+#define TEST_FUNCTION do_test ()
+#include "test-deps/glibc/test-skeleton.h"

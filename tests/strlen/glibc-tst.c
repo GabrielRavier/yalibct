@@ -2,16 +2,11 @@
    test the real implementation.  */
 #undef __USE_STRING_INLINES
 
-#include "test-deps/glibc.h"
 #include "test-lib/compiler-features.h"
 #include "test-lib/portable-symbols/strnlen.h"
 #include <stdio.h>
 #include <string.h>
 
-#ifdef __clang__
-YALIBCT_DIAGNOSTIC_IGNORE("-Wformat-invalid-specifier")
-#endif
-YALIBCT_DIAGNOSTIC_IGNORE("-Wformat-extra-args")
 YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
 YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERFLOW
 
@@ -63,3 +58,5 @@ strnlen failed for base=%zu, words=%zu, and last=%zu (is %zd, expected %zd)\n",
     }
   return 0;
 }
+
+#include "test-deps/glibc/test-driver.h"

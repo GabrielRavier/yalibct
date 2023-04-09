@@ -17,9 +17,6 @@
    <https://www.gnu.org/licenses/>.  */
 
 #include "test-deps/glibc.h"
-#include "test-lib/portable-symbols/dprintf.h"
-#include <stdlib.h>
-#include <stdarg.h>
 
 #ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
 static void
@@ -141,7 +138,43 @@ int
 do_test (void)
 {
 #ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
-    do_test_call();
+  struct support_capture_subprocess result;
+  result = support_capture_subprocess ((void *) &do_test_call, NULL);
+
+  /* Compare against the expected output. */
+  /*const char *expected =
+    "     asprintf: -1.0000000000, -1.0000000000\n"
+    "      dprintf: -1.0000000000, -1.0000000000\n"
+    "      fprintf: -1.0000000000, -1.0000000000\n"
+    "       printf: -1.0000000000, -1.0000000000\n"
+    "     snprintf: -1.0000000000, -1.0000000000\n"
+    "      sprintf: -1.0000000000, -1.0000000000\n"
+    "    vasprintf: -1.0000000000, -1.0000000000\n"
+    "     vdprintf: -1.0000000000, -1.0000000000\n"
+    "     vfprintf: -1.0000000000, -1.0000000000\n"
+    "      vprintf: -1.0000000000, -1.0000000000\n"
+    "    vsnprintf: -1.0000000000, -1.0000000000\n"
+    "     vsprintf: -1.0000000000, -1.0000000000\n"
+    "     asprintf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "      dprintf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "      fprintf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "       printf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "     snprintf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "      sprintf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "    vasprintf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "     vdprintf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "     vfprintf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "      vprintf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "    vsnprintf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "     vsprintf: -0x1.0000000000p+0, -0x1.0000000000p+0\n"
+    "    vasprintf: 3.000000, 2.000000, 1.000000\n"
+    "     vdprintf: 3.000000, 2.000000, 1.000000\n"
+    "     vfprintf: 3.000000, 2.000000, 1.000000\n"
+    "      vprintf: 3.000000, 2.000000, 1.000000\n"
+    "    vsnprintf: 3.000000, 2.000000, 1.000000\n"
+    "     vsprintf: 3.000000, 2.000000, 1.000000\n";
+    TEST_COMPARE_STRING (expected, result.out.buffer);*/
+  printf("%s", result.out.buffer);
 #else
     puts("     asprintf: -1.0000000000, -1.0000000000\n"
          "      dprintf: -1.0000000000, -1.0000000000\n"
@@ -175,5 +208,7 @@ do_test (void)
          "     vsprintf: 3.000000, 2.000000, 1.000000");
 #endif
 
-    return 0;
+  return 0;
 }
+
+#include "test-deps/glibc/test-driver.h"

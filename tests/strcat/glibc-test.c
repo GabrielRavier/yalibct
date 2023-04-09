@@ -23,6 +23,8 @@
 # define TEST_NAME "wcscat"
 #endif /* WIDE */
 #include "test-deps/glibc/test-string.h"
+#include "test-lib/portable-symbols/error.h"
+#include <limits.h>
 
 #ifndef WIDE
 # define STRCAT strcat
@@ -55,6 +57,10 @@
 
 typedef CHAR *(*proto_t) (CHAR *, const CHAR *);
 
+impl_t yalibct_glibc_string_impls[] = {
+    IMPL_INITIALIZER (STRCAT, 1)
+};
+
 /* Naive implementation to verify results.  */
 CHAR *
 SIMPLE_STRCAT (CHAR *dst, const CHAR *src)
@@ -67,21 +73,21 @@ SIMPLE_STRCAT (CHAR *dst, const CHAR *src)
 }
 
 static void
-do_one_test (CHAR *dst, const CHAR *src)
+do_one_test (impl_t *impl, CHAR *dst, const CHAR *src)
 {
   size_t k = STRLEN (dst);
-  if (strcat (dst, src) != dst)
+  if (CALL (impl, dst, src) != dst)
     {
-      error (0, 0, "Wrong result in function strcat %p %p",
-	     strcat(dst, src), dst);
+      error (0, 0, "Wrong result in function %s %p %p", impl->name,
+	     CALL (impl, dst, src), dst);
       ret = 1;
       return;
     }
 
   if (STRCMP (dst + k, src) != 0)
     {
-      error (0, 0, "Wrong result in function strcat dst \"%" sfmt "\" src \"%" sfmt "\"",
-	     dst, src);
+      error (0, 0, "Wrong result in function %s dst \"%" sfmt "\" src \"%" sfmt "\"",
+	     impl->name, dst, src);
       ret = 1;
       return;
     }
@@ -111,9 +117,10 @@ do_test (size_t align1, size_t align2, size_t len1, size_t len2, int max_char)
   for (i = 0; i < len2; i++)
     s2[i] = 32 + 23 * i % (max_char - 32);
 
+  FOR_EACH_IMPL (impl, 0)
     {
       s2[len2] = '\0';
-      do_one_test (s2, s1);
+      do_one_test (impl, s2, s1);
     }
 }
 
@@ -174,16 +181,17 @@ do_random_tests (void)
 	}
       p3[len2] = 0;
 
+      FOR_EACH_IMPL (impl, 1)
 	{
 	  MEMSET (p2 - 64, '\1', align2 + 64);
 	  MEMSET (p2 + align2 + len2 + 1, '\1', 512 - align2 - len2 - 1);
 	  MEMCPY (p2 + align2, p3, len2 + 1);
-	  res = (UCHAR *) strcat((CHAR *) (p2 + align2),
+	  res = (UCHAR *) CALL (impl, (CHAR *) (p2 + align2),
 				(CHAR *) (p1 + align1));
 	  if (res != p2 + align2)
 	    {
-	      error (0, 0, "Iteration %zd - wrong result in function strcat (%zd, %zd, %zd %zd) %p != %p",
-		     n, align1, align2, len1, len2, res,
+	      error (0, 0, "Iteration %zd - wrong result in function %s (%zd, %zd, %zd %zd) %p != %p",
+		     n, impl->name, align1, align2, len1, len2, res,
 		     p2 + align2);
 	      ret = 1;
 	    }
@@ -192,7 +200,7 @@ do_random_tests (void)
 	      if (p2[j - 64] != '\1')
 		{
 		  error (0, 0, "Iteration %zd - garbage before, %s (%zd, %zd, %zd, %zd)",
-			 n, "strcat", align1, align2, len1, len2);
+			 n, impl->name, align1, align2, len1, len2);
 		  ret = 1;
 		  break;
 		}
@@ -200,7 +208,7 @@ do_random_tests (void)
 	  if (MEMCMP (p2 + align2, p3, len2))
 	    {
 	      error (0, 0, "Iteration %zd - garbage in string before, %s (%zd, %zd, %zd, %zd)",
-		     n, "strcat", align1, align2, len1, len2);
+		     n, impl->name, align1, align2, len1, len2);
 	      ret = 1;
 	    }
 	  for (j = align2 + len1 + len2 + 1; j < 512; ++j)
@@ -208,7 +216,7 @@ do_random_tests (void)
 	      if (p2[j] != '\1')
 		{
 		  error (0, 0, "Iteration %zd - garbage after, %s (%zd, %zd, %zd, %zd)",
-			 n, "strcat", align1, align2, len1, len2);
+			 n, impl->name, align1, align2, len1, len2);
 		  ret = 1;
 		  break;
 		}
@@ -216,7 +224,7 @@ do_random_tests (void)
 	  if (MEMCMP (p1 + align1, p2 + align2 + len2, len1 + 1))
 	    {
 	      error (0, 0, "Iteration %zd - different strings, %s (%zd, %zd, %zd, %zd)",
-		     n, "strcat", align1, align2, len1, len2);
+		     n, impl->name, align1, align2, len1, len2);
 	      ret = 1;
 	    }
 	}
@@ -224,11 +232,16 @@ do_random_tests (void)
 }
 
 int
-main (void)
+test_main (void)
 {
   size_t i;
 
   test_init ();
+
+  /*printf ("%28s", "");
+  FOR_EACH_IMPL (impl, 0)
+    printf ("\t%s", impl->name);
+  putchar ('\n');*/
 
   for (i = 0; i < 16; ++i)
     {
@@ -257,3 +270,5 @@ main (void)
   do_random_tests ();
   return ret;
 }
+
+#include "test-deps/glibc/test-driver.h"

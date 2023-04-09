@@ -23,6 +23,7 @@
 # define TEST_NAME "wcslen"
 #endif
 #include "test-deps/glibc/test-string.h"
+#include <limits.h>
 
 #ifndef WIDE
 # define STRLEN strlen
@@ -55,13 +56,11 @@ builtin_strlen (const CHAR *p)
 }
 #endif
 
-
-
 impl_t yalibct_glibc_string_impls[] = {
-    IMPL_INITIALIZER (STRLEN, 1),
 #ifndef WIDE
     IMPL_INITIALIZER (builtin_strlen, 0),
 #endif
+    IMPL_INITIALIZER (STRLEN, 1)
 };
 
 
@@ -180,3 +179,5 @@ test_main (void)
   do_random_tests ();
   return ret;
 }
+
+#include "test-deps/glibc/test-driver.h"

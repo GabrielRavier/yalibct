@@ -28,6 +28,7 @@
 # define TEST_NAME "strcmp"
 #endif
 #include "test-deps/glibc/test-string.h"
+#include "test-deps/glibc.h"
 
 #ifdef WIDE
 # include <wchar.h>
@@ -101,7 +102,7 @@ simple_strcmp (const char *s1, const char *s2)
 typedef int (*proto_t) (const CHAR *, const CHAR *);
 
 impl_t yalibct_glibc_string_impls[] = {
-IMPL_INITIALIZER (STRCMP, 1)
+    IMPL_INITIALIZER (STRCMP, 1)
 };
 
 static int
@@ -470,29 +471,29 @@ test_main (void)
 
           if (i < 32)
             {
-                i += 1 + (random() % 2);
+              i += 1 + (random() % 2);
             }
           else if (i < 161)
             {
-                i += 7 + (random() % 13);
+              i += 7 + (random() % 13);
             }
           else if (i + 161 < test_len)
             {
-                i += 31 + (random() % 31);
-                i *= 17 + (random() % 2);
-                i /= 16;
-                if (i + 161 > test_len)
+              i += 31 + (random() % 31);
+              i *= 17 + (random() % 2);
+              i /= 16;
+              if (i + 161 > test_len)
                 {
-                    i = test_len - 160;
+                  i = test_len - 160;
                 }
             }
           else if (i + 32 < test_len)
             {
-                i += 7 + (random() % 14);
+              i += 7 + (random() % 14);;
             }
           else
             {
-                i += 1 + (random() % 3);
+              i += 1 + (random() % 3);
             }
         }
     }
@@ -500,3 +501,5 @@ test_main (void)
   do_random_tests ();
   return ret;
 }
+
+#include "test-deps/glibc/test-driver.h"

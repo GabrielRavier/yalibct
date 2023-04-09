@@ -17,10 +17,7 @@
    <https://www.gnu.org/licenses/>.  */
 
 #include "test-deps/glibc.h"
-#include <limits.h>
-#include <stdio.h>
-#include <string.h>
-#include <wchar.h>
+#include "test-lib/portable-symbols/__GNUC_PREREQ.h"
 
 /* GCC does not know the %b or %B formats before GCC 12.  */
 DIAG_PUSH_NEEDS_COMMENT;
@@ -39,7 +36,7 @@ DIAG_IGNORE_NEEDS_COMMENT (11, "-Wformat-extra-args");
     }									\
   while (0)
 
-int
+static int
 do_test (void)
 {
   CHAR buf[1024];
@@ -246,3 +243,5 @@ do_test (void)
 }
 
 DIAG_POP_NEEDS_COMMENT;
+
+#include "test-deps/glibc/test-driver.h"

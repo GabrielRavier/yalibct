@@ -16,12 +16,8 @@
    <https://www.gnu.org/licenses/>.  */
 
 #include "test-deps/glibc.h"
+#include "test-lib/portable-symbols/__GNUC_PREREQ.h"
 #include "test-lib/portable-symbols/NL_ARGMAX.h"
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <float.h>
 
 /* This whole file is picayune tests of corner cases of printf format strings.
@@ -66,7 +62,7 @@ fmtst2chk (const char *fmt)
   (void) printf("'\n");
 }
 
-int
+static int
 do_test (void)
 {
   static char shortstr[] = "Hi, Z.";
@@ -90,9 +86,11 @@ I am ready for my first lesson today.";
   fmtst2chk("%*.*x");
   fmtst2chk("%0*.*x");
 
-  // UB and not widely supported
-  /*printf("bad format:\t\"%v\"\n");
-    printf("nil pointer (padded):\t\"%10p\"\n", (void *) NULL);*/
+  // UB and not commonly supported
+#if 0//ndef	BSD
+  printf("bad format:\t\"%v\"\n");
+  printf("nil pointer (padded):\t\"%10p\"\n", (void *) NULL);
+#endif
 
   printf("decimal negative:\t\"%d\"\n", -2345);
   printf("octal negative:\t\"%o\"\n", -2345);
@@ -477,3 +475,6 @@ rfg3 (void)
     printf ("got: '%s', expected: '%s'\n", buf,
 	    "   12345  1234    11145401322     321.765432   3.217654e+02   5    test-string");
 }
+
+#define TEST_FUNCTION do_test ()
+#include "test-deps/glibc/test-skeleton.h"

@@ -1,5 +1,5 @@
-/* Test double free bug in __printf_fp_l (bug 26214).
-   Copyright (C) 2020-2022 Free Software Foundation, Inc.
+// Derived from code with this license:
+/* Copyright (C) 1991-2022 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -16,24 +16,21 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
-#include "test-deps/glibc.h"
-#include "test-lib/portable-symbols/mtrace.h"
-#include <stdio.h>
+#pragma once
 
-static int
-do_test (void)
-{
-  mtrace ();
-  FILE *fp = fopen ("/dev/full", "w");
-  TEST_VERIFY_EXIT (fp != NULL);
-  char buf[131072];
-  TEST_VERIFY_EXIT (setvbuf (fp, buf, _IOFBF, sizeof buf) == 0);
-#if !defined(YALIBCT_DISABLE_PRINTF_PRECISION_TESTS) && !defined(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS)
-  int fprintf_result = fprintf (fp, "%-1000000.65536f", 1.0);
-  TEST_COMPARE (fprintf_result, -1);
+#ifdef YALIBCT_LIBC_HAS_TEMP_FAILURE_RETRY
+#include <unistd.h>
+#else
+
+/* Evaluate EXPRESSION, and repeat as long as it returns -1 with `errno'
+   set to EINTR.  */
+
+#undef TEMP_FAILURE_RETRY
+# define TEMP_FAILURE_RETRY(expression) \
+  (__extension__                                  \
+    ({ long int __result;                             \
+       do __result = (long int) (expression);                     \
+       while (__result == -1L && errno == EINTR);                 \
+       __result; }))
+
 #endif
-  assert(fclose(fp) == 0);
-  return 0;
-}
-
-#include "test-deps/glibc/test-driver.h"

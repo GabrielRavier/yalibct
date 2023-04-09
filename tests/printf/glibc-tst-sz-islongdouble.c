@@ -20,10 +20,8 @@
 #ifdef YALIBCT_LIBC_HAS_PRINTF_SIZE
 #include <printf.h>
 #endif
-#include <stdio.h>
-#include <string.h>
 
-int
+static int
 do_test (void)
 {
 #ifdef YALIBCT_LIBC_HAS_PRINTF_SIZE
@@ -53,3 +51,5 @@ do_test (void)
   return 0;
 #endif
 }
+
+#include "test-deps/glibc/test-driver.h"

@@ -16,8 +16,6 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
-#include "test-lib/compiler-features.h"
-
 #ifdef WIDE
 # define TEST_NAME "wcslen"
 #else
@@ -26,6 +24,7 @@
 
 #define TEST_MAIN
 #include "test-deps/glibc/test-string.h"
+#include "test-lib/compiler-features.h"
 
 #ifdef WIDE
 # include <wchar.h>
@@ -48,14 +47,14 @@ typedef struct
 } parameter_t;
 
 size_t
-__attribute__ ((weak, noinline)) YALIBCT_ATTRIBUTE_NOCLONE
+__attribute__ ((weak)) HEDLEY_NEVER_INLINE YALIBCT_ATTRIBUTE_NOCLONE
 do_strlen (parameter_t *a, int zero, const CHAR *str)
 {
   (void)zero;
   return CALL (a, str);
 }
 
-int
+static int
 test_main (void)
 {
   test_init ();
@@ -82,3 +81,5 @@ test_main (void)
 
   return ret ? EXIT_FAILURE : EXIT_SUCCESS;
 }
+
+#include "test-deps/glibc/test-driver.h"

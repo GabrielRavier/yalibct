@@ -1,5 +1,6 @@
-/* Test double free bug in __printf_fp_l (bug 26214).
-   Copyright (C) 2020-2022 Free Software Foundation, Inc.
+// Derived from code with this license:
+/* Legacy test skeleton.
+   Copyright (C) 1998-2022 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -16,24 +17,28 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
-#include "test-deps/glibc.h"
-#include "test-lib/portable-symbols/mtrace.h"
-#include <stdio.h>
+/* This test skeleton is to support running existing tests.  New tests
+   should use <support/test-driver.c> instead; see the documentation
+   in that file for instructions, and <support/README-testing.c> for a
+   minimal example.  */
 
+/* This list of headers is needed so that tests which include
+   "../test-skeleton.c" at the beginning still compile.  */
+
+#pragma once
+
+/* TEST_FUNCTION is no longer used. */
 static int
-do_test (void)
+legacy_test_function (int argc __attribute__ ((unused)),
+              char **argv __attribute__ ((unused)))
 {
-  mtrace ();
-  FILE *fp = fopen ("/dev/full", "w");
-  TEST_VERIFY_EXIT (fp != NULL);
-  char buf[131072];
-  TEST_VERIFY_EXIT (setvbuf (fp, buf, _IOFBF, sizeof buf) == 0);
-#if !defined(YALIBCT_DISABLE_PRINTF_PRECISION_TESTS) && !defined(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS)
-  int fprintf_result = fprintf (fp, "%-1000000.65536f", 1.0);
-  TEST_COMPARE (fprintf_result, -1);
+#ifdef TEST_FUNCTION
+  return TEST_FUNCTION;
+# undef TEST_FUNCTION
+#else
+  return do_test (argc, argv);
 #endif
-  assert(fclose(fp) == 0);
-  return 0;
 }
+#define TEST_FUNCTION_ARGV legacy_test_function
 
 #include "test-deps/glibc/test-driver.h"

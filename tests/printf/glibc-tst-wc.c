@@ -1,11 +1,10 @@
 #define _GNU_SOURCE 1
-#include "test-deps/glibc.h"
 #include <wchar.h>
 #include <stdio.h>
 #include <string.h>
 #include <wctype.h>
 
-int
+static int
 do_test (void)
 {
   wchar_t tmp[3];
@@ -29,3 +28,6 @@ do_test (void)
 
   return 0;
 }
+
+#define TEST_FUNCTION do_test ()
+#include "test-deps/glibc/test-skeleton.h"

@@ -1,4 +1,4 @@
-Redo glibc.h test-deps headers ASAP (move test-deps/gnulib/string-buffer.h into test-lib at the same time)
+Make stuff coming from gnulib use obstack if they have support for it
 
 printf tests just found in nanoprintf (add these ASAP)
 

@@ -18,8 +18,6 @@
    <https://www.gnu.org/licenses/>.  */
 
 #include "test-deps/glibc.h"
-#include <stdio.h>
-#include <string.h>
 
 /*
 
@@ -37,7 +35,7 @@ fill_stack (void)
   asm ("" ::: "memory");
 }
 
-int
+static int
 do_test (void)
 {
   fill_stack ();
@@ -53,3 +51,5 @@ do_test (void)
 #endif
   return 0;
 }
+
+#include "test-deps/glibc/test-driver.h"

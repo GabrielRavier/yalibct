@@ -1,6 +1,8 @@
-/* Test memory leak in __printf_fp_l (bug 26215).
-   Copyright (C) 2020-2022 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
+// Derived from code with this license:
+/* Getopt for GNU.
+   Copyright (C) 1987-2023 Free Software Foundation, Inc.
+   This file is part of the GNU C Library and is also part of gnulib.
+   Patches to this file should be submitted to both projects.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -16,21 +18,15 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
-#include "test-deps/glibc.h"
-#include "test-lib/portable-symbols/mtrace.h"
-#include <stdio.h>
+#pragma once
 
-static int
-do_test (void)
-{
-  mtrace ();
-  FILE *fp = fopen ("/dev/full", "w");
-  TEST_VERIFY_EXIT (fp != NULL);
-#if !defined(YALIBCT_DISABLE_PRINTF_PRECISION_TESTS) && !defined(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS)
-  TEST_COMPARE (fprintf (fp, "%.65536f", 1.0), -1);
+#ifdef YALIBCT_LIBC_HAS_OPTERR
+#include <unistd.h>
+#else
+
+/* Callers store zero here to inhibit the error message
+   for unrecognized options.  */
+
+int opterr = 1;
+
 #endif
-  assert(fclose (fp) == 0);
-  return 0;
-}
-
-#include "test-deps/glibc/test-driver.h"

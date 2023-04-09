@@ -18,8 +18,6 @@
 
 #include "test-deps/glibc.h"
 #include <fenv.h>
-#include <stdio.h>
-#include <string.h>
 
 struct dec_test {
   double d;
@@ -162,7 +160,7 @@ test_hex_in_one_mode (double d, const char *fmt, const char *const expected[4],
     }
 }
 
-int
+static int
 do_test (void)
 {
   int result = 0;
@@ -241,3 +239,6 @@ do_test (void)
 
   return result;
 }
+
+#define TEST_FUNCTION do_test ()
+#include "test-deps/glibc/test-skeleton.h"

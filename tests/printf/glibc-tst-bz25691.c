@@ -18,15 +18,9 @@
 
 #include "test-deps/glibc.h"
 #include "test-lib/portable-symbols/mtrace.h"
-#include "test-lib/portable-symbols/xmalloc.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <wchar.h>
-#include <stdint.h>
-#include <locale.h>
 
-int
+static int
 do_test (void)
 {
   mtrace ();
@@ -107,3 +101,5 @@ do_test (void)
 
   return 0;
 }
+
+#include "test-deps/glibc/test-driver.h"

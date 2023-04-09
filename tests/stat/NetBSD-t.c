@@ -210,7 +210,8 @@ ATF_TC_BODY(stat_mtime, tc)
 		ATF_REQUIRE(write(fd[i], "X", 1) == 1);
 		ATF_REQUIRE(stat(path, &sa) == 0);
 
-		(void)sleep(1);
+		while (sleep(1) != 0)
+                    ;
 
 		ATF_REQUIRE(write(fd[i], "X", 1) == 1);
 		ATF_REQUIRE(stat(path, &sb) == 0);

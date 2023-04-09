@@ -3,8 +3,6 @@
 #ifdef YALIBCT_LIBC_HAS_PRINTF_SIZE
 #include <printf.h>
 #endif
-#include <stdio.h>
-#include <string.h>
 
 #define V       12345678.12345678
 
@@ -13,7 +11,7 @@ static void checked_fputs(const char *string, FILE *stream)
     assert(fputs(string, stream) >= 0);
 }
 
-int
+static int
 do_test (void)
 {
   char buf[1024];
@@ -89,3 +87,6 @@ do_test (void)
 
   return result;
 }
+
+#define TEST_FUNCTION do_test ()
+#include "test-deps/glibc/test-skeleton.h"

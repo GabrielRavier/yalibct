@@ -4,6 +4,8 @@
 #include <string.h>
 #else
 
+#include <stddef.h>
+
 #undef memchr
 #define memchr yalibct_internal_memchr
 
