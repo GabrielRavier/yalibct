@@ -1,4 +1,4 @@
-// Based on code with this license:
+// Derived from code with this license:
 /* Traverse a file hierarchy.
 
    Copyright (C) 2004-2023 Free Software Foundation, Inc.

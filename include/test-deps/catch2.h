@@ -1,4 +1,4 @@
-// Based on code with this license:
+// Derived from code with this license:
 /*
  *  Catch v2.13.8
  *  ----------------------------------------------------------

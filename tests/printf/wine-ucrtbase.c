@@ -22,6 +22,7 @@
  */
 
 #include "test-deps/wine.h"
+#include "test-lib/chdir-to-tmpdir.h"
 #include "test-lib/portable-symbols/NAN.h"
 #include "test-lib/portable-symbols/INFINITY.h"
 #include <stdio.h>
@@ -1011,6 +1012,8 @@ static void test_printf_width_specification(void)
 
 START_TEST(printf)
 {
+    yalibct_chdir_to_tmpdir();
+
     // Non-standard and not widely supported
     /*ok(_set_invalid_parameter_handler(test_invalid_parameter_handler) == NULL,
       "Invalid parameter handler was already set\n");*/
@@ -1029,4 +1032,6 @@ START_TEST(printf)
     test_printf_natural_string();
     test_printf_fp();
     test_printf_width_specification();
+
+    yalibct_chdir_to_tmpdir_remove_tmpdir();
 }

@@ -1,5 +1,3 @@
-printf tests just found in nanoprintf (add these ASAP)
-
 Remaining stat tests:
 /home/gravier/src/libraries/standard-libraries/c/implementations/glibc/io/test-stat2.c
 /home/gravier/src/libraries/standard-libraries/c/implementations/glibc/io/tst-stat-lfs.c

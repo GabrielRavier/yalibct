@@ -68,7 +68,7 @@ Checks: "abseil-cleanup-ctad,abseil-duration-addition,abseil-duration-comparison
         readability-container-size-empty,readability-convert-member-functions-to-static,readability-delete-null-pointer,readability-duplicate-include, \
         readability-identifier-naming,readability-implicit-bool-conversion,readability-inconsistent-declaration-parameter-name,readability-make-member-function-const, \
         readability-misplaced-array-index,readability-non-const-parameter,readability-qualified-auto, \
-        readability-redundant-control-flow,readability-redundant-function-ptr-dereference,readability-redundant-member-init,readability-redundant-preprocessor,readability-redundant-smartptr-get, \
+        readability-redundant-control-flow,readability-redundant-function-ptr-dereference,readability-redundant-member-init,readability-redundant-smartptr-get, \
         readability-redundant-string-cstr,readability-redundant-string-init,readability-simplify-boolean-expr,readability-simplify-subscript-expr,readability-static-accessed-through-instance, \
         readability-static-definition-in-anonymous-namespace,readability-string-compare,readability-suspicious-call-argument,readability-uniqueptr-delete-release, \
         readability-use-anyofallof,security.FloatLoopCounter,security.insecureAPI.bcopy,security.insecureAPI.getpw,security.insecureAPI.gets,security.insecureAPI.mkstemp, \

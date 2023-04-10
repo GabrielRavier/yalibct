@@ -1,4 +1,4 @@
-// Based on code with this license:
+// Derived from code with this license:
 /*
  * Copyright (c) 2002, Intel Corporation. All rights reserved.
  * Created by:  julie.n.fleischer REMOVE-THIS AT intel DOT com

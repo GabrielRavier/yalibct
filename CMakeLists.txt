@@ -544,6 +544,8 @@ yalibct_make_executable(printf-libcmini_formatting-5 tests/printf/libcmini_forma
 yalibct_make_executable(printf-cosmopolitan-uppercase-e-static-yoink-test tests/printf/cosmopolitan-uppercase-e-static-yoink-test.c)
 yalibct_make_executable(printf-cosmopolitan-uppercase-f-static-yoink-test tests/printf/cosmopolitan-uppercase-f-static-yoink-test.c)
 yalibct_make_executable(printf-cosmopolitan-uppercase-g-static-yoink-test tests/printf/cosmopolitan-uppercase-g-static-yoink-test.c)
+yalibct_make_executable(printf-nanoprintf-conformance tests/printf/nanoprintf-conformance.c)
+yalibct_make_executable(printf-nanoprintf-unit_binary tests/printf/nanoprintf-unit_binary.c)
 
 yalibct_make_executable(strcat-NetBSD-t tests/strcat/NetBSD-t.c)
 yalibct_make_executable(strcat-llvm-project-test tests/strcat/llvm-project-test.c)
