@@ -739,3 +739,13 @@ uint64_t _rand64(void) {
       testlib_onfail2(ISFATAL);                                           \
     }                                                                     \
   } while (0)
+
+#define ASSERT_SYS(ERRNO, WANT, GOT, ...)                                  \
+  do {                                                                     \
+    int e = testlib_geterrno();                                            \
+    __TEST_EQ(assert, __FILE__, __LINE__, __FUNCTION__, #WANT, #GOT, WANT, \
+              GOT, __VA_ARGS__);                                           \
+    __TEST_EQ(assert, __FILE__, __LINE__, __FUNCTION__, #ERRNO,            \
+              testlib_strerror(), ERRNO, testlib_geterrno(), __VA_ARGS__); \
+    testlib_seterrno(e);                                                   \
+  } while (0)

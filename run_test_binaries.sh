@@ -166,7 +166,7 @@ for i in \
     strcmp-{NetBSD-t,llvm-project-test,gcc-{builtins,execute-1,dg-{1,opt_{1,2,3,5,6,9,12}}},z88dk,scc-0013,{glibc,cosmopolitan}-test,newlib-1,nlibc,cloudlibc-test,avr-libc,arm-optimized-routines,embeddedartistry-libc,pdclib} \
     strcmp-{libcmini,llvm-project_fuzz,compilerai-bug-reports-dietlibc_fast_correct} \
     \
-    stat-{llvm-project_test,binutils-{1,2,3,4,5},cygwin-0{1,2,3,5,6},valgrind,gvisor{,_times_part{1,2,3,4,5,6}},linux-test-project-0{1,2},NetBSD-t,glibc-test}
+    stat-{llvm-project_test,binutils-{1,2,3,4,5},cygwin-0{1,2,3,5,6},valgrind,gvisor{,_times_part{1,2,3,4,5,6}},linux-test-project-0{1,2},NetBSD-t,glibc-{test,tst{,-time64}},cosmopolitan_test,libc-test,gnulib}
 do
     run_one_test "test_runner $i"
 done
@@ -176,7 +176,9 @@ for i in \
     \
     isdigit-open-watcom-v2 \
     \
-    putchar-pdclib
+    putchar-pdclib \
+    \
+    stat-dietlibc
 do
     run_one_test "do_output_diff_test 'test_runner $i' ./test-data/outputs/$i"
 done
@@ -193,7 +195,8 @@ done
 
 for i in \
     do_printf_NetBSD_t do_printf_littlekernel_tests "test_runner printf-glibc-tst-sz-islongdouble | diff -u - <(printf '2k4k')" do_printf_glibc_tst_bz18872_sh_output do_printf_glibc_test_ldbl_compat \
-    "do_output_diff_test 'test_runner printf-newlib-nul' <(echo 'MMMMMMMM')" do_printf_gnulib_test_posix2 "test_runner printf-gnulib-enomem >/dev/null"
+    "do_output_diff_test 'test_runner printf-newlib-nul' <(echo 'MMMMMMMM')" do_printf_gnulib_test_posix2 "test_runner printf-gnulib-enomem >/dev/null" \
+    "do_output_diff_test 'test_runner stat-glibc-test-2 . CMakeLists.txt tests LICENSE TODO' test-data/outputs/stat-glibc-test-2"
 do
     run_one_test "$i"
 done

@@ -1297,3 +1297,150 @@ support_capture_subprocess (void (*callback) (void *), void *closure)
   support_capture_poll (&result, &proc);
   return result;
 }
+
+char *
+xasprintf (const char *format, ...)
+{
+  va_list ap;
+  va_start (ap, format);
+  char *result;
+  if (vasprintf (&result, format, ap) < 0)
+    FAIL_EXIT1 ("asprintf: %m");
+  va_end (ap);
+  return result;
+}
+
+void
+oom_error (const char *function, size_t size)
+{
+  printf ("%s: unable to allocate %zu bytes: %m\n", function, size);
+  exit (1);
+}
+
+void *
+xcalloc (size_t n, size_t s)
+{
+  void *p;
+
+  p = calloc (n, s);
+  if (p == NULL)
+    oom_error ("calloc", n * s);
+  return p;
+}
+
+static void
+add_temp_file_internal (const char *name, bool toolong)
+{
+  struct temp_name_list *newp
+    = (struct temp_name_list *) xcalloc (sizeof (*newp), 1);
+  char *newname = strdup (name);
+  if (newname != NULL)
+    {
+      newp->name = newname;
+      newp->next = temp_name_list;
+      newp->owner = getpid ();
+      newp->toolong = toolong;
+      temp_name_list = newp;
+    }
+  else
+    free (newp);
+}
+
+void
+add_temp_file (const char *name)
+{
+  add_temp_file_internal (name, false);
+}
+
+int
+create_temp_file_in_dir (const char *base, const char *dir, char **filename)
+{
+  char *fname;
+  int fd;
+
+  fname = xasprintf ("%s/%sXXXXXX", dir, base);
+
+  fd = mkstemp (fname);
+  if (fd == -1)
+    {
+      printf ("cannot open temporary file '%s': %m\n", fname);
+      free (fname);
+      return -1;
+    }
+
+  add_temp_file (fname);
+  if (filename != NULL)
+    *filename = fname;
+  else
+    free (fname);
+
+  return fd;
+}
+
+int
+create_temp_file (const char *base, char **filename)
+{
+  return create_temp_file_in_dir (base, test_dir, filename);
+}
+
+int
+xopen (const char *path, int flags, mode_t mode)
+{
+#ifdef YALIBCT_LIBC_HAS_OPEN64
+  int ret = open64 (path, flags, mode);
+  if (ret < 0)
+    FAIL_EXIT1 ("open64 (\"%s\", 0x%x, 0%o): %m", path, flags, mode);
+#else
+  int ret = open (path, flags, mode);
+  if (ret < 0)
+    FAIL_EXIT1 ("open (\"%s\", 0x%x, 0%o): %m", path, flags, mode);
+#endif
+  return ret;
+}
+
+void
+support_write_file_string (const char *path, const char *contents)
+{
+  int fd = xopen (path, O_CREAT | O_TRUNC | O_WRONLY, 0666);
+  const char *end = contents + strlen (contents);
+  for (const char *p = contents; p < end; )
+    {
+      ssize_t ret = write (fd, p, end - p);
+      if (ret < 0)
+        FAIL_EXIT1 ("cannot write to \"%s\": %m", path);
+      if (ret == 0)
+        FAIL_EXIT1 ("zero-length write to \"%s\"", path);
+      p += ret;
+    }
+  xclose (fd);
+}
+
+bool
+support_stat_nanoseconds (const char *path)
+{
+  bool support = true;
+#if 0//def __linux__
+  /* Obtain the original timestamp to restore at the end.  */
+  struct stat ost;
+  TEST_VERIFY_EXIT (stat (path, &ost) == 0);
+
+  const struct timespec tsp[] = { { 0, TIMESPEC_HZ - 1 },
+                  { 0, TIMESPEC_HZ / 2 } };
+  TEST_VERIFY_EXIT (utimensat (AT_FDCWD, path, tsp, 0) == 0);
+
+  struct stat st;
+  TEST_VERIFY_EXIT (stat (path, &st) == 0);
+
+  support = st.st_atim.tv_nsec == tsp[0].tv_nsec
+        && st.st_mtim.tv_nsec == tsp[1].tv_nsec;
+
+  /* Reset to original timestamps.  */
+  const struct timespec otsp[] =
+  {
+    { ost.st_atim.tv_sec, ost.st_atim.tv_nsec },
+    { ost.st_mtim.tv_sec, ost.st_mtim.tv_nsec },
+  };
+  TEST_VERIFY_EXIT (utimensat (AT_FDCWD, path, otsp, 0) == 0);
+#endif
+  return support;
+}

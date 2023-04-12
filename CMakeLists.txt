@@ -405,6 +405,8 @@ yalibct_check_posix_libc_symbol(opterr unistd.h YALIBCT_LIBC_HAS_OPTERR)
 yalibct_check_libc_symbol(obstack_free obstack.h YALIBCT_LIBC_HAS_OBSTACK_FREE)
 yalibct_check_libc_symbol(obstack_alloc obstack.h YALIBCT_LIBC_HAS_OBSTACK_ALLOC)
 yalibct_check_libc_symbol(obstack_blank obstack.h YALIBCT_LIBC_HAS_OBSTACK_BLANK)
+yalibct_check_libc_symbol(statx "sys/stat.h" YALIBCT_LIBC_HAS_STATX)
+yalibct_check_libc_symbol(open64 "fcntl.h" YALIBCT_LIBC_HAS_OPEN64)
 
 yalibct_check_source_compiles(
   "
@@ -712,3 +714,10 @@ yalibct_make_executable(stat-linux-test-project-01 tests/stat/linux-test-project
 yalibct_make_executable(stat-linux-test-project-02 tests/stat/linux-test-project-02.c)
 yalibct_make_executable(stat-NetBSD-t tests/stat/NetBSD-t.c)
 yalibct_make_executable(stat-glibc-test tests/stat/glibc-test.c)
+yalibct_make_executable(stat-glibc-test-2 tests/stat/glibc-test-2.c)
+yalibct_make_executable(stat-glibc-tst-time64 tests/stat/glibc-tst-time64.c)
+yalibct_make_executable(stat-glibc-tst tests/stat/glibc-tst.c)
+yalibct_make_executable(stat-cosmopolitan_test tests/stat/cosmopolitan_test.c)
+yalibct_make_executable(stat-dietlibc tests/stat/dietlibc.c)
+yalibct_make_executable(stat-libc-test tests/stat/libc-test.c)
+yalibct_make_executable(stat-gnulib tests/stat/gnulib.c)

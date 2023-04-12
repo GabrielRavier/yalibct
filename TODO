@@ -1,12 +1,4 @@
-Remaining stat tests:
-/home/gravier/src/libraries/standard-libraries/c/implementations/glibc/io/test-stat2.c
-/home/gravier/src/libraries/standard-libraries/c/implementations/glibc/io/tst-stat-lfs.c
-/home/gravier/src/libraries/standard-libraries/c/implementations/glibc/io/tst-stat-time64.c
-/home/gravier/src/libraries/standard-libraries/c/implementations/glibc/io/tst-stat.c
-/home/gravier/src/libraries/standard-libraries/c/implementations/cosmopolitan/test/libc/calls/stat_test.c
-/home/gravier/src/libraries/standard-libraries/c/implementations/dietlibc/test/stat.c
-/home/gravier/src/libraries/standard-libraries/c/tests/libc-test/src/functional/stat.c
-/home/gravier/src/libraries/standard-libraries/c/implementations/gnulib/m4/stat.m4
+Remove exclude: ^(.*\.h)$ from clang-tidy config
 
 Go make a patch to fix absence of UTIME_OMIT and UTIME_NOW in dietlibc.
 
