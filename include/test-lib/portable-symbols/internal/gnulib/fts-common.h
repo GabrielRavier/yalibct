@@ -177,7 +177,8 @@ fts_alloc (FTS *sp, const char *name, register size_t namelen)
          * structure and the file name in one chunk.
          */
         len = FLEXSIZEOF(FTSENT, fts_name, namelen + 1);
-        if ((p = malloc(len)) == NULL)
+        p = malloc(len);
+        if (p == NULL)
                 return (NULL);
 
         /* Copy the name and guarantee NUL termination. */
@@ -287,12 +288,12 @@ fts_sort (FTS *sp, FTSENT *head, register size_t nitems)
          * 40 so don't realloc one entry at a time.
          */
         if (nitems > sp->fts_nitems) {
-                FTSENT **a;
+                FTSENT **a = NULL;
 
                 sp->fts_nitems = nitems + 40;
-                if (SIZE_MAX / sizeof *a < sp->fts_nitems
-                    || ! (a = realloc (sp->fts_array,
-                                       sp->fts_nitems * sizeof *a))) {
+                if (SIZE_MAX / sizeof(*a) >= sp->fts_nitems)
+                    a = realloc (sp->fts_array, sp->fts_nitems * sizeof(*a));
+                if (!a) {
                         free(sp->fts_array);
                         sp->fts_array = NULL;
                         sp->fts_nitems = 0;

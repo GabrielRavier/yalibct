@@ -62,7 +62,7 @@ option(YALIBCT_DISABLE_PRINTF_UPPERCASE_C_CONVERSION_SPECIFIER_TESTS "Whether or
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %S will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS "Whether or not tests that depend on the printf family of functions supporting numbered argument conversion specifications (i.e. %n$) will be run" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_ERRNO_TESTS "Whether or not tests that depend on the printf family of functions properly setting errno will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_SCANF_NUMBERED_ARGUMENTS_TESTS "Whether or not tests that depend on the printf family of functions supporting numbered argument conversion specifications (i.e. %n$) will be run" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_SCANF_NUMBERED_ARGUMENTS_TESTS "Whether or not tests that depend on the scanf family of functions supporting numbered argument conversion specifications (i.e. %n$) will be run" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 
 # Misc tests that aren't part of any standard but are commonly supported
 option(YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS "Whether or not tests that depend on any locales that aren't defined by the standard that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})

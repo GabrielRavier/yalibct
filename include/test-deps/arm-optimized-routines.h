@@ -12,7 +12,9 @@
 #include <stddef.h>
 
 #define ERR(...) (err_count++, printf (__VA_ARGS__))
-#define ERR_LIMIT 10
+enum {
+    ERR_LIMIT = 10
+};
 
 /* Accounting errors for a test case.  */
 static int err_count;

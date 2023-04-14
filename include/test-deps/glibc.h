@@ -200,7 +200,7 @@ static inline void xmemstream_or_string_buffer_fprintf(struct xmemstream_or_stri
     va_list args;
     va_start(args, format);
 
-    vfprintf(self->out, format, args);
+    assert(vfprintf(self->out, format, args) >= 0);
 
     va_end(args);
 }
@@ -387,7 +387,9 @@ static const struct option default_options[] =
 /* The cleanup handler passed to test_main.  */
 static void (*cleanup_function) (void);
 
-#define TIMEOUTFACTOR 1
+enum {
+    TIMEOUTFACTOR = 1
+};
 
 /* Show people how to run the program.  */
 static void
@@ -529,10 +531,10 @@ support_print_temp_files (FILE *f)
   if (temp_name_list != NULL)
     {
       struct temp_name_list *n;
-      fprintf (f, "temp_files=(\n");
+      assert(fprintf (f, "temp_files=(\n") >= 0);
       for (n = temp_name_list; n != NULL; n = n->next)
-        fprintf (f, "  '%s'\n", n->name);
-      fprintf (f, ")\n");
+        assert(fprintf (f, "  '%s'\n", n->name) >= 0);
+      assert(fprintf (f, ")\n") == 2);;
     }
 }
 
@@ -612,20 +614,20 @@ run_test_function (int argc, char **argv, const struct test_config *config)
     }
 
       gdb_script_name = (char *) xmalloc (strlen (argv[0]) + strlen (".gdb") + 1);
-      sprintf (gdb_script_name, "%s.gdb", argv[0]);
+      assert(sprintf (gdb_script_name, "%s.gdb", argv[0]) == strlen(argv[0]) + strlen(".gdb"));
       gdb_script = xfopen (gdb_script_name, "w");
 
-      fprintf (stderr, "Waiting for debugger, test process is pid %d\n", mypid);
-      fprintf (stderr, "gdb -x %s\n", gdb_script_name);
+      assert(fprintf (stderr, "Waiting for debugger, test process is pid %d\n", mypid) >= 0);
+      assert(fprintf (stderr, "gdb -x %s\n", gdb_script_name) == 8 + strlen(gdb_script_name));
       if (inside_container)
-    fprintf (gdb_script, "set sysroot %s/testroot.root\n", support_objdir_root);
-      fprintf (gdb_script, "file\n");
-      fprintf (gdb_script, "file %s\n", argv[0]);
-      fprintf (gdb_script, "symbol-file %s\n", argv[0]);
-      fprintf (gdb_script, "exec-file %s\n", argv[0]);
-      fprintf (gdb_script, "attach %ld\n", (long int) mypid);
-      fprintf (gdb_script, "set wait_for_debugger = 0\n");
-      fclose (gdb_script);
+          assert(fprintf (gdb_script, "set sysroot %s/testroot.root\n", support_objdir_root) >= 0);
+      assert(fprintf (gdb_script, "file\n") == 5);
+      assert(fprintf (gdb_script, "file %s\n", argv[0]) == 6 + strlen(argv[0]));
+      assert(fprintf (gdb_script, "symbol-file %s\n", argv[0]) >= 13 + strlen(argv[0]));
+      assert(fprintf (gdb_script, "exec-file %s\n", argv[0]) == 11 + strlen(argv[0]));
+      assert(fprintf (gdb_script, "attach %ld\n", (long int) mypid) >= 8);
+      assert(fprintf (gdb_script, "set wait_for_debugger = 0\n") >= 0);
+      assert(fclose (gdb_script) == 0);
       free (gdb_script_name);
     }
 
@@ -665,7 +667,7 @@ print_timestamp (const char *what, struct timespec tv)
   struct tm tm;
   /* Casts of tv.tv_nsec below are necessary because the type of
      tv_nsec is not literally long int on all supported platforms.  */
-  if (gmtime_r (&tv.tv_sec, &tm) == NULL)
+  if (gmtime_r (&tv.tv_sec, &tm) == NULL) // NOLINT(bugprone-signal-handler,cert-sig30-c)
     printf ("%s: %lld.%09ld\n",
             what, (long long int) tv.tv_sec, (long int) tv.tv_nsec);
   else
@@ -688,13 +690,13 @@ signal_handler (int sig)
   clock_gettime (CLOCK_REALTIME, &now);
 #ifdef YALIBCT_LIBC_HAS_FSTAT64
   struct stat64 st;
-  bool st_available = fstat64 (STDOUT_FILENO, &st) == 0 && st.st_mtime != 0;
+  bool st_available = fstat64 (STDOUT_FILENO, &st) == 0 && st.st_mtime != 0; // NOLINT(bugprone-signal-handler,cert-sig30-c)
 #else
   struct stat st;
   bool st_available = fstat (STDOUT_FILENO, &st) == 0 && st.st_mtime != 0;
 #endif
 
-  assert (test_pid > 1);
+  assert (test_pid > 1); // NOLINT(bugprone-signal-handler,cert-sig30-c)
   /* Kill the whole process group.  */
   kill (-test_pid, SIGKILL);
   /* In case setpgid failed in the child, kill it individually too.  */
@@ -715,12 +717,12 @@ signal_handler (int sig)
       struct timespec ts;
       ts.tv_sec = 0;
       ts.tv_nsec = 100000000;
-      nanosleep (&ts, NULL);
+      nanosleep (&ts, NULL); // NOLINT(bugprone-signal-handler,cert-sig30-c)
     }
   if (killed != 0 && killed != test_pid)
     {
-      printf ("Failed to kill test process: %m\n");
-      exit (1);
+      printf ("Failed to kill test process: %m\n"); // NOLINT(bugprone-signal-handler,cert-sig30-c)
+      exit (1); // NOLINT(bugprone-signal-handler,cert-sig30-c)
     }
 
   if (cleanup_function != NULL)
@@ -728,15 +730,15 @@ signal_handler (int sig)
 
   if (sig == SIGINT)
     {
-      signal (sig, SIG_DFL);
-      raise (sig);
+      assert(signal (sig, SIG_DFL) != SIG_ERR);
+      assert(raise (sig) == 0);
     }
 
   if (killed == 0 || (WIFSIGNALED (status) && WTERMSIG (status) == SIGKILL))
-    puts ("Timed out: killed the child process");
+      assert(puts ("Timed out: killed the child process") >= 0); // NOLINT(bugprone-signal-handler,cert-sig30-c)
   else if (WIFSTOPPED (status))
     printf ("Timed out: the child process was %s\n",
-            strsignal (WSTOPSIG (status)));
+            strsignal (WSTOPSIG (status))); // NOLINT(bugprone-signal-handler,cert-sig30-c)
   else if (WIFSIGNALED (status))
     printf ("Timed out: the child process got signal %s\n",
             strsignal (WTERMSIG (status)));
@@ -860,7 +862,7 @@ support_test_main (int argc, char **argv, const struct test_config *config)
 
   /* Make sure we see all message, even those on stdout.  */
   if (!config->no_setvbuf)
-    setvbuf (stdout, NULL, _IONBF, 0);
+    assert(setvbuf (stdout, NULL, _IONBF, 0) == 0);
 
   /* Make sure temporary files are deleted.  */
   //if (support_delete_temp_files != NULL)
@@ -886,17 +888,17 @@ support_test_main (int argc, char **argv, const struct test_config *config)
           exit (1);
         }
 
-      fprintf (f, "timeout=%u\ntimeoutfactor=%u\n",
-               config->timeout, timeoutfactor);
+      assert(fprintf (f, "timeout=%u\ntimeoutfactor=%u\n",
+             config->timeout, timeoutfactor) >= 0);
       if (config->expected_status != 0)
-        fprintf (f, "exit=%u\n", config->expected_status);
+        assert(fprintf (f, "exit=%u\n", config->expected_status) >= 0);
       if (config->expected_signal != 0)
-        fprintf (f, "signal=%s\n", strsignal (config->expected_signal));
+        assert(fprintf (f, "signal=%s\n", strsignal (config->expected_signal)) >= 0);
 
       //if (support_print_temp_files != NULL)
         support_print_temp_files (f);
 
-      fclose (f);
+      assert(fclose (f) == 0);
       direct = 1;
     }
 
@@ -945,11 +947,11 @@ support_test_main (int argc, char **argv, const struct test_config *config)
     }
 
   /* Set timeout.  */
-  signal (SIGALRM, signal_handler);
+  assert(signal (SIGALRM, signal_handler) != SIG_ERR);
   alarm (timeout * timeoutfactor);
 
   /* Make sure we clean up if the wrapper gets interrupted.  */
-  signal (SIGINT, signal_handler);
+  assert(signal (SIGINT, signal_handler) != SIG_ERR);
 
   /* Wait for the regular termination.  */
   termpid = TEMP_FAILURE_RETRY (waitpid (test_pid, &status, 0));
@@ -1062,10 +1064,10 @@ report_blob (const char *what, const unsigned char *blob,
       printf ("      \"%s\"\n", quoted);
       free (quoted);
 
-      fputs ("     ", stdout);
+      assert(fputs ("     ", stdout) >= 0);
       for (unsigned long i = 0; i < length; ++i)
         printf (" %02X", blob[i]);
-      putc ('\n', stdout);
+      assert(putc ('\n', stdout) == '\n');
     }
 }
 
@@ -1418,6 +1420,7 @@ support_write_file_string (const char *path, const char *contents)
 bool
 support_stat_nanoseconds (const char *path)
 {
+    (void)path;
   bool support = true;
 #if 0//def __linux__
   /* Obtain the original timestamp to restore at the end.  */

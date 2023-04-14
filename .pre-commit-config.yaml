@@ -4,7 +4,7 @@ repos:
     rev: v1.3.5
     hooks:
       - id: clang-tidy
-        args: [--config-file=./.clang-tidy]
+        args: [--config-file=./.clang-tidy,-header-filter=.*]
         exclude: ^(.*\.h)$
       - id: cppcheck
         args: [--suppress=invalidPrintfArgType_sint,--suppress=unmatchedSuppression,--suppress=missingInclude,--suppress=invalidScanfArgType_int,--suppress=invalidPrintfArgType_uint,--suppress=shadowVariable,--suppress=shiftTooManyBitsSigned,--suppress=unusedFunction,--suppress=unknownMacro,--suppress=invalidPrintfArgType_s,--suppress=ConfigurationNotChecked,--suppress=resourceLeak,--suppress=unusedVariable,--suppress=va_end_missing,--suppress=wrongPrintfScanfArgNum,--suppress=bufferAccessOutOfBounds,--suppress=invalidFunctionArg,--suppress=invalidscanf,--suppress=invalidPrintfArgType_float,--suppress=nullPointer,--suppress=variableScope,--suppress=knownConditionTrueFalse,--suppress=toomanyconfigs,--suppress=unusedStructMember,--suppress=arithOperationsOnVoidPointer,--suppress=constParameter,--suppress=duplicateExpression,--suppress=memleak,--suppress=syntaxError,--suppress=unreadVariable,--suppress=doubleFree,--suppress=staticStringCompare,--suppress=stringCompare,--suppress=memleakOnRealloc,--suppress=noValidConfiguration,--suppress=assignmentInAssert,--suppress=nullPointerArithmetic]

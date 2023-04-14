@@ -1,7 +1,9 @@
 #include "test-deps/cc65.h"
 #include <string.h>
 
-#define SourceStringSize 257                            // test correct page passing (>256)
+enum {
+    SourceStringSize = 257                            // test correct page passing (>256)
+};
 
 static char SourceString[SourceStringSize+1];           // +1 room for terminating null
 static char DestinationString[2*SourceStringSize+1];    // will contain two times the source buffer

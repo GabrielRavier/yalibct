@@ -32,6 +32,7 @@
 #include <string.h>
 #include <sys/param.h>
 #include <stdarg.h>
+#include <assert.h>
 #include <errno.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -239,8 +240,8 @@ atomic_uint g_testlib_failed;
 
 void testlib_finish(void) {
   if (g_testlib_failed) {
-    fprintf(stderr, "%u / %u %s\n", g_testlib_failed, g_testlib_ran,
-            "tests failed");
+      assert(fprintf(stderr, "%u / %u %s\n", g_testlib_failed, g_testlib_ran,
+                     "tests failed") >= 0);
   }
 }
 
@@ -251,12 +252,13 @@ wontreturn void testlib_abort(void) {
 
 void testlib_incrementfailed(void) {
   if (++g_testlib_failed > 23) {
-    fprintf(stderr, "too many failures, aborting\n");
+      assert(fprintf(stderr, "too many failures, aborting\n") == 28);
     testlib_abort();
   }
 }
 
 forceinline void testlib_onfail2(bool isfatal) {
+    (void)isfatal;
   testlib_incrementfailed();
   if (true) { //if (isfatal) {
     testlib_abort();
@@ -547,6 +549,7 @@ void testlib_error_leave(void) {
             __VA_ARGS__)
 
 relegated void __oom_hook(size_t request) {
+    (void)request;
   int e;
   uint64_t toto, newlim;
   //__restore_tty();
@@ -612,7 +615,13 @@ void *_mapanon(size_t size) {
   return 0;
 }
 
-#define FRAMESIZE   0x10000 /* 8086 */
+#ifdef YALIBCT_WORK_AROUND_NAMESPACE_VIOLATIONS
+#undef FRAMESIZE
+#define FRAMESIZE FRAMESIZE_avoid_cosmopolitan_namespace_violations
+#endif
+enum {
+    FRAMESIZE = 0x10000, /* 8086 */
+};
 
 #define EXPECT_SYS(ERRNO, WANT, GOT, ...)                                  \
   do {                                                                     \

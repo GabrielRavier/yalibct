@@ -39,6 +39,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <signal.h>
 #include <stdarg.h>
 #include <stdbool.h>
 
@@ -109,7 +110,7 @@ STD_opts_help()
 
     for(i = 0; std_options[i].optstr; ++i) {
 	if (std_options[i].help)
-	    fputs(std_options[i].help, stdout);
+	    assert(fputs(std_options[i].help, stdout) >= 0);
     }
 }
 
@@ -319,8 +320,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
             }
 	    /* This condition "should never happen".  SO CHECK FOR IT!!!! */
             if ( ! found ) {
-                sprintf(Mesg2,
-		    "parse_opts: ERROR - option:\"%c\" NOT FOUND... INTERNAL ERROR", opt);
+                assert(sprintf(Mesg2,
+                               "parse_opts: ERROR - option:\"%c\" NOT FOUND... INTERNAL ERROR", opt) == strlen(Mesg2));
                 return(Mesg2);
             }
 	}
@@ -332,11 +333,13 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
     /*
      * Turn on debug
      */
-    if ( (ptr=getenv("USC_DEBUG")) != NULL ) {
+    ptr=getenv("USC_DEBUG");
+    if ( ptr != NULL ) {
 	Debug=1;
         printf("env USC_DEBUG is defined, turning on debug\n");
     }
-    if ( (ptr=getenv("USC_VERBOSE")) != NULL ) {
+    ptr=getenv("USC_VERBOSE");
+    if ( ptr != NULL ) {
 	Debug=1;
         printf("env USC_VERBOSE is defined, turning on debug\n");
     }
@@ -346,7 +349,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
      * a number, use that number as iteration count (same as -c option).
      * The -c option with arg will be used even if this env var is set.
      */
-    if ( !(options & OPT_iteration) && (ptr=getenv(USC_ITERATION_ENV)) != NULL ) {
+    ptr=getenv(USC_ITERATION_ENV);
+    if ( !(options & OPT_iteration) && ptr != NULL ) {
         if ( sscanf(ptr, "%i", &k) == 1) {
             if ( k == 0 ) {   /* if arg is 0, set infinite loop flag */
                 STD_INFINITE=1;
@@ -366,7 +370,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
      * If the USC_NO_FUNC_CHECK environmental variable is set, we'll
      * unset the STD_FUNCTIONAL_TEST variable.
      */
-    if ( !(options & OPT_nofunccheck) && (ptr=getenv(USC_NO_FUNC_CHECK)) != NULL ) {
+    ptr=getenv(USC_NO_FUNC_CHECK);
+    if ( !(options & OPT_nofunccheck) && ptr != NULL ) {
         STD_FUNCTIONAL_TEST=0; /* Turn off functional testing */
 	if ( Debug )
 	    printf("Using env %s, set STD_FUNCTIONAL_TEST to 0\n",
@@ -379,7 +384,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
      * The -I option with arg will be used even if this env var is set.
      */
 
-    if ( !(options & OPT_duration) && (ptr=getenv(USC_LOOP_WALLTIME)) != NULL ) {
+    ptr=getenv(USC_LOOP_WALLTIME);
+    if ( !(options & OPT_duration) && ptr != NULL ) {
         if ( sscanf(ptr, "%f", &ftmp) == 1 && ftmp >= 0.0 ) {
 	    STD_LOOP_DURATION=ftmp;
 	    if ( Debug )
@@ -392,7 +398,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
 	    }
         }
     }
-    if ( !(options & OPT_duration) && (ptr=getenv("USC_DURATION")) != NULL ) {
+    ptr=getenv("USC_DURATION");
+    if ( !(options & OPT_duration) && ptr != NULL ) {
         if ( sscanf(ptr, "%f", &ftmp) == 1 && ftmp >= 0.0 ) {
 	    STD_LOOP_DURATION=ftmp;
 	    if ( Debug )
@@ -409,7 +416,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
      * use that number as delay in factional seconds (same as -P option).
      * The -P option with arg will be used even if this env var is set.
      */
-    if ( !(options & OPT_delay) && (ptr=getenv(USC_LOOP_DELAY)) != NULL ) {
+    ptr=getenv(USC_LOOP_DELAY);
+    if ( !(options & OPT_delay) && ptr != NULL ) {
         if ( sscanf(ptr, "%f", &ftmp) == 1 && ftmp >= 0.0 ) {
 	    STD_LOOP_DELAY=ftmp;
 	    if ( Debug )
@@ -423,7 +431,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
      * use that number as copies (same as -c option).
      * The -c option with arg will be used even if this env var is set.
      */
-    if ( !(options & OPT_copies) && (ptr=getenv(USC_COPIES)) != NULL ) {
+    ptr=getenv(USC_COPIES);
+    if ( !(options & OPT_copies) && ptr != NULL ) {
         if ( sscanf(ptr, "%d", &STD_COPIES) == 1 && STD_COPIES >= 0 ) {
 	    if ( Debug )
 		printf("Using env %s, set STD_COPIES = %d\n",
@@ -435,7 +444,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
      * The following are special system testing envs to turn on special
      * hooks in the code.
      */
-    if ( (ptr=getenv("USC_TP_BARRIER")) != NULL ) {
+    ptr=getenv("USC_TP_BARRIER");
+    if ( ptr != NULL ) {
         if ( sscanf(ptr, "%i", &k) == 1 && k >= 0 ) {
 	    STD_TP_barrier=k;
 	}
@@ -446,7 +456,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
 	        STD_TP_barrier);
     }
 
-    if ( (ptr=getenv("USC_LP_BARRIER")) != NULL ) {
+    ptr=getenv("USC_LP_BARRIER");
+    if ( ptr != NULL ) {
         if ( sscanf(ptr, "%i", &k) == 1 && k >= 0 ) {
 	    STD_LP_barrier=k;
 	}
@@ -457,7 +468,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
 	        STD_LP_barrier);
     }
 
-    if ( (ptr=getenv("USC_TP_SHMEM")) != NULL ) {
+    ptr=getenv("USC_TP_SHMEM");
+    if ( ptr != NULL ) {
         if ( sscanf(ptr, "%i", &k) == 1 && k >= 0 ) {
             STD_TP_shmem_sz=k;
 	    if ( Debug )
@@ -466,7 +478,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
         }
     }
 
-    if ( (ptr=getenv("USC_LP_SHMEM")) != NULL ) {
+    ptr=getenv("USC_LP_SHMEM");
+    if ( ptr != NULL ) {
         if ( sscanf(ptr, "%i", &k) == 1 && k >= 0 ) {
             STD_LP_shmem=k;
 	    if ( Debug )
@@ -475,7 +488,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
         }
     }
 
-    if ( (ptr=getenv("USC_LD_SHMEM")) != NULL ) {
+    ptr=getenv("USC_LD_SHMEM");
+    if ( ptr != NULL ) {
         if ( sscanf(ptr, "%i", &k) == 1 && k >= 0 ) {
             STD_LD_shmem=k;
 	    if ( Debug )
@@ -484,7 +498,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
         }
     }
 
-    if ( (ptr=getenv("USC_TP_SBRK")) != NULL ) {
+    ptr=getenv("USC_TP_SBRK");
+    if ( ptr != NULL ) {
         if ( sscanf(ptr, "%i", &k) == 1 && k >= 0 ) {
             STD_TP_sbrk=k;
 	    if ( Debug )
@@ -493,7 +508,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
         }
     }
 
-    if ( (ptr=getenv("USC_LP_SBRK")) != NULL ) {
+    ptr=getenv("USC_LP_SBRK");
+    if ( ptr != NULL ) {
         if ( sscanf(ptr, "%i", &k) == 1 && k >= 0 ) {
             STD_LP_sbrk=k;
 	    if ( Debug )
@@ -502,7 +518,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
         }
     }
 
-    if ( (ptr=getenv("USC_LP_RECFUN")) != NULL ) {
+    ptr=getenv("USC_LP_RECFUN");
+    if ( ptr != NULL ) {
         if ( sscanf(ptr, "%i", &k) == 1 && k >= 0 ) {
 	    STD_LP_recfun=k;
 	    if ( STD_bigstack != (struct usc_bigstack_t *)NULL )
@@ -514,7 +531,8 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
         }
     }
 
-    if ( (ptr=getenv("USC_LD_RECFUN")) != NULL ) {
+    ptr=getenv("USC_LD_RECFUN");
+    if ( ptr != NULL ) {
         if ( sscanf(ptr, "%i", &k) == 1 && k >= 0 ) {
 	    STD_LD_recfun=k;
 	    if ( STD_bigstack != (struct usc_bigstack_t *)NULL )
@@ -566,7 +584,7 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
    if ( arg_fmt != NULL ) {               \
       if ( Expand_varargs == TRUE ) {     \
          va_start(ap, arg_fmt);           \
-         vsprintf(str, arg_fmt, ap);      \
+         assert(vsprintf(str, arg_fmt, ap) == strlen(str));     \
          va_end(ap);                      \
          Expand_varargs = FALSE;          \
       } else {                            \
@@ -635,10 +653,11 @@ cat_file(const char *filename)
    /*
     * Open the file for reading.
     */
-   if ( (fp = fopen(filename, "r")) == NULL ) {
-      sprintf(Warn_mesg,
-              "tst_res(): fopen(%s, \"r\") failed; errno = %d: %s",
-              filename, errno, strerror(errno));
+   fp = fopen(filename, "r"); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+   if ( fp == NULL ) {
+       assert(sprintf(Warn_mesg,
+                      "tst_res(): fopen(%s, \"r\") failed; errno = %d: %s",
+                      filename, errno, strerror(errno)) == strlen(Warn_mesg));
       tst_print(TCID, 0, 1, TWARN, Warn_mesg);
       return;
    }  /* if ( fopen(filename, "r") == -1 ) */
@@ -650,15 +669,16 @@ cat_file(const char *filename)
     *   value is zero.
     */
    errno = 0;
-   while ( (b_read = fread((void *)buffer, 1, BUFSIZ, fp)) != (size_t)0 ) {
+   while ( (b_read = fread((void *)buffer, 1, BUFSIZ, fp)) != (size_t)0 ) { // NOLINT(cert-sig30-c,bugprone-signal-handler)
       /*
        * Write what was read to the result output stream.
        */
-      if ( (b_written = fwrite((void *)buffer, 1, b_read, T_out)) !=
+       b_written = fwrite((void *)buffer, 1, b_read, T_out); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+      if ( b_written !=
            b_read ) {
-         sprintf(Warn_mesg,
-                 "tst_res(): While trying to cat \"%s\", fwrite() wrote only %d of %d bytes",
-                 filename, b_written, b_read);
+          assert(sprintf(Warn_mesg,
+                         "tst_res(): While trying to cat \"%s\", fwrite() wrote only %d of %d bytes",
+                         filename, b_written, b_read) == strlen(Warn_mesg));
          tst_print(TCID, 0, 1, TWARN, Warn_mesg);
          break;
       }  /* if ( b_written != b_read ) */
@@ -667,20 +687,20 @@ cat_file(const char *filename)
    /*
     * Check for an fread() error.
     */
-   if ( !feof(fp) ) {
-      sprintf(Warn_mesg,
-              "tst_res(): While trying to cat \"%s\", fread() failed, errno = %d: %s",
-              filename, errno, strerror(errno));
+   if ( !feof(fp) ) { // NOLINT(cert-sig30-c,bugprone-signal-handler)
+       assert(sprintf(Warn_mesg,
+                      "tst_res(): While trying to cat \"%s\", fread() failed, errno = %d: %s",
+                      filename, errno, strerror(errno)) == strlen(Warn_mesg));
       tst_print(TCID, 0, 1, TWARN, Warn_mesg);
    }  /* if ( !feof() ) */
 
    /*
     * Close the file.
     */
-   if ( fclose(fp) == EOF ) {
-      sprintf(Warn_mesg,
-              "tst_res(): While trying to cat \"%s\", fclose() failed, errno = %d: %s",
-              filename, errno, strerror(errno));
+   if ( fclose(fp) == EOF ) { // NOLINT(cert-sig30-c,bugprone-signal-handler)
+       assert(sprintf(Warn_mesg,
+                      "tst_res(): While trying to cat \"%s\", fclose() failed, errno = %d: %s",
+                      filename, errno, strerror(errno)) == strlen(Warn_mesg));
       tst_print(TCID, 0, 1, TWARN, Warn_mesg);
    }  /* if ( fclose(fp) == EOF ) */
 }  /* cat_file() */
@@ -753,15 +773,15 @@ tst_print(const char *tcid, int tnum, int trange, int ttype, const char *tmesg)
     * Build the result line and print it.
     */
    if ( T_mode == VERBOSE ) {
-      fprintf(T_out, "%-8s %4d  %s  :  %s\n", tcid, tnum, type, tmesg);
+       assert(fprintf(T_out, "%-8s %4d  %s  :  %s\n", tcid, tnum, type, tmesg) >= 0); // NOLINT(cert-sig30-c,bugprone-signal-handler)
    } else {
       /* condense results if a range is specified */
       if ( trange > 1 )
-         fprintf(T_out, "%-8s %4d-%-4d  %s  :  %s\n",
-                 tcid, tnum, tnum + trange - 1, type, tmesg);
+          assert(fprintf(T_out, "%-8s %4d-%-4d  %s  :  %s\n",
+                         tcid, tnum, tnum + trange - 1, type, tmesg) >= 0);
       else
-         fprintf(T_out, "%-8s %4d       %s  :  %s\n",
-                 tcid, tnum, type, tmesg);
+          assert(fprintf(T_out, "%-8s %4d       %s  :  %s\n",
+                         tcid, tnum, type, tmesg) >= 0);
    }
 
    /*
@@ -864,7 +884,8 @@ check_env()
 
    first_time = 0;
 
-   if ( (value = getenv(TOUTPUT)) == NULL ) {
+   value = getenv(TOUTPUT); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+   if ( value == NULL ) {
       /* TOUTPUT not defined, use default */
       T_mode = VERBOSE;
    } else if ( strcmp(value, TOUT_CONDENSE_S) == 0 ) {
@@ -877,8 +898,6 @@ check_env()
       /* default */
       T_mode = VERBOSE;
    }
-
-   return;
 }  /* check_env() */
 
 /*
@@ -915,7 +934,7 @@ tst_condense(int tnum, int ttype, char *tmesg)
       File = NULL;
       tst_print(Last_tcid, Last_num, tnum - Last_num, Last_type,
                 Last_mesg);
-      free(Last_tcid);
+      free(Last_tcid); // NOLINT(cert-sig30-c,bugprone-signal-handler)
       free(Last_mesg);
       File = file;
    }  /* if ( Buffered == TRUE ) */
@@ -929,7 +948,7 @@ tst_condense(int tnum, int ttype, char *tmesg)
       tst_print(TCID, tnum, Tst_range, ttype, tmesg);
       Buffered = FALSE;
    } else {
-      Last_tcid = (char *)malloc(strlen(TCID) + 1);
+      Last_tcid = (char *)malloc(strlen(TCID) + 1); // NOLINT(cert-sig30-c,bugprone-signal-handler)
       strcpy(Last_tcid, TCID);
       Last_num = tnum;
       Last_type = ttype;
@@ -1070,7 +1089,7 @@ tst_flush()
                 Last_type, Last_mesg);
       Buffered = FALSE;
    }
-   fflush(T_out);
+   assert(fflush(T_out) == 0); // NOLINT(cert-sig30-c,bugprone-signal-handler)
 }  /* tst_flush() */
 
 /*
@@ -1097,7 +1116,7 @@ tst_exit()
    /*
     * Mask out TRETR, TINFO, and TCONF results from the exit status.
     */
-   exit(T_exitval & ~(TRETR | TINFO | TCONF));
+   exit(T_exitval & ~(TRETR | TINFO | TCONF)); // NOLINT(cert-sig30-c,bugprone-signal-handler)
 }  /* tst_exit() */
 
 /*
@@ -1124,8 +1143,8 @@ tst_brk(int ttype, char *fname, void (*func)(), const char *arg_fmt, ...)
     */
    if ( ttype != TFAIL && ttype != TBROK && ttype != TCONF &&
         ttype != TRETR ) {
-      sprintf(Warn_mesg, "tst_brk(): Invalid Type: %d.  Using TBROK",
-              ttype);
+       assert(sprintf(Warn_mesg, "tst_brk(): Invalid Type: %d.  Using TBROK",
+                      ttype) == strlen(Warn_mesg));
       tst_print(TCID, 0, 1, TWARN, Warn_mesg);
       ttype = TBROK;
    }
@@ -1166,8 +1185,6 @@ tst_brk(int ttype, char *fname, void (*func)(), const char *arg_fmt, ...)
       (*func)();
       tst_exit();
    }
-
-   return;
 }  /* tst_brk() */
 
 /*
@@ -1453,7 +1470,7 @@ tst_resm(int ttype, const char *arg_fmt, ...)
    /*
     * Expand the arg_fmt string into tmesg.
     */
-   EXPAND_VAR_ARGS(arg_fmt, tmesg);
+   EXPAND_VAR_ARGS(arg_fmt, tmesg); // NOLINT(cert-sig30-c,bugprone-signal-handler)
 
    /*
     * Call tst_res with a null filename argument.
@@ -1476,9 +1493,7 @@ def_handler(int sig)
     /* first reset trap for this signal (except SIGCHLD - its weird) */
     if ((sig != SIGCHLD) && (sig != SIGSTOP) && (sig != SIGCONT)) {
         if (signal(sig, def_handler) == SIG_ERR) {
-            (void) sprintf(mesg,
-                "def_handler: signal() failed for signal %d. error:%d %s.",
-                sig, errno, strerror(errno));
+            (void) sprintf(mesg, "def_handler: signal() failed for signal %d. error:%d %s.", sig, errno, strerror(errno)); // NOLINT(cert-sig30-c,bugprone-signal-handler)
             tst_resm(TWARN, mesg);
         }
     }
@@ -1510,6 +1525,8 @@ def_handler(int sig)
 void
 tst_sig(int fork_flag, void (*handler)(), void (*cleanup)())
 {
+    (void)fork_flag;
+    (void)handler;
     char mesg[MAXMESG];     /* message buffer for tst_res */
     int sig;
 
@@ -1611,7 +1628,7 @@ tst_sig(int fork_flag, void (*handler)(), void (*cleanup)())
  */
 void STD_go(int sig)
 {
-   return;
+    (void)sig;
 }
 
 /***********************************************************************
@@ -1634,8 +1651,8 @@ usc_global_setup_hook()
     for(cnt=1;cnt<STD_COPIES;cnt++) {
         switch(fork() ) {
         case -1:
-        fprintf(stderr, "%s: fork() failed, errno:%d %s\n",
-                __FILE__, errno, strerror(errno));
+            assert(fprintf(stderr, "%s: fork() failed, errno:%d %s\n",
+                           __FILE__, errno, strerror(errno)) >= 0);
         break;
         case 0:  /* child */
             cnt=STD_COPIES;   /* to stop the forking */
@@ -1652,7 +1669,7 @@ usc_global_setup_hook()
     if ( STD_PAUSE ) {
         _TMP_FUNC = (int (*)())signal(SIGUSR1, STD_go);
         pause();
-        signal(SIGUSR1, (void (*)())_TMP_FUNC);
+        assert(signal(SIGUSR1, (void (*)())_TMP_FUNC) != SIG_ERR);
     }
 
 

@@ -41,12 +41,12 @@ fn4 (char *p, const char *q, size_t *l)
 __attribute__((noinline)) YALIBCT_ATTRIBUTE_NOCLONE char *
 fn5 (char *p, const char *q, size_t *l1, size_t *l2, size_t *l3)
 {
-  size_t l = strlen (q);
-  size_t ll = strlen (p);
+  size_t q_strlen = strlen (q);
+  size_t p_strlen = strlen (p);
   char *r = strcat (p, q);
-  *l1 = l;
+  *l1 = q_strlen;
   *l2 = strlen (p);
-  *l3 = ll;
+  *l3 = p_strlen;
   return r;
 }
 

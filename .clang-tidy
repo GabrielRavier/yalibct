@@ -5,7 +5,7 @@ Checks: "abseil-cleanup-ctad,abseil-duration-addition,abseil-duration-comparison
         abseil-duration-subtraction,abseil-duration-unnecessary-conversion,abseil-faster-strsplit-delimiter,abseil-no-internal-dependencies,abseil-no-namespace,abseil-redundant-strcat-calls,abseil-str-cat-append, \
         abseil-string-find-startswith,abseil-string-find-str-contains,abseil-time-comparison,abseil-time-subtraction,abseil-upgrade-duration-conversions,altera-kernel-name-restriction,altera-single-work-item-barrier, \
         android-cloexec-accept,android-cloexec-accept4,android-cloexec-dup,android-cloexec-epoll-create,android-cloexec-epoll-create1,android-cloexec-inotify-init, \
-        android-cloexec-inotify-init1,android-cloexec-memfd-create,android-cloexec-pipe,android-cloexec-pipe2,android-cloexec-socket,android-comparison-in-temp-failure-retry,boost-use-to-string, \
+        android-cloexec-inotify-init1,android-cloexec-memfd-create,android-cloexec-pipe2,android-cloexec-socket,android-comparison-in-temp-failure-retry,boost-use-to-string, \
         bugprone-argument-comment,bugprone-assignment-in-if-condition,bugprone-bad-signal-to-kill-thread,bugprone-bool-pointer-implicit-conversion, \
         bugprone-copy-constructor-init,bugprone-dangling-handle,bugprone-dynamic-static-initializers,bugprone-exception-escape,bugprone-fold-init-type, \
         bugprone-forward-declaration-namespace,bugprone-forwarding-reference-overload,bugprone-inaccurate-erase,bugprone-incorrect-roundings, \
@@ -80,6 +80,8 @@ Checks: "abseil-cleanup-ctad,abseil-duration-addition,abseil-duration-comparison
 
 CheckOptions:
     - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+      value: true
+    - key: bugprone-sizeof-expression.WarnOnSizeOfPointerToAggregate
       value: true
 
 # Make sure the checks fire off errors, not just warnings

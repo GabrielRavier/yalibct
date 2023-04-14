@@ -103,8 +103,8 @@ void integer_test(FILE* fp, char type)
                         make_format_string(format, type, 0, w, p, l, mod);
 
                         for (i = 0; i < 2; ++i) {
-                            sprintf(result, format, value);
-                            fprintf(fp, "\"%s\" %d: \"%s\"\r\n", format, value, result);
+                            assert(sprintf(result, format, value) == strlen(result));
+                            assert(fprintf(fp, "\"%s\" %d: \"%s\"\r\n", format, value, result) >= 0);
 
                             if (value == 0) {
                                 break;
@@ -150,8 +150,8 @@ void long_integer_test(FILE* fp, char type)
                         make_format_string(format, type, 1, w, p, l, mod);
 
                         for (i = 0; i < 2; ++i) {
-                            sprintf(result, format, value);
-                            fprintf(fp, "\"%s\", %ld, \"%s\"\r\n", format, value, result);
+                            assert(sprintf(result, format, value) == strlen(result));
+                            assert(fprintf(fp, "\"%s\", %ld, \"%s\"\r\n", format, value, result) >= 0);
 
                             if (value == 0) {
                                 break;

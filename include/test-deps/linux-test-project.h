@@ -38,7 +38,9 @@ const char *TCID;
 #define GLIBC_GIT_URL "https://sourceware.org/git/?p=glibc.git;a=commit;h="
 #define CVE_DB_URL "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-"
 
-#define DEFAULT_TIMEOUT 30
+enum {
+    DEFAULT_TIMEOUT = 30
+};
 
 #define PATH_HUGEPAGES  "/sys/kernel/mm/hugepages/"
 #define PATH_NR_HPAGES  "/proc/sys/vm/nr_hugepages"
@@ -92,7 +94,9 @@ enum tst_cg_ver {
 };
 
 /* This value is greater than ROOTS_MAX in tst_cgroup.c. */
-#define TST_CG_ROOTS_MAX 32
+enum {
+    TST_CG_ROOTS_MAX = 32
+};
 
 /* Used to specify CGroup hierarchy configuration options, allowing a
  * test to request a particular CGroup structure.
@@ -321,7 +325,7 @@ static int ovl_mounted;
 /*
  * Reports result and exits a test.
  */
-void tst_brk_(const char *file, const int lineno, int ttype,
+void tst_brk_(const char *file, int lineno, int ttype,
               const char *fmt, ...)
               __attribute__ ((format (printf, 4, 5)));
 
@@ -450,7 +454,7 @@ static void assert_test_fn(void)
 /*
  * Reports testcase result.
  */
-void tst_res_(const char *file, const int lineno, int ttype,
+void tst_res_(const char *file, int lineno, int ttype,
               const char *fmt, ...)
               __attribute__ ((format (printf, 4, 5)));
 
@@ -757,23 +761,23 @@ static void print_help(void)
     int timeout, runtime;
 
     /* see doc/user-guide.txt, which lists also shell API variables */
-    fprintf(stderr, "Environment Variables\n");
-    fprintf(stderr, "---------------------\n");
-    fprintf(stderr, "KCONFIG_PATH         Specify kernel config file\n");
-    fprintf(stderr, "KCONFIG_SKIP_CHECK   Skip kernel config check if variable set (not set by default)\n");
-    fprintf(stderr, "LTPROOT              Prefix for installed LTP (default: /opt/ltp)\n");
-    fprintf(stderr, "LTP_COLORIZE_OUTPUT  Force colorized output behaviour (y/1 always, n/0: never)\n");
-    fprintf(stderr, "LTP_DEV              Path to the block device to be used (for .needs_device)\n");
-    fprintf(stderr, "LTP_DEV_FS_TYPE      Filesystem used for testing (default: %s)\n", DEFAULT_FS_TYPE);
-    fprintf(stderr, "LTP_SINGLE_FS_TYPE   Testing only - specifies filesystem instead all supported (for .all_filesystems)\n");
-    fprintf(stderr, "LTP_TIMEOUT_MUL      Timeout multiplier (must be a number >=1)\n");
-    fprintf(stderr, "LTP_RUNTIME_MUL      Runtime multiplier (must be a number >=1)\n");
-    fprintf(stderr, "LTP_VIRT_OVERRIDE    Overrides virtual machine detection (values: \"\"|kvm|microsoft|xen|zvm)\n");
-    fprintf(stderr, "TMPDIR               Base directory for template directory (for .needs_tmpdir, default: %s)\n", TEMPDIR);
-    fprintf(stderr, "\n");
+    assert(fprintf(stderr, "Environment Variables\n") >= 0);
+    assert(fprintf(stderr, "---------------------\n") >= 0);
+    assert(fprintf(stderr, "KCONFIG_PATH         Specify kernel config file\n") >= 0);
+    assert(fprintf(stderr, "KCONFIG_SKIP_CHECK   Skip kernel config check if variable set (not set by default)\n") >= 0);
+    assert(fprintf(stderr, "LTPROOT              Prefix for installed LTP (default: /opt/ltp)\n") >= 0);
+    assert(fprintf(stderr, "LTP_COLORIZE_OUTPUT  Force colorized output behaviour (y/1 always, n/0: never)\n") >= 0);
+    assert(fprintf(stderr, "LTP_DEV              Path to the block device to be used (for .needs_device)\n") >= 0);
+    assert(fprintf(stderr, "LTP_DEV_FS_TYPE      Filesystem used for testing (default: %s)\n", DEFAULT_FS_TYPE) >= 0);
+    assert(fprintf(stderr, "LTP_SINGLE_FS_TYPE   Testing only - specifies filesystem instead all supported (for .all_filesystems)\n") >= 0);
+    assert(fprintf(stderr, "LTP_TIMEOUT_MUL      Timeout multiplier (must be a number >=1)\n") >= 0);
+    assert(fprintf(stderr, "LTP_RUNTIME_MUL      Runtime multiplier (must be a number >=1)\n") >= 0);
+    assert(fprintf(stderr, "LTP_VIRT_OVERRIDE    Overrides virtual machine detection (values: \"\"|kvm|microsoft|xen|zvm)\n") >= 0);
+    assert(fprintf(stderr, "TMPDIR               Base directory for template directory (for .needs_tmpdir, default: %s)\n", TEMPDIR) >= 0);
+    assert(fprintf(stderr, "\n") == 1);
 
-    fprintf(stderr, "Timeout and runtime\n");
-    fprintf(stderr, "-------------------\n");
+    assert(fprintf(stderr, "Timeout and runtime\n") >= 0);
+    assert(fprintf(stderr, "-------------------\n") >= 0);
 
     assert(!tst_test->max_runtime);/*if (tst_test->max_runtime) {
         runtime = multiply_runtime(tst_test->max_runtime);
@@ -788,24 +792,24 @@ static void print_help(void)
 
     timeout = tst_multiply_timeout(DEFAULT_TIMEOUT);
 
-    fprintf(stderr, "Test timeout (not including runtime) %ih %im %is\n",
-        timeout/3600, (timeout%3600)/60, timeout % 60);
+    assert(fprintf(stderr, "Test timeout (not including runtime) %ih %im %is\n",
+                   timeout/3600, (timeout%3600)/60, timeout % 60) >= 0);
 
-    fprintf(stderr, "\n");
+    assert(fprintf(stderr, "\n") == 1);
 
-    fprintf(stderr, "Options\n");
-    fprintf(stderr, "-------\n");
+    assert(fprintf(stderr, "Options\n") == 8);
+    assert(fprintf(stderr, "-------\n") == 8);
 
     for (i = 0; i < ARRAY_SIZE(options); i++)
-        fprintf(stderr, "%s\n", options[i].help);
+        assert(fprintf(stderr, "%s\n", options[i].help) == strlen(options[i].help) + 1);
 
     if (!tst_test->options)
         return;
 
     for (i = 0; tst_test->options[i].optstr; i++) {
-        fprintf(stderr, "-%c\t %s\n",
-            tst_test->options[i].optstr[0],
-            tst_test->options[i].help);
+        assert(fprintf(stderr, "-%c\t %s\n",
+                       tst_test->options[i].optstr[0],
+                       tst_test->options[i].help) == 5 + strlen(tst_test->options[i].help));
     }
 }
 
@@ -817,23 +821,23 @@ static void print_test_tags(void)
     if (!tags)
         return;
 
-    fprintf(stderr, "\nTags\n");
-    fprintf(stderr, "----\n");
+    assert(fprintf(stderr, "\nTags\n") == 6);
+    assert(fprintf(stderr, "----\n") == 5);
 
     for (i = 0; tags[i].name; i++) {
         if (!strcmp(tags[i].name, "CVE"))
-            fprintf(stderr, CVE_DB_URL "%s\n", tags[i].value);
+            assert(fprintf(stderr, CVE_DB_URL "%s\n", tags[i].value) > strlen(tags[i].value) + 1);
         else if (!strcmp(tags[i].name, "linux-git"))
-            fprintf(stderr, LINUX_GIT_URL "%s\n", tags[i].value);
+            assert(fprintf(stderr, LINUX_GIT_URL "%s\n", tags[i].value) > strlen(tags[i].value) + 1);
         else if (!strcmp(tags[i].name, "linux-stable-git"))
-            fprintf(stderr, LINUX_STABLE_GIT_URL "%s\n", tags[i].value);
+            assert(fprintf(stderr, LINUX_STABLE_GIT_URL "%s\n", tags[i].value) > strlen(tags[i].value) + 1);
         else if (!strcmp(tags[i].name, "glibc-git"))
-            fprintf(stderr, GLIBC_GIT_URL "%s\n", tags[i].value);
+            assert(fprintf(stderr, GLIBC_GIT_URL "%s\n", tags[i].value) > strlen(tags[i].value) + 1);
         else
-            fprintf(stderr, "%s: %s\n", tags[i].name, tags[i].value);
+            assert(fprintf(stderr, "%s: %s\n", tags[i].name, tags[i].value) == 3 + strlen(tags[i].name) + strlen(tags[i].value));
     }
 
-    fprintf(stderr, "\n");
+    assert(fprintf(stderr, "\n") == 1);
 }
 
 #define SAFE_SYMLINK(oldpath, newpath) \
@@ -902,14 +906,16 @@ long TEST_RETURN;
 int TEST_ERRNO;
 void *TST_RET_PTR;
 
-#define VERBOSE      1
-#define NOPASS       3
-#define DISCARD      4
+enum {
+    VERBOSE = 1,
+    NOPASS = 3,
+    DISCARD = 4,
 
-#define MAXMESG      80     /* max length of internal messages */
-#define USERMESG     2048   /* max length of user message */
-#define TRUE         1
-#define FALSE        0
+    MAXMESG = 80,     /* max length of internal messages */
+    USERMESG = 2048,   /* max length of user message */
+    TRUE = 1,
+    FALSE = 0,
+};
 
 /*
  * EXPAND_VAR_ARGS - Expand the variable portion (arg_fmt) of a result
@@ -922,7 +928,7 @@ void *TST_RET_PTR;
     va_list ap;             \
     assert(arg_fmt != NULL);        \
     va_start(ap, arg_fmt);          \
-    vsnprintf(buf, buf_len, arg_fmt, ap);   \
+    assert(vsnprintf(buf, buf_len, arg_fmt, ap) == strlen(buf));        \
     va_end(ap);             \
     assert(strlen(buf) > 0);        \
 } while (0)
@@ -1157,7 +1163,7 @@ static void tst_print(const char *tcid, int tnum, int ttype, const char *tmesg)
     message[size] = '\n';
     message[size + 1] = '\0';
 
-    fputs(message, stdout);
+    assert(fputs(message, stdout) >= 0);
 }
 
 /* defines for unexpected signal setup routine (set_usig.c) */
@@ -1195,7 +1201,8 @@ static void check_env(void)
     first_time = 0;
 
     /* BTOUTPUT not defined, use default */
-    if ((value = getenv(TOUTPUT)) == NULL) {
+    value = getenv(TOUTPUT);
+    if (value == NULL) {
         T_mode = VERBOSE;
         return;
     }
@@ -1211,7 +1218,6 @@ static void check_env(void)
     }
 
     T_mode = VERBOSE;
-    return;
 }
 
 static void tst_condense(int tnum, int ttype, const char *tmesg)
@@ -1330,7 +1336,7 @@ void tst_old_flush(void)
         Buffered = FALSE;
     }
 
-    fflush(stdout);
+    assert(fflush(stdout) == 0);
 
     pthread_mutex_unlock(&tmutex);
 }
@@ -1366,8 +1372,8 @@ static void tst_brk__(const char *file, const int lineno, int ttype,
      */
     if (ttype_result != TFAIL && ttype_result != TBROK &&
         ttype_result != TCONF) {
-        sprintf(Warn_mesg, "%s: Invalid Type: %d. Using TBROK",
-            __func__, ttype_result);
+        assert(sprintf(Warn_mesg, "%s: Invalid Type: %d. Using TBROK",
+                       __func__, ttype_result) == strlen(Warn_mesg));
         tst_print(TCID, 0, TWARN, Warn_mesg);
         /* Keep TERRNO, TTERRNO, etc. */
         ttype = (ttype & ~ttype_result) | TBROK;
@@ -1668,14 +1674,14 @@ int safe_chmod(const char *file, const int lineno,
  */
 #define DIR_MODE    (S_IRWXU|S_IRWXG|S_IRWXO)
 
-void tst_resm_(const char *file, const int lineno, int ttype,
+void tst_resm_(const char *file, int lineno, int ttype,
     const char *arg_fmt, ...)
     __attribute__ ((format (printf, 4, 5)));
 #define tst_resm(ttype, arg_fmt, ...) \
     tst_resm_(__FILE__, __LINE__, (ttype), \
           (arg_fmt), ##__VA_ARGS__)
 
-void tst_resm_hexd_(const char *file, const int lineno, int ttype,
+void tst_resm_hexd_(const char *file, int lineno, int ttype,
     const void *buf, size_t size, const char *arg_fmt, ...)
     __attribute__ ((format (printf, 6, 7)));
 #define tst_resm_hexd(ttype, buf, size, arg_fmt, ...) \
@@ -1705,11 +1711,12 @@ static int purge_dir(const char *path, char **errptr)
     errno = 0;
 
     /* Open the directory to get access to what is in it */
-    if (!(dir = opendir(path))) {
+    dir = opendir(path);
+    if (!dir) {
         if (errptr) {
-            sprintf(err_msg,
-                "Cannot open directory %s; errno=%d: %s",
-                path, errno, tst_strerrno(errno));
+            assert(sprintf(err_msg,
+                           "Cannot open directory %s; errno=%d: %s",
+                           path, errno, tst_strerrno(errno)) == strlen(err_msg));
             *errptr = err_msg;
         }
         return -1;
@@ -1723,7 +1730,7 @@ static int purge_dir(const char *path, char **errptr)
             continue;
 
         /* Recursively remove the current entry */
-        sprintf(dirobj, "%s/%s", path, dir_ent->d_name);
+        assert(sprintf(dirobj, "%s/%s", path, dir_ent->d_name) == strlen(path) + 1 + strlen(dir_ent->d_name));
         if (rmobj(dirobj, errptr) != 0)
             ret_val = -1;
     }
@@ -1752,9 +1759,9 @@ static int rmobj(const char *obj, char **errmsg)
         /* Get the link count, now that all the entries have been removed */
         if (lstat(obj, &statbuf) < 0) {
             if (errmsg != NULL) {
-                sprintf(err_msg,
-                    "lstat(%s) failed; errno=%d: %s", obj,
-                    errno, tst_strerrno(errno));
+                assert(sprintf(err_msg,
+                               "lstat(%s) failed; errno=%d: %s", obj,
+                               errno, tst_strerrno(errno)) == strlen(err_msg));
                 *errmsg = err_msg;
             }
             return -1;
@@ -1765,9 +1772,9 @@ static int rmobj(const char *obj, char **errmsg)
             /* The directory is linked; unlink() must be used */
             if (unlink(obj) < 0) {
                 if (errmsg != NULL) {
-                    sprintf(err_msg,
-                        "unlink(%s) failed; errno=%d: %s",
-                        obj, errno, tst_strerrno(errno));
+                    assert(sprintf(err_msg,
+                                   "unlink(%s) failed; errno=%d: %s",
+                                   obj, errno, tst_strerrno(errno)) == strlen(err_msg));
                     *errmsg = err_msg;
                 }
                 return -1;
@@ -1776,9 +1783,9 @@ static int rmobj(const char *obj, char **errmsg)
             /* The directory is not linked; remove() can be used */
             if (remove(obj) < 0) {
                 if (errmsg != NULL) {
-                    sprintf(err_msg,
-                        "remove(%s) failed; errno=%d: %s",
-                        obj, errno, tst_strerrno(errno));
+                    assert(sprintf(err_msg,
+                                   "remove(%s) failed; errno=%d: %s",
+                                   obj, errno, tst_strerrno(errno)) == strlen(err_msg));
                     *errmsg = err_msg;
                 }
                 return -1;
@@ -1787,9 +1794,9 @@ static int rmobj(const char *obj, char **errmsg)
     } else {
         if (unlink(obj) < 0) {
             if (errmsg != NULL) {
-                sprintf(err_msg,
-                    "unlink(%s) failed; errno=%d: %s", obj,
-                    errno, tst_strerrno(errno));
+                assert(sprintf(err_msg,
+                               "unlink(%s) failed; errno=%d: %s", obj,
+                               errno, tst_strerrno(errno)) == strlen(err_msg));
                 *errmsg = err_msg;
             }
             return -1;
@@ -1811,7 +1818,7 @@ void tst_tmpdir(void)
      * use our default TEMPDIR.
      */
     env_tmpdir = tst_get_tmpdir_root();
-    snprintf(template, PATH_MAX, "%s/%.3sXXXXXX", env_tmpdir, TCID);
+    assert(snprintf(template, PATH_MAX, "%s/%.3sXXXXXX", env_tmpdir, TCID) == strlen(template));
 
     /* Make the temporary directory in one shot using mkdtemp. */
     if (mkdtemp(template) == NULL) {
@@ -1820,7 +1827,8 @@ void tst_tmpdir(void)
         return;
     }
 
-    if ((TESTDIR = strdup(template)) == NULL) {
+    TESTDIR = strdup(template);
+    if (TESTDIR == NULL) {
         tst_brkm(TBROK | TERRNO, NULL,
              "%s: strdup(%s) failed", __func__, template);
         return;
@@ -2081,8 +2089,8 @@ static void setup_ipc(void)
     size_t size = getpagesize();
 
     if (access("/dev/shm", F_OK) == 0) {
-        snprintf(shm_path, sizeof(shm_path), "/dev/shm/ltp_%s_%d",
-                 tid, getpid());
+        assert(snprintf(shm_path, sizeof(shm_path), "/dev/shm/ltp_%s_%d",
+                        tid, getpid()) == strlen(shm_path));
     } else {
         char *tmpdir;
 
@@ -2090,8 +2098,8 @@ static void setup_ipc(void)
             tst_tmpdir();
 
         tmpdir = tst_get_tmpdir();
-        snprintf(shm_path, sizeof(shm_path), "%s/ltp_%s_%d",
-                 tmpdir, tid, getpid());
+        assert(snprintf(shm_path, sizeof(shm_path), "%s/ltp_%s_%d",
+                        tmpdir, tid, getpid()) == strlen(shm_path));
         free(tmpdir);
     }
 
@@ -2106,7 +2114,7 @@ static void setup_ipc(void)
 
     /* Checkpoints needs to be accessible from processes started by exec() */
     if (tst_test->needs_checkpoints || tst_test->child_needs_reinit) {
-        sprintf(ipc_path, IPC_ENV_VAR "=%s", shm_path);
+        assert(sprintf(ipc_path, IPC_ENV_VAR "=%s", shm_path) == strlen(IPC_ENV_VAR) + 1 + strlen(shm_path));
         assert(putenv(ipc_path) == 0);
     } else {
         SAFE_UNLINK(shm_path);
@@ -2882,7 +2890,7 @@ static void run_tests(void)
     }
 }
 
-void tst_vbrk_(const char *file, const int lineno, int ttype,
+void tst_vbrk_(const char *file, int lineno, int ttype,
                const char *fmt, va_list va);
 
 static void (*tst_brk_handler)(const char *file, const int lineno, int ttype,
@@ -2965,7 +2973,7 @@ static void print_result(const char *file, const int lineno, int ttype,
                 "Next message is too long and truncated:");
     }
 
-    snprintf(str, size, "\n");
+    assert(snprintf(str, size, "\n") == 1);
 
     if (TTYPE_RESULT(ttype) == TPASS)
         return;
@@ -2983,7 +2991,7 @@ static void print_result(const char *file, const int lineno, int ttype,
     }
 }
 
-static inline int tst_atomic_add_return(int i, int *v)
+static inline int tst_atomic_add_return(int i, int *v) // NOLINT(readability-non-const-parameter)
 {
     return __atomic_add_fetch(v, i, __ATOMIC_SEQ_CST);
 }
@@ -3170,9 +3178,9 @@ static int fork_testrun(void)
 static void print_colored(const char *str)
 {
     if (tst_color_enabled(STDOUT_FILENO))
-        fprintf(stderr, "%s%s%s", ANSI_COLOR_YELLOW, str, ANSI_COLOR_RESET);
+        assert(fprintf(stderr, "%s%s%s", ANSI_COLOR_YELLOW, str, ANSI_COLOR_RESET) == strlen(ANSI_COLOR_YELLOW) + strlen(str) + strlen(ANSI_COLOR_RESET));
     else
-        fprintf(stderr, "%s", str);
+        assert(fprintf(stderr, "%s", str) == strlen(str));
 }
 
 static void print_failure_hint(const char *tag, const char *hint,
@@ -3190,15 +3198,15 @@ static void print_failure_hint(const char *tag, const char *hint,
         if (!strcmp(tags[i].name, tag)) {
             if (!hint_printed) {
                 hint_printed = 1;
-                fprintf(stderr, "\n");
+                assert(fprintf(stderr, "\n") == 1);
                 print_colored("HINT: ");
-                fprintf(stderr, "You _MAY_ be %s:\n\n", hint);
+                assert(fprintf(stderr, "You _MAY_ be %s:\n\n", hint) == 16 + strlen(hint));
             }
 
             if (url)
-                fprintf(stderr, "%s%s\n", url, tags[i].value);
+                assert(fprintf(stderr, "%s%s\n", url, tags[i].value) == strlen(url) + strlen(tags[i].value) + 1);
             else
-                fprintf(stderr, "%s\n", tags[i].value);
+                assert(fprintf(stderr, "%s\n", tags[i].value) == strlen(tags[i].value) + 1);
         }
     }
 }
@@ -3250,6 +3258,7 @@ static struct tst_sys_conf *save_restore_data;
 
 void tst_sys_conf_restore(int verbose)
 {
+    (void)verbose;
     struct tst_sys_conf *i;
 
     assert(!save_restore_data);
@@ -3333,12 +3342,12 @@ static void do_exit(int ret)
             ret |= TBROK;
 
         if (results->failed != 0 || results->broken != 0 || results->skipped != 0 || results->warnings != 0) {
-            fprintf(stderr, "\nSummary:\n");
-            fprintf(stderr, "passed   %d\n", results->passed);
-            fprintf(stderr, "failed   %d\n", results->failed);
-            fprintf(stderr, "broken   %d\n", results->broken);
-            fprintf(stderr, "skipped  %d\n", results->skipped);
-            fprintf(stderr, "warnings %d\n", results->warnings);
+            assert(fprintf(stderr, "\nSummary:\n") == 10);
+            assert(fprintf(stderr, "passed   %d\n", results->passed) >= 10);
+            assert(fprintf(stderr, "failed   %d\n", results->failed) >= 10);
+            assert(fprintf(stderr, "broken   %d\n", results->broken) >= 10);
+            assert(fprintf(stderr, "skipped  %d\n", results->skipped) >= 10);
+            assert(fprintf(stderr, "warnings %d\n", results->warnings) >= 10);
         }
     }
 

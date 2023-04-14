@@ -37,10 +37,10 @@ report_string (const char *what, const YALIBCT_INTERNAL_GLIBC_SUPPORT_TEST_COMPA
       printf ("      %s\"%s\"\n", LPREFIX, quoted);
       free (quoted);
 
-      fputs ("     ", stdout);
+      assert(fputs ("     ", stdout) >= 0);
       for (size_t i = 0; i < length; ++i)
         printf (" %02X", (unsigned int) blob[i]);
-      putc ('\n', stdout);
+      assert(putc ('\n', stdout) == '\n');
     }
 }
 

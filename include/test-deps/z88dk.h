@@ -40,7 +40,7 @@ typedef struct {
 
 static Suite   suite;
 
-static void suite_setup(char *suitename)
+static void suite_setup(const char *suitename)
 {
     suite.name  = suitename;
     suite.num_tests = 0;
@@ -49,7 +49,7 @@ static void suite_setup(char *suitename)
 
 #define suite_add_test(f) suite_add_test_real("" # f "", f)
 
-void suite_add_test_real(char *testname, void (*test)())
+void suite_add_test_real(const char *testname, void (*test)())
 {
     int    i;
 

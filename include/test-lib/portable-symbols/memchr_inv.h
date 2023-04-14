@@ -15,12 +15,13 @@
 #include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include <stdint.h>
 #include <stddef.h>
 
 static inline YALIBCT_ATTRIBUTE_COLD HEDLEY_NO_RETURN void fortify_panic(const char *name)
 {
-    fprintf(stderr, "detected buffer overflow in %s\n", name);
+    assert(fprintf(stderr, "detected buffer overflow in %s\n", name) >= 0);
     abort();
 }
 

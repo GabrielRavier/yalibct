@@ -109,24 +109,24 @@ void CheckTimes(char **path, void (*fn)(void *fn_callback_data), void *fn_callba
   if (atime_effect == AtimeEffect_Changed) {
     EXPECT_LE(before, atime2.tv_sec);
     EXPECT_GE(after, atime2.tv_sec);
-    EXPECT_GT(timespec_cmp(atime2, atime), 0);
+    EXPECT_GT(timespec_cmp(atime2, atime), 0); // NOLINT(readability-suspicious-call-argument)
   } else {
-    EXPECT_EQ(timespec_cmp(atime2, atime), 0);
+    EXPECT_EQ(timespec_cmp(atime2, atime), 0); // NOLINT(readability-suspicious-call-argument)
   }
 
   if (mtime_effect == MtimeEffect_Changed) {
     EXPECT_LE(before, mtime2.tv_sec);
     EXPECT_GE(after, mtime2.tv_sec);
-    EXPECT_GT(timespec_cmp(mtime2, mtime), 0);
+    EXPECT_GT(timespec_cmp(mtime2, mtime), 0); // NOLINT(readability-suspicious-call-argument)
   } else {
-    EXPECT_EQ(timespec_cmp(mtime2, mtime), 0);
+    EXPECT_EQ(timespec_cmp(mtime2, mtime), 0); // NOLINT(readability-suspicious-call-argument)
   }
 
   if (ctime_effect == CtimeEffect_Changed) {
     EXPECT_LE(before, ctime2.tv_sec);
     EXPECT_GE(after, ctime2.tv_sec);
-    EXPECT_GT(timespec_cmp(ctime2, ctime), 0);
+    EXPECT_GT(timespec_cmp(ctime2, ctime), 0); // NOLINT(readability-suspicious-call-argument)
   } else {
-    EXPECT_EQ(timespec_cmp(ctime2, ctime), 0);
+    EXPECT_EQ(timespec_cmp(ctime2, ctime), 0); // NOLINT(readability-suspicious-call-argument)
   }
 }

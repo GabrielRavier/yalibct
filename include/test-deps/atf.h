@@ -213,7 +213,7 @@ fail(const char *fmt, ...)
     char buf[4096];
 
     va_start(ap, fmt);
-    vsnprintf(buf, sizeof(buf), fmt, ap);
+    assert(vsnprintf(buf, sizeof(buf), fmt, ap) == strlen(buf));
     va_end(ap);
     warnx("%s", buf);
     warnx("%s", "");
@@ -314,13 +314,13 @@ atf_no_error(void)
 }
 
 bool
-atf_is_error(const atf_error_t err)
+atf_is_error(const atf_error_t err) // NOLINT(misc-misplaced-const)
 {
     return err != NULL;
 }
 
 bool
-atf_error_is(const atf_error_t err, const char *type)
+atf_error_is(const atf_error_t err, const char *type) // NOLINT(misc-misplaced-const)
 {
     PRE(err != NULL);
 
@@ -328,7 +328,7 @@ atf_error_is(const atf_error_t err, const char *type)
 }
 
 const void *
-atf_error_data(const atf_error_t err)
+atf_error_data(const atf_error_t err) // NOLINT(misc-misplaced-const)
 {
     PRE(err != NULL);
 
@@ -336,7 +336,7 @@ atf_error_data(const atf_error_t err)
 }
 
 void
-atf_error_format(const atf_error_t err, char *buf, size_t buflen)
+atf_error_format(const atf_error_t err, char *buf, size_t buflen) // NOLINT(misc-misplaced-const)
 {
     PRE(err != NULL);
     err->m_format(err, buf, buflen);
@@ -344,11 +344,11 @@ atf_error_format(const atf_error_t err, char *buf, size_t buflen)
 
 static
 void
-no_memory_format(const atf_error_t err, char *buf, size_t buflen)
+no_memory_format(const atf_error_t err, char *buf, size_t buflen) // NOLINT(misc-misplaced-const)
 {
     PRE(atf_error_is(err, "no_memory"));
 
-    snprintf(buf, buflen, "Not enough memory");
+    assert(snprintf(buf, buflen, "Not enough memory") == 17);
 }
 
 /* Theoretically, there can only be a single error intance at any given
@@ -363,16 +363,16 @@ static bool error_on_flight = false;
 
 static
 void
-error_format(const atf_error_t err, char *buf, size_t buflen)
+error_format(const atf_error_t err, char *buf, size_t buflen) // NOLINT(misc-misplaced-const)
 {
     PRE(err != NULL);
-    snprintf(buf, buflen, "Error '%s'", err->m_type);
+    assert(snprintf(buf, buflen, "Error '%s'", err->m_type) == 8 + strlen(err->m_type));
 }
 
 static
 bool
 error_init(atf_error_t err, const char *type, void *data, size_t datalen,
-           void (*format)(const atf_error_t, char *, size_t))
+           void (*format)(const atf_error_t, char *, size_t)) // NOLINT(misc-misplaced-const)
 {
     bool ok;
 
@@ -421,19 +421,19 @@ typedef struct atf_libc_error_data atf_libc_error_data_t;
 
 static
 void
-libc_format(const atf_error_t err, char *buf, size_t buflen)
+libc_format(const atf_error_t err, char *buf, size_t buflen) // NOLINT(misc-misplaced-const)
 {
     const atf_libc_error_data_t *data;
 
     PRE(atf_error_is(err, "libc"));
 
     data = atf_error_data(err);
-    snprintf(buf, buflen, "%s: %s", data->m_what, strerror(data->m_errno));
+    assert(snprintf(buf, buflen, "%s: %s", data->m_what, strerror(data->m_errno)) == strlen(data->m_what) + 2 + strlen(strerror(data->m_errno)));
 }
 
 atf_error_t
 atf_error_new(const char *type, void *data, size_t datalen,
-              void (*format)(const atf_error_t, char *, size_t))
+              void (*format)(const atf_error_t, char *, size_t)) // NOLINT(misc-misplaced-const)
 {
     atf_error_t err;
 
@@ -468,7 +468,7 @@ atf_libc_error(int syserrno, const char *fmt, ...)
 
     data.m_errno = syserrno;
     va_start(ap, fmt);
-    vsnprintf(data.m_what, sizeof(data.m_what), fmt, ap);
+    assert(vsnprintf(data.m_what, sizeof(data.m_what), fmt, ap) == strlen(data.m_what));
     va_end(ap);
 
     err = atf_error_new("libc", &data, sizeof(data), libc_format);
@@ -704,7 +704,7 @@ check_fatal_error(atf_error_t err)
     if (atf_is_error(err)) {
         char buf[1024];
         atf_error_format(err, buf, sizeof(buf));
-        fprintf(stderr, "FATAL ERROR: %s\n", buf);
+        assert(fprintf(stderr, "FATAL ERROR: %s\n", buf) == 14 + strlen(buf));
         atf_error_free(err);
         abort();
     }
@@ -1790,7 +1790,8 @@ atf_map_init_charpp(atf_map_t *m, const char *const *array)
             INV(key != NULL);
             ptr++;
 
-            if ((value = *ptr) == NULL) {
+            value = *ptr;
+            if (value == NULL) {
                 err = atf_libc_error(EINVAL, "List too short; no value for "
                     "key '%s' provided", key);  /* XXX: Not really libc_error */
                 break;
@@ -1855,13 +1856,13 @@ static void
 report_fatal_error(const char *msg, ...)
 {
     va_list ap;
-    fprintf(stderr, "FATAL ERROR: ");
+    assert(fprintf(stderr, "FATAL ERROR: ") == 13);
 
     va_start(ap, msg);
-    vfprintf(stderr, msg, ap);
+    assert(vfprintf(stderr, msg, ap) >= 0);
     va_end(ap);
 
-    fprintf(stderr, "\n");
+    assert(fprintf(stderr, "\n") == 1);
     abort();
 }
 
@@ -1938,12 +1939,12 @@ static void
 fail_check(struct context *ctx, atf_dynstr_t *reason)
 {
     if (ctx->expect == EXPECT_FAIL) {
-        fprintf(stderr, "*** Expected check failure: %s: %s\n",
+        assert(fprintf(stderr, "*** Expected check failure: %s: %s\n",
             atf_dynstr_cstring(&ctx->expect_reason),
-            atf_dynstr_cstring(reason));
+            atf_dynstr_cstring(reason)) >= 0);
         ctx->expect_fail_count++;
     } else if (ctx->expect == EXPECT_PASS) {
-        fprintf(stderr, "*** Check failed: %s\n", atf_dynstr_cstring(reason));
+        assert(fprintf(stderr, "*** Check failed: %s\n", atf_dynstr_cstring(reason)) == 19 + strlen(atf_dynstr_cstring(reason)));
         ctx->fail_count++;
     } else {
         error_in_expect(ctx, "Test case raised a failure but was not "
@@ -2284,7 +2285,7 @@ replace_path_param(atf_fs_path_t *param, const char *value)
         PRE(atf_error_is(err, #name)); \
         \
         data = atf_error_data(err); \
-        snprintf(buf, buflen, "%s", data->m_what); \
+        assert(snprintf(buf, buflen, "%s", data->m_what) == strlen(data->m_what)); \
     } \
     \
     static \
@@ -2296,7 +2297,7 @@ replace_path_param(atf_fs_path_t *param, const char *value)
         va_list ap; \
         \
         va_start(ap, fmt); \
-        vsnprintf(data.m_what, sizeof(data.m_what), fmt, ap); \
+        assert(vsnprintf(data.m_what, sizeof(data.m_what), fmt, ap) == strlen(data.m_what)); \
         va_end(ap); \
         \
         err = atf_error_new(#name, &data, sizeof(data), name ## _format); \
@@ -2304,8 +2305,8 @@ replace_path_param(atf_fs_path_t *param, const char *value)
         return err; \
     }
 
-FREE_FORM_ERROR(usage);
-FREE_FORM_ERROR(user);
+FREE_FORM_ERROR(usage); // NOLINT(misc-misplaced-const)
+FREE_FORM_ERROR(user); // NOLINT(misc-misplaced-const)
 
 static
 atf_error_t
@@ -2730,7 +2731,7 @@ out:
 }
 
 int
-atf_libc_error_code(const atf_error_t err)
+atf_libc_error_code(const atf_error_t err) // NOLINT(misc-misplaced-const)
 {
     const struct atf_libc_error_data *data;
 
@@ -2742,7 +2743,7 @@ atf_libc_error_code(const atf_error_t err)
 }
 
 const char *
-atf_libc_error_msg(const atf_error_t err)
+atf_libc_error_msg(const atf_error_t err) // NOLINT(misc-misplaced-const)
 {
     const struct atf_libc_error_data *data;
 
@@ -2983,7 +2984,7 @@ static
 void
 print_warning(const char *message)
 {
-    fprintf(stderr, "%s: WARNING: %s\n", progname, message);
+    assert(fprintf(stderr, "%s: WARNING: %s\n", progname, message) == strlen(progname) + strlen(message) + 12);
 }
 
 atf_error_t
@@ -3075,8 +3076,6 @@ atf_error_t
 run_tc(const atf_tp_t *tp, struct params *p, int *exitcode)
 {
     atf_error_t err;
-
-    err = atf_no_error();
 
     if (!atf_tp_has_tc(tp, p->m_tcname)) {
         err = usage_error("Unknown test case `%s'", p->m_tcname);
@@ -3222,18 +3221,18 @@ out:
 
 static
 void
-print_error(const atf_error_t err)
+print_error(const atf_error_t err) // NOLINT(misc-misplaced-const)
 {
     char buf[4096];
 
     PRE(atf_is_error(err));
 
     atf_error_format(err, buf, sizeof(buf));
-    fprintf(stderr, "%s: ERROR: %s\n", progname, buf);
+    assert(fprintf(stderr, "%s: ERROR: %s\n", progname != NULL ? progname : "(progname null)", buf) == strlen(progname != NULL ? progname : "(progname null)") + strlen(buf) + 10);
 
     if (atf_error_is(err, "usage"))
-        fprintf(stderr, "%s: See atf-test-program(1) for usage details.\n",
-                progname);
+        assert(fprintf(stderr, "%s: See atf-test-program(1) for usage details.\n",
+                       progname) >= 0);
 }
 
 int

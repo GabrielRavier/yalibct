@@ -38,8 +38,10 @@ static const struct fun
 };
 #undef F
 
-#define ALIGN 32
-#define LEN 512
+enum {
+    ALIGN = 32,
+    LEN = 512
+};
 static char *sbuf;
 
 static void *

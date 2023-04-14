@@ -21,6 +21,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #if defined __MACH__ && defined __APPLE__
 #include <mach/mach.h>
@@ -203,16 +204,17 @@ nocrash_init (void)
 static inline void
 gnulib_nocrash_init_internal_exception_handler (int sig)
 {
+    (void)sig;
   _exit (1);
 }
 static inline void
 nocrash_init (void)
 {
 #ifdef SIGSEGV
-  signal (SIGSEGV, gnulib_nocrash_init_internal_exception_handler);
+    assert(signal (SIGSEGV, gnulib_nocrash_init_internal_exception_handler) != SIG_ERR);
 #endif
 #ifdef SIGBUS
-  signal (SIGBUS, gnulib_nocrash_init_internal_exception_handler);
+    assert(signal (SIGBUS, gnulib_nocrash_init_internal_exception_handler) != SIG_ERR);
 #endif
 }
 #endif

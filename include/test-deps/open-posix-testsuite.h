@@ -9,6 +9,8 @@
 
 #pragma once
 
-#define PTS_UNRESOLVED  2
-#define PTS_FAIL        1
-#define PTS_PASS        0
+enum {
+    PTS_UNRESOLVED = 2,
+    PTS_FAIL = 1,
+    PTS_PASS = 0
+};

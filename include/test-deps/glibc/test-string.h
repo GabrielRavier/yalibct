@@ -190,9 +190,11 @@ test_init (void)
   { "random", no_argument, NULL, OPT_RANDOM },  \
   { "seed", required_argument, NULL, OPT_SEED },
 
-# define OPT_ITERATIONS 10000
-# define OPT_RANDOM 10001
-# define OPT_SEED 10002
+enum {
+    OPT_ITERATIONS = 10000,
+    OPT_RANDOM = 10001,
+    OPT_SEED = 10002,
+};
 
 static void __attribute__ ((used))
 cmdline_process_function (int c)

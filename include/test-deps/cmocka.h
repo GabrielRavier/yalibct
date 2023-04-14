@@ -26,6 +26,7 @@
 #include <time.h>
 #include <signal.h>
 #include <setjmp.h>
+#include <assert.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -59,14 +60,14 @@ static CMOCKA_THREAD char *cm_error_message;
 static void *libc_calloc(size_t nmemb, size_t size)
 {
 #undef calloc
-    return calloc(nmemb, size);
+    return calloc(nmemb, size); // NOLINT(cert-sig30-c,bugprone-signal-handler)
 #define calloc test_calloc
 }
 
 static void *libc_realloc(void *ptr, size_t size)
 {
 #undef realloc
-    return realloc(ptr, size);
+    return realloc(ptr, size); // NOLINT(cert-sig30-c,bugprone-signal-handler)
 #define realloc test_realloc
 }
 
@@ -79,9 +80,9 @@ static void vcmocka_print_error(const char* const format, va_list args)
     size_t msg_len = 0;
     va_list ap;
     int len;
-    va_copy(ap, args);
+    va_copy(ap, args); // NOLINT(cert-sig30-c,bugprone-signal-handler)
 
-    len = vsnprintf(buffer, sizeof(buffer), format, args);
+    len = vsnprintf(buffer, sizeof(buffer), format, args); // NOLINT(cert-sig30-c,bugprone-signal-handler)
     if (len < 0) {
         /* TODO */
         goto end;
@@ -111,10 +112,10 @@ static void vcmocka_print_error(const char* const format, va_list args)
         /* Use len + 1 to also copy '\0' */
         memcpy(cm_error_message + msg_len, buffer, len + 1);
     } else {
-        vsnprintf(cm_error_message + msg_len, len, format, ap);
+        assert(vsnprintf(cm_error_message + msg_len, len, format, ap) == strlen(cm_error_message + msg_len)); // NOLINT(cert-sig30-c,bugprone-signal-handler)
     }
 end:
-    va_end(ap);
+    va_end(ap); // NOLINT(cert-sig30-c,bugprone-signal-handler)
 
 }
 
@@ -122,9 +123,9 @@ void vprint_error(const char* const format, va_list args)
 {
     char buffer[4096];
 
-    vsnprintf(buffer, sizeof(buffer), format, args);
-    fprintf(stderr, "%s", buffer);
-    fflush(stderr);
+    assert(vsnprintf(buffer, sizeof(buffer), format, args) == strlen(buffer));
+    assert(fprintf(stderr, "%s", buffer) == strlen(buffer)); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+    assert(fflush(stderr) == 0); // NOLINT(cert-sig30-c,bugprone-signal-handler)
 #ifdef _WIN32
     OutputDebugString(buffer);
 #endif /* _WIN32 */
@@ -133,7 +134,7 @@ void vprint_error(const char* const format, va_list args)
 void cmocka_print_error(const char * const format, ...)
 {
     va_list args;
-    va_start(args, format);
+    va_start(args, format); // NOLINT(cert-sig30-c,bugprone-signal-handler)
     if (cm_error_message_enabled) {
         vcmocka_print_error(format, args);
     } else {
@@ -267,7 +268,7 @@ static CMOCKA_THREAD int global_running_test = 0;
 /* Exit the currently executing test. */
 static void exit_test(const bool quit_application)
 {
-    const char *env = getenv("CMOCKA_TEST_ABORT");
+    const char *env = getenv("CMOCKA_TEST_ABORT"); // NOLINT(cert-sig30-c,bugprone-signal-handler)
     int abort_test = 0;
 
     if (env != NULL && strlen(env) == 1) {
@@ -282,7 +283,7 @@ static void exit_test(const bool quit_application)
     } else if (global_running_test) {
         cm_longjmp(global_run_test_env, 1);
     } else if (quit_application) {
-        exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE); // NOLINT(cert-sig30-c,bugprone-signal-handler)
     }
 }
 
@@ -508,9 +509,9 @@ void vprint_message(const char* const format, va_list args)
 {
     char buffer[4096];
 
-    vsnprintf(buffer, sizeof(buffer), format, args);
+    assert(vsnprintf(buffer, sizeof(buffer), format, args) == strlen(buffer));
     printf("%s", buffer);
-    fflush(stdout);
+    assert(fflush(stdout) == 0);
 #ifdef _WIN32
     OutputDebugString(buffer);
 #endif /* _WIN32 */
@@ -653,7 +654,7 @@ CMOCKA_NORETURN static void exception_handler(int sig) {
     const char *sig_strerror = "";
 
 #ifdef YALIBCT_LIBC_HAS_STRSIGNAL
-    sig_strerror = strsignal(sig);
+    sig_strerror = strsignal(sig); // NOLINT(cert-sig30-c,bugprone-signal-handler)
 #endif
 
     cmocka_print_error("Test failed with exception: %s(%d)",
@@ -811,10 +812,14 @@ static size_t display_allocated_blocks(const ListNode * const check_point) {
 #define discard_const_p(type, ptr) ((type *)discard_const(ptr))
 
 /* Size of guard bytes around dynamically allocated blocks. */
-#define MALLOC_GUARD_SIZE 16
+enum {
+    MALLOC_GUARD_SIZE = 16,
+};
 
 /* Pattern used to initialize guard blocks. */
-#define MALLOC_GUARD_PATTERN 0xEF
+enum {
+    MALLOC_GUARD_PATTERN = 0xEF,
+};
 
 /* Used by list_free() to deallocate values referenced by list nodes. */
 typedef void (*CleanupListValue)(const void *value, void *cleanup_value_data);
@@ -833,8 +838,10 @@ static ListNode* list_remove(
 }
 
 /* Pattern used to initialize memory allocated with test_malloc(). */
-#define MALLOC_ALLOC_PATTERN 0xBA
-#define MALLOC_FREE_PATTERN 0xCD
+enum {
+    MALLOC_ALLOC_PATTERN = 0xBA,
+    MALLOC_FREE_PATTERN = 0xCD,
+};
 
 /* Use the real free in this function. */
 #undef free
@@ -1249,7 +1256,7 @@ static int cmocka_run_one_test_or_fixture(const char *function_name,
         unsigned int i;
         init_exception_signals_array();
         for (i = 0; i < ARRAY_SIZE(exception_signals); i++) {
-            signal(exception_signals[i], default_signal_functions[i]);
+            assert(signal(exception_signals[i], default_signal_functions[i]) != SIG_ERR);
         }
 #else /* YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY */
 # ifdef _WIN32
@@ -1571,6 +1578,8 @@ static void cmprintf_group_finish_standard(const char *group_name,
                                            size_t total_skipped,
                                            struct CMUnitTestState *cm_tests)
 {
+    (void)total_passed;
+
     size_t i;
 
     /*print_message("[==========] %s: %zu test(s) run.\n",
@@ -1682,11 +1691,11 @@ static void cmprintf_group_finish_xml(const char *group_name,
         char buf[1024];
         int rc;
 
-        snprintf(buf, sizeof(buf), "%s", env);
+        assert(snprintf(buf, sizeof(buf), "%s", env) == strlen(buf));
 
         rc = c_strreplace(buf, sizeof(buf), "%g", group_name, &multiple_files);
         if (rc < 0) {
-            snprintf(buf, sizeof(buf), "%s", env);
+            assert(snprintf(buf, sizeof(buf), "%s", env) == strlen(buf));
         }
 
         fp = fopen(buf, "r");
@@ -1699,7 +1708,7 @@ static void cmprintf_group_finish_xml(const char *group_name,
                 fp = stderr;
             }
         } else {
-            fclose(fp);
+            assert(fclose(fp) == 0);
             if (file_append) {
                 fp = fopen(buf, "a");
                 if (fp != NULL) {
@@ -1715,40 +1724,40 @@ static void cmprintf_group_finish_xml(const char *group_name,
     }
 
     if (!xml_printed || (file_opened && !file_append)) {
-        fprintf(fp, "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
+        assert(fprintf(fp, "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n") >= 0);
         if (!file_opened) {
             xml_printed = 1;
         }
     }
 
-    fprintf(fp, "<testsuites>\n");
-    fprintf(fp, "  <testsuite name=\"%s\" time=\"%.3f\" "
+    assert(fprintf(fp, "<testsuites>\n") == 13);
+    assert(fprintf(fp, "  <testsuite name=\"%s\" time=\"%.3f\" "
                 "tests=\"%u\" failures=\"%u\" errors=\"%u\" skipped=\"%u\" >\n",
                 group_name,
                 total_runtime, /* seconds */
                 (unsigned)total_executed,
                 (unsigned)total_failed,
                 (unsigned)total_errors,
-                (unsigned)total_skipped);
+                (unsigned)total_skipped) >= 0);
 
     for (i = 0; i < total_executed; i++) {
         struct CMUnitTestState *cmtest = &cm_tests[i];
 
-        fprintf(fp, "    <testcase name=\"%s\" time=\"%.3f\" >\n",
-                cmtest->test->name, cmtest->runtime);
+        assert(fprintf(fp, "    <testcase name=\"%s\" time=\"%.3f\" >\n",
+                       cmtest->test->name, cmtest->runtime) >= 0);
 
         switch (cmtest->status) {
         case CM_TEST_ERROR:
         case CM_TEST_FAILED:
             if (cmtest->error_message != NULL) {
-                fprintf(fp, "      <failure><![CDATA[%s]]></failure>\n",
-                        cmtest->error_message);
+                assert(fprintf(fp, "      <failure><![CDATA[%s]]></failure>\n",
+                               cmtest->error_message) >= 0);
             } else {
-                fprintf(fp, "      <failure message=\"Unknown error\" />\n");
+                assert(fprintf(fp, "      <failure message=\"Unknown error\" />\n") >= 0);
             }
             break;
         case CM_TEST_SKIPPED:
-            fprintf(fp, "      <skipped/>\n");
+            assert(fprintf(fp, "      <skipped/>\n") >= 0);
             break;
 
         case CM_TEST_PASSED:
@@ -1756,14 +1765,14 @@ static void cmprintf_group_finish_xml(const char *group_name,
             break;
         }
 
-        fprintf(fp, "    </testcase>\n");
+        assert(fprintf(fp, "    </testcase>\n") >= 0);
     }
 
-    fprintf(fp, "  </testsuite>\n");
-    fprintf(fp, "</testsuites>\n");
+    assert(fprintf(fp, "  </testsuite>\n") >= 0);
+    assert(fprintf(fp, "</testsuites>\n") >= 0);
 
     if (file_opened) {
-        fclose(fp);
+        assert(fclose(fp) == 0);
     }
 }
 
@@ -1928,9 +1937,9 @@ int _cmocka_run_group_tests(const char *group_name,
             } else {
                 char err_msg[2048] = {0};
 
-                snprintf(err_msg, sizeof(err_msg),
-                         "Could not run test: %s",
-                         cmtest->error_message);
+                assert(snprintf(err_msg, sizeof(err_msg),
+                                "Could not run test: %s",
+                                cmtest->error_message) == strlen(err_msg));
 
                 cmprintf(PRINTF_TEST_ERROR,
                          test_number,

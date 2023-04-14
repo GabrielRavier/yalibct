@@ -4,7 +4,9 @@
 
 /* make it large enough to test all possible alignments, number of trailing
  * bytes and word sizes  */
-#define BUFLEN	(128/8 * 4)
+enum {
+    BUFLEN	= (128/8 * 4)
+};
 
 int main() {
   /* will hold the string, the trailing zero and a test pattern */

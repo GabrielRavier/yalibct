@@ -2,6 +2,7 @@
 
 #include "test-lib/assert-with-message.h"
 #include "test-lib/compiler-features.h"
+#include <assert.h>
 #include <stddef.h>
 #include <stdbool.h>
 
@@ -19,8 +20,10 @@ YALIBCT_DIAGNOSTIC_IGNORE("-Wcomment")
 #define __ms_va_end va_end
 #define START_TEST(name) int main()
 #define todo_wine_if(expr)
-#define FALSE 0
-#define TRUE 1
+enum {
+    FALSE = 0,
+    TRUE = 1,
+};
 #define __int64 long long
 #define _Return_type_success_(count)
 #define ok_int(expression, result) ok_dec(expression, result)
@@ -66,9 +69,9 @@ static inline void __winetest_cdecl winetest_printf( const char *msg, ... )
     //tls_data *data = get_tls_data();
     __winetest_va_list valist;
 
-    fprintf( stdout, /* __winetest_file_line_prefix */ "(unknown): "/* ,  data->current_file, data->current_line */ );
+    assert(fprintf( stdout, /* __winetest_file_line_prefix */ "(unknown): "/* ,  data->current_file, data->current_line */ ) == 11);
     __winetest_va_start( valist, msg );
-    vfprintf( stdout, msg, valist );
+    assert(vfprintf( stdout, msg, valist ) >= 0);
     __winetest_va_end( valist );
 }
 
@@ -124,7 +127,7 @@ static inline int winetest_vok( int condition, const char *msg, __winetest_va_li
         if (!condition)
         {
             winetest_print_context( "Test failed: " );
-            vfprintf(stdout, msg, args);
+            assert(vfprintf(stdout, msg, args) >= 0);
             /*if ((data->nocount_level & 2) == 0)
             InterlockedIncrement(&failures);*/
             return 0;

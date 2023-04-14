@@ -20,6 +20,8 @@
 #include <stdckdint.h>
 #else
 
+#include <stdbool.h>
+
 // Check out gnulib's _GL_HAS_BUILTIN_ADD_OVERFLOW whenever we need to make this portable when we don't have __builtin_add_overflow
 #define YALIBCT_INTERNAL__GL_INT_ADD_WRAPV __builtin_add_overflow
 

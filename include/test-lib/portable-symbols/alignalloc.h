@@ -26,6 +26,9 @@
 #include "test-lib/portable-symbols/ckd_add.h"
 #include "test-lib/portable-symbols/alignof.h"
 #include "test-lib/portable-symbols/static_assert.h"
+#include <stdlib.h>
+#include <errno.h>
+#include <limits.h>
 
 /* Return P aligned down to ALIGNMENT, which should be a power of two.  */
 
@@ -67,9 +70,10 @@ alignalloc (yalibct_internal_gnulib_idx_t alignment, yalibct_internal_gnulib_idx
      ALIGNMENT + SIZE fits in size_t but not idx_t.  */
 
   size_t malloc_size;
-  unsigned char *q;
-  if (ckd_add (&malloc_size, size, alignment)
-      || ! (q = malloc (malloc_size)))
+  unsigned char *q = NULL;
+  if (!ckd_add (&malloc_size, size, alignment))
+      q = malloc(malloc_size);
+  if (!q)
     {
       errno = ENOMEM;
       return NULL;

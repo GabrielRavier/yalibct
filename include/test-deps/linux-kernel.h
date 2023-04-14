@@ -34,30 +34,32 @@
 
 #define __force
 
-#define ___GFP_DMA              0x01u
-#define ___GFP_HIGHMEM          0x02u
-#define ___GFP_DMA32            0x04u
-#define ___GFP_MOVABLE          0x08u
-#define ___GFP_RECLAIMABLE      0x10u
-#define ___GFP_HIGH             0x20u
-#define ___GFP_IO               0x40u
-#define ___GFP_FS               0x80u
-#define ___GFP_ZERO             0x100u
-#define ___GFP_ATOMIC           0x200u
-#define ___GFP_DIRECT_RECLAIM   0x400u
-#define ___GFP_KSWAPD_RECLAIM   0x800u
-#define ___GFP_WRITE            0x1000u
-#define ___GFP_NOWARN           0x2000u
-#define ___GFP_RETRY_MAYFAIL    0x4000u
-#define ___GFP_NOFAIL           0x8000u
-#define ___GFP_NORETRY          0x10000u
-#define ___GFP_MEMALLOC         0x20000u
-#define ___GFP_COMP             0x40000u
-#define ___GFP_NOMEMALLOC       0x80000u
-#define ___GFP_HARDWALL         0x100000u
-#define ___GFP_THISNODE         0x200000u
-#define ___GFP_ACCOUNT          0x400000u
-#define ___GFP_ZEROTAGS         0x800000u
+enum {
+    ___GFP_DMA = 0x01u,
+    ___GFP_HIGHMEM = 0x02u,
+    ___GFP_DMA32 = 0x04u,
+    ___GFP_MOVABLE = 0x08u,
+    ___GFP_RECLAIMABLE = 0x10u,
+    ___GFP_HIGH = 0x20u,
+    ___GFP_IO = 0x40u,
+    ___GFP_FS = 0x80u,
+    ___GFP_ZERO = 0x100u,
+    ___GFP_ATOMIC = 0x200u,
+    ___GFP_DIRECT_RECLAIM = 0x400u,
+    ___GFP_KSWAPD_RECLAIM = 0x800u,
+    ___GFP_WRITE = 0x1000u,
+    ___GFP_NOWARN = 0x2000u,
+    ___GFP_RETRY_MAYFAIL = 0x4000u,
+    ___GFP_NOFAIL = 0x8000u,
+    ___GFP_NORETRY = 0x10000u,
+    ___GFP_MEMALLOC = 0x20000u,
+    ___GFP_COMP = 0x40000u,
+    ___GFP_NOMEMALLOC = 0x80000u,
+    ___GFP_HARDWALL = 0x100000u,
+    ___GFP_THISNODE = 0x200000u,
+    ___GFP_ACCOUNT = 0x400000u,
+    ___GFP_ZEROTAGS = 0x800000u,
+};
 
 #define __GFP_DMA       ((__force gfp_t)___GFP_DMA)
 #define __GFP_HIGHMEM   ((__force gfp_t)___GFP_HIGHMEM)
@@ -201,7 +203,10 @@
 #define MODULE_LICENSE(license)
 #define KSTM_MODULE_LOADERS(module)
 #define GIT_VERSION "unknown (this isn't the linux kernel itself lol)"
-#define MAGIC_SKIP_RETURN_VALUE 99
+
+enum {
+    MAGIC_SKIP_RETURN_VALUE = 99,
+};
 
 static int total_tests = 0;
 static int skipped_tests = 0;
@@ -271,7 +276,9 @@ static struct sigaction test_harness_internal_sig_action = {
 /* Setting timeout to -1 disables the alarm */
 static uint64_t test_harness_internal_timeout = 120;
 
-#define TEST_HARNESS_INTERNAL_KILL_TIMEOUT    5
+enum {
+    TEST_HARNESS_INTERNAL_KILL_TIMEOUT = 5
+};
 
 static inline int test_harness_internal_run_test(int (test_function)(void), char *name)
 {
@@ -280,7 +287,7 @@ static inline int test_harness_internal_run_test(int (test_function)(void), char
         pid_t pid;
 
         /* Make sure output is flushed before forking */
-        fflush(stdout);
+        assert(fflush(stdout) == 0);
 
         pid = fork();
         if (pid == 0) {

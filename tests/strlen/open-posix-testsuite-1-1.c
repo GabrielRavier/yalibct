@@ -22,8 +22,11 @@
 #include <unistd.h>
 #include <time.h>
 
-#define STRING_MAX_LEN 50000
-#define STEP_COUNT 2000
+enum {
+    STRING_MAX_LEN = 50000,
+    STEP_COUNT = 2000,
+};
+
 #define TNAME "strlen/1-1.c"
 
 static char *random_string(int len)
