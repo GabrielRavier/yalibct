@@ -10,13 +10,14 @@ option(YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT "If this is set to ON, then non
 
 option(YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the C89 standard will be run by default" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C89_SYMBOLS "Whether or not we should error when we're told a C89 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_LONG_DOUBLE_TESTS "Whether or not tests that depend on long double being a type that behaves correctly (in particular, accordingly to information given out by the implementation about its behavior) should be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %c will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_PRECISION_TESTS "Whether or not tests that depend on the printf family of functions supporting %.<num> will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %0 will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %f will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_N_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %n will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %# will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %L will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %L will be run" ${YALIBCT_DISABLE_LONG_DOUBLE_TESTS})
 option(YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %g/%G will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %e/%E will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_H_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %h will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
@@ -55,7 +56,7 @@ option(YALIBCT_DISABLE_MANDATING_C23_SYMBOLS "Whether or not we should error whe
 option(YALIBCT_DISABLE_PRINTF_LOWERCASE_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %b will be run by default" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %B will be run by default" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
 
-option(YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the POSIX standard will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the POSIX standard will be run by default" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS "Whether or not we should error when we're told a POSIX symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_APOSTROPHE_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %' will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %C will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
@@ -288,6 +289,7 @@ yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_FIELD_LENGTH_ON_S_
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_WORK_AROUND_NAMESPACE_VIOLATIONS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_LONG_DOUBLE_TESTS)
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 yalibct_check_include_file(obstack.h YALIBCT_LIBC_HAS_OBSTACK_H)
@@ -353,8 +355,8 @@ yalibct_check_libc_symbol(SYS_BUFSIZE_MAX sys-limits.h YALIBCT_LIBC_HAS_SYS_BUFS
 yalibct_check_posix_libc_symbol(siglongjmp setjmp.h YALIBCT_LIBC_HAS_SIGLONGJMP)
 yalibct_check_posix_libc_symbol(strsignal string.h YALIBCT_LIBC_HAS_STRSIGNAL)
 yalibct_check_libc_symbol(zerosize_ptr zerosize-ptr.h YALIBCT_LIBC_HAS_ZEROSIZE_PTR)
-yalibct_check_posix_libc_symbol(strsignal string.h YALIBCT_LIBC_HAS_MMAP)
-yalibct_check_posix_libc_symbol(strsignal string.h YALIBCT_LIBC_HAS_MPROTECT)
+yalibct_check_posix_libc_symbol(mmap "sys/mman.h" YALIBCT_LIBC_HAS_MMAP)
+yalibct_check_posix_libc_symbol(mprotect "sys/mman.h" YALIBCT_LIBC_HAS_MPROTECT)
 yalibct_check_c95_libc_symbol(wcscmp wchar.h YALIBCT_LIBC_HAS_WCSCMP)
 yalibct_check_posix_libc_symbol(open_memstream stdio.h YALIBCT_LIBC_HAS_OPEN_MEMSTREAM)
 yalibct_check_posix_libc_symbol(wcscasecmp wchar.h YALIBCT_LIBC_HAS_WCSCASECMP)
@@ -407,6 +409,21 @@ yalibct_check_libc_symbol(obstack_alloc obstack.h YALIBCT_LIBC_HAS_OBSTACK_ALLOC
 yalibct_check_libc_symbol(obstack_blank obstack.h YALIBCT_LIBC_HAS_OBSTACK_BLANK)
 yalibct_check_libc_symbol(statx "sys/stat.h" YALIBCT_LIBC_HAS_STATX)
 yalibct_check_libc_symbol(open64 "fcntl.h" YALIBCT_LIBC_HAS_OPEN64)
+yalibct_check_c89_libc_symbol(L_tmpnam stdio.h YALIBCT_LIBC_HAS_L_TMPNAM)
+yalibct_check_libc_symbol(secure_getenv stdlib.h YALIBCT_LIBC_HAS_SECURE_GETENV)
+yalibct_check_libc_symbol(__secure_getenv stdlib.h YALIBCT_LIBC_HAS___SECURE_GETENV)
+yalibct_check_libc_symbol(issetugid unistd.h YALIBCT_LIBC_HAS_ISSETUGID)
+yalibct_check_posix_libc_symbol(getuid unistd.h YALIBCT_LIBC_HAS_GETUID)
+yalibct_check_posix_libc_symbol(geteuid unistd.h YALIBCT_LIBC_HAS_GETEUID)
+yalibct_check_posix_libc_symbol(getgid unistd.h YALIBCT_LIBC_HAS_GETGID)
+yalibct_check_posix_libc_symbol(getegid unistd.h YALIBCT_LIBC_HAS_GETEGID)
+yalibct_check_libc_symbol(P_tmpdir unistd.h YALIBCT_LIBC_HAS_P_TMPDIR)
+yalibct_check_libc_symbol(__glibc_unlikely "sys/cdefs.h" YALIBCT_LIBC_HAS___GLIBC_UNLIKELY)
+yalibct_check_libc_symbol(getrandom "sys/random.h" YALIBCT_LIBC_HAS_GETRANDOM)
+yalibct_check_libc_symbol(GRND_RANDOM "sys/random.h" YALIBCT_LIBC_HAS_GRND_RANDOM)
+yalibct_check_libc_symbol(GRND_NONBLOCK "sys/random.h" YALIBCT_LIBC_HAS_GRND_NONBLOCK)
+yalibct_check_posix_libc_symbol(CLOCK_REALTIME time.h YALIBCT_LIBC_HAS_CLOCK_REALTIME)
+yalibct_check_posix_libc_symbol(clock_gettime time.h YALIBCT_LIBC_HAS_CLOCK_GETTIME)
 
 yalibct_check_source_compiles(
   "
@@ -456,6 +473,23 @@ int check[] = {
 int main(){}
   "
   YALIBCT_LIBC_HAS_ACTUALLY_CONSTANT_SIGNAL_CONSTANTS
+)
+yalibct_check_source_compiles(
+  "
+// Derived from code with this license:
+/*
+dnl Copyright 2020-2023 Free Software Foundation, Inc.
+dnl This file is free software; the Free Software Foundation
+dnl gives unlimited permission to copy and/or distribute it,
+dnl with or without modifications, as long as this notice is preserved.
+*/
+
+#include <windows.h>
+#if !(_WIN32_WINNT >= _WIN32_WINNT_WIN7)
+  cannot assume it
+#endif
+  "
+  YALIBCT_LIBC_HAS_LIB_BCRYPT
 )
 
 yalibct_make_executable(libc-starts-up tests/libc-starts-up.c)

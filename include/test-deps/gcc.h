@@ -1,5 +1,6 @@
 #pragma once
 
+#include "test-lib/portable-symbols/tmpnam.h"
 #include <stdio.h>
 
 #define main_test main_test(); int main() { main_test(); } void main_test

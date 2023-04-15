@@ -454,10 +454,14 @@ ATF_TC_BODY(hexadecimal_floating_point, tc)
 	 */
 #ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
 	testfmt("0x0p+0", "%a", 0x0.0p0);
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 	testfmt("0X0.P+0", "%#LA", 0x0.0p0L);
 	testfmt("inf", "%La", (long double)INFINITY);
+#endif
 	testfmt("+INF", "%+A", INFINITY);
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 	testfmt("nan", "%La", (long double)NAN);
+#endif
 	testfmt("NAN", "%A", NAN);
 
 	testfmt(" 0x1.23p+0", "%10a", 0x1.23p0);
@@ -469,6 +473,7 @@ ATF_TC_BODY(hexadecimal_floating_point, tc)
 	testfmt_two_allowed("0x1p-1074", "0x0.0000000000001p-1022", "%a", 0x1p-1074);
 	testfmt_two_allowed("0x1.2345p-1024", "0x0.48d14p-1022", "%a", 0x1.2345p-1024);
 
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 #if (LDBL_MANT_DIG == 64)
         testfmt_two_allowed("0x1.921fb54442d18468p+1", "0xc.90fdaa22168c234p-2", "%La", 0x3.243f6a8885a308dp0L);
         testfmt_two_allowed("0x1p-16445", "0x0.000000000000001p-16385", "%La", 0x1p-16445L);
@@ -482,6 +487,7 @@ ATF_TC_BODY(hexadecimal_floating_point, tc)
         testfmt("0x1.921fb54442d18p+1", "%La", 0x3.243f6a8885a31p0L);
         testfmt("0x1p-1074", "%La", 0x1p-1074L);
         testfmt("0x1.30ecap-1021", "%La", 0x9.8765p-1024L);
+#endif
 #endif
 #endif
 

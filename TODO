@@ -16,7 +16,9 @@ int main(void) {
    assert(ret != -1);
 }
 
-Find functions usage in .m4 and configure files
+Find already done functions usage in .m4 and configure files
+
+Split up test-lib/portable-symbols/internal/gnulib/attribute.h
 
 Go make a patch to fix absence of UTIME_OMIT and UTIME_NOW in dietlibc.
 
@@ -32,7 +34,10 @@ See later if we can get the project working on musl-clang once it doesn't random
 
 Grep files for stat
 
-Search GitHub and other code search services
+Search GitHub and other code search services for already done functions
+
+Change CMakeLists to specify the minimum POSIX version for each of the PSOIX symbols
+Also make it so that stuff from SVID found in CMakeLists libc_symbol tests error when not found with appropriate options for this
 
 Functions to do present in PDP7:
 - (list is not complete - anything after stat, I guess)

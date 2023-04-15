@@ -59,7 +59,7 @@ main(void)
 #endif
 	testfmt("     1.000000", "%13f", 1.0);
 	testfmt("            1", "%13G", 1.0);
-#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 	testfmt(" 1.000000E+00", "%13LE", 1.0L);
 	testfmt("     1.000000", "%13Lf", 1.0L);
 	testfmt("            1", "%13LG", 1.0L);
@@ -76,7 +76,7 @@ main(void)
 #ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
 	testfmt("1.23457E+06", "%G", 1234567.8);
 #endif
-#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 	testfmt("1.234568e+06", "%Le", 1234567.8L);
 	testfmt("1234567.800000", "%Lf", 1234567.8L);
 	testfmt("1.23457E+06", "%LG", 1234567.8L);
@@ -100,7 +100,7 @@ main(void)
 	testfmt("NAN", "%F", NAN);
 	testfmt("nan", "%g", NAN);
 #ifndef YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS
-#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 	testfmt("NAN", "%LE", (long double)NAN);
 #endif
 	testfmt("  nan", "%05e", NAN);
@@ -111,7 +111,7 @@ main(void)
 #ifndef YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS
 	testfmt("+inf", "%+g", HUGE_VAL);
 #endif
-#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 	testfmt(" inf", "%4.2Le", HUGE_VALL);
 	testfmt("-inf", "%Lf", -HUGE_VALL);
 #endif
@@ -126,7 +126,7 @@ main(void)
 #endif
 	testfmt("0.000000", "%F", (double)0.0);
 	testfmt("0", "%G", 0.0);
-#ifndef YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 	testfmt("  0", "%3.0Lg", 0.0L);
 #endif
 	testfmt("    0", "%5.0f", 0.001);
@@ -232,10 +232,14 @@ main(void)
 	 */
 #ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
 	testfmt("0x0p+0", "%a", 0x0.0p0);
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 	testfmt("0X0.P+0", "%#LA", 0x0.0p0L);
 	testfmt("inf", "%La", (long double)INFINITY);
+#endif
 	testfmt("+INF", "%+A", INFINITY);
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 	testfmt("nan", "%La", (long double)NAN);
+#endif
 	testfmt("NAN", "%A", NAN);
 
 	testfmt(" 0x1.23p+0", "%10a", 0x1.23p0);
@@ -245,12 +249,14 @@ main(void)
 	testfmt_two_allowed("0x1p-1074", "0x0.0000000000001p-1022", "%a", 0x1p-1074);
 	testfmt_two_allowed("0x1.2345p-1024", "0x0.48d14p-1022", "%a", 0x1.2345p-1024);
 
+#if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 #if LDBL_MANT_DIG == 113
 	testfmt("-0x1.e7d7c7b7a7978777675747372717p-14344", "%La",
 			-0x1.e7d7c7b7a7978777675747372717p-14344L);
 #elif LDBL_MANT_DIG == 64
 	testfmt_two_allowed("-0x8.777675747372717p-16248", "-0x1.0eeeceae8e6e4e2ep-16245", "%La",
 			-0x8.777675747372717p-16248L);
+#endif
 #endif
 #endif
 

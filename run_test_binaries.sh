@@ -67,9 +67,10 @@ checked_add_to_ld_preload()
 
 checked_add_to_ld_preload /lib64/libc_malloc_debug.so.0
 checked_add_to_ld_preload /lib/libc_malloc_debug.so.0
+checked_add_to_ld_preload /lib64/libc_malloc_debug.so
+checked_add_to_ld_preload /lib/libc_malloc_debug.so
 export MALLOC_CHECK_=3
 export MALLOC_PERTURB_=$(($RANDOM % 255 + 1))
-
 
 
 
