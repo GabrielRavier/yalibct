@@ -1,4 +1,20 @@
-Add musl-git configuration.
+Add musl bug regression test:
+
+ #include <assert.h>
+ #include <stdio.h>
+ #include <string.h>
+ #include <wchar.h>
+
+int main(void) {
+   char buffer[500];
+   for (size_t i = 0; i < sizeof(buffer); ++i)
+      buffer[i] = (i % 3) ? 0 : 42;
+
+   wchar_t result;
+
+   int ret = swprintf(&result, 1, L"%1$s", "");
+   assert(ret != -1);
+}
 
 Find functions usage in .m4 and configure files
 
@@ -10,9 +26,13 @@ Go ask ATF people why they're passing around const atf_error, they really wantin
 
 Try to use Copilot to generate some testcases
 
+Check if nanoprintf's default snprintf behavior conforms to the standard - They seem to screw up truncation by default...
+
 See later if we can get the project working on musl-clang once it doesn't randomly error out anymore (would be nice if it didn't give me 300 warnings before then too - they seem unrelated to the root issue that musl-clang somehow doesn't know about x86intrin.h even though it effectively advertises support for it...)
 
 Grep files for stat
+
+Search GitHub and other code search services
 
 Functions to do present in PDP7:
 - (list is not complete - anything after stat, I guess)
@@ -25,3 +45,7 @@ See also https://code.google.com/archive/p/regfuzz when we get to regex
 Procedure to find functions usage:
 - find ~/src -ipath '*funcName*' >list_stat
 - <list_stat grep -iE 'tfunc|funct|/t/|break|m4|unit|gress|integ|bug|ass|xam|te?st|ch(ec)?k' | grep -viE 'netstat|statvfs|lstat|fstat|setstate|pthread_attr_setdetachstate|initstate|tstat|statt|/t/|break|stat[is]|mbstate_t|state|status|llvm|rstat|gcc|[qawhn2ejc]stat|go|python|debug|statp|trace|qemu|getfsstat|statfs|statx|valg|gb|cons|ver|tex|pstat|bench|base|perf|nfs|[mduo]stat|tmpfile|zfs|bin|dev|unbound' | less #parallel -n100000 -- 'grep --color=always -aiE "tstat|statt|/t/|m4|unit|gress|integ|te?st|ch(ec)?k"' | awk 'length < 1000' | less
+- Potentially try to grep files for stat - perhaps try to filter configure and .m4 files for that too
+- Search for them on GitHub/SearchCode and other services
+- Use Copilot
+- Debian/Fedora file search

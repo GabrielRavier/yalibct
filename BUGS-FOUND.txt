@@ -7,9 +7,10 @@ glibc (1 filed, 0 fixed):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
 
 musl (3 filed, 1 fixed):
-- https://www.openwall.com/lists/musl/2022/09/08/4 (not yet merged)
+- https://www.openwall.com/lists/musl/2023/04/15/1 (not yet merged)
 - https://www.openwall.com/lists/musl/2022/09/06/10 (not yet fixed)
 - https://www.openwall.com/lists/musl/2023/01/04/1 (merged)
+- https://www.openwall.com/lists/musl/2023/04/14/1 (not yet merged)
 
 dietlibc (21 filed, 11 fixed) (note: dietlibc's mailing list does not have an archive, so the links can't lead there...):
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-HUGE_VALL-and-INFINITY-both-from-C99-and-requi.patch (not yet merged)
