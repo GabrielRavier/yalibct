@@ -582,6 +582,7 @@ yalibct_make_executable(printf-cosmopolitan-uppercase-f-static-yoink-test tests/
 yalibct_make_executable(printf-cosmopolitan-uppercase-g-static-yoink-test tests/printf/cosmopolitan-uppercase-g-static-yoink-test.c)
 yalibct_make_executable(printf-nanoprintf-conformance tests/printf/nanoprintf-conformance.c)
 yalibct_make_executable(printf-nanoprintf-unit_binary tests/printf/nanoprintf-unit_binary.c)
+yalibct_make_executable(printf-glibc-tst-bz25691-musl-regression tests/printf/glibc-tst-bz25691-musl-regression.c)
 
 yalibct_make_executable(strcat-NetBSD-t tests/strcat/NetBSD-t.c)
 yalibct_make_executable(strcat-llvm-project-test tests/strcat/llvm-project-test.c)
