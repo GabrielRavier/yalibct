@@ -477,4 +477,5 @@ rfg3 (void)
 }
 
 #define TEST_FUNCTION do_test ()
+#define TIMEOUT 30
 #include "test-deps/glibc/test-skeleton.h"
