@@ -22,13 +22,13 @@ static const struct fun
 } funtab[] = {
   // clang-format off
   F(strlen, 0)
-#if __aarch64__
+#if 0//__aarch64__
   F(__strlen_aarch64, 0)
   F(__strlen_aarch64_mte, 1)
 # if __ARM_FEATURE_SVE
   F(__strlen_aarch64_sve, 1)
 # endif
-#elif __arm__
+#elif 0//__arm__
 # if __ARM_ARCH >= 6 && __ARM_ARCH_ISA_THUMB == 2
   F(__strlen_armv6t2, 0)
 # endif

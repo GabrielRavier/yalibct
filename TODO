@@ -30,9 +30,12 @@ See also https://code.google.com/archive/p/regfuzz when we get to regex
 
 
 Procedure to find functions usage:
-- find ~/src -ipath '*funcName*' >list_stat
-- <list_stat grep -iE 'tfunc|funct|/t/|break|m4|unit|gress|integ|bug|ass|xam|te?st|ch(ec)?k' | grep -viE 'netstat|statvfs|lstat|fstat|setstate|pthread_attr_setdetachstate|initstate|tstat|statt|/t/|break|stat[is]|mbstate_t|state|status|llvm|rstat|gcc|[qawhn2ejc]stat|go|python|debug|statp|trace|qemu|getfsstat|statfs|statx|valg|gb|cons|ver|tex|pstat|bench|base|perf|nfs|[mduo]stat|tmpfile|zfs|bin|dev|unbound' | less #parallel -n100000 -- 'grep --color=always -aiE "tstat|statt|/t/|m4|unit|gress|integ|te?st|ch(ec)?k"' | awk 'length < 1000' | less
-- Potentially try to grep files for stat - perhaps try to filter configure and .m4 files for that too
+- find ~/src -ipath '*funcName*' >list_funcName
+  <list_funcName grep -iE 'tfuncName|funcNamet|/t/|break|m4|unit|gress|integ|bug|ass|xam|te?st|che?c?k' | grep -viE 'netstat|statvfs|lstat|fstat|setstate|pthread_attr_setdetachstate|initstate|tstat|statt|/t/|break|stat[is]|mbstate_t|state|status|llvm|rstat|gcc|[qawhn2ejc]stat|go|python|debug|statp|trace|qemu|getfsstat|statfs|statx|valg|gb|cons|ver|tex|pstat|bench|base|perf|nfs|[mduo]stat|tmpfile|zfs|bin|dev|unbound' | less #parallel -n100000 -- 'grep --color=always -aiE "tfuncName|funcNamet|/t/|m4|unit|gress|integ|te?st|ch(ec)?k"' | awk 'length < 1000' | less
+
+- rg -i funcName >rg_funcName
+  <rg_funcName cut -d: -f1 | grep -v funcName | grep -iE '(config|mak)[^/]*$|\.m4' | sort -u | xargs -d'\n' rg -C10 funcName | bat -p -l c
+
 - Search for them on GitHub/SearchCode and other services
-- Use Copilot
+- Use Copilot, basing prompts on standards (also, good opportunity for adding any testcases given out by standards)
 - Debian/Fedora file search
