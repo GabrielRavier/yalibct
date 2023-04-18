@@ -105,8 +105,14 @@ static const char str_char_min_with_null[] = { CHAR_MIN, '\0' };
 
 TEST(memcmp, test) {
   EXPECT_EQ(memcmpi(str_char_min_with_null, str_char_min_with_null, 1), 0);
-  EXPECT_LT(memcmpi("\177", str_char_min_with_null, 1), 0);
-  EXPECT_GT(memcmpi(str_char_min_with_null, "\177", 1), 0);
+  if (CHAR_MIN < 0)
+    EXPECT_LT(memcmpi("\177", str_char_min_with_null, 1), 0);
+  else
+    EXPECT_GT(memcmpi("\177", str_char_min_with_null, 1), 0);
+  if (CHAR_MIN < 0)
+    EXPECT_GT(memcmpi(str_char_min_with_null, "\177", 1), 0);
+  else
+    EXPECT_LT(memcmpi(str_char_min_with_null, "\177", 1), 0);
   EXPECT_EQ(memcmpi("", "", 0), 0);
   EXPECT_EQ(memcmpi("a", "a", 1), 0);
   EXPECT_GT(memcmpi("a", "A", 1), 0);
