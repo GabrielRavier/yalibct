@@ -1,5 +1,3 @@
-Get yalibct working on the AArch64 box I have access to.
-
 Find already done functions usage in .m4 and configure files
 
 Split up test-lib/portable-symbols/internal/gnulib/attribute.h
