@@ -397,11 +397,17 @@ TEST(wcscmp, testTwosComplementBane) {
   B1[1] = L'\0';
   B2[1] = L'\0';
   B1[0] = WCHAR_MIN;
+  if (B1[0] == L'\0')
+    ++B1[0];
   B2[0] = WCHAR_MIN;
+  if (B2[0] == L'\0')
+    ++B2[0];
   EXPECT_EQ(wcscmp(B1, B2), 0);
   B1[0] = WCHAR_MAX;
   EXPECT_LT(0, wcscmp(B1, B2));
   B1[0] = WCHAR_MIN;
+  if (B1[0] == L'\0')
+    ++B1[0];
   B2[0] = WCHAR_MAX;
   EXPECT_LT(wcscmp(B1, B2), 0);
 }
@@ -410,11 +416,17 @@ TEST(wcsncmp, testTwosComplementBane) {
   wchar_t B1;
   wchar_t B2;
   B1 = WCHAR_MIN;
+  if (B1 == L'\0')
+    ++B1;
   B2 = WCHAR_MIN;
+  if (B2 == L'\0')
+    ++B2;
   EXPECT_EQ(wcsncmp(&B1, &B2, 1), 0);
   B1 = WCHAR_MAX;
   EXPECT_GT(wcsncmp(&B1, &B2, 1), 0);
   B1 = WCHAR_MIN;
+  if (B1 == L'\0')
+    ++B1;
   B2 = WCHAR_MAX;
   EXPECT_LT(wcsncmp(&B1, &B2, 1), 0);
 }
