@@ -19,12 +19,6 @@
 
 #include "test-deps/glibc.h"
 
-/*
-
-  If this implodes on architectures other than x86, you probably should just not have it run there
-
- */
-
 /* Fill the stack with non-zero values.  This makes a crash in
    snprintf more likely.  */
 static void HEDLEY_NEVER_INLINE YALIBCT_ATTRIBUTE_NOCLONE
@@ -39,6 +33,9 @@ static int
 do_test (void)
 {
   fill_stack ();
+
+  if (sizeof(long double) != 12)
+      return 0;
 
   long double value;
   memcpy (&value, "\x00\x04\x00\x00\x00\x00\x00\x00\x00\x04", 10);

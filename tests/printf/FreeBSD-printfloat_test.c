@@ -56,74 +56,10 @@ smash_stack(void)
 }
 
 #define	testfmt(result, fmt, ...)       \
-	_testfmt((result), #__VA_ARGS__, fmt, __VA_ARGS__)
-static void
-_testfmt(const char *result, const char *argstr, const char *fmt,...)
-{
-#define	BUF	100
-	wchar_t ws[BUF], wfmt[BUF], wresult[BUF];
-	char s[BUF];
-	va_list ap, ap2;
-
-	va_start(ap, fmt);
-	va_copy(ap2, ap);
-	smash_stack();
-	assert(vsnprintf(s, sizeof(s), fmt, ap) == strlen(s));
-	ATF_CHECK_MSG(strcmp(result, s) == 0,
-	    "printf(\"%s\", %s) ==> [%s], expected [%s]",
-	    fmt, argstr, s, result);
-
-	smash_stack();
-	assert(mbstowcs(ws, s, BUF - 1) != (size_t)-1);
-	assert(mbstowcs(wfmt, fmt, BUF - 1) != (size_t)-1);
-	assert(mbstowcs(wresult, result, BUF - 1) != (size_t)-1);
-
-#ifdef YALIBCT_LIBC_HAS_VSWPRINTF
-	assert(vswprintf(ws, sizeof(ws) / sizeof(ws[0]), wfmt, ap2) == wcslen(ws));
-	ATF_CHECK_MSG(wcscmp(wresult, ws) == 0,
-	    "wprintf(\"%ls\", %s) ==> [%ls], expected [%ls]",
-	    wfmt, argstr, ws, wresult);
-#endif
-
-	va_end(ap);
-	va_end(ap2);
-}
+    _testfmt_three_allowed((result), (result), (result), #__VA_ARGS__, fmt, __VA_ARGS__)
 
 #define	testfmt_two_allowed(result, result2, fmt, ...)                  \
-    _testfmt_two_allowed((result), (result2), #__VA_ARGS__, fmt, __VA_ARGS__)
-static void
-_testfmt_two_allowed(const char *result, const char *result2, const char *argstr, const char *fmt,...)
-{
-#define	BUF	100
-    wchar_t ws[BUF], wfmt[BUF], wresult[BUF], wresult2[BUF];
-	char s[BUF];
-	va_list ap, ap2;
-
-	va_start(ap, fmt);
-	va_copy(ap2, ap);
-	smash_stack();
-	assert(vsnprintf(s, sizeof(s), fmt, ap) == strlen(s));
-	ATF_CHECK_MSG(strcmp(result, s) == 0 || strcmp(result2, s) == 0,
-	    "printf(\"%s\", %s) ==> [%s], expected [%s]",
-	    fmt, argstr, s, result);
-
-	smash_stack();
-	assert(mbstowcs(ws, s, BUF - 1) != (size_t)-1);
-	assert(mbstowcs(wfmt, fmt, BUF - 1) != (size_t)-1);
-	assert(mbstowcs(wresult, result, BUF - 1) != (size_t)-1);
-	assert(mbstowcs(wresult2, result2, BUF - 1) != (size_t)-1);
-
-#ifdef YALIBCT_LIBC_HAS_VSWPRINFT
-	vswprintf(ws, sizeof(ws) / sizeof(ws[0]), wfmt, ap2);
-	ATF_CHECK_MSG(wcscmp(wresult, ws) == 0 || wcscmp(wresult2, ws) == 0,
-	    "wprintf(\"%ls\", %s) ==> [%ls], expected [%ls]",
-	    wfmt, argstr, ws, wresult);
-#endif
-
-	va_end(ap);
-	va_end(ap2);
-}
-
+    _testfmt_three_allowed((result), (result), (result2), #__VA_ARGS__, fmt, __VA_ARGS__)
 
 #define	testfmt_three_allowed(result, result2, result3, fmt, ...)       \
     _testfmt_three_allowed((result), (result2), (result3), #__VA_ARGS__, fmt, __VA_ARGS__)
@@ -481,8 +417,8 @@ ATF_TC_BODY(hexadecimal_floating_point, tc)
 #elif (LDBL_MANT_DIG == 113)
         testfmt("0x1.921fb54442d18469898cc51701b8p+1", "%La",
             0x3.243f6a8885a308d313198a2e037p0L);
-        testfmt("0x1p-16494", "%La", 0x1p-16494L);
-        testfmt("0x1.2345p-16384", "%La", 0x1.2345p-16384L);
+        testfmt_two_allowed("0x1p-16494", "0x0.0000000000000000000000000001p-16382", "%La", 0x1p-16494L);
+        testfmt_two_allowed("0x1.2345p-16384", "0x0.48d14p-16382", "%La", 0x1.2345p-16384L);
 #else
         testfmt("0x1.921fb54442d18p+1", "%La", 0x3.243f6a8885a31p0L);
         testfmt("0x1p-1074", "%La", 0x1p-1074L);

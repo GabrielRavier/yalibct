@@ -70,6 +70,7 @@ option(YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS "Whether or not tests that 
 option(YALIBCT_DISABLE_RARE_LOCALE_TESTS "Whether or not tests that depend on rare locales that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS})
 option(YALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS "Whether or not tests that depend on the printf family of functions rounding floating point numbers properly will be run. I am unsure of whether the C standard requires this, but it seems like a very useful property for the functions to have regardless" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_LC_NUMERIC_TESTS "Whether or not tests that depend on LC_NUMERIC support being present will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_DEFAULT_UTF_8_LOCALE_TESTS "Whether or not tests that depends on the default locale making it possible to use UTF-8 strings with standard C functions (in particular, tests involving conversions of wchar_t to multibyte characters) will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
 
 include(CheckIncludeFile)
 include(CheckSymbolExists)
@@ -290,6 +291,7 @@ yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECI
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_WORK_AROUND_NAMESPACE_VIOLATIONS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_LONG_DOUBLE_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_DEFAULT_UTF_8_LOCALE_TESTS)
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 yalibct_check_include_file(obstack.h YALIBCT_LIBC_HAS_OBSTACK_H)

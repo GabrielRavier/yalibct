@@ -406,6 +406,7 @@ main(int argc, char *argv[])
 		err(1, "setlocale");
 #endif
 
+#if !defined(YALIBCT_DISABLE_DEFAULT_UTF_8_LOCALE_TESTS) && !defined(YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS)
 #ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS
 	tlc("<%lc>", L'=', "<=>");
 	tlc("<%lc>", L'\t', "<\t>");
@@ -465,6 +466,7 @@ main(int argc, char *argv[])
                 // UB and not widely supported
 		//ts("<%lls>", "text", "<text>");
 	}
+#endif
 
 	/*
 	 * Summarize the results.
