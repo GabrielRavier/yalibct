@@ -1,10 +1,11 @@
 I have filed the following bug reports/patches as a result of working on this testsuite:
 
-total: 43
+total: 44
 fixed/merged: 23
 
-glibc (1 filed, 0 fixed):
+glibc (2 filed, 0 fixed):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
+- https://sourceware.org/bugzilla/show_bug.cgi?id=30441 (not yet fixed (note: potentially not a bug at all - will have to see WG14 response))
 
 musl (3 filed, 1 fixed):
 - https://www.openwall.com/lists/musl/2023/04/15/1 (not yet merged)

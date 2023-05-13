@@ -2,6 +2,8 @@ Find already done functions usage in .m4 and configure files
 
 Split up test-lib/portable-symbols/internal/gnulib/attribute.h
 
+Given that GCC 13 now supports nullptr it might be a good idea to add a config test for it+portability thingo for it from gnulib probably
+
 Go make a patch to fix absence of UTIME_OMIT and UTIME_NOW in dietlibc.
 
 File an issue for cosmopolitan namespace violations like timespec_cmp or FRAMESIZE - (see also timespec_cmp_avoid_cosmopolitan_namespace_violation and FRAMESIZE_avoid_cosmopolitan_namespace_violations)
@@ -13,6 +15,10 @@ Try to use Copilot to generate some testcases
 Check if nanoprintf's default snprintf behavior conforms to the standard - They seem to screw up truncation by default...
 
 See later if we can get the project working on musl-clang once it doesn't randomly error out anymore (would be nice if it didn't give me 300 warnings before then too - they seem unrelated to the root issue that musl-clang somehow doesn't know about x86intrin.h even though it effectively advertises support for it...)
+
+Add in new tests from glibc:
+- stdio-common/tst-printf-oct.c
+- update stdio-common/tst-printf-binary-main.c with 2d4728e60621c8844ec679291aa5458c622d8f4f
 
 Grep files for stat
 
@@ -33,8 +39,8 @@ Procedure to find functions usage:
 - find ~/src -ipath '*funcName*' >list_funcName
   <list_funcName grep -iE 'tfuncName|funcNamet|/t/|break|m4|unit|gress|integ|bug|ass|xam|te?st|che?c?k' | grep -viE 'netstat|statvfs|lstat|fstat|setstate|pthread_attr_setdetachstate|initstate|tstat|statt|/t/|break|stat[is]|mbstate_t|state|status|llvm|rstat|gcc|[qawhn2ejc]stat|go|python|debug|statp|trace|qemu|getfsstat|statfs|statx|valg|gb|cons|ver|tex|pstat|bench|base|perf|nfs|[mduo]stat|tmpfile|zfs|bin|dev|unbound' | less #parallel -n100000 -- 'grep --color=always -aiE "tfuncName|funcNamet|/t/|m4|unit|gress|integ|te?st|ch(ec)?k"' | awk 'length < 1000' | less
 
-- rg -i funcName >rg_funcName
-  <rg_funcName cut -d: -f1 | grep -v funcName | grep -iE '(config|mak)[^/]*$|\.m4' | sort -u | xargs -d'\n' rg -C10 funcName | bat -p -l c
+- rg -i funcName ~/src >rg_funcName
+  <rg_funcName cut -d: -f1 | grep -v funcName | grep -iE '(config|mak)[^/]*$|\.m[4k]' | sort -u | xargs -d'\n' rg -C10 funcName | bat -p -l c
 
 - Search for them on GitHub/SearchCode and other services
 - Use Copilot, basing prompts on standards (also, good opportunity for adding any testcases given out by standards)

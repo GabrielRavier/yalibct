@@ -66,14 +66,19 @@ int main(void)
     const char *source = "hello";
     char dest[100] = "test";
 
-    int snprintf_retval = snprintf(dest, -1, format, source);
+    int snprintf_retval;
+#ifdef YALIBCT_LIBC_HAS_SNPRINTF
+    snprintf_retval = snprintf(dest, -1, format, source);
     report(snprintf_retval == 5 || (snprintf_retval == -1 && errno == EOVERFLOW), "snprintf with n=-1");
-    report(strcmp(source, dest) == 0 || strcmp(dest, "test") == 0, "strcmp that result");
+    report(strcmp(source, dest) == 0 || strcmp(dest, "test") == 0, "strcmp result of snprintf with n=-1");
+#else
+    (void)dest;
+#endif
 
     char dest2[100] = "test2";
     snprintf_retval = snprintf(dest2, 1ULL<<40, format, source);
     report(snprintf_retval == 5 || (snprintf_retval == -1 && errno == EOVERFLOW), "snprintf with n=2^40");
-    report(strcmp(source, dest2) == 0 || strcmp(dest2, "test2") == 0, "strcmp that result");
+    report(strcmp(source, dest2) == 0 || strcmp(dest2, "test2") == 0, "strcmp result of snprintf with n=2^40");
 
     // Posix states that the "L" prefix is for long double, and "ll" is
     // for long long int, but in Linux glibc these are actually synonyms,

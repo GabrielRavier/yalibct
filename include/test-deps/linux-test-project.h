@@ -147,18 +147,18 @@ struct tst_test {
     /* If set the test is compiled out */
     const char *tconf_msg;
 
-    int needs_tmpdir:1;
-    int needs_root:1;
-    int forks_child:1;
-    int needs_device:1;
-    int needs_checkpoints:1;
-    int needs_overlay:1;
-    int format_device:1;
-    int mount_device:1;
-    int needs_rofs:1;
-    int child_needs_reinit:1;
-    int needs_devfs:1;
-    int restore_wallclock:1;
+    unsigned needs_tmpdir:1;
+    unsigned needs_root:1;
+    unsigned forks_child:1;
+    unsigned needs_device:1;
+    unsigned needs_checkpoints:1;
+    unsigned needs_overlay:1;
+    unsigned format_device:1;
+    unsigned mount_device:1;
+    unsigned needs_rofs:1;
+    unsigned child_needs_reinit:1;
+    unsigned needs_devfs:1;
+    unsigned restore_wallclock:1;
     /*
      * If set the test function will be executed for all available
      * filesystems and the current filesystem type would be set in the
@@ -167,13 +167,13 @@ struct tst_test {
      * The test setup and cleanup are executed before/after __EACH__ call
      * to the test function.
      */
-    int all_filesystems:1;
-    int skip_in_lockdown:1;
-    int skip_in_compat:1;
+    unsigned all_filesystems:1;
+    unsigned skip_in_lockdown:1;
+    unsigned skip_in_compat:1;
     /*
      * If set, the hugetlbfs will be mounted at .mntpoint.
      */
-    int needs_hugetlbfs:1;
+    unsigned needs_hugetlbfs:1;
 
     /*
      * The skip_filesystems is a NULL terminated list of filesystems the

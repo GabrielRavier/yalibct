@@ -143,6 +143,13 @@ TEMP_TESTS_RESULTS_FILE=$(mktemp)
 
 run_one_test()
 {
+    # Try and only run as many tests as there are processors simultaneously
+    # As well as reducing system load (which is likely to be very annoying if someone's trying to do anything else at all at the same time), this improves performance by avoiding contention between the tests
+    # We also ask nproc to ignore 2 CPUs, in an attempt to minimize the contention a bit - this is effectively a hardcoded attempt to leave some resources for the system and its likely a better solution could be found (though likely it would be much more complex), and this is just what I found to give best performance on the laptop on which I tested these changes
+    if [ $(jobs | wc -l) -gt $(nproc --ignore=2) ]; then
+        wait -n
+    fi
+
     eval "$1" |& { ! grep . 1>&2; } && printf "Test '%s' succeeded\n" "$1" | tee -a "$TEMP_TESTS_RESULTS_FILE" >/dev/null || printf "Test '%s' failed with status $?\n" "$1" | tee -a "$TEMP_TESTS_RESULTS_FILE" >/dev/stderr &
 }
 

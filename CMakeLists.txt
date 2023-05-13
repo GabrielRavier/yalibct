@@ -426,6 +426,7 @@ yalibct_check_libc_symbol(GRND_RANDOM "sys/random.h" YALIBCT_LIBC_HAS_GRND_RANDO
 yalibct_check_libc_symbol(GRND_NONBLOCK "sys/random.h" YALIBCT_LIBC_HAS_GRND_NONBLOCK)
 yalibct_check_posix_libc_symbol(CLOCK_REALTIME time.h YALIBCT_LIBC_HAS_CLOCK_REALTIME)
 yalibct_check_posix_libc_symbol(clock_gettime time.h YALIBCT_LIBC_HAS_CLOCK_GETTIME)
+yalibct_check_c99_libc_symbol(snprintf stdio.h YALIBCT_LIBC_HAS_SNPRINTF)
 
 yalibct_check_source_compiles(
   "
