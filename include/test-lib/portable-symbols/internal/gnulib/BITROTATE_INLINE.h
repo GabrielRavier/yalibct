@@ -19,6 +19,6 @@
 
 #pragma once
 
-#include "test-lib/portable-symbols/internal/gnulib/attribute.h"
+#include "test-lib/portable-symbols/internal/gnulib/_GL_INLINE.h"
 
 # define BITROTATE_INLINE _GL_INLINE

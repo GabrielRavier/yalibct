@@ -29,7 +29,7 @@
 #include "test-lib/portable-symbols/opterr.h"
 #include "test-lib/portable-symbols/optind.h"
 #include "test-lib/portable-symbols/optopt.h"
-#include "test-lib/portable-symbols/internal/gnulib/attribute.h"
+#include "test-lib/portable-symbols/internal/gnulib/_GL_UNUSED.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

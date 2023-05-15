@@ -23,7 +23,8 @@
 #pragma once
 
 #include "test-lib/portable-symbols/internal/gnulib/Hash_table.h"
-#include "test-lib/portable-symbols/internal/gnulib/attribute.h"
+#include "test-lib/portable-symbols/internal/gnulib/_GL_ATTRIBUTE_CONST.h"
+#include "test-lib/portable-symbols/internal/gnulib/_GL_ATTRIBUTE_PURE.h"
 #include "test-lib/portable-symbols/internal/gnulib/xalloc_oversized.h"
 #include <stdlib.h>
 #include <stdint.h>

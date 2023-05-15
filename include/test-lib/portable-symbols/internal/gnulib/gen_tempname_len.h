@@ -22,7 +22,7 @@
 #include "test-lib/portable-symbols/internal/gnulib/GT_FILE.h"
 #include "test-lib/portable-symbols/internal/gnulib/GT_DIR.h"
 #include "test-lib/portable-symbols/internal/gnulib/GT_NOCREATE.h"
-#include "test-lib/portable-symbols/internal/gnulib/attribute.h"
+#include "test-lib/portable-symbols/internal/gnulib/_GL_UNUSED.h"
 #include <fcntl.h>
 #include <sys/stat.h>
 

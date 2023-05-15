@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "test-lib/portable-symbols/internal/gnulib/attribute.h"
+#include "test-lib/portable-symbols/internal/gnulib/_GL_UNUSED.h"
 #include "test-lib/compiler-features.h"
 
 #include <stdio.h>
