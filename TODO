@@ -1,7 +1,5 @@
 Split up test-lib/portable-symbols/internal/gnulib/attribute.h
 
-Given that GCC 13 now supports nullptr it might be a good idea to add a config test for it+portability thingo for it from gnulib probably
-
 Go make a patch to fix absence of UTIME_OMIT and UTIME_NOW in dietlibc.
 
 File an issue for cosmopolitan namespace violations like timespec_cmp or FRAMESIZE - (see also timespec_cmp_avoid_cosmopolitan_namespace_violation and FRAMESIZE_avoid_cosmopolitan_namespace_violations)
