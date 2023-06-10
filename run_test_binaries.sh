@@ -38,7 +38,7 @@ get_test_executable_path()
 
 test_runner()
 {
-    executable_runner $(get_test_executable_path "$1") "${@:2}"
+    executable_runner "$(get_test_executable_path "$1")" "${@:2}"
 }
 
 # Scrapped idea to have the runner create a temporary directory for each test - tests need to manage this themselves
@@ -70,15 +70,16 @@ checked_add_to_ld_preload /lib/libc_malloc_debug.so.0
 checked_add_to_ld_preload /lib64/libc_malloc_debug.so
 checked_add_to_ld_preload /lib/libc_malloc_debug.so
 export MALLOC_CHECK_=3
-export MALLOC_PERTURB_=$(($RANDOM % 255 + 1))
+export MALLOC_PERTURB_=$((RANDOM % 255 + 1))
 
 
 
 do_mtrace_test()
 {
-    export MALLOC_TRACE=$(mktemp)
+    export MALLOC_TRACE
+    MALLOC_TRACE=$(mktemp)
     test_runner "$@"
-    mtrace $(get_test_executable_path "$1") "$MALLOC_TRACE" | diff -u - <(echo 'No memory leaks.')
+    mtrace "$(get_test_executable_path "$1")" "$MALLOC_TRACE" | diff -u - <(echo 'No memory leaks.')
     rm "$MALLOC_TRACE"
     unset MALLOC_TRACE
 }
@@ -146,7 +147,7 @@ run_one_test()
     # Try and only run as many tests as there are processors simultaneously
     # As well as reducing system load (which is likely to be very annoying if someone's trying to do anything else at all at the same time), this improves performance by avoiding contention between the tests
     # We also ask nproc to ignore 2 CPUs, in an attempt to minimize the contention a bit - this is effectively a hardcoded attempt to leave some resources for the system and its likely a better solution could be found (though likely it would be much more complex), and this is just what I found to give best performance on the laptop on which I tested these changes
-    if [ $(jobs | wc -l) -gt $(nproc --ignore=2) ]; then
+    if [ "$(jobs | wc -l)" -gt "$(nproc --ignore=2)" ]; then
         wait -n
     fi
 
@@ -212,6 +213,6 @@ done
 # Wait for all tests to be over before exiting
 wait
 
-printf '%s tests failed out of %s tests\n' $(grep -cE '^Test .* failed with status .?.?.?$' "$TEMP_TESTS_RESULTS_FILE") $(<"$TEMP_TESTS_RESULTS_FILE" wc -l)
+printf '%s tests failed out of %s tests\n' "$(grep -cE '^Test .* failed with status .?.?.?$' "$TEMP_TESTS_RESULTS_FILE")" "$(<"$TEMP_TESTS_RESULTS_FILE" wc -l)"
 grep -qE '^Test .* failed with status .?.?.?$' "$TEMP_TESTS_RESULTS_FILE" && { echo 'Failed tests:'; grep -E '^Test .* failed with status .?.?.?$' "$TEMP_TESTS_RESULTS_FILE"; }
 rm "$TEMP_TESTS_RESULTS_FILE"

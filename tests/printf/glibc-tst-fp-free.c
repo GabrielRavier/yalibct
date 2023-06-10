@@ -26,7 +26,7 @@ do_test (void)
   mtrace ();
   FILE *fp = fopen ("/dev/full", "w");
   TEST_VERIFY_EXIT (fp != NULL);
-  char buf[131072];
+  static char buf[131072];
   TEST_VERIFY_EXIT (setvbuf (fp, buf, _IOFBF, sizeof buf) == 0);
 #if !defined(YALIBCT_DISABLE_PRINTF_PRECISION_TESTS) && !defined(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS)
   int fprintf_result = fprintf (fp, "%-1000000.65536f", 1.0);

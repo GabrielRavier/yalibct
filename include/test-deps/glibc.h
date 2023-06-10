@@ -25,6 +25,8 @@
 #include "test-lib/portable-symbols/xmalloc.h"
 #include "test-lib/portable-symbols/TEMP_FAILURE_RETRY.h"
 #include "test-lib/portable-symbols/getopt_long.h"
+#include "test-lib/portable-symbols/no_argument.h"
+#include "test-lib/portable-symbols/required_argument.h"
 #include "test-lib/portable-symbols/getprogname.h"
 #include "test-lib/portable-symbols/internal/gnulib/sb_init.h"
 #include "test-lib/portable-symbols/internal/gnulib/sb_dupfree.h"
@@ -667,7 +669,7 @@ print_timestamp (const char *what, struct timespec tv)
   struct tm tm;
   /* Casts of tv.tv_nsec below are necessary because the type of
      tv_nsec is not literally long int on all supported platforms.  */
-  if (gmtime_r (&tv.tv_sec, &tm) == NULL) // NOLINT(bugprone-signal-handler,cert-sig30-c)
+  if (gmtime_r (&tv.tv_sec, &tm) == NULL) // NOLINT(bugprone-signal-handler,cert-sig30-c,cert-msc54-cpp)
     printf ("%s: %lld.%09ld\n",
             what, (long long int) tv.tv_sec, (long int) tv.tv_nsec);
   else
@@ -690,13 +692,13 @@ signal_handler (int sig)
   clock_gettime (CLOCK_REALTIME, &now);
 #ifdef YALIBCT_LIBC_HAS_FSTAT64
   struct stat64 st;
-  bool st_available = fstat64 (STDOUT_FILENO, &st) == 0 && st.st_mtime != 0; // NOLINT(bugprone-signal-handler,cert-sig30-c)
+  bool st_available = fstat64 (STDOUT_FILENO, &st) == 0 && st.st_mtime != 0; // NOLINT(bugprone-signal-handler,cert-sig30-c,cert-msc54-cpp)
 #else
   struct stat st;
   bool st_available = fstat (STDOUT_FILENO, &st) == 0 && st.st_mtime != 0;
 #endif
 
-  assert (test_pid > 1); // NOLINT(bugprone-signal-handler,cert-sig30-c)
+  assert (test_pid > 1); // NOLINT(bugprone-signal-handler,cert-sig30-c,cert-msc54-cpp)
   /* Kill the whole process group.  */
   kill (-test_pid, SIGKILL);
   /* In case setpgid failed in the child, kill it individually too.  */
@@ -717,12 +719,12 @@ signal_handler (int sig)
       struct timespec ts;
       ts.tv_sec = 0;
       ts.tv_nsec = 100000000;
-      nanosleep (&ts, NULL); // NOLINT(bugprone-signal-handler,cert-sig30-c)
+      nanosleep (&ts, NULL); // NOLINT(bugprone-signal-handler,cert-sig30-c,cert-msc54-cpp)
     }
   if (killed != 0 && killed != test_pid)
     {
-      printf ("Failed to kill test process: %m\n"); // NOLINT(bugprone-signal-handler,cert-sig30-c)
-      exit (1); // NOLINT(bugprone-signal-handler,cert-sig30-c)
+      printf ("Failed to kill test process: %m\n"); // NOLINT(bugprone-signal-handler,cert-sig30-c,cert-msc54-cpp)
+      exit (1); // NOLINT(bugprone-signal-handler,cert-sig30-c,cert-msc54-cpp)
     }
 
   if (cleanup_function != NULL)
@@ -735,10 +737,10 @@ signal_handler (int sig)
     }
 
   if (killed == 0 || (WIFSIGNALED (status) && WTERMSIG (status) == SIGKILL))
-      assert(puts ("Timed out: killed the child process") >= 0); // NOLINT(bugprone-signal-handler,cert-sig30-c)
+      assert(puts ("Timed out: killed the child process") >= 0); // NOLINT(bugprone-signal-handler,cert-sig30-c,cert-msc54-cpp)
   else if (WIFSTOPPED (status))
     printf ("Timed out: the child process was %s\n",
-            strsignal (WSTOPSIG (status))); // NOLINT(bugprone-signal-handler,cert-sig30-c)
+            strsignal (WSTOPSIG (status))); // NOLINT(bugprone-signal-handler,cert-sig30-c,cert-msc54-cpp)
   else if (WIFSIGNALED (status))
     printf ("Timed out: the child process got signal %s\n",
             strsignal (WTERMSIG (status)));

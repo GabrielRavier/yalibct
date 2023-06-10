@@ -18,6 +18,7 @@
  * modifiers, in particular with the minus flag, width, and maxbytes.
  * Also verify that other flags do nothing useful.
  */
+#include "test-lib/portable-symbols/getopt.h"
 #include <err.h>
 #include <stddef.h>
 #include <stdint.h>

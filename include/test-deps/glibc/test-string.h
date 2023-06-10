@@ -19,8 +19,9 @@
 
 #pragma once
 
-#include "test-lib/portable-symbols/__STRING.h"
 #include "test-lib/portable-symbols/xmalloc.h"
+#include "test-lib/portable-symbols/optarg.h"
+#include "test-lib/portable-symbols/__STRING.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>

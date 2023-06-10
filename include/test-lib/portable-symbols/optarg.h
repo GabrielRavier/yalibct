@@ -1,5 +1,5 @@
 // Derived from code with this license:
-/* getopt_long and getopt_long_only entry points for GNU getopt.
+/* Getopt for GNU.
    Copyright (C) 1987-2023 Free Software Foundation, Inc.
    This file is part of the GNU C Library and is also part of gnulib.
    Patches to this file should be submitted to both projects.
@@ -20,30 +20,16 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_GETOPT_LONG
-#include <getopt.h>
+#ifdef YALIBCT_LIBC_HAS_OPTARG
+#include <unistd.h>
 #else
 
-#include "test-lib/portable-symbols/internal/gnulib/getopt-common.h"
+/* For communication from 'getopt' to the caller.
+   When 'getopt' finds an option that takes an argument,
+   the argument value is returned here.
+   Also, when 'ordering' is RETURN_IN_ORDER,
+   each non-option ARGV-element is returned here.  */
 
-/* The type of the 'argv' argument to getopt_long and getopt_long_only
-   is properly 'char **', since both functions may write to the array
-   (in order to move all the options to the beginning).  However, for
-   compatibility with old versions of LSB, glibc has to use 'char *const *'
-   instead.  */
-#ifndef __getopt_argv_const
-# define __getopt_argv_const const
-#endif
-
-/* When used standalone, do not attempt to use alloca.  */
-# define __libc_use_alloca(size) 0
-
-int
-getopt_long (int argc, char *__getopt_argv_const *argv, const char *options,
-         const struct option *long_options, int *opt_index)
-{
-  return _getopt_internal (argc, (char **) argv, options, long_options,
-               opt_index, 0, 0);
-}
+char *optarg;
 
 #endif

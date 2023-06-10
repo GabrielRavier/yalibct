@@ -29,6 +29,7 @@
 #include "test-lib/chdir-to-tmpdir.h"
 #include "test-lib/hedley.h"
 #include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/getopt.h"
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -1768,6 +1769,7 @@ atf_map_fini(atf_map_t *m)
             free(me->m_value);
         free(me->m_key);
         free(me);
+        assert(!(((struct list_entry *)iter.m_entry)->m_managed));
     }
     atf_list_fini(&m->m_list);
 }

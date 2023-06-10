@@ -744,6 +744,9 @@ TEST(SimpleStatTest, AnonDeviceAllocatesUniqueInodesAcrossSaveRestore) {
   assert(close(fd1) == 0);
 }
 
+#if defined(YALIBCT_LIBC_HAS_SYSCALL) && (defined(SYS_statx) || defined(__linux__))
+#define HAS_STATX_TESTS
+
 #ifndef SYS_statx
 #if defined(__x86_64__)
 #define SYS_statx 332
@@ -895,6 +898,8 @@ TEST_F(StatTest, StatxInvalidFlags) {
                                     AT_STATX_FORCE_SYNC | AT_STATX_DONT_SYNC, 0, &stx) && errno == EINVAL);
 }
 
+#endif
+
 /*}  // namespace
 
 }  // namespace testing
@@ -925,6 +930,7 @@ GVISOR_MAKE_MAIN() {
     FileTest_ChildOfNonDir();
     FileTest_LstatSymlinkDir();
     FileTest_LstatELOOPPath();
+#ifdef HAS_STATX_TESTS
     FileTest_StatxAbsPath();
     FileTest_StatxRelPathDirFD();
     FileTest_StatxRelPathCwd();
@@ -933,4 +939,5 @@ GVISOR_MAKE_MAIN() {
     FileTest_StatxRejectsReservedMaskBit();
     FileTest_StatxSymlink();
     FileTest_StatxInvalidFlags();
+#endif
 }

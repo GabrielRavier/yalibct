@@ -406,6 +406,7 @@ yalibct_check_libc_type_exists("struct option" getopt.h YALIBCT_LIBC_HAS_STRUCT_
 yalibct_check_posix_libc_symbol(optopt unistd.h YALIBCT_LIBC_HAS_OPTOPT)
 yalibct_check_posix_libc_symbol(optind unistd.h YALIBCT_LIBC_HAS_OPTIND)
 yalibct_check_posix_libc_symbol(opterr unistd.h YALIBCT_LIBC_HAS_OPTERR)
+yalibct_check_posix_libc_symbol(optarg unistd.h YALIBCT_LIBC_HAS_OPTARG)
 yalibct_check_libc_symbol(obstack_free obstack.h YALIBCT_LIBC_HAS_OBSTACK_FREE)
 yalibct_check_libc_symbol(obstack_alloc obstack.h YALIBCT_LIBC_HAS_OBSTACK_ALLOC)
 yalibct_check_libc_symbol(obstack_blank obstack.h YALIBCT_LIBC_HAS_OBSTACK_BLANK)
@@ -427,6 +428,11 @@ yalibct_check_libc_symbol(GRND_NONBLOCK "sys/random.h" YALIBCT_LIBC_HAS_GRND_NON
 yalibct_check_posix_libc_symbol(CLOCK_REALTIME time.h YALIBCT_LIBC_HAS_CLOCK_REALTIME)
 yalibct_check_posix_libc_symbol(clock_gettime time.h YALIBCT_LIBC_HAS_CLOCK_GETTIME)
 yalibct_check_c99_libc_symbol(snprintf stdio.h YALIBCT_LIBC_HAS_SNPRINTF)
+yalibct_check_posix_libc_symbol(sbrk unistd.h YALIBCT_LIBC_HAS_SBRK)
+yalibct_check_libc_symbol(syscall "unistd.h;sys/syscall.h" YALIBCT_LIBC_HAS_SYSCALL)
+yalibct_check_posix_libc_symbol(getopt unistd.h YALIBCT_LIBC_HAS_GETOPT)
+yalibct_check_libc_symbol(no_argument getopt.h YALIBCT_LIBC_HAS_NO_ARGUMENT)
+yalibct_check_libc_symbol(required_argument getopt.h YALIBCT_LIBC_HAS_REQUIRED_ARGUMENT)
 
 yalibct_check_source_compiles(
   "
@@ -458,6 +464,10 @@ int main(){return !memcpy_chk_ptr;}
   "
   YALIBCT_LIBC_HAS___MEMCPY_CHK
 )
+
+# Disabled for now - add once we find another implementation that actually does this (note: needs to be conditioned on standardness given this is obviously non-compliant behavior we're testing for here)
+if(0)
+
 yalibct_check_source_compiles(
   "
 #include <signal.h>
@@ -477,6 +487,9 @@ int main(){}
   "
   YALIBCT_LIBC_HAS_ACTUALLY_CONSTANT_SIGNAL_CONSTANTS
 )
+
+endif()
+
 yalibct_check_source_compiles(
   "
 // Derived from code with this license:

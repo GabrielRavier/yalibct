@@ -35,6 +35,8 @@
 
 #include "test-lib/chdir-to-tmpdir.h"
 #include "test-lib/hedley.h"
+#include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/getopt.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -653,7 +655,7 @@ cat_file(const char *filename)
    /*
     * Open the file for reading.
     */
-   fp = fopen(filename, "r"); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+   fp = fopen(filename, "r"); // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
    if ( fp == NULL ) {
        assert(sprintf(Warn_mesg,
                       "tst_res(): fopen(%s, \"r\") failed; errno = %d: %s",
@@ -669,11 +671,11 @@ cat_file(const char *filename)
     *   value is zero.
     */
    errno = 0;
-   while ( (b_read = fread((void *)buffer, 1, BUFSIZ, fp)) != (size_t)0 ) { // NOLINT(cert-sig30-c,bugprone-signal-handler)
+   while ( (b_read = fread((void *)buffer, 1, BUFSIZ, fp)) != (size_t)0 ) { // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
       /*
        * Write what was read to the result output stream.
        */
-       b_written = fwrite((void *)buffer, 1, b_read, T_out); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+       b_written = fwrite((void *)buffer, 1, b_read, T_out); // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
       if ( b_written !=
            b_read ) {
           assert(sprintf(Warn_mesg,
@@ -687,7 +689,7 @@ cat_file(const char *filename)
    /*
     * Check for an fread() error.
     */
-   if ( !feof(fp) ) { // NOLINT(cert-sig30-c,bugprone-signal-handler)
+   if ( !feof(fp) ) { // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
        assert(sprintf(Warn_mesg,
                       "tst_res(): While trying to cat \"%s\", fread() failed, errno = %d: %s",
                       filename, errno, strerror(errno)) == strlen(Warn_mesg));
@@ -697,7 +699,7 @@ cat_file(const char *filename)
    /*
     * Close the file.
     */
-   if ( fclose(fp) == EOF ) { // NOLINT(cert-sig30-c,bugprone-signal-handler)
+   if ( fclose(fp) == EOF ) { // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
        assert(sprintf(Warn_mesg,
                       "tst_res(): While trying to cat \"%s\", fclose() failed, errno = %d: %s",
                       filename, errno, strerror(errno)) == strlen(Warn_mesg));
@@ -773,7 +775,7 @@ tst_print(const char *tcid, int tnum, int trange, int ttype, const char *tmesg)
     * Build the result line and print it.
     */
    if ( T_mode == VERBOSE ) {
-       assert(fprintf(T_out, "%-8s %4d  %s  :  %s\n", tcid, tnum, type, tmesg) >= 0); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+       assert(fprintf(T_out, "%-8s %4d  %s  :  %s\n", tcid, tnum, type, tmesg) >= 0); // NOLINT(cert-sig30-c,bugprone-signal-handle,cert-msc54-cpp)
    } else {
       /* condense results if a range is specified */
       if ( trange > 1 )
@@ -884,7 +886,7 @@ check_env()
 
    first_time = 0;
 
-   value = getenv(TOUTPUT); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+   value = getenv(TOUTPUT); // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
    if ( value == NULL ) {
       /* TOUTPUT not defined, use default */
       T_mode = VERBOSE;
@@ -934,7 +936,7 @@ tst_condense(int tnum, int ttype, char *tmesg)
       File = NULL;
       tst_print(Last_tcid, Last_num, tnum - Last_num, Last_type,
                 Last_mesg);
-      free(Last_tcid); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+      free(Last_tcid); // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
       free(Last_mesg);
       File = file;
    }  /* if ( Buffered == TRUE ) */
@@ -948,7 +950,7 @@ tst_condense(int tnum, int ttype, char *tmesg)
       tst_print(TCID, tnum, Tst_range, ttype, tmesg);
       Buffered = FALSE;
    } else {
-      Last_tcid = (char *)malloc(strlen(TCID) + 1); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+      Last_tcid = (char *)malloc(strlen(TCID) + 1); // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
       strcpy(Last_tcid, TCID);
       Last_num = tnum;
       Last_type = ttype;
@@ -1089,7 +1091,7 @@ tst_flush()
                 Last_type, Last_mesg);
       Buffered = FALSE;
    }
-   assert(fflush(T_out) == 0); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+   assert(fflush(T_out) == 0); // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
 }  /* tst_flush() */
 
 /*
@@ -1116,7 +1118,7 @@ tst_exit()
    /*
     * Mask out TRETR, TINFO, and TCONF results from the exit status.
     */
-   exit(T_exitval & ~(TRETR | TINFO | TCONF)); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+   exit(T_exitval & ~(TRETR | TINFO | TCONF)); // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
 }  /* tst_exit() */
 
 /*
@@ -1413,11 +1415,12 @@ usc_test_looping(int counter)
     usc_recressive_func(0, STD_LP_recfun, &STD_bigstack);
     }
 
-    if ( STD_LP_sbrk ) {
+    assert(!STD_LP_sbrk);
+/*    if ( STD_LP_sbrk ) {
     if ( Debug )
         printf("about to do sbrk(%d)\n", STD_LP_sbrk);
     assert(sbrk(STD_LP_sbrk) != (void *)-1);
-    }
+    }*/
 
 
     if ( keepgoing )
@@ -1470,7 +1473,7 @@ tst_resm(int ttype, const char *arg_fmt, ...)
    /*
     * Expand the arg_fmt string into tmesg.
     */
-   EXPAND_VAR_ARGS(arg_fmt, tmesg); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+   EXPAND_VAR_ARGS(arg_fmt, tmesg); // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
 
    /*
     * Call tst_res with a null filename argument.
@@ -1480,6 +1483,7 @@ tst_resm(int ttype, const char *arg_fmt, ...)
 
 void (*T_cleanup)();        /* pointer to cleanup function */
 
+#if 0
 /****************************************************************************
  * def_handler() : default signal handler that is invoked when
  *      an unexpected signal is caught.
@@ -1493,7 +1497,7 @@ def_handler(int sig)
     /* first reset trap for this signal (except SIGCHLD - its weird) */
     if ((sig != SIGCHLD) && (sig != SIGSTOP) && (sig != SIGCONT)) {
         if (signal(sig, def_handler) == SIG_ERR) {
-            (void) sprintf(mesg, "def_handler: signal() failed for signal %d. error:%d %s.", sig, errno, strerror(errno)); // NOLINT(cert-sig30-c,bugprone-signal-handler)
+            (void) sprintf(mesg, "def_handler: signal() failed for signal %d. error:%d %s.", sig, errno, strerror(errno)); // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
             tst_resm(TWARN, mesg);
         }
     }
@@ -1512,6 +1516,7 @@ def_handler(int sig)
 
     tst_exit();
 }
+#endif
 
 /****************************************************************************
  * tst_sig() : set-up to catch unexpected signals.  fork_flag is set to NOFORK
@@ -1674,11 +1679,11 @@ usc_global_setup_hook()
 
 
     if ( STD_TP_sbrk || STD_LP_sbrk) {
-    STD_start_break=sbrk(0);    /* get original sbreak size */
+        assert(false);//STD_start_break=sbrk(0);    /* get original sbreak size */
     }
 
     if ( STD_TP_sbrk ) {
-    assert(sbrk(STD_TP_sbrk) != (void *)-1);
+        assert(false);//assert(sbrk(STD_TP_sbrk) != (void *)-1);
     if ( Debug )
         printf("after sbrk(%d)\n", STD_TP_sbrk);
     }
@@ -1712,6 +1717,7 @@ if ( STD_ERRNO_LOG ) {                      \
     }                               \
 }
 
+/*
 char *
 get_high_address(void)
 {
@@ -1721,3 +1727,6 @@ get_high_address(void)
        return (char *)sbrk(0) + 16384;
 #endif
 }
+*/
+
+#define get_high_address DO_NOT_USE_GET_HIGH_ADDRESS_THIS_IS_ALMOST_CERTAINLY_A_UB_KIND_OF_MISTAKE

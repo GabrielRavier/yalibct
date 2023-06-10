@@ -1,5 +1,5 @@
 // Derived from code with this license:
-/* getopt_long and getopt_long_only entry points for GNU getopt.
+/* Getopt for GNU.
    Copyright (C) 1987-2023 Free Software Foundation, Inc.
    This file is part of the GNU C Library and is also part of gnulib.
    Patches to this file should be submitted to both projects.
@@ -20,30 +20,29 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_GETOPT_LONG
-#include <getopt.h>
+#ifdef YALIBCT_LIBC_HAS_GETOPT
+#include <unistd.h>
 #else
 
 #include "test-lib/portable-symbols/internal/gnulib/getopt-common.h"
 
-/* The type of the 'argv' argument to getopt_long and getopt_long_only
-   is properly 'char **', since both functions may write to the array
-   (in order to move all the options to the beginning).  However, for
-   compatibility with old versions of LSB, glibc has to use 'char *const *'
-   instead.  */
-#ifndef __getopt_argv_const
-# define __getopt_argv_const const
+/* glibc gets a LSB-compliant getopt and a POSIX-complaint __posix_getopt.
+   Standalone applications just get a POSIX-compliant getopt.
+   POSIX and LSB both require these functions to take 'char *const *argv'
+   even though this is incorrect (because of the permutation).  */
+#define GETOPT_ENTRY(NAME, POSIXLY_CORRECT)         \
+  int                               \
+  NAME (int argc, char *const *argv, const char *optstring) \
+  {                             \
+    return _getopt_internal (argc, (char **)argv, optstring,    \
+                 0, 0, 0, POSIXLY_CORRECT);     \
+  }
+
+#if 0//def _LIBC
+GETOPT_ENTRY(getopt, 0)
+GETOPT_ENTRY(__posix_getopt, 1)
+#else
+GETOPT_ENTRY(getopt, 1)
 #endif
-
-/* When used standalone, do not attempt to use alloca.  */
-# define __libc_use_alloca(size) 0
-
-int
-getopt_long (int argc, char *__getopt_argv_const *argv, const char *options,
-         const struct option *long_options, int *opt_index)
-{
-  return _getopt_internal (argc, (char **) argv, options, long_options,
-               opt_index, 0, 0);
-}
 
 #endif

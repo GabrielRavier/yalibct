@@ -14,6 +14,7 @@
 // limitations under the License.
 #pragma once
 
+#include "test-lib/should-always-be-included.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

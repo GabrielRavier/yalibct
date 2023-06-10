@@ -120,6 +120,7 @@
 #include <setjmp.h>
 #include <limits.h>
 #include "test-deps/cygwin.h"
+#include "test-lib/compiler-features.h"
 
 void setup();
 void cleanup(void) __attribute__((noreturn));
@@ -137,7 +138,7 @@ int longpath_setup();
 int no_setup();
 int filepath_setup();
 char Longpathname[PATH_MAX+2];
-char High_address[64];
+//char High_address[64];
 struct stat statbuf;
 jmp_buf sig11_recover;
 void sig11_handler(int sig);
@@ -149,36 +150,21 @@ struct test_case_t {
    int exp_errno;
    int (*setupfunc)();
 } Test_cases[] = {
-    { "nonexistfile", &statbuf, "non-existent file", 0, no_setup},
-    { "", &statbuf, "path is empty string", 0, no_setup},
+    { "nonexistfile", &statbuf, "non-existent file", ENOENT, no_setup},
+    { "", &statbuf, "path is empty string", ENOENT, no_setup},
     { "nefile/file", &statbuf, "path contains a non-existent file",
-		0, no_setup },
+		ENOENT, no_setup },
 #ifndef __CYGWIN__
     { "file/file", &statbuf, "path contains a regular file",
-		0, filepath_setup },
+		ENOTDIR, filepath_setup },
 #endif
-    { Longpathname, &statbuf, "pathname too long", 0, longpath_setup },
-    { High_address, &statbuf, "address beyond address space", 0, high_address_setup },
-    { (char *)-1, &statbuf, "negative address", 0, no_setup },
-    { "file", (struct stat *)-1, "invalid struct stat address", 0, filepath_setup },
+    { Longpathname, &statbuf, "pathname too long", ENAMETOOLONG, longpath_setup },
+    // UB and not widely supported
+//    { High_address, &statbuf, "address beyond address space", 0, high_address_setup },
+//    { (char *)-1, &statbuf, "negative address", EFAULT, no_setup },
+//    { "file", (struct stat *)-1, "invalid struct stat address", 0, filepath_setup },
     { NULL, NULL, NULL, 0, no_setup }
 };
-
-static void init_arrays()
-{
-    size_t i = 0;
-
-    Test_cases[i++].exp_errno = ENOENT;
-    Test_cases[i++].exp_errno = ENOENT;
-    Test_cases[i++].exp_errno = ENOENT;
-#ifndef __CYGWIN__
-    Test_cases[i++].exp_errno = ENOTDIR;
-#endif
-    Test_cases[i++].exp_errno = ENAMETOOLONG;
-    Test_cases[i++].exp_errno = EFAULT;
-    Test_cases[i++].exp_errno = EFAULT;
-    Test_cases[i++].exp_errno = EFAULT;
-}
 
 /***********************************************************************
  * Main
@@ -186,8 +172,6 @@ static void init_arrays()
 int
 main(int ac, char **av)
 {
-    init_arrays();
-
     int lc;		/* loop counter */
     const char *msg;	/* message returned from parse_opts */
     const char *fname;
@@ -346,11 +330,11 @@ high_address_setup()
     int ind;
 
     for (ind=0; Test_cases[ind].desc != NULL; ind++ ) {
-	if ( Test_cases[ind].pathname == High_address ) {
-	/*if ( strcmp(Test_cases[ind].pathname, HIGH_ADDRESS) == 0 ) { ***/
+/*	if ( Test_cases[ind].pathname == High_address ) {
+	//if ( strcmp(Test_cases[ind].pathname, HIGH_ADDRESS) == 0 ) {
 	    Test_cases[ind].pathname = get_high_address();
 	    break;
-	}
+	}*/
     }
     return 0;
 

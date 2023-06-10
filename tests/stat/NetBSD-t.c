@@ -167,14 +167,14 @@ ATF_TC_BODY(stat_err, tc)
 	errno = 0;
 	ATF_REQUIRE_ERRNO(ENAMETOOLONG, lstat(buf, &st) == -1);
 
-	errno = 0;
+	// UB and not widely supported
+	/*errno = 0;
 	ATF_REQUIRE_ERRNO(EFAULT, stat((void *)-1, &st) == -1);
 
 	errno = 0;
 	ATF_REQUIRE_ERRNO(EFAULT, lstat((void *)-1, &st) == -1);
 
-        // UB and not widely supported
-	/*errno = 0;
+        errno = 0;
 	ATF_REQUIRE_ERRNO(EFAULT, stat("/etc/passwd", (void *)-1) == -1);
 
 	errno = 0;

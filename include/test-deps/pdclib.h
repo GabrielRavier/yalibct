@@ -32,7 +32,8 @@
     }
 
 // Sadly old versions of GCC are very bad at handling any potential NULL values with the subsequent macros and give out completely wrong warnings here so we have to suppress it
-#if !HEDLEY_GNUC_VERSION_CHECK(9, 3, 0)
+// Note that we do not do a push+ignore+pop because the compiler still warns in that case (it knows that the warning comes from a place in the source code that has the warning disabled, given it gives an appropriate warning pinpointing the correct placement of the warning, but it doesn't do so for some reason...)
+#if !HEDLEY_GNUC_VERSION_CHECK(11, 3, 0)
 YALIBCT_DIAGNOSTIC_IGNORE("-Wnonnull")
 #endif
 

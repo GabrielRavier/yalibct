@@ -1,22 +1,7 @@
 #pragma once
 
 #include "test-lib/hedley.h"
-
-#ifdef NDEBUG
-#error "ARGGGHHHH!!!! NOOOOOOOOO !! DON'T DISABLE ASSERT !!!!!!!!!!!!!!!"
-#endif
-
-// Makes cosmopolitan have some features that are sometimes missing (in particular those useful for debugging)
-#ifdef __COSMOPOLITAN__
-STATIC_YOINK("__fmt_dtoa");
-STATIC_YOINK("__die");
-STATIC_YOINK("__zipos_get");
-STATIC_YOINK("__zipos_parseuri");
-STATIC_YOINK("PrintBacktraceUsingSymbols");
-STATIC_YOINK("ShowBacktrace");
-STATIC_YOINK("malloc_inspect_all");
-STATIC_YOINK("GetSymbolByAddr");
-#endif
+#include "test-lib/should-always-be-included.h"
 
 #ifdef __has_c_attribute
 #define YALIBCT_HAS_C_ATTRIBUTE(attribute) __has_c_attribute(attribute)

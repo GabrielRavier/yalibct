@@ -100,7 +100,7 @@ struct passwd *ltpuser;
 
 
 char Longpathname[PATH_MAX+2];
-char High_address_node[64];
+//char High_address_node[64];
 
 struct test_case_t {		/* test case struct. to hold ref. test cond's*/
 	const char *pathname;
@@ -109,16 +109,17 @@ struct test_case_t {		/* test case struct. to hold ref. test cond's*/
 	int (*setupfunc)();
 } Test_cases[] = {
 #ifndef __CYGWIN__
-	{ TEST_FILE1,  "No Search permissions to process", 0, setup1 },
+	{ TEST_FILE1,  "No Search permissions to process", EACCES, setup1 },
 #endif
-	{ High_address_node, "Address beyond address space", 0, no_setup },
-	{ (char *)-1, "Negative address", 0, no_setup },
-	{ Longpathname, "Pathname too long", 0, longpath_setup },
-	{ "", "Pathname is empty", 0, no_setup },
+        // UB and not widely supported
+//	{ High_address_node, "Address beyond address space", EFAULT, no_setup },
+//	{ (char *)-1, "Negative address", EFAULT, no_setup },
+	{ Longpathname, "Pathname too long", ENAMETOOLONG, longpath_setup },
+	{ "", "Pathname is empty", ENOENT, no_setup },
 #ifndef __CYGWIN__
-	{ TEST_FILE2, "Path contains regular file", 0, setup2 },
+	{ TEST_FILE2, "Path contains regular file", ENOTDIR, setup2 },
 #endif
-	{ NULL, NULL, 0, no_setup }
+	{ NULL, NULL, ENOTDIR, no_setup }
 };
 
 const char *TCID="stat03";           /* Test program identifier.    */
@@ -130,33 +131,9 @@ void setup();			/* Main setup function for the tests */
 void cleanup(void) __attribute__((noreturn));			/* cleanup function for the test */
 char *get_high_address(void);
 
-static void init_arrays()
-{
-    size_t i = 0;
-
-#ifndef __CYGWIN__
-    Test_cases[i++].exp_errno = EACCES;
-#endif
-    Test_cases[i++].exp_errno = EFAULT;
-    Test_cases[i++].exp_errno = EFAULT;
-    Test_cases[i++].exp_errno = ENAMETOOLONG;
-    Test_cases[i++].exp_errno = ENOENT;
-#ifndef __CYGWIN__
-    Test_cases[i++].exp_errno = ENOTDIR;
-#endif
-
-    i = 0;
-    exp_enos[i++] = EACCES;
-    exp_enos[i++] = EFAULT;
-    exp_enos[i++] = ENAMETOOLONG;
-    exp_enos[i++] = ENOENT;
-    exp_enos[i++] = ENOTDIR;
-}
-
 int
 main(int ac, char **av)
 {
-    init_arrays();
 	struct stat stat_buf;	/* stat structure buffer */
 	int lc;			/* loop counter */
 	const char *msg;	/* message returned from parse_opts */
@@ -190,9 +167,9 @@ main(int ac, char **av)
 			file_name = Test_cases[ind].pathname;
 			test_desc = Test_cases[ind].desc;
 
-			if (file_name == High_address_node) {
+			/*if (file_name == High_address_node) {
 				file_name = (char *)get_high_address();
-			}
+                        }*/
 
 			/*
 			 * Call stat(2) to test different test conditions.

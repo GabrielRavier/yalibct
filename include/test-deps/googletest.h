@@ -31,6 +31,7 @@
 
 #pragma once
 
+#include "test-lib/should-always-be-included.h"
 #include <assert.h>
 
 #define TEST(test_suite_name, test_name) void test_suite_name ## _ ## test_name()

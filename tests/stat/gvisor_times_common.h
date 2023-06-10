@@ -15,10 +15,16 @@
 
 #include "test-deps/googletest.h"
 #include "test-deps/gvisor.h"
+#include "test-lib/should-always-be-included.h"
 #include <unistd.h>
 #include <sys/stat.h>
+#include <sched.h>
 #include <assert.h>
 #include <time.h>
+
+#if !defined(YALIBCT_LIBC_HAS_STRUCT_STAT_ST_ATIM) || !defined(YALIBCT_LIBC_HAS_STRUCT_STAT_ST_MTIM) || !defined(YALIBCT_LIBC_HAS_STRUCT_STAT_ST_CTIM)
+#define GET_TIME_RETURNS_TIMESTAMP_WITH_SECOND_WISE_RESOLUTION
+#endif
 
 struct GetTime_Retval {
     struct timespec atime, mtime, ctime;
@@ -67,6 +73,7 @@ enum CtimeEffect {
 
 // cosmopolitan also declares a timespec_cmp function
 #ifdef YALIBCT_WORK_AROUND_NAMESPACE_VIOLATIONS
+#undef timespec_cmp
 #define timespec_cmp timespec_cmp_avoid_cosmopolitan_namespace_violation
 #endif
 
@@ -91,7 +98,15 @@ void CheckTimes(char **path, void (*fn)(void *fn_callback_data), void *fn_callba
   //
   // Here we sleep for 1s so that initial creation of path doesn't fall within
   // the before slack window.
+  // yalibct note: This also occurs on my laptop with all libcs... I guess the issue here is kernel filesystem timestamp resolution, so I've put in a time large enough for most filesystems to handle
+#ifdef GET_TIME_RETURNS_TIMESTAMP_WITH_SECOND_WISE_RESOLUTION
   sleep(1);
+#else
+  struct timespec sleepTime = {};
+  sleepTime.tv_sec = 0;
+  sleepTime.tv_nsec = 1000000;
+  nanosleep(&sleepTime, NULL);
+#endif
 
   const time_t before = time(NULL) - 1;
 

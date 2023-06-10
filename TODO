@@ -1,27 +1,43 @@
-Split up test-lib/portable-symbols/internal/gnulib/attribute.h
-
-Go make a patch to fix absence of UTIME_OMIT and UTIME_NOW in dietlibc.
+Remake script file for cosmopolitan (does seem like they've improved stuff...)
 
 File an issue for cosmopolitan namespace violations like timespec_cmp or FRAMESIZE - (see also timespec_cmp_avoid_cosmopolitan_namespace_violation and FRAMESIZE_avoid_cosmopolitan_namespace_violations)
 
+Report cosmopolitan cosmocc MODE=dbg builtin utilities bug at some point if it doesn't get fixed in the revamp
+
+Check man pages for examples (in particular linux man-pages seems to have a bunch of full program examples) - also standards like POSIX or the C standard
+
 Go ask ATF people why they're passing around const atf_error, they really wanting the pointers to be const and not the pointed-to stuff ?
 
-Try to use Copilot to generate some testcases
+Try to use Copilot (try the chat version too btw)/ChatGPT/Stampy/Bing/etc. to generate some testcases
+(note: this includes just not giving it any function to generate tests for - that seems to generate stuff that could be used for testing stuff that involves no libc functions at all)
 
 Check if nanoprintf's default snprintf behavior conforms to the standard - They seem to screw up truncation by default...
 
 See later if we can get the project working on musl-clang once it doesn't randomly error out anymore (would be nice if it didn't give me 300 warnings before then too - they seem unrelated to the root issue that musl-clang somehow doesn't know about x86intrin.h even though it effectively advertises support for it...)
 
+Add minimal implementations for all the tested functions when possible just in case they're not present or something (and test them - probably add an extra config where all the relevant functions are "determined" not to be present in the host system, for testing)
+
 Add in new tests from glibc:
 - stdio-common/tst-printf-oct.c
 - update stdio-common/tst-printf-binary-main.c with 2d4728e60621c8844ec679291aa5458c622d8f4f
+
+Add in tests from ArvernOS:
+- /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/isdigit.c
+- /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/string/strcat.c
+- /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/string/strcmp.c
+- /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/string/strlen.c
+
 
 Grep files for stat
 
 Search GitHub and other code search services for already done functions
 
+Add zig cc and C++ compilers to tested configurations
+
 Change CMakeLists to specify the minimum POSIX version for each of the PSOIX symbols
 Also make it so that stuff from SVID found in CMakeLists libc_symbol tests error when not found with appropriate options for this
+
+Deal with loose tests somehow (for example what one can find by doing something like `find -regextype posix-egrep -iregex '.*te?st.*bz.*'` on glibc sources)
 
 Functions to do present in PDP7:
 - (list is not complete - anything after stat, I guess)
@@ -30,14 +46,23 @@ All the rest of the stuff from PDP7 and anything afterwards
 
 See also https://code.google.com/archive/p/regfuzz when we get to regex
 
+Get this working on:
+- all the BSDs
+- uclibc
+- more obscure libcs
+- nolibc
+- ccgo (and other "C to something else" converters too)
+
 
 Procedure to find functions usage:
 - find ~/src -ipath '*funcName*' >list_funcName
   <list_funcName grep -iE 'tfuncName|funcNamet|/t/|break|m4|unit|gress|integ|bug|ass|xam|te?st|che?c?k' | grep -viE 'netstat|statvfs|lstat|fstat|setstate|pthread_attr_setdetachstate|initstate|tstat|statt|/t/|break|stat[is]|mbstate_t|state|status|llvm|rstat|gcc|[qawhn2ejc]stat|go|python|debug|statp|trace|qemu|getfsstat|statfs|statx|valg|gb|cons|ver|tex|pstat|bench|base|perf|nfs|[mduo]stat|tmpfile|zfs|bin|dev|unbound' | less #parallel -n100000 -- 'grep --color=always -aiE "tfuncName|funcNamet|/t/|m4|unit|gress|integ|te?st|ch(ec)?k"' | awk 'length < 1000' | less
+  <list_funcName grep -iE 'funcName.*[0-9]|cat.*funcName|man.*funcName' | less
 
 - rg -i funcName ~/src >rg_funcName
   <rg_funcName cut -d: -f1 | grep -v funcName | grep -iE '(config|mak)[^/]*$|\.m[4k]' | sort -u | xargs -d'\n' rg -C10 funcName | bat -p -l c
 
+- Look at the POSIX, LSB, SVID and/or C standard stuff for examples
 - Search for them on GitHub/SearchCode and other services
 - Use Copilot, basing prompts on standards (also, good opportunity for adding any testcases given out by standards)
 - Debian/Fedora file search
