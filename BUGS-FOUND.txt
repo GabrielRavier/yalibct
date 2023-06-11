@@ -5,7 +5,7 @@ fixed/merged: 25
 
 glibc (2 total filed, 0 fixed/merged):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
-- https://sourceware.org/bugzilla/show_bug.cgi?id=30441 (not yet fixed (note: potentially not a bug at all - will have to see WG14 response))
+- https://sourceware.org/bugzilla/show_bug.cgi?id=30441 (not yet fixed (note: potentially not a bug at all - will have to see with WG14))
 
 musl (4 total filed, 1 fixed/merged):
 - https://www.openwall.com/lists/musl/2023/04/15/1 (not yet merged)

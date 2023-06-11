@@ -1,8 +1,12 @@
 Remake script file for cosmopolitan (does seem like they've improved stuff...)
 
+Update the .clang-tidy file with the checks from the latest version of clang I guess
+
 File an issue for cosmopolitan namespace violations like timespec_cmp or FRAMESIZE - (see also timespec_cmp_avoid_cosmopolitan_namespace_violation and FRAMESIZE_avoid_cosmopolitan_namespace_violations)
 
-Report cosmopolitan cosmocc MODE=dbg builtin utilities bug at some point if it doesn't get fixed in the revamp
+Make GCC workaround conditional on a flag for it - compiler problems are kind of an issue the user might want to learn about, too
+
+Add pre-commit hook for shellcheck
 
 Check man pages for examples (in particular linux man-pages seems to have a bunch of full program examples) - also standards like POSIX or the C standard
 
@@ -28,7 +32,7 @@ Add in tests from ArvernOS:
 - /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/string/strlen.c
 
 
-Grep files for stat
+Grep files for stat (...what does this mean, already ?)
 
 Search GitHub and other code search services for already done functions
 
@@ -52,6 +56,8 @@ Get this working on:
 - more obscure libcs
 - nolibc
 - ccgo (and other "C to something else" converters too)
+
+Periodically update the .clang-tidy file with the checks from the latest version of clang whenever it comes out
 
 
 Procedure to find functions usage:
