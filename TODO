@@ -1,12 +1,13 @@
+Add pre-commit hook for shellcheck and any other shell linters I can find
+
 Remake script file for cosmopolitan (does seem like they've improved stuff...)
 
 Update the .clang-tidy file with the checks from the latest version of clang I guess
+Same for new versions of the repos in .pre-commit-config.yaml
 
 File an issue for cosmopolitan namespace violations like timespec_cmp or FRAMESIZE - (see also timespec_cmp_avoid_cosmopolitan_namespace_violation and FRAMESIZE_avoid_cosmopolitan_namespace_violations)
 
 Make GCC workaround conditional on a flag for it - compiler problems are kind of an issue the user might want to learn about, too
-
-Add pre-commit hook for shellcheck
 
 Check man pages for examples (in particular linux man-pages seems to have a bunch of full program examples) - also standards like POSIX or the C standard
 
@@ -58,6 +59,7 @@ Get this working on:
 - ccgo (and other "C to something else" converters too)
 
 Periodically update the .clang-tidy file with the checks from the latest version of clang whenever it comes out
+Same for new versions of anything from .pre-commit-config.yaml
 
 
 Procedure to find functions usage:
@@ -68,7 +70,7 @@ Procedure to find functions usage:
 - rg -i funcName ~/src >rg_funcName
   <rg_funcName cut -d: -f1 | grep -v funcName | grep -iE '(config|mak)[^/]*$|\.m[4k]' | sort -u | xargs -d'\n' rg -C10 funcName | bat -p -l c
 
-- Look at the POSIX, LSB, SVID and/or C standard stuff for examples
+- Look at the POSIX, LSB, SVID and/or C standard stuff for examples - also documentation on various websites like MSDN or even stuff like Oracle documentation
 - Search for them on GitHub/SearchCode and other services
 - Use Copilot, basing prompts on standards (also, good opportunity for adding any testcases given out by standards)
 - Debian/Fedora file search
