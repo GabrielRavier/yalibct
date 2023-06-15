@@ -3,7 +3,7 @@ Add pre-commit hook for shellcheck and any other shell linters I can find
 Remake script file for cosmopolitan (does seem like they've improved stuff...)
 
 Update the .clang-tidy file with the checks from the latest version of clang I guess
-Same for new versions of the repos in .pre-commit-config.yaml
+Same for new versions of the repos in .pre-commit-config.yaml (see also pre-commit autoupdate)
 
 File an issue for cosmopolitan namespace violations like timespec_cmp or FRAMESIZE - (see also timespec_cmp_avoid_cosmopolitan_namespace_violation and FRAMESIZE_avoid_cosmopolitan_namespace_violations)
 
@@ -59,7 +59,7 @@ Get this working on:
 - ccgo (and other "C to something else" converters too)
 
 Periodically update the .clang-tidy file with the checks from the latest version of clang whenever it comes out
-Same for new versions of anything from .pre-commit-config.yaml
+Same for new versions of anything from .pre-commit-config.yaml (see also pre-commit autoupdate)
 
 
 Procedure to find functions usage:
