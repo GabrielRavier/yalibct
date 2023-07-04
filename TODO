@@ -3,6 +3,10 @@ Remake script file for cosmopolitan (does seem like they've improved stuff...)
 Update the .clang-tidy file with the checks from the latest version of clang I guess
 Same for new versions of the repos in .pre-commit-config.yaml (see also pre-commit autoupdate)
 
+Try to replace as many includes as possible of compiler-features.h with includes of should-always-be-included.h
+
+Use GitHub Actions and/or something similar for CI
+
 File an issue for cosmopolitan namespace violations like timespec_cmp or FRAMESIZE - (see also timespec_cmp_avoid_cosmopolitan_namespace_violation and FRAMESIZE_avoid_cosmopolitan_namespace_violations)
 
 Make GCC workaround conditional on a flag for it - compiler problems are kind of an issue the user might want to learn about, too
@@ -11,14 +15,21 @@ Check man pages for examples (in particular linux man-pages seems to have a bunc
 
 Go ask ATF people why they're passing around const atf_error, they really wanting the pointers to be const and not the pointed-to stuff ?
 
-Try to use Copilot (try the chat version too btw)/ChatGPT/Stampy/Bing/etc. to generate some testcases
+Try to use Bing/Copilot (try the chat version too btw)/ChatGPT/Stampy/etc. to generate some testcases
 (note: this includes just not giving it any function to generate tests for - that seems to generate stuff that could be used for testing stuff that involves no libc functions at all)
+
+Version the tests for POSIX functions (i.e. specify which version of POSIX they're from - try to include even very old stuff like XPG)
+Perhaps do this for LSB too and all the other standards we can find ?
 
 Check if nanoprintf's default snprintf behavior conforms to the standard - They seem to screw up truncation by default...
 
 See later if we can get the project working on musl-clang once it doesn't randomly error out anymore (would be nice if it didn't give me 300 warnings before then too - they seem unrelated to the root issue that musl-clang somehow doesn't know about x86intrin.h even though it effectively advertises support for it...)
 
 Add minimal implementations for all the tested functions when possible just in case they're not present or something (and test them - probably add an extra config where all the relevant functions are "determined" not to be present in the host system, for testing)
+
+Perhaps try to fix the setvbuf bug in glibc ? idk (see https://sourceware.org/bugzilla/show_bug.cgi?id=17080)
+
+Document the shell scripts in internal/devel-scripts to either contain bug report links or explanations, probably
 
 Add in new tests from glibc:
 - stdio-common/tst-printf-oct.c
@@ -30,12 +41,14 @@ Add in tests from ArvernOS:
 - /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/string/strcmp.c
 - /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/string/strlen.c
 
+Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
+
 
 Grep files for stat (...what does this mean, already ?)
 
 Search GitHub and other code search services for already done functions
 
-Add zig cc and C++ compilers to tested configurations
+Add zig cc, dmd and C++ compilers to tested configurations
 
 Change CMakeLists to specify the minimum POSIX version for each of the PSOIX symbols
 Also make it so that stuff from SVID found in CMakeLists libc_symbol tests error when not found with appropriate options for this
@@ -66,7 +79,7 @@ Procedure to find functions usage:
   <list_funcName grep -iE 'funcName.*[0-9]|cat.*funcName|man.*funcName' | less
 
 - rg -i funcName ~/src >rg_funcName
-  <rg_funcName cut -d: -f1 | grep -v funcName | grep -iE '(config|mak)[^/]*$|\.m[4k]' | sort -u | xargs -d'\n' rg -C10 funcName | bat -p -l c
+  <rg_funcName cut -d: -f1 | grep -v funcName | grep -iE '(conf|mak)[^/]*$|\.m[4k]' | sort -u | xargs -d'\n' rg -C10 funcName | bat -p -l c
 
 - Look at the POSIX, LSB, SVID and/or C standard stuff for examples - also documentation on various websites like MSDN or even stuff like Oracle documentation
 - Search for them on GitHub/SearchCode and other services

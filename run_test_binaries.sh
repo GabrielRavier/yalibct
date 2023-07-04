@@ -106,7 +106,7 @@ do_output_lines_only_in_executable_output_test()
     cmp -s "${TEMP_EXECUTABLE_SORTED_OUTPUT_FILE}" "$2" && { rm "${TEMP_EXECUTABLE_SORTED_OUTPUT_FILE}"; return 0; }
 
     local THIS_FUNC_EXIT_STATUS
-    # The (! command) inverts the result of grep, meaning it will only exit with 0 if no matches are found (here, this means the input must be empty, e.g. that the are no lines that are only present in the test's output)
+    # The (! command) syntax inverts the result of grep, meaning it will only exit with 0 if no matches are found (here, this means the input must be empty, e.g. that the are no lines that are only present in the test's output)
     <"${TEMP_EXECUTABLE_SORTED_OUTPUT_FILE}" comm -23 - "$2" | (! grep .)
     THIS_FUNC_EXIT_STATUS=$?
 

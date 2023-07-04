@@ -799,7 +799,7 @@ support_test_main (int argc, char **argv, const struct test_config *config)
          already.  */
       //extern __typeof__ (mallopt) mallopt __attribute__ ((weak));
       //if (mallopt != NULL)
-#ifdef YALIBCT_LIBC_HAS_MALLOPT
+#if defined(YALIBCT_LIBC_HAS_MALLOPT) && defined(YALIBCT_LIBC_HAS_M_PERTURB)
         mallopt (M_PERTURB, 42);
 #endif
     }

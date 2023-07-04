@@ -6,9 +6,15 @@ project(yalibct
   LANGUAGES C
 )
 
-option(YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT "If this is set to ON, then none of the optional tests will be run by default, i.e. without the corresponding options being explicitly set" OFF)
+# Note: In theory this would just disable all tests, but obviously not enough
+# work has been put in to make that an actual possibility, as making tests
+# disable-able is mostly based on actually encountering libcs that fail to pass
+# those tests (same for feature/function presence tests and stuff like that:
+# those are pretty much only added when we encounter a libc that yalibct would
+# fail to compile on without the presence test)
+option(YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT "If this is set to ON, then none of the tests that can be turned off will be run by default, i.e. without the corresponding options being explicitly set" OFF)
 
-option(YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the C89 standard will be run by default" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT "If this is set to OFF, then none of the tests that depend on the C89 standard will be run by default" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C89_SYMBOLS "Whether or not we should error when we're told a C89 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_LONG_DOUBLE_TESTS "Whether or not tests that depend on long double being a type that behaves correctly (in particular, accordingly to information given out by the implementation about its behavior) should be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %c will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
@@ -33,12 +39,12 @@ option(YALIBCT_DISABLE_SCANF_LOWERCASE_X_CONVERSION_SPECIFIER_TESTS "Whether or 
 option(YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %[ will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_WORK_AROUND_NAMESPACE_VIOLATIONS "Whether or not known cases of libc implementations wrongly trampling on user namespace for no real reason should be worked around or if the subsequence error should deliberately be allowed to occur" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 
-option(YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the C95 standard will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT "If this is set to OFF, then none of the tests that depend on the C95 standard will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C95_SYMBOLS "Whether or not we should error when we're told a C95 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %lc will be run" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %ls will be run" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
 
-option(YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the C99 standard will be run by default" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT "If this is set to OFF, then none of the tests that depend on the C99 standard will be run by default" ${YALIBCT_DISABLE_C95_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C99_SYMBOLS "Whether or not we should error when we're told a C99 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %a/%A will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_T_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %t will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
@@ -48,15 +54,15 @@ option(YALIBCT_DISABLE_SCANF_Z_LENGTH_MODIFIER_TESTS "Whether or not tests that 
 option(YALIBCT_DISABLE_SCANF_T_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %t will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_P_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %p will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 
-option(YALIBCT_DISABLE_C11_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the C11 standard will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_C11_TESTS_BY_DEFAULT "If this is set to OFF, then none of the tests that depend on the C11 standard will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C11_SYMBOLS "Whether or not we should error when we're told a C11 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C11_TESTS_BY_DEFAULT})
 
-option(YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the upcoming C23 standard will be run by default" ${YALIBCT_DISABLE_C11_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT "If this is set to OFF, then none of the tests that depend on the upcoming C23 standard will be run by default" ${YALIBCT_DISABLE_C11_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_C23_SYMBOLS "Whether or not we should error when we're told a C23 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_LOWERCASE_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %b will be run by default" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %B will be run by default" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
 
-option(YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT "If this is set to OFF, then none of the optional tests that depend on the POSIX standard will be run by default" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT "If this is set to OFF, then none of the tests that depend on the POSIX standard will be run by default" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS "Whether or not we should error when we're told a POSIX symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_APOSTROPHE_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %' will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %C will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
@@ -66,11 +72,11 @@ option(YALIBCT_DISABLE_PRINTF_ERRNO_TESTS "Whether or not tests that depend on t
 option(YALIBCT_DISABLE_SCANF_NUMBERED_ARGUMENTS_TESTS "Whether or not tests that depend on the scanf family of functions supporting numbered argument conversion specifications (i.e. %n$) will be run" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 
 # Misc tests that aren't part of any standard but are commonly supported
-option(YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS "Whether or not tests that depend on any locales that aren't defined by the standard that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS "Whether or not tests that depend on any locales that aren't defined by the standard that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_RARE_LOCALE_TESTS "Whether or not tests that depend on rare locales that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS})
-option(YALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS "Whether or not tests that depend on the printf family of functions rounding floating point numbers properly will be run. I am unsure of whether the C standard requires this, but it seems like a very useful property for the functions to have regardless" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_LC_NUMERIC_TESTS "Whether or not tests that depend on LC_NUMERIC support being present will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_DEFAULT_UTF_8_LOCALE_TESTS "Whether or not tests that depends on the default locale making it possible to use UTF-8 strings with standard C functions (in particular, tests involving conversions of wchar_t to multibyte characters) will be run" ${YALIBCT_DISABLE_OPTIONAL_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS "Whether or not tests that depend on the printf family of functions rounding floating point numbers properly will be run. I am unsure of whether the C standard requires this, but it seems like a very useful property for the functions to have regardless" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_LC_NUMERIC_TESTS "Whether or not tests that depend on LC_NUMERIC support being present will be run" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_DEFAULT_UTF_8_LOCALE_TESTS "Whether or not tests that depends on the default locale making it possible to use UTF-8 strings with standard C functions (in particular, tests involving conversions of wchar_t to multibyte characters) will be run" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
 
 include(CheckIncludeFile)
 include(CheckSymbolExists)
@@ -84,7 +90,7 @@ set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 
 if (NOT DEFINED YALIBCT_COMPILE_DEFINITIONS)
-  set(YALIBCT_COMPILE_DEFINITIONS -D_GNU_SOURCE -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_POSIX_C_SOURCE=200809L -D__STDC_WANT_LIB_EXT1__ CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
+  set(YALIBCT_COMPILE_DEFINITIONS -D_GNU_SOURCE -D_ALL_SOURCE -D_NETBSD_SOURCE -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_FILE_OFFSET_BITS=64 -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=700 -D_POSIX_C_SOURCE=200809L -D__STDC_WANT_LIB_EXT1__ CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
 endif()
 
 set(YALIBCT_POTENTIALLY_WANTED_LIBRARIES m;compat)
@@ -159,7 +165,7 @@ function(yalibct_check_standard_libc_symbol symbol_name header_filenames macro_n
   endif()
   yalibct_check_libc_symbol(${symbol_name} "${header_filenames}" ${macro_name})
   if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
-    message(SEND_ERROR "${standard_name} mandates ${symbol_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
+    message(SEND_ERROR "${standard_name} requires that ${symbol_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
   endif()
 
 endfunction()
@@ -172,7 +178,7 @@ function(yalibct_check_standard_libc_type_exists type_name header_filenames macr
   endif()
   yalibct_check_libc_type_exists(${type_name} "${header_filenames}" ${macro_name})
   if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
-    message(SEND_ERROR "${standard_name} mandates ${type_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
+    message(SEND_ERROR "${standard_name} requires that ${type_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
   endif()
 
 endfunction()
@@ -185,7 +191,7 @@ function(yalibct_check_standard_libc_struct_has_member struct_name member_name h
   endif()
   yalibct_check_libc_struct_has_member(${struct_name} ${member_name} "${header_filenames}" ${macro_name})
   if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
-    message(SEND_ERROR "${standard_name} mandates ${struct_name}::${member_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
+    message(SEND_ERROR "${standard_name} requires that ${struct_name}::${member_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
   endif()
 
 endfunction()
@@ -390,6 +396,7 @@ yalibct_check_posix_libc_symbol(UTIME_NOW "sys/stat.h" YALIBCT_LIBC_HAS_UTIME_NO
 yalibct_check_posix_libc_symbol(UTIME_OMIT "sys/stat.h" YALIBCT_LIBC_HAS_UTIME_OMIT)
 yalibct_check_c89_libc_symbol(fopen stdio.h YALIBCT_LIBC_HAS_FOPEN)
 yalibct_check_libc_symbol(mallopt malloc.h YALIBCT_LIBC_HAS_MALLOPT)
+yalibct_check_libc_symbol(M_PERTURB malloc.h YALIBCT_LIBC_HAS_M_PERTURB)
 yalibct_check_libc_type_exists("struct obstack" obstack.h YALIBCT_LIBC_HAS_STRUCT_OBSTACK)
 yalibct_check_libc_symbol(TEMP_FAILURE_RETRY unistd.h YALIBCT_LIBC_HAS_TEMP_FAILURE_RETRY)
 yalibct_check_libc_symbol(obstack_init obstack.h YALIBCT_LIBC_HAS_OBSTACK_INIT)
