@@ -1,13 +1,11 @@
-Remake script file for cosmopolitan (does seem like they've improved stuff...)
-
-Update the .clang-tidy file with the checks from the latest version of clang I guess
+Update the .clang-tidy file with the checks from the latest version of clang I guess (also look into configuring each of the individual checks)
 Same for new versions of the repos in .pre-commit-config.yaml (see also pre-commit autoupdate)
+
+Maybe avoid demanding that certain locales be present - we might we well just end the test without failing if a given locale isn't available tbh, we're not really into the business of policing which locales are available on a given system
 
 Try to replace as many includes as possible of compiler-features.h with includes of should-always-be-included.h
 
 Use GitHub Actions and/or something similar for CI
-
-File an issue for cosmopolitan namespace violations like timespec_cmp or FRAMESIZE - (see also timespec_cmp_avoid_cosmopolitan_namespace_violation and FRAMESIZE_avoid_cosmopolitan_namespace_violations)
 
 Make GCC workaround conditional on a flag for it - compiler problems are kind of an issue the user might want to learn about, too
 

@@ -19,6 +19,7 @@
  * Also verify that other flags do nothing useful.
  */
 #include "test-lib/portable-symbols/getopt.h"
+#include "test-lib/should-always-be-included.h"
 #include <err.h>
 #include <errno.h>
 #include <locale.h>
