@@ -6,6 +6,7 @@
    Written by Kaveh R. Ghazi, 12/4/2000.  */
 
 #include "test-deps/gcc.h"
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/__builtin_printf.h"
 #include "test-lib/portable-symbols/__builtin_putchar.h"
 #include "test-lib/portable-symbols/__builtin_puts.h"

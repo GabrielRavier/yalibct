@@ -6,6 +6,7 @@
  * of the NCSA / University of Illinois License - see LICENSE.md
  * Copyright (C) 2020-2021 K. Lange
  */
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 
 int main(void) {

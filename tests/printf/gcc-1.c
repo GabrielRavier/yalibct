@@ -1,5 +1,6 @@
 /* { dg-skip-if "requires io" { freestanding } }  */
 
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 #include <stdlib.h>
 

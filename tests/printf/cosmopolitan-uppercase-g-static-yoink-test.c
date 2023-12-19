@@ -17,6 +17,7 @@
 │ PERFORMANCE OF THIS SOFTWARE.                                                │
 ╚─────────────────────────────────────────────────────────────────────────────*/
 
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

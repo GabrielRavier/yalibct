@@ -3,6 +3,7 @@
    Please see the file COPYING.GPL2 in this distribution for
    license terms. */
 
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/NAN.h"
 #include "test-lib/portable-symbols/NL_ARGMAX.h"
 #include <stdio.h>

@@ -16,6 +16,7 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
+#include "test-lib/portable-symbols/printf.h"
 #include <errno.h>
 #include <stdint.h>
 #include <stdio.h>

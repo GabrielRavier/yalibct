@@ -36,6 +36,7 @@
 #include "test-lib/chdir-to-tmpdir.h"
 #include "test-lib/hedley.h"
 #include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/getopt.h"
 #include <unistd.h>
 #include <stdio.h>

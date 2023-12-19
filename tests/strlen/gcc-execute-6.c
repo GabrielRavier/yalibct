@@ -2,6 +2,7 @@
    and unterminated arrays or pointers to such things as arguments
    are evaluated without making assumptions about array sizes.  */
 
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/__builtin_abort.h"
 #include <stdio.h>
 

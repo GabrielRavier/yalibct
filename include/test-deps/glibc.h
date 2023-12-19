@@ -20,6 +20,7 @@
 
 #include "test-lib/hedley.h"
 #include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/static_assert.h"
 #include "test-lib/portable-symbols/MAX.h"
 #include "test-lib/portable-symbols/xmalloc.h"

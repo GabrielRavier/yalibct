@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-CC=/home/gravier/src/libraries/standard-libraries/c/implementations/musl/musl-install-prefix/bin/musl-gcc \
+CC=/home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/musl/musl-install-prefix/bin/musl-gcc \
     cmake \
         -B build/musl-git \
         -DCMAKE_C_FLAGS='-ggdb3 -static' \

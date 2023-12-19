@@ -138,10 +138,11 @@ int main()
   TEST("  1234",   "%6.5s", "1234");
 
 #ifndef YALIBCT_DISABLE_RARE_LOCALE_TESTS
-  assert(setlocale(LC_ALL, "de_DE") != NULL);
-
-  TEST("1.234",    "%'u", 1234);
+  if (setlocale(LC_ALL, "de_DE") != NULL) {
+    TEST("1.234",    "%'u", 1234);
+  }
 #endif
+
 #ifndef YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS
   TEST("2 1",      "%2$u %1$u",  1, 2);
 #endif

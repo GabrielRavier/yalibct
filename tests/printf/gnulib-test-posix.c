@@ -17,6 +17,7 @@
 /* Written by Bruno Haible <bruno@clisp.org>, 2007.  */
 
 #include "test-deps/gnulib.h"
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 
 SIGNATURE_CHECK (printf, int, (char const *, ...));

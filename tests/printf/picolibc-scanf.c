@@ -33,6 +33,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/log.h"
 #include "test-lib/portable-symbols/pow.h"
 #include "test-lib/compiler-features.h"

@@ -402,13 +402,9 @@ main(int argc, char *argv[])
 	/*
 	 * Valid use cases of %lc and %ls in a UTF-8 locale.
 	 */
+        // TODO: handle the case where this fails on a system that doesn't have any UTF-8-like locale by default
+	(void)setlocale(LC_CTYPE, "C.UTF-8");
 
-#ifndef YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS
-	if (setlocale(LC_CTYPE, "C.UTF-8") == NULL)
-		err(1, "setlocale");
-#endif
-
-#if !defined(YALIBCT_DISABLE_DEFAULT_UTF_8_LOCALE_TESTS) && !defined(YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS)
 #ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS
 	tlc("<%lc>", L'=', "<=>");
 	tlc("<%lc>", L'\t', "<\t>");
@@ -468,7 +464,6 @@ main(int argc, char *argv[])
                 // UB and not widely supported
 		//ts("<%lls>", "text", "<text>");
 	}
-#endif
 
 	/*
 	 * Summarize the results.

@@ -39,6 +39,7 @@
  * to do is return 0 on success and non-0 otherwise.
  */
 
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/chdir-to-tmpdir.h"
 #include <err.h>
 #include <stdarg.h>

@@ -1,9 +1,11 @@
 #include "test-deps/gnulib.h"
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <errno.h>
+
 int main()
 {
   struct rlimit limit;

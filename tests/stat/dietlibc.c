@@ -1,3 +1,4 @@
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/tmpnam.h"
 #include "test-lib/compiler-features.h"
 #include <unistd.h>

@@ -3,6 +3,7 @@
    { dg-options "-O2 -Wall" } */
 
 #include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 #include <stdlib.h>
 

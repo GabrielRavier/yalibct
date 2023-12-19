@@ -26,6 +26,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "test-lib/portable-symbols/printf.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>

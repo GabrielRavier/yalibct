@@ -1,3 +1,4 @@
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <string.h>

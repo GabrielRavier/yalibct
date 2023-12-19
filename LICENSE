@@ -1,3 +1,11 @@
+Note that the MIT License as displayed below only applies to code not imported
+from other repositories. Large amounts of this repository derives from code with
+very different licenses, including for instance the GPL. Each file should
+document which license applies to it, and failure to do so should be considered
+a bug.
+
+
+
 MIT License
 
 Copyright (c) 2023 Gabriel Ravier

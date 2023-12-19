@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 
+#include "test-lib/portable-symbols/printf.h"
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/time.h>

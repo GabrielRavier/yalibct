@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-CC='/home/gravier/src/libraries/standard-libraries/c/implementations/dietlibc/bin-x86_64/diet gcc' \
+CC='/home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/dietlibc/main-repo/bin-x86_64/diet gcc' \
     cmake \
         -B build/dietlibc-git \
         -DCMAKE_C_FLAGS='-ggdb3 -Wno-deprecated-declarations' \
@@ -25,7 +25,6 @@ CC='/home/gravier/src/libraries/standard-libraries/c/implementations/dietlibc/bi
         -DYALIBCT_DISABLE_PRINTF_HASH_FLAG_TESTS=ON \
         -DYALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS=ON \
         -DYALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS=ON \
-        -DYALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS=ON \
         -DYALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS=ON \
         -DYALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS=ON \
         -DYALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS=ON \

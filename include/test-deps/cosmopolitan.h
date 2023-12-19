@@ -22,6 +22,7 @@
 
 #include "test-lib/hedley.h"
 #include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/wcsncmp.h"
 #include "test-lib/portable-symbols/getprogname.h"
 #include "test-lib/portable-symbols/gettid.h"

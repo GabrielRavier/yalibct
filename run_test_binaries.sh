@@ -4,7 +4,8 @@ set -euo pipefail
 # Execute tests from the directory that which contains the script
 cd "$(dirname "$0")"
 
-trap_exit () {
+trap_exit ()
+{
     echo "A command run from this script failed !"
 }
 
@@ -16,7 +17,7 @@ trap trap_exit ERR
 # Require 1 argument
 if [[ $# -ne 1 ]]; then
     echo "Usage: $0 directory-with-test-binaries"
-    echo "Note: This should normally be your CMake build directory"
+    echo "Note: directory-with-test-binaries should normally be your CMake build directory"
     exit 1
 fi
 
@@ -39,7 +40,7 @@ get_test_executable_path()
 test_runner()
 {
     local TEST_EXECUTABLE_PATH
-    TEST_EXECUTABLE_PATH=$(get_test_executable_path "$1")
+    TEST_EXECUTABLE_PATH="$(get_test_executable_path "$1")"
     executable_runner "${TEST_EXECUTABLE_PATH}" "${@:2}"
 }
 
@@ -74,8 +75,6 @@ checked_add_to_ld_preload /lib64/libc_malloc_debug.so
 checked_add_to_ld_preload /lib/libc_malloc_debug.so
 export MALLOC_CHECK_=3
 export MALLOC_PERTURB_=$((RANDOM % 255 + 1))
-
-
 
 do_mtrace_test()
 {
@@ -162,8 +161,9 @@ run_one_test()
     JOBS_COUNT=$(jobs | wc -l)
     PROCESSOR_COUNT=$(nproc --ignore=2)
 
-    if [[ "${JOBS_COUNT}" -gt "${PROCESSOR_COUNT}" ]]; then
+    while [[ "${JOBS_COUNT}" -gt "${PROCESSOR_COUNT}" ]]; then
         wait -n
+        JOBS_COUNT=$(jobs | wc -l)
     fi
 
     { eval "$1" |& { ! grep . 1>&2; } && printf "Test '%s' succeeded\n" "$1" | tee -a "${TEMP_TESTS_RESULTS_FILE}" >/dev/null; } || printf "Test '%s' failed with status $?\n" "$1" | tee -a "${TEMP_TESTS_RESULTS_FILE}" >/dev/stderr &

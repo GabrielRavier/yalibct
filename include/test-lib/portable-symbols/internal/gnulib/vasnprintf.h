@@ -19,7 +19,6 @@ static char *yalibct_internal_gnulib_vasnprintf(char *result_buffer, size_t *len
 
     char *big_enough_buffer = malloc(*length_ptr);
     int second_result = vsnprintf(big_enough_buffer, *length_ptr, format, arguments);
-    assert(second_result >= 0);
-    assert(second_result < *length_ptr);
+    assert(second_result == first_result);
     return (big_enough_buffer);
 }
