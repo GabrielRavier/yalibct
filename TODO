@@ -103,6 +103,9 @@ Add in tests from libffi:
 Add in tests from old-cvs-gcc-cvsroot:
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/old-cvs-gcc-cvsroot/aclocal.m4
 
+Add in tests from GMP:
+- /home/gravier/src/libraries/math/gnu-multiple-precision-arbitrary-arithmetic-library/main-repo/tests/misc/t-printf.c
+
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
 Check out https://www.opengroup.org/testing/downloads.html w.r.t. that too
@@ -123,6 +126,8 @@ Functions to do present in PDP7:
 All the rest of the stuff from PDP7 and anything afterwards
 
 See also https://code.google.com/archive/p/regfuzz when we get to regex
+See also http://doolittle.icarus.com/~larry/diet-bessel-test.tar.gz when we get to the bessel functions (the six j0 through yn functions)
+See also http://sf.net/projects/schilytools/files/posix/waitid.c when we get to waitid
 
 Get this working on:
 - all the BSDs (note: maybe even try 2.11BSD lol - it seems to still be maintained to some degree...)
