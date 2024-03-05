@@ -19,6 +19,10 @@ Try to use Bing/Copilot (try the chat version too btw)/ChatGPT/Stampy/etc. to ge
 Version the tests for POSIX functions (i.e. specify which version of POSIX they're from - try to include even very old stuff like XPG)
 Perhaps do this for LSB too and all the other standards we can find ?
 
+Move a few directories and files around for clarity, e.g.:
+- "include/test-lib" and "include/test-deps" seems quite unclear
+- we should probably move `portable-symbols/internal/{}-template.h` to `portable-symbols/internal/templates/{}.h`
+
 Check if nanoprintf's default snprintf behavior conforms to the standard - They seem to screw up truncation by default...
 
 See later if we can get the project working on musl-clang once it doesn't randomly error out anymore (would be nice if it didn't give me 300 warnings before then too - they seem unrelated to the root issue that musl-clang somehow doesn't know about x86intrin.h even though it effectively advertises support for it...)
@@ -27,7 +31,7 @@ Add minimal implementations for all the tested functions when possible just in c
 
 Perhaps try to fix the setvbuf bug in glibc ? idk (see https://sourceware.org/bugzilla/show_bug.cgi?id=17080)
 
-Document the shell scripts in internal/devel-scripts to either contain bug report links or explanations, probably
+Document the shell scripts in internal/devel-scripts to either contain bug report links or explanations for each line where something gets e.g. disabled, probably
 
 Rename tests appropriately to correspond to the renaming I've been doing in other places (w.r.t. abbreviations, etc.)
 
