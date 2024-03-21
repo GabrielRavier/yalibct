@@ -31,6 +31,8 @@ Add minimal implementations for all the tested functions when possible just in c
 
 Perhaps try to fix the setvbuf bug in glibc ? idk (see https://sourceware.org/bugzilla/show_bug.cgi?id=17080)
 
+Replace ad-hoc definitions of constexpr with HEDLEY_CONSTEXPR
+
 Document the shell scripts in internal/devel-scripts to either contain bug report links or explanations for each line where something gets e.g. disabled, probably
 
 Rename tests appropriately to correspond to the renaming I've been doing in other places (w.r.t. abbreviations, etc.)
