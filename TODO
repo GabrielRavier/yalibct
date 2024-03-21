@@ -4,6 +4,7 @@ Update the .clang-tidy file with the checks from the latest version of clang I g
 Same for new versions of the repos in .pre-commit-config.yaml (see also pre-commit autoupdate)
 
 Try to replace as many includes as possible of compiler-features.h with includes of should-always-be-included.h
+Make sure should-always-be-included.h is in fact always included
 
 Use GitHub Actions and/or something similar for CI with all the major libcs I'm already testing (maybe even try to make AArch64 work ? Blink too ?)
 
