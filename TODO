@@ -113,6 +113,14 @@ Add in tests from old-cvs-gcc-cvsroot:
 Add in tests from GMP:
 - /home/gravier/src/libraries/math/gnu-multiple-precision-arbitrary-arithmetic-library/main-repo/tests/misc/t-printf.c
 
+Add in tests from sqlite:
+- /home/gravier/src/libraries/data/management/databases/management-systems/relational/sql/sqlite/test/printf.test
+- /home/gravier/src/libraries/data/management/databases/management-systems/relational/sql/sqlite/test/printf2.test
+
+Add in tests from cosmopolitan:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/kprintf_test.c (might have been updated ? not sure
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/stdio/palandprintf_test.c)
+
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
 Check out https://www.opengroup.org/testing/downloads.html w.r.t. that too
@@ -127,6 +135,8 @@ Also make it so that stuff from SVID found in CMakeLists libc_symbol tests error
 
 Deal with loose tests somehow (for example what one can find by doing something like `find -regextype posix-egrep -iregex '.*te?st.*bz.*'` on glibc sources)
 
+Re-enable calls to pledge (conditional on its presence)
+
 Functions to do present in PDP7:
 - (list is not complete - anything after stat, I guess)
 
@@ -135,6 +145,8 @@ All the rest of the stuff from PDP7 and anything afterwards
 See also https://code.google.com/archive/p/regfuzz when we get to regex
 See also http://doolittle.icarus.com/~larry/diet-bessel-test.tar.gz when we get to the bessel functions (the six j0 through yn functions)
 See also http://sf.net/projects/schilytools/files/posix/waitid.c when we get to waitid
+See also https://www.openwall.com/lists/musl/2024/05/11/3 when we get to strptime
+Perhaps add https://inbox.sourceware.org/libc-alpha/20240513130600.1327522-1-hjl.tools@gmail.com/T/#u (this test was scrapped and never actually added to glibc) when we get to fclose
 
 Get this working on:
 - all the BSDs (note: maybe even try 2.11BSD lol - it seems to still be maintained to some degree...)
