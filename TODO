@@ -41,6 +41,10 @@ Rename tests appropriately to correspond to the renaming I've been doing in othe
 Add in new tests from glibc:
 - stdio-common/tst-printf-oct.c
 - update stdio-common/tst-printf-binary-main.c with 2d4728e60621c8844ec679291aa5458c622d8f4f
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-intn-main.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-intn.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-bz25691.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/sysdeps/ieee754/ldbl-128ibm-compat/test-printf-ldbl-compat.c
 
 Add in tests from ArvernOS:
 - /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/isdigit.c
@@ -117,9 +121,14 @@ Add in tests from sqlite:
 - /home/gravier/src/libraries/data/management/databases/management-systems/relational/sql/sqlite/test/printf.test
 - /home/gravier/src/libraries/data/management/databases/management-systems/relational/sql/sqlite/test/printf2.test
 
-Add in tests from cosmopolitan:
+Add in/update tests from cosmopolitan:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/kprintf_test.c (might have been updated ? not sure
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/stdio/palandprintf_test.c)
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/calls/stat_test.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/strcmp_test.c
+
+Add in tests from embeddedartistry:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf/embeddedartistry/test
 
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
