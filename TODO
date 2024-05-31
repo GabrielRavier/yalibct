@@ -130,6 +130,10 @@ Add in/update tests from cosmopolitan:
 Add in tests from embeddedartistry:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf/embeddedartistry/test
 
+Add in tests from gnulib:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/m4/printf.m4
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-printf-gnu*
+
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
 Check out https://www.opengroup.org/testing/downloads.html w.r.t. that too
