@@ -138,6 +138,13 @@ Add in tests from gnulib:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/m4/stat-time.m4
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-stat-time.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-stat.c
+- also the u32/u16 printf stuff (maybe just look at all the printfs again ?)
+
+Add in tests from public-domain-c-library:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/public-domain-c-library/test_support/printf_testcases.h
+
+Add in tests from nanoprintf since 1e254afc4fcb97d5a7cf3ce9d029fdfc3ded7d82
+
 
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
