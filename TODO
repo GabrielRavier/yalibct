@@ -145,6 +145,21 @@ Add in tests from public-domain-c-library:
 
 Add in tests from nanoprintf since 1e254afc4fcb97d5a7cf3ce9d029fdfc3ded7d82
 
+Add in tests from picolibc:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/printf-tests.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/newlib/testsuite/newlib.string/strcmp-1.c
+
+Add in tests from newlib:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/newlib/main-repo/winsup/testsuite/winsup.api/ltp/stat*
+
+Add in tests from llvm:
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/stdio/printf_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/sys/stat/stat_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strcmp_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/fuzzing/stdio/printf_float_conv_fuzz.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strlen_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strcat_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/fuzzing/stdio/printf_fixed_conv_fuzz.cpp
 
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
