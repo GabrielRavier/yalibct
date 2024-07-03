@@ -1,3 +1,5 @@
+Make the current code compile and commit it
+
 TODO: retest performance in run_test_binaries.sh to see if nproc --ignore=2 should be tweaked after the change from an if to a while loop
 
 Update the .clang-tidy file with the checks from the latest version of clang I guess (also look into configuring each of the individual checks)
@@ -152,7 +154,7 @@ Add in tests from picolibc:
 Add in tests from newlib:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/newlib/main-repo/winsup/testsuite/winsup.api/ltp/stat*
 
-Add in tests from llvm:
+Add in tests from LLVM:
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/stdio/printf_test.cpp
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/sys/stat/stat_test.cpp
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strcmp_test.cpp
@@ -160,6 +162,15 @@ Add in tests from llvm:
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strlen_test.cpp
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strcat_test.cpp
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/fuzzing/stdio/printf_fixed_conv_fuzz.cpp
+
+Add in tests from GCC:
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/gcc.target/riscv/rvv/autovec/builtin/strlen-run.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/gcc.target/riscv/rvv/autovec/builtin/strcmp-run.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/c-c++-common/analyzer/strlen-pr113999.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/gcc.c-torture/execute/strcmp-1.c
+
+Add in tests from WINE:
+- /home/gravier/src/programs/emulators-simulators-virtualization-and-other-compatibility-layers/computers/windows/wine-is-not-an-emulator/dlls/ucrtbase/tests/printf.c
 
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
@@ -205,7 +216,7 @@ Procedure to find functions usage:
 - rg -uuuuuu -i funcName ~/src >grep_funcName
   <grep_funcName cut -d: -f1 | grep -v funcName | grep -iE '(conf|mak)[^/]*$|\.m[4k]' | sort -u | xargs -d'\n' grep -C10 funcName | bat -p -l c
 
-- Look at the POSIX, LSB, SVID and/or C standard stuff for examples - also documentation on various websites like MSDN or even stuff like Oracle documentation
+- Look at the POSIX, LSB, SVID and/or C standard stuff for examples - also documentation on various websites like MSDN, cppreference, cplusplus, Wikipedia or even stuff like Oracle documentation
 - Search for them on GitHub/SearchCode and other services
 - Use Copilot, basing prompts on standards (also, good opportunity for adding any testcases given out by standards)
 - Debian/Fedora file search

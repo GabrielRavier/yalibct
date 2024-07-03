@@ -52,7 +52,7 @@ option(YALIBCT_DISABLE_MANDATING_C99_SYMBOLS "Whether or not we should error whe
 option(YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %a/%A will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_T_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %t will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_HH_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %hh will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_SNPRINTF_SIZE_LARGER_THAN_ACTUAL_BUFFER_TESTS "Whether or not tests that depend on snprintf correctly handling a buffer size larger than the buffer's actual size will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_SNPRINTF_SIZE_LARGER_THAN_ACTUAL_BUFFER_TESTS "Whether or not tests that depend on snprintf correctly handling a buffer size larger than the buffer's actual size will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT}) # (note: It is currently disputed whether this is a defect in the C standard - see https://sourceware.org/bugzilla/show_bug.cgi?id=30441)
 option(YALIBCT_DISABLE_SCANF_J_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %j will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_Z_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %z will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_T_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %t will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
@@ -178,6 +178,13 @@ function(yalibct_check_include_file header_filenames macro_name)
 
 endfunction()
 
+function(yalibct_check_libc_symbol_define_libc_doesnt_have_symbol symbol_name)
+
+  list(APPEND YALIBCT_COMPILE_DEFINITIONS "-D${symbol_name}=THE_LIBC_THIS_WAS_COMPILED_UNDER_DOESNT_HAVE_${symbol_name}")
+  set(YALIBCT_COMPILE_DEFINITIONS "${YALIBCT_COMPILE_DEFINITIONS}" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
+
+endfunction()
+
 function(yalibct_check_libc_symbol symbol_name header_filenames macro_name)
 
   if (DEFINED ${macro_name} AND NOT ${macro_name})
@@ -190,8 +197,7 @@ function(yalibct_check_libc_symbol symbol_name header_filenames macro_name)
     list(APPEND YALIBCT_COMPILE_DEFINITIONS "-D${macro_name}")
     set(YALIBCT_COMPILE_DEFINITIONS "${YALIBCT_COMPILE_DEFINITIONS}" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
   else()
-    list(APPEND YALIBCT_COMPILE_DEFINITIONS "-D${symbol_name}=THE_LIBC_THIS_WAS_COMPILED_UNDER_DOESNT_HAVE_${symbol_name}")
-    set(YALIBCT_COMPILE_DEFINITIONS "${YALIBCT_COMPILE_DEFINITIONS}" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
+    yalibct_check_libc_symbol_define_libc_doesnt_have_symbol(${symbol_name})
   endif()
 
 endfunction()
@@ -218,10 +224,12 @@ function(yalibct_check_standard_libc_symbol symbol_name header_filenames macro_n
 
   # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
   if (DEFINED ${macro_name} AND NOT ${macro_name})
-    set(MACRO_PREDEFINED_TO_FALSE true)
+    message(STATUS "Not looking for ${symbol_name} because the check for it has been overriden on the command line")
+    yalibct_check_libc_symbol_define_libc_doesnt_have_symbol(${symbol_name}) # We still want the symbol to be defined such that any attempt to use it fails, so handle this here
+    return()
   endif()
   yalibct_check_libc_symbol(${symbol_name} "${header_filenames}" ${macro_name})
-  if (NOT MACRO_PREDEFINED_TO_FALSE AND NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
+  if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
     message(SEND_ERROR "${standard_name} requires that ${symbol_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
   endif()
 
@@ -231,6 +239,7 @@ function(yalibct_check_standard_libc_type_exists type_name header_filenames macr
 
   # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
   if (DEFINED ${macro_name} AND NOT ${macro_name})
+    message(STATUS "Not looking for ${type_name} because the check for it has been overriden on the command line")
     return()
   endif()
   yalibct_check_libc_type_exists(${type_name} "${header_filenames}" ${macro_name})
@@ -244,6 +253,7 @@ function(yalibct_check_standard_libc_struct_has_member struct_name member_name h
 
   # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
   if (DEFINED ${macro_name} AND NOT ${macro_name})
+    message(STATUS "Not looking for ${struct_name}::${member_name} because the check for it has been overriden on the command line)")
     return()
   endif()
   yalibct_check_libc_struct_has_member(${struct_name} ${member_name} "${header_filenames}" ${macro_name})

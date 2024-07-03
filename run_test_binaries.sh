@@ -161,10 +161,10 @@ run_one_test()
     JOBS_COUNT=$(jobs | wc -l)
     PROCESSOR_COUNT=$(nproc --ignore=2)
 
-    while [[ "${JOBS_COUNT}" -gt "${PROCESSOR_COUNT}" ]]; then
+    while [[ "${JOBS_COUNT}" -gt "${PROCESSOR_COUNT}" ]]; do
         wait -n
         JOBS_COUNT=$(jobs | wc -l)
-    fi
+    done
 
     { eval "$1" |& { ! grep . 1>&2; } && printf "Test '%s' succeeded\n" "$1" | tee -a "${TEMP_TESTS_RESULTS_FILE}" >/dev/null; } || printf "Test '%s' failed with status $?\n" "$1" | tee -a "${TEMP_TESTS_RESULTS_FILE}" >/dev/stderr &
 }
