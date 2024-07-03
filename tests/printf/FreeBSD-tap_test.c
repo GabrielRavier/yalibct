@@ -41,11 +41,14 @@
 
 #include "test-lib/portable-symbols/printf.h"
 #include "test-lib/chdir-to-tmpdir.h"
+#include "test-lib/compiler-features.h"
 #include <err.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+YALIBCT_DIAGNOSTIC_IGNORE_WFORMAT_TRUNCATION
 
 static	int failed;
 static	int test_num = 1;

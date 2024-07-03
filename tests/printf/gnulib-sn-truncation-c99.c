@@ -1,3 +1,4 @@
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
@@ -5,6 +6,7 @@
 # define my_snprintf snprintf
 #else
 # include <stdarg.h>
+
 static int my_snprintf (char *buf, int size, const char *format, ...)
 {
   va_list args;
@@ -15,6 +17,9 @@ static int my_snprintf (char *buf, int size, const char *format, ...)
   return ret;
 }
 #endif
+
+YALIBCT_DIAGNOSTIC_IGNORE_WFORMAT_TRUNCATION
+
 static char buf[100];
 int main ()
 {

@@ -43,10 +43,13 @@
  */
 
 #include "test-lib/chdir-to-tmpdir.h"
+#include "test-lib/compiler-features.h"
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+YALIBCT_DIAGNOSTIC_IGNORE_WFORMAT_TRUNCATION
 
 static void
 snprintf__two_formatters(void)

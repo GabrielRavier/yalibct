@@ -1,3 +1,4 @@
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,6 +16,9 @@ invalid_parameter_handler (const wchar_t *expression,
   exit (1);
 }
 #endif
+
+YALIBCT_DIAGNOSTIC_IGNORE_WFORMAT_TRUNCATION
+
 static char fmtstring[10];
 static char buf[100];
 int main ()

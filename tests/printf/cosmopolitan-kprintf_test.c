@@ -19,6 +19,8 @@
 #include "test-deps/cosmopolitan.h"
 #include <stdint.h>
 
+YALIBCT_DIAGNOSTIC_IGNORE_WFORMAT_TRUNCATION
+
 #define S(x) ((uintptr_t)(x))
 
 /**
