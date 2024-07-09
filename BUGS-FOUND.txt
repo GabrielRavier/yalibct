@@ -1,7 +1,7 @@
 I have filed the following bug reports/patches as a result of working on this testsuite:
 
-total filed: 49
-fixed/merged: 27
+total filed: 51
+fixed/merged: 31
 
 glibc (2 total filed, 0 fixed/merged):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
@@ -13,7 +13,7 @@ musl (4 total filed, 1 fixed/merged):
 - https://www.openwall.com/lists/musl/2023/01/04/1 (merged)
 - https://www.openwall.com/lists/musl/2023/04/14/1 (not yet merged)
 
-dietlibc (25 total filed, 13 fixed/merged) (note: dietlibc's mailing list does not have an archive, so the links can't lead there...):
+dietlibc (27 total filed, 17 fixed/merged) (note: dietlibc's mailing list does not have an archive, so the links can't lead there...):
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-HUGE_VALL-and-INFINITY-both-from-C99-and-requi.patch (not yet merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-j-z-and-t-support-to-scanf.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-t-conversion-specifier-to-printf.patch (merged)
@@ -33,12 +33,14 @@ dietlibc (25 total filed, 13 fixed/merged) (note: dietlibc's mailing list does n
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fix-return-value-of-wcs-n-cmp-for-near-limits-signed.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-strcasecmp-on-negative-and-close-to-limits-numbe.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-fputc-sometimes-calls-pthread-version-when-unappropriate (not yet fixed)
-- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-printing-0-in-the-alternative-form-in-printf-fam.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-printing-0-in-the-alternative-form-in-printf-fam.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Add-UTIME_NOW-UTIME_OMIT-and-fix-declaration-of-utim.patch (not yet merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Add-NAN-to-math.h-as-required-by-C99.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Properly-handle-negative-0-in-printf-when-plus-flag-.patch (merged)
-- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Add-B-conversion-specifier-to-printf-and-alternative.patch (not yet merged)
-- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-printf-not-ignoring-0-flag-when-precision-is-spe.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Add-B-conversion-specifier-to-printf-and-alternative.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-printf-not-ignoring-0-flag-when-precision-is-spe.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-fdopendir-not-allocating-the-proper-amount-of-me.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-stdio-open-functions-not-using-libpthread-s-__st.patch (not yet merged)
 
 nanoprintf (1 total filed, 1 fixed/merged):
 - https://github.com/charlesnicholson/nanoprintf/issues/244 (fixed)
