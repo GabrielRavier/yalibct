@@ -571,6 +571,7 @@ static void test_sprintf( void )
     format = "asdf%n";
     x = 0;
     r = p_sprintf(buffer, format, &x );
+    ok(r != -1, "%%n should be in working condition");
     if (r == -1)
     {
         /* %n format is disabled by default on vista */
