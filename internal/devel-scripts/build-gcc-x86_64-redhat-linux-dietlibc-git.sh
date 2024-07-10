@@ -35,6 +35,5 @@ CC='/home/gravier/src/libraries/programming/languages-implementations/standard-l
         -DYALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS=ON `# Investigate this later` \
         -DYALIBCT_DISABLE_PRINTF_N_CONVERSION_SPECIFIER_TESTS=ON `# Not yet implemented... seems relatively simple to contribute ?` \
         -DYALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS=ON `# Investigate this later` \
-        -DYALIBCT_DISABLE_PRINTF_0_FLAG_TESTS=ON `# Investigate this later` \
 && \
     cmake --build build/dietlibc-git --parallel 14
