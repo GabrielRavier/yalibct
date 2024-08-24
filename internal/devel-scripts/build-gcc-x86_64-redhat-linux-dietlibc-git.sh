@@ -32,8 +32,8 @@ CC='/home/gravier/src/libraries/programming/languages-implementations/standard-l
         -DYALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS=ON `# https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-printf-g-1234567-8-does-not-print-correctly-and-fails-to-null-terminate-an-internal-buffer - seems easy to fix, look at this again later (I'd guess there's other issues, though...)` \
         -DYALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS=ON `# Not yet implemented (though only for floating point... might be able to check more selectively ? idk...)` \
         -DYALIBCT_DISABLE_SCANF_NUMBERED_ARGUMENTS_TESTS=ON `# Not yet implemented` \
-        -DYALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS=ON `# Investigate this later` \
+        -DYALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS=ON `# Not yet implemented properly (doesn't parse numbers starting with 0x)` \
         -DYALIBCT_DISABLE_PRINTF_N_CONVERSION_SPECIFIER_TESTS=ON `# Not yet implemented... seems relatively simple to contribute ?` \
-        -DYALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS=ON `# Investigate this later` \
+        -DYALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS=ON `# Not yet implemented properly (wrong on large precisions)` \
 && \
     cmake --build build/dietlibc-git --parallel 14
