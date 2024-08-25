@@ -21,6 +21,7 @@
 #include "test-lib/hedley.h"
 #include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/MAX.h"
+#include "test-lib/portable-symbols/strcasecmp.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

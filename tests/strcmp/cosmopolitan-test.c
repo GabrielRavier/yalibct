@@ -434,8 +434,8 @@ TEST(wcsncmp, testTwosComplementBane) {
 int main()
 {
   strcmp_emptyString();
-  strcasecmp_emptyString();
-  wcscmp_emptyString();
+  HEDLEY_CONCAT(strcasecmp, _emptyString)();
+  HEDLEY_CONCAT(wcscmp, _emptyString)();
   HEDLEY_CONCAT(wcscasecmp, _emptyString)();
   strncmp_nullString();
   strncmp_emptyString();
@@ -443,17 +443,17 @@ int main()
   strncmp_testInequality();
   memcmp_test();
   strcmp_testItWorks();
-  strcasecmp_testItWorks();
-  wcscmp_testItWorks();
-  strcasecmp_testItWorksCase();
+  HEDLEY_CONCAT(strcasecmp, _testItWorks)();
+  HEDLEY_CONCAT(wcscmp, _testItWorks)();
+  HEDLEY_CONCAT(strcasecmp, _testItWorksCase)();
   HEDLEY_CONCAT(wcscasecmp, _testItWorksCase)();
   strncmp_testEqualManyNs();
   strncmp_testNotEqualManyNs();
   strncmp_testStringNulTerminatesBeforeExplicitLength();
   strncasecmp_testStringNulTerminatesBeforeExplicitLength();
   strcmp_testTwosComplementBane_hasUnsignedBehavior();
-  strcasecmp_testTwosComplementBane_hasUnsignedBehavior();
+  HEDLEY_CONCAT(strcasecmp, _testTwosComplementBane_hasUnsignedBehavior)();
   memcmp_testTwosComplementBane_unsignedBehavior();
-  wcscmp_testTwosComplementBane();
-  wcsncmp_testTwosComplementBane();
+  HEDLEY_CONCAT(wcscmp, _testTwosComplementBane)();
+  HEDLEY_CONCAT(wcsncmp, _testTwosComplementBane)();
 }

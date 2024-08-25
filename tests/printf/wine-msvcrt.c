@@ -27,6 +27,7 @@
 
 #include "test-deps/wine.h"
 #include "test-lib/chdir-to-tmpdir.h"
+#include "test-lib/portable-symbols/wcscmp.h"
 #include <stdio.h>
 #include <errno.h>
 #include <math.h>
