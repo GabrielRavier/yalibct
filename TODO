@@ -1,5 +1,7 @@
 Make the current code compile and commit it
 
+Implement build-gcc-x86_64-redhat-linux-glibc-without-many-functions.sh
+
 TODO: retest performance in run_test_binaries.sh to see if nproc --ignore=2 should be tweaked after the change from an if to a while loop
 
 Update the .clang-tidy file with the checks from the latest version of clang I guess (also look into configuring each of the individual checks)
