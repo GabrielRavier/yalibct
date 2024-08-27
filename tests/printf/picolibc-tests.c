@@ -6,6 +6,7 @@
 #include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/NAN.h"
 #include "test-lib/portable-symbols/NL_ARGMAX.h"
+#include "test-lib/portable-symbols/INFINITY.h"
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>

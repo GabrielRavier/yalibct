@@ -30,6 +30,7 @@
  */
 
 #include "test-lib/portable-symbols/NAN.h"
+#include "test-lib/portable-symbols/INFINITY.h"
 #include <assert.h>
 #include <err.h>
 #include <float.h>

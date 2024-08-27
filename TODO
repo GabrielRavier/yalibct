@@ -2,6 +2,8 @@ Make the current code compile and commit it
 
 Implement build-gcc-x86_64-redhat-linux-glibc-without-many-functions.sh
 
+Perhaps invert the libc tests at some point to make it so tests have to check for the function not being there rather than for the function being there (i.e. instead of YALIBCT_LIBC_HAS_POW, instead have YALIBCT_LIBC_DOESNT_HAVE_POW or something like that), so as to make sure it's harder to mess up testing for the macros
+
 TODO: retest performance in run_test_binaries.sh to see if nproc --ignore=2 should be tweaked after the change from an if to a while loop
 
 Update the .clang-tidy file with the checks from the latest version of clang I guess (also look into configuring each of the individual checks)
