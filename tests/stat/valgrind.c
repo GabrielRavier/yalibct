@@ -148,7 +148,9 @@ int main()
     if (cwd)
     {
        int cwdfd = dirfd(cwd);
+#ifndef YALIBCT_LIBC_HAS_FSTATAT
        fstatat(cwdfd, "stat.c", &sb, 0);
+#endif
        closedir(cwd);
     }
 

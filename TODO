@@ -6,6 +6,12 @@ Perhaps invert the libc tests at some point to make it so tests have to check fo
 
 TODO: retest performance in run_test_binaries.sh to see if nproc --ignore=2 should be tweaked after the change from an if to a while loop
 
+Make it so every test that normally outputs nothing has to print "OK" to be considered to have passed.
+
+Make it so that blocks that would normally use #ifdef instead use a working implementation of given functions (when possible)
+
+Convert test-lib into a static library for faster compilation (and simpler handling of some things)
+
 Update the .clang-tidy file with the checks from the latest version of clang I guess (also look into configuring each of the individual checks)
 Same for new versions of the repos in .pre-commit-config.yaml (see also pre-commit autoupdate)
 
@@ -130,10 +136,11 @@ Add in tests from sqlite:
 - /home/gravier/src/libraries/data/management/databases/management-systems/relational/sql/sqlite/test/printf2.test
 
 Add in/update tests from cosmopolitan:
-- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/kprintf_test.c (might have been updated ? not sure
-- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/stdio/palandprintf_test.c)
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/kprintf_test.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/stdio/palandprintf_test.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/calls/stat_test.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/strcmp_test.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/stdio/snprintf_test.c
 
 Add in tests from embeddedartistry:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf/embeddedartistry/test

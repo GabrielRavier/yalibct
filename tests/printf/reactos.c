@@ -983,8 +983,9 @@ static void test_fprintf(void)
 
     checked_fclose(fp);
 
-#ifndef YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS
     fp = fopen(file_name, "rb");
+    ok(fp != NULL, "");
+#ifndef YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS
     ret = fscanf(fp, "%[^\n] ", buf);
     ok(ret == 1, "ret = %d\n", ret);
     ret = ftell(fp);

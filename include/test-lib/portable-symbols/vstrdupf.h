@@ -32,7 +32,7 @@
 static inline HEDLEY_MALLOC HEDLEY_WARN_UNUSED_RESULT YALIBCT_ATTRIBUTE_PARAMETER_IN(1) HEDLEY_PRINTF_FORMAT(1, 0) HEDLEY_NO_THROW
 char *vstrdupf(char const *__restrict format, va_list args) {
         char *result;
-        return vasprintf(&result, format, args) >= 0 ? result : 0;
+        return vasprintf(&result, format, args) >= 0 ? result : NULL;
 }
 
 #endif

@@ -196,7 +196,7 @@ static const struct {
     {"þell", "%.*s", 5, S("þello world")},                //
     // UB and not widely supported
     //{"þello", "%.*hs", 5, S(u"þello world")},             //
-#ifndef YALIBCT_DISABLE_PRINTF_FIELD_LENGTH_ON_S_CONVERSION_SPECIFIER_TESTS
+#ifndef YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_S_CONVERSION_SPECIFIER_TESTS
     {"  þeeeeee", "%10s", S("þeeeeee")},                 //
     {"☺☻♥♦♣♠!", "%10s", S("☺☻♥♦♣♠!")},                 //
 #endif

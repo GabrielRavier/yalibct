@@ -48,9 +48,11 @@ TEST_F(StatTest, FstatatEmptyPath) {
   const int fd = open(self->test_file_name_, O_RDONLY);
   assert(fd >= 0);
 
+#ifndef YALIBCT_LIBC_HAS_FSTATAT
   // Check that the stat works.
   assert(fstatat(fd, "", &st, AT_EMPTY_PATH) == 0);
   EXPECT_TRUE(S_ISREG(st.st_mode));
+#endif
   assert(close(fd) == 0);
 }
 

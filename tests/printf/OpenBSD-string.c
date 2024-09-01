@@ -414,24 +414,31 @@ main(int argc, char *argv[])
 	//tlc_expect_fail("<%lc>", 0x123456);
 	tlc("<%-lc>", L'=', "<=>");
 	tlc("<%-lc>", 0x03c0, "<\xcf\x80>");
+#ifndef YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_WIDE_C_CONVERSION_SPECIFIER_TESTS
 	tlc("<%2lc>", L'=', "< =>");
 	tlc("<%3lc>", 0x03c0, "< \xcf\x80>");
 	tlc("<%-2lc>", L'=', "<= >");
 	tlc("<%-3lc>", 0x03c0, "<\xcf\x80 >");
 #endif
+#endif
 
 #ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS
 	tls("<%ls>", ws, "<\xd0\xa1\xd0\xbe\xd1\x84\xd1\x8f>");
-	tls_expect_fail("<%ls>", wsbad);
+	// Unspecified and not widely supported
+	//tls_expect_fail("<%ls>", wsbad);
 	tls("<%-ls>", ws, "<\xd0\xa1\xd0\xbe\xd1\x84\xd1\x8f>");
+#ifndef YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_WIDE_S_CONVERSION_SPECIFIER_TESTS
 	tls("<%9ls>", ws, "< \xd0\xa1\xd0\xbe\xd1\x84\xd1\x8f>");
 	tls("<%-9ls>", ws, "<\xd0\xa1\xd0\xbe\xd1\x84\xd1\x8f >");
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_PRECISION_ON_WIDE_S_CONVERSION_SPECIFIER_TESTS
 	tls("<%.4ls>", ws, "<\xd0\xa1\xd0\xbe>");
 	tls("<%.3ls>", ws, "<\xd0\xa1>");
 	tls("<%6.4ls>", ws, "<  \xd0\xa1\xd0\xbe>");
 	tls("<%3.3ls>", ws, "< \xd0\xa1>");
 	tls("<%-6.4ls>", ws, "<\xd0\xa1\xd0\xbe  >");
 	tls("<%-3.3ls>", ws, "<\xd0\xa1 >");
+#endif
 #endif
 
 	/*
@@ -441,6 +448,7 @@ main(int argc, char *argv[])
 	if (picky) {
 #ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS
 		tlc("<%#lc>", 0x03c0, "<\xcf\x80>");
+#ifndef YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_WIDE_C_CONVERSION_SPECIFIER_TESTS
 		tlc("<% -4lc>", 0x03c0, "<\xcf\x80  >");
 		tlc("<%+-4lc>", 0x03c0, "<\xcf\x80  >");
                 // UB and not widely supported
@@ -450,16 +458,19 @@ main(int argc, char *argv[])
 		tlc("<%4.3lc>", 0x03c0, "<  \xcf\x80>");
 		tlc("<%4.1lc>", 0x03c0, "<  \xcf\x80>");
 #endif
+#endif
                 // UB and not widely supported
 		//tc("<%llc>", 0xfe, "<\xfe>");
 
 #ifndef YALIBCT_DISABLE_PRINTF_L_FLAG_ON_S_CONVERSION_SPECIFIER_TESTS
 		tls("<%#ls>", ws + 2, "<\xd1\x84\xd1\x8f>");
+#ifndef YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_WIDE_S_CONVERSION_SPECIFIER_TESTS
 		tls("<% -6ls>", ws + 2, "<\xd1\x84\xd1\x8f  >");
 		tls("<%+-6ls>", ws + 2, "<\xd1\x84\xd1\x8f  >");
                 // UB and not widely supported
 		//tls("<%06ls>", ws + 2, "<00\xd1\x84\xd1\x8f>");
 		tls("<%-06ls>", ws + 2, "<\xd1\x84\xd1\x8f  >");
+#endif
 #endif
                 // UB and not widely supported
 		//ts("<%lls>", "text", "<text>");
