@@ -406,9 +406,9 @@ ATF_TC_BODY(hexadecimal_floating_point, tc)
 	testfmt(" 0x1.2p+40", "%10.1a", 0x1.23p40);
 	testfmt(" 0X1.230000000000000000000000P-4", "%32.24A", 0x1.23p-4);
 
-        // We use testfmt_two_allowed when the standard leaves it unspecified whether the first hexadecimal digit of a subnormal is 0 and glibc diverges from FreeBSD and musl's behavior
+        // We use testfmt_two_allowed/testfmt_three_allowed in several cases when the standard leaves it unspecified whether the first hexadecimal digit of a subnormal is 0 and glibc diverges from FreeBSD and musl's behavior
 	testfmt_two_allowed("0x1p-1074", "0x0.0000000000001p-1022", "%a", 0x1p-1074);
-	testfmt_two_allowed("0x1.2345p-1024", "0x0.48d14p-1022", "%a", 0x1.2345p-1024);
+	testfmt_three_allowed("0x1.2345p-1024", "0x0.48d14p-1022", "0x4.8d14p-1026", "%a", 0x1.2345p-1024);
 
 #if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 #if (LDBL_MANT_DIG == 64)

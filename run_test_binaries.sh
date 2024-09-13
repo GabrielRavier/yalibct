@@ -116,7 +116,7 @@ do_output_lines_only_in_executable_output_test()
 
 do_printf_littlekernel_tests()
 {
-    test_runner printf-littlekernel-tests | sed 's/0x1p-1074/0x0.0000000000001p-1022/;s/0x1.ffffffffffffep-1023/0x0.fffffffffffffp-1022/;s/0X1P-1074/0X0.0000000000001P-1022/;s/0X1.FFFFFFFFFFFFEP-1023/0X0.FFFFFFFFFFFFFP-1022/' | diff -u - ./test-data/outputs/printf-littlekernel-tests
+    test_runner printf-littlekernel-tests | sed 's/0x1p-1074/0x0.0000000000001p-1022/;s/0x1.ffffffffffffep-1023/0x0.fffffffffffffp-1022/;s/0X1P-1074/0X0.0000000000001P-1022/;s/0X1.FFFFFFFFFFFFEP-1023/0X0.FFFFFFFFFFFFFP-1022/;s/0xf.ffffffffffffp-1026/0x0.fffffffffffffp-1022/;s/0XF.FFFFFFFFFFFFP-1026/0X0.FFFFFFFFFFFFFP-1022/' | diff -u - ./test-data/outputs/printf-littlekernel-tests
 }
 
 do_printf_NetBSD_t()

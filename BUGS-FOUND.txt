@@ -1,7 +1,7 @@
 I have filed the following bug reports/patches as a result of working on this testsuite:
 
-total filed: 50
-fixed/merged: 32
+total filed: 65
+fixed/merged: 47
 
 glibc (2 total filed, 0 fixed/merged):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
@@ -44,17 +44,17 @@ dietlibc (26 total filed, 18 fixed/merged) (note: dietlibc's mailing list does n
 nanoprintf (1 total filed, 1 fixed/merged):
 - https://github.com/charlesnicholson/nanoprintf/issues/244 (fixed)
 
-cosmopolitan (17 total filed, 12 fixed/merged):
+cosmopolitan (32 total filed, 27 fixed/merged):
 - https://github.com/jart/cosmopolitan/issues/771 -> https://github.com/jart/cosmopolitan/pull/786 (merged)
 - https://github.com/jart/cosmopolitan/issues/772 -> https://github.com/jart/cosmopolitan/pull/787 (merged)
 - https://github.com/jart/cosmopolitan/issues/773 -> https://github.com/jart/cosmopolitan/pull/788 (merged)
 - https://github.com/jart/cosmopolitan/issues/774 -> https://github.com/jart/cosmopolitan/pull/790 (merged)
-- https://github.com/jart/cosmopolitan/issues/775 (not yet fixed)
-- https://github.com/jart/cosmopolitan/issues/776 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/775 (fixed)
+- https://github.com/jart/cosmopolitan/issues/776 -> https://github.com/jart/cosmopolitan/pull/1271 (valid but refused merge because of deliberate deviation from the standard)
 - https://github.com/jart/cosmopolitan/issues/777 -> https://github.com/jart/cosmopolitan/pull/791 (merged)
 - https://github.com/jart/cosmopolitan/issues/778 -> https://github.com/jart/cosmopolitan/pull/793 (merged)
-- https://github.com/jart/cosmopolitan/issues/779 (not yet fixed)
-- https://github.com/jart/cosmopolitan/issues/780 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/779 -> https://github.com/jart/cosmopolitan/pull/1273 (merged)
+- https://github.com/jart/cosmopolitan/issues/780 -> https://github.com/jart/cosmopolitan/pull/1275 (merged)
 - https://github.com/jart/cosmopolitan/issues/781 -> https://github.com/jart/cosmopolitan/pull/799 (merged)
 - https://github.com/jart/cosmopolitan/issues/782 -> https://github.com/jart/cosmopolitan/pull/790 (merged)
 - https://github.com/jart/cosmopolitan/issues/783 -> https://github.com/jart/cosmopolitan/pull/795 (merged)
@@ -64,3 +64,16 @@ cosmopolitan (17 total filed, 12 fixed/merged):
 - https://github.com/jart/cosmopolitan/pull/796 (merged)
 - https://github.com/jart/cosmopolitan/pull/803 (merged)
 - https://github.com/jart/cosmopolitan/pull/804 (merged)
+- https://github.com/jart/cosmopolitan/pull/830 (merged)
+- https://github.com/jart/cosmopolitan/issues/831 (fixed)
+- https://github.com/jart/cosmopolitan/pull/1268 (merged)
+- https://github.com/jart/cosmopolitan/pull/1269 (merged)
+- https://github.com/jart/cosmopolitan/pull/1276 (merged)
+- https://github.com/jart/cosmopolitan/pull/1278 (merged)
+- https://github.com/jart/cosmopolitan/pull/1282 (merged)
+- https://github.com/jart/cosmopolitan/pull/1283 (merged)
+- https://github.com/jart/cosmopolitan/pull/1285 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1286 (merged)
+- https://github.com/jart/cosmopolitan/pull/1287 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1288 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1289 (not yet merged)

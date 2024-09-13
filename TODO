@@ -42,6 +42,8 @@ Check all of the `#if 0`s in the codebase... some seem dubious
 
 See later if we can get the project working on musl-clang once it doesn't randomly error out anymore (would be nice if it didn't give me 300 warnings before then too - they seem unrelated to the root issue that musl-clang somehow doesn't know about x86intrin.h even though it effectively advertises support for it...)
 
+See later if we can get the project to work with cosmocc's -mclang
+
 Add minimal implementations for all the tested functions when possible just in case they're not present or something (and test them - probably add an extra config where all the relevant functions are "determined" not to be present in the host system, for testing)
 
 Perhaps try to fix the setvbuf bug in glibc ? idk (see https://sourceware.org/bugzilla/show_bug.cgi?id=17080)
@@ -137,10 +139,8 @@ Add in tests from sqlite:
 
 Add in/update tests from cosmopolitan:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/kprintf_test.c
-- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/stdio/palandprintf_test.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/calls/stat_test.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/strcmp_test.c
-- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/stdio/snprintf_test.c
 
 Add in tests from embeddedartistry:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf/embeddedartistry/test

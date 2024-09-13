@@ -128,9 +128,15 @@ do_test_call (void)
   do_test_call_rarg (stdout, "%.10La, %.10a", ld, d);
   do_test_call_varg (stdout, "%.10La, %.10a", ld, d);
 
+#ifndef YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS
   /* Test positional parameters.  */
   do_test_call_varg (stdout, "%3$Lf, %2$Lf, %1$f",
 		     (double) 1, (long double) 2, (long double) 3);
+#else
+  /* Do not test positional parameters.  */
+  do_test_call_varg (stdout, "%Lf, %Lf, %f",
+		     (long double) 3, (long double) 2, (double) 1);
+#endif
 }
 #endif
 

@@ -5,6 +5,7 @@
 
 //#include "string_tests.h"
 #include "test-deps/cmocka.h"
+#include "test-lib/compiler-features.h"
 #include <string.h>
 
 static void strcat_test(void** state)
@@ -21,6 +22,10 @@ static void strcat_test(void** state)
 	// Check if the string is correct
 	assert_int_equal(strcmp(b, "abc123456"), 0);
 }
+
+#if defined(__GNUC__) && !defined(__clang__)
+YALIBCT_DIAGNOSTIC_IGNORE("-Wunknown-pragmas")
+#endif
 
 #pragma mark - Public Functions -
 
