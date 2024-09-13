@@ -1,6 +1,6 @@
 I have filed the following bug reports/patches as a result of working on this testsuite:
 
-total filed: 65
+total filed: 66
 fixed/merged: 47
 
 glibc (2 total filed, 0 fixed/merged):
@@ -44,7 +44,7 @@ dietlibc (26 total filed, 18 fixed/merged) (note: dietlibc's mailing list does n
 nanoprintf (1 total filed, 1 fixed/merged):
 - https://github.com/charlesnicholson/nanoprintf/issues/244 (fixed)
 
-cosmopolitan (32 total filed, 27 fixed/merged):
+cosmopolitan (33 total filed, 27 fixed/merged):
 - https://github.com/jart/cosmopolitan/issues/771 -> https://github.com/jart/cosmopolitan/pull/786 (merged)
 - https://github.com/jart/cosmopolitan/issues/772 -> https://github.com/jart/cosmopolitan/pull/787 (merged)
 - https://github.com/jart/cosmopolitan/issues/773 -> https://github.com/jart/cosmopolitan/pull/788 (merged)
@@ -77,3 +77,4 @@ cosmopolitan (32 total filed, 27 fixed/merged):
 - https://github.com/jart/cosmopolitan/pull/1287 (not yet merged)
 - https://github.com/jart/cosmopolitan/pull/1288 (not yet merged)
 - https://github.com/jart/cosmopolitan/pull/1289 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1290 (not yet merged)
