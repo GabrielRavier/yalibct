@@ -12,16 +12,16 @@ repos:
       - id: cpplint
         args: ["--filter=-legal/copyright,-whitespace/braces,-whitespace/parens,-whitespace/newline,-whitespace/tab,-runtime/printf,-build/include_order,-whitespace/empty_loop_body,-readability/casting,-whitespace/line_length,-runtime/int,-whitespace/semicolon,-whitespace/comments,-whitespace/comma,-build/include_subdir,-readability/braces,-whitespace/indent,-readability/multiline_comment,-readability/nolint,-whitespace/operators,-readability/fn_size,-whitespace/blank_line,-build/header_guard,-readability/multiline_string,-runtime/arrays,-runtime/threadsafe_fn,-build/include,-build/c++11,-build/storage_class,-readability/alt_tokens,-readability/check,-readability/todo"]
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.9.0.5
+    rev: v0.10.0.1
     hooks:
       - id: shellcheck
         args: ["-o", "all"]
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: 3.5.2
+    rev: v3.29.0
     hooks:
       - id: commitizen
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.6.0
     hooks:
       - id: check-added-large-files
         args: ['--maxkb=3000']   # Obviously modify this if you really need to check-in a very large file
