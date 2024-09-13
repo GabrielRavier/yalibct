@@ -1,17 +1,18 @@
 I have filed the following bug reports/patches as a result of working on this testsuite:
 
-total filed: 66
-fixed/merged: 47
+total filed: 68
+fixed/merged: 49
 
 glibc (2 total filed, 0 fixed/merged):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
 - https://sourceware.org/bugzilla/show_bug.cgi?id=30441 (not yet fixed (note: potentially not a bug at all - will have to see with WG14))
 
-musl (4 total filed, 1 fixed/merged):
+musl (5 total filed, 2 fixed/merged):
 - https://www.openwall.com/lists/musl/2023/04/15/1 (not yet merged)
 - https://www.openwall.com/lists/musl/2022/09/06/10 (not yet fixed)
 - https://www.openwall.com/lists/musl/2023/01/04/1 (merged)
 - https://www.openwall.com/lists/musl/2023/04/14/1 (not yet merged)
+- https://www.openwall.com/lists/musl/2024/09/13/17 (merged)
 
 dietlibc (26 total filed, 18 fixed/merged) (note: dietlibc's mailing list does not have an archive, so the links can't lead there...):
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-HUGE_VALL-and-INFINITY-both-from-C99-and-requi.patch (not yet merged)
@@ -44,7 +45,7 @@ dietlibc (26 total filed, 18 fixed/merged) (note: dietlibc's mailing list does n
 nanoprintf (1 total filed, 1 fixed/merged):
 - https://github.com/charlesnicholson/nanoprintf/issues/244 (fixed)
 
-cosmopolitan (33 total filed, 27 fixed/merged):
+cosmopolitan (34 total filed, 28 fixed/merged):
 - https://github.com/jart/cosmopolitan/issues/771 -> https://github.com/jart/cosmopolitan/pull/786 (merged)
 - https://github.com/jart/cosmopolitan/issues/772 -> https://github.com/jart/cosmopolitan/pull/787 (merged)
 - https://github.com/jart/cosmopolitan/issues/773 -> https://github.com/jart/cosmopolitan/pull/788 (merged)
@@ -78,3 +79,4 @@ cosmopolitan (33 total filed, 27 fixed/merged):
 - https://github.com/jart/cosmopolitan/pull/1288 (not yet merged)
 - https://github.com/jart/cosmopolitan/pull/1289 (not yet merged)
 - https://github.com/jart/cosmopolitan/pull/1290 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1291 (merged)
