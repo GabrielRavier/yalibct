@@ -22,6 +22,8 @@ Use GitHub Actions and/or something similar for CI with all the major libcs I'm 
 
 Make GCC workaround conditional on a flag for it - compiler problems are kind of an issue the user might want to learn about, too
 
+Setup include-what-you-use (also see if iwyu_tool.py is usable in pre-commit) and try to conform to it
+
 Check man pages for examples (in particular linux man-pages seems to have a bunch of full program examples) - also standards like POSIX or the C standard
 
 Go ask ATF people why they're passing around const atf_error, they really wanting the pointers to be const and not the pointed-to stuff ?

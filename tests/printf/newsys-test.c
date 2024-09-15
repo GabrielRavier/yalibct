@@ -37,7 +37,7 @@
                                                                         \
         assert(snprintf(buf, sizeof buf, __VA_ARGS__) == strlen(buf));  \
         buf[sizeof buf - 1] = 0;                                        \
-        if (strcmp(expect, buf))                                        \
+        if (strcmp(expect, buf) != 0)                                   \
             fail(__LINE__, expect, buf);                                \
         else                                                            \
             ok(__LINE__, expect);                                       \

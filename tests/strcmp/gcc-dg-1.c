@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 
 #define TEST_ALL
 
@@ -25,8 +26,8 @@ static void test_strcmp_ ## SZ ## _ ## ALIGN (void) {     		    \
   for (i = 0 ; i < SZ ; i++)			   		            \
     {							   		    \
       int r1;					           		    \
-      char *a = one + (i & 1) * ALIGN;			   		    \
-      char *b = two + (i & 1) * ALIGN;			   		    \
+      char *a = one + (ptrdiff_t)(i & 1) * ALIGN;			    \
+      char *b = two + (ptrdiff_t)(i & 1) * ALIGN;			    \
       memset(a, '-', SZ);					   	    \
       memset(b, '-', SZ);					   	    \
       a[i] = '1';					   		    \
@@ -133,11 +134,11 @@ DEF_TEST(9,2)
 DEF_TEST(9,4)
 DEF_TEST(9,8)
 DEF_TEST(9,16)
-DEF_TEST(10,1)
-DEF_TEST(10,2)
-DEF_TEST(10,4)
-DEF_TEST(10,8)
-DEF_TEST(10,16)
+DEF_TEST(10,1) // NOLINT(bugprone-branch-clone)
+DEF_TEST(10,2) // NOLINT(bugprone-branch-clone)
+DEF_TEST(10,4) // NOLINT(bugprone-branch-clone)
+DEF_TEST(10,8) // NOLINT(bugprone-branch-clone)
+DEF_TEST(10,16) // NOLINT(bugprone-branch-clone)
 DEF_TEST(11,1)
 DEF_TEST(11,2)
 DEF_TEST(11,4)

@@ -4,9 +4,7 @@
 #include <assert.h>
 #else
 
-#include "test-lib/hedley.h"
-
 #undef static_assert
-#define static_assert HEDLEY_STATIC_ASSERT
+#define static_assert _Static_assert
 
 #endif

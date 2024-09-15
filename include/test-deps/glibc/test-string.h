@@ -28,6 +28,7 @@
 #include <sys/mman.h>
 #include <time.h>
 #include <string.h>
+#include <assert.h>
 #include <errno.h>
 #include <stddef.h>
 #include <stdbool.h>
@@ -93,6 +94,7 @@ static impl_t *impl_array;
       for (impl = __start_impls; impl < __stop_impls; ++impl)   \
         if (impl != skip)                       \
           *a++ = *impl;                     \
+      assert(func_count == 0); \
       for (f = 0; f < func_count; f++)              \
         if (func_list[f].usable)                    \
           {                             \
@@ -145,7 +147,7 @@ test_init (void)
                     / sizeof func_list[0]));
 #endif
 
-  page_size = 2 * getpagesize ();
+  page_size = 2 * (size_t)getpagesize ();
 #ifdef MIN_PAGE_SIZE
   if (page_size < MIN_PAGE_SIZE)
     page_size = MIN_PAGE_SIZE;
@@ -218,6 +220,8 @@ cmdline_process_function (int c)
         seed = strtoul (optarg, NULL, 0);
         do_srandom = 1;
         break;
+      default:
+	break;
     }
 }
 # define CMDLINE_PROCESS cmdline_process_function

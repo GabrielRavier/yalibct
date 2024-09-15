@@ -53,7 +53,7 @@ yalibct_internal_alignalloc_address_of_pointer_to_malloced (unsigned char *r)
      plausible platforms, check the assumption to be safe.  */
     static_assert (sizeof (void *) + alignof (void *) - 1 <= UCHAR_MAX, "");
 
-  return yalibct_internal_alignalloc_align_down (r - 1 - sizeof (void *), alignof (void *));
+    return (void **)yalibct_internal_alignalloc_align_down (r - 1 - sizeof (void *), alignof (void *));
 }
 
 /* Return an ALIGNMENT-aligned pointer to new storage of size SIZE,

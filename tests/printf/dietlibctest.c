@@ -119,7 +119,7 @@ int main()
   printf("#%-8i#\n",33);
   printf("#%i#\n",18);
   printf("#%d#\n",18);
-  printf("#%u#\n",18);
+  printf("#%u#\n",18u);
   printf("#%lu#\n",18ul);
   printf("#%li#\n",18l);
   printf("#%-+#06d#\n", -123);
@@ -168,12 +168,12 @@ int main()
 	    snprintf (buf, sizeof (buf), "%30s", "foo"), (int) sizeof (buf),
 	    buf);
     memset(buf2,0,sizeof(buf));
-    i=snprintf(buf2, 256, "%.9999u", 10);
+    i=snprintf(buf2, 256, "%.9999u", 10u);
 
 #ifndef YALIBCT_DISABLE_PRINTF_PRECISION_TESTS
     printf("%i %i\n",i,(int)strlen(buf2));
     printf ("snprintf (\"%%.999999u\", 10) == %d\n",
-    	    snprintf(buf2, sizeof(buf2), "%.999999u", 10));
+    	    snprintf(buf2, sizeof(buf2), "%.999999u", 10u));
 #else
     puts("9999 255");
     puts("snprintf (\"%.999999u\", 10) == 999999");

@@ -373,7 +373,7 @@ error_format(const atf_error_t err, char *buf, size_t buflen) // NOLINT(misc-mis
 
 static
 bool
-error_init(atf_error_t err, const char *type, void *data, size_t datalen,
+error_init(atf_error_t err, const char *type, const void *data, size_t datalen,
            void (*format)(const atf_error_t, char *, size_t)) // NOLINT(misc-misplaced-const)
 {
     bool ok;
@@ -502,6 +502,7 @@ atf_dynstr_init_ap(atf_dynstr_t *ad, const char *fmt, va_list ap)
         va_end(ap2);
         if (ret < 0) {
             free(ad->m_data);
+	    ad->m_data = NULL;
             err = atf_libc_error(errno, "Cannot format string");
             goto out;
         }
@@ -584,7 +585,7 @@ atf_dynstr_fini(atf_dynstr_t *ad)
 }
 
 char *
-atf_dynstr_fini_disown(atf_dynstr_t *ad)
+atf_dynstr_fini_disown(const atf_dynstr_t *ad)
 {
     INV(ad->m_data != NULL);
     return ad->m_data;
@@ -865,12 +866,12 @@ expected_failure(struct context *ctx, atf_dynstr_t *reason)
 
 #define ATF_DEFS_ATTRIBUTE_NORETURN HEDLEY_NO_RETURN
 
-ATF_DEFS_ATTRIBUTE_NORETURN static void error_in_expect(struct context *, const char *, ...);
-static void validate_expect(struct context *);
-ATF_DEFS_ATTRIBUTE_NORETURN static void expected_failure(struct context *, atf_dynstr_t *);
-ATF_DEFS_ATTRIBUTE_NORETURN static void fail_requirement(struct context *, atf_dynstr_t *);
-static void fail_check(struct context *, atf_dynstr_t *);
-static void pass(struct context *);
+ATF_DEFS_ATTRIBUTE_NORETURN static void error_in_expect(struct context *ctx, const char *fmt, ...);
+static void validate_expect(struct context *ctx);
+ATF_DEFS_ATTRIBUTE_NORETURN static void expected_failure(struct context *ctx, atf_dynstr_t *reason);
+ATF_DEFS_ATTRIBUTE_NORETURN static void fail_requirement(struct context *ctx, atf_dynstr_t *reason);
+static void fail_check(struct context *ctx, atf_dynstr_t *reason);
+static void pass(struct context *ctx);
 ATF_DEFS_ATTRIBUTE_NORETURN static void skip(struct context *, atf_dynstr_t *);
 
 /** Fails a test case if validate_expect fails. */
@@ -1290,7 +1291,8 @@ new_entry_and_link(void *object, bool managed, struct list_entry *prev,
 atf_error_t
 atf_list_append(atf_list_t *l, void *data, bool managed)
 {
-    struct list_entry *le, *next, *prev;
+    const struct list_entry *le;
+    struct list_entry *next, *prev;
     atf_error_t err;
 
     next = (struct list_entry *)l->m_end;
@@ -1371,7 +1373,7 @@ atf_error_t
 atf_tc_set_md_var(atf_tc_t *tc, const char *name, const char *fmt, ...)
 {
     atf_error_t err;
-    char *value;
+    char *value = NULL;
     va_list ap;
 
     va_start(ap, fmt);
@@ -1425,7 +1427,7 @@ atf_utils_compare_file(const char *name, const char *contents)
     ATF_REQUIRE_MSG(fd != -1, "Cannot open %s", name);
 
     const char *pos = contents;
-    ssize_t remaining = strlen(contents);
+    ssize_t remaining = (ssize_t)strlen(contents);
 
     char buffer[1024];
     ssize_t count;
@@ -1639,7 +1641,7 @@ atf_utils_free_charpp(char **argv)
     for (ptr = argv; *ptr != NULL; ptr++)
         free(*ptr);
 
-    free(argv);
+    free((void *)argv);
 }
 
 char **
@@ -1649,7 +1651,7 @@ atf_map_to_charpp(const atf_map_t *l)
     atf_map_citer_t iter;
     size_t i;
 
-    array = malloc(sizeof(char *) * (atf_map_size(l) * 2 + 1));
+    array = (char **)malloc(sizeof(char *) * (atf_map_size(l) * 2 + 1));
     if (array == NULL)
         goto out;
 
@@ -2876,7 +2878,7 @@ atf_tp_get_tcs(const atf_tp_t *tp)
     atf_list_citer_t iter;
     size_t i;
 
-    array = malloc(sizeof(atf_tc_t *) *
+    array = (const atf_tc_t **)malloc(sizeof(atf_tc_t *) *
                    (atf_list_size(&tp->pimpl->m_tcs) + 1));
     if (array == NULL)
         goto out;
@@ -2885,7 +2887,7 @@ atf_tp_get_tcs(const atf_tp_t *tp)
     atf_list_for_each_c(iter, &tp->pimpl->m_tcs) {
         array[i] = atf_list_citer_data(iter);
         if (array[i] == NULL) {
-            free(array);
+            free((void *)array);
             array = NULL;
             goto out;
         }

@@ -102,8 +102,8 @@
     result |= test(__LINE__, " 12.0 Hot Pockets", "%1$*5$.*4$f %2$s %3$ss", printf_float(12.0), "Hot", "Pocket", 1, 5);
     result |= test(__LINE__, " 12.0 Hot Pockets 5", "%1$5.*4$f %2$s %3$ss %5$d", printf_float(12.0), "Hot", "Pocket", 1, 5);
 #if !defined(TINY_STDIO) || defined(_IO_FLOAT_EXACT)
-if (NL_ARGMAX > 11)
-    result |= test(__LINE__,
+    if (NL_ARGMAX > 11)
+        result |= test(__LINE__,
                    "   12345  1234    11145401322     321.765400   3.217654e+02   5    test-string",
                    "%1$*5$d %2$*6$hi %3$*7$lo %4$*8$f %9$*12$e %10$*13$g %11$*14$s",
                    12345, 1234, 1234567890, printf_float(321.7654), 8, 5, 14, 14,

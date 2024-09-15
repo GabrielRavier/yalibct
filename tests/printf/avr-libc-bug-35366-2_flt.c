@@ -56,13 +56,13 @@ int main ()
     char s[50] = "";
 
     foo (s, sizeof (s), "e1=%f %% e2=%f", 1.25, -6.5);
-    if (strcmp (s, "e1=1.250000 % e2=-6.500000")) {
+    if (strcmp (s, "e1=1.250000 % e2=-6.500000") != 0) {
 	PUTS (s);
 	return __LINE__;
     }
 
     foo (s, sizeof (s), "e1=%f %%%% e2=%f", -321.0, 0.125);
-    if (strcmp (s, "e1=-321.000000 %% e2=0.125000")) {
+    if (strcmp (s, "e1=-321.000000 %% e2=0.125000") != 0) {
 	PUTS (s);
 	return __LINE__;
     }

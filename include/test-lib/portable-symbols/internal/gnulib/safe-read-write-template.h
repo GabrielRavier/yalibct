@@ -46,7 +46,8 @@ YALIBCT_SAFE_READ_WRITE_INTERNAL_safe_rw (int fd, void const *buf, size_t count)
 
       if (0 <= result)
         return result;
-      else if (YALIBCT_SAFE_READ_WRITE_INTERNAL_IS_EINTR (errno))
+
+      if (YALIBCT_SAFE_READ_WRITE_INTERNAL_IS_EINTR (errno))
         continue;
       else if (errno == EINVAL && SYS_BUFSIZE_MAX < count)
         count = SYS_BUFSIZE_MAX;

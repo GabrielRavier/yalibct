@@ -21,7 +21,7 @@ YALIBCT_DIAGNOSTIC_IGNORE_WFORMAT_TRUNCATION
 #endif
 
 #define TEST_INIT(EXP)					\
-  char		buf[sizeof(EXP)+ALGN*3+16];		\
+  char		buf[sizeof(EXP)+((size_t)ALGN*3)+16];	\
   int		rc;					\
   memset(buf, cmp[0], sizeof buf)
 

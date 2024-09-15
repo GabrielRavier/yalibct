@@ -223,7 +223,7 @@ main(void)
 		unsigned t;
 		for (t = 0; t < sizeof(test_vals)/sizeof(test_vals[0]); t++) {
 
-			float_type v = (float_type) test_vals[t] * pow(10.0, (float_type) x);
+		    float_type v = (float_type) test_vals[t] * pow(10.0, (float_type) x); // NOLINT(google-readability-casting)
 			float_type e;
 
 #ifndef YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
@@ -291,7 +291,7 @@ main(void)
 #ifndef YALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS
                 assert(sprintf(buf, "0x0.0p%+d", x) >= 0);
                 assert(sscanf(buf, scanf_format, &r) == 1);
-                if (r != (float_type) 0.0)
+                if (r != (float_type) 0.0) // NOLINT(google-readability-casting) NOLINT(readability-redundant-casting)
                 {
                     printf("\tg %3d: wanted 0.0 got %.7e (buf %s)\n", x,
                            printf_float(r), buf);
@@ -301,7 +301,7 @@ main(void)
 
                 assert(sprintf(buf, "0x1p%+d", x) >= 0);
                 assert(sscanf(buf, scanf_format, &r) == 1);
-                if (r != (float_type) ldexp(1.0, x))
+                if (r != (float_type) ldexp(1.0, x)) // NOLINT(google-readability-casting) NOLINT(readability-redundant-casting)
                 {
                     printf("\tg %3d: wanted 1 got %.7e (buf %s)\n", x,
                            printf_float(r), buf);

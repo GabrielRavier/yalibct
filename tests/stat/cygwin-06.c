@@ -241,15 +241,14 @@ main(int ac, char **av)
 	        if ( STD_FUNCTIONAL_TEST ) {
 		    if ( TEST_ERRNO == Test_cases[ind].exp_errno )
 	                tst_resm(TPASS, "stat(<%s>, &stbuf) Failed, errno=%d",
-			    desc, TEST_ERRNO);
+				 desc, TEST_ERRNO);
 		    else
 			tst_resm(TFAIL,
-			    "stat(<%s>, &stbuf) Failed, errno=%d, expected errno:%d",
-                            desc, TEST_ERRNO, Test_cases[ind].exp_errno);
-	        }
-		else
-		   Tst_count++;
-	    } else  {
+				 "stat(<%s>, &stbuf) Failed, errno=%d, expected errno:%d",
+				 desc, TEST_ERRNO, Test_cases[ind].exp_errno);
+	        } else
+		    Tst_count++;
+	    } else {
 	        tst_resm(TFAIL,
 		    "stat(<%s>, &stbuf) returned %d, expected -1, errno:%d",
 		    desc, TEST_RETURN, Test_cases[ind].exp_errno);

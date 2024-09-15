@@ -30,14 +30,14 @@ main ()
   char *q = foo (1);
   if (q != NULL)
     {
-      if (strcmp (q, "rb"))
+      if (strcmp (q, "rb") != 0)
 	abort ();
       free (q);
     }
   q = bar (0);
   if (q != NULL)
     {
-      if (strcmp (q, "wb"))
+      if (strcmp (q, "wb") != 0)
 	abort ();
       free (q);
     }

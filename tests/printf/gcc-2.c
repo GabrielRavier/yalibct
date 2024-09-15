@@ -69,7 +69,7 @@ int main (void)
   assert(fclose (f) == 0);
   assert(remove (tmpfname) == 0);
 
-  if (strcmp (buf, "123456789"))
+  if (strcmp (buf, "123456789") != 0)
     abort ();
 
   return 0;

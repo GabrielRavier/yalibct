@@ -27,6 +27,10 @@
 
 #pragma once
 
+#ifndef TEST_FUNCTION
+int do_test(int argc, char **argv);
+#endif
+
 /* TEST_FUNCTION is no longer used. */
 static int
 legacy_test_function (int argc __attribute__ ((unused)),

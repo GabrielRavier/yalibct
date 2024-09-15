@@ -214,7 +214,7 @@ static uint32_t cm_get_output(void)
         if (strcasecmp(str_output, "STANDARD") == 0) {
             new_output |= CM_OUTPUT_STANDARD;
         } else if (strcasecmp(str_output, "STDOUT") == 0) {
-            new_output |= CM_OUTPUT_STANDARD;
+            new_output |= CM_OUTPUT_STDOUT;
         } else if (strcasecmp(str_output, "SUBUNIT") == 0) {
             new_output |= CM_OUTPUT_SUBUNIT;
         } else if (strcasecmp(str_output, "TAP") == 0) {
@@ -653,7 +653,7 @@ static const ExceptionCodeInfo exception_codes[] = {
 
 #ifdef YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY
 CMOCKA_NORETURN static void exception_handler(int sig) {
-    const char *sig_strerror = "";
+    const char *sig_strerror = ""; // NOLINT(clang-analyzer-deadcode.DeadStores)
 
 #ifdef YALIBCT_LIBC_HAS_STRSIGNAL
     sig_strerror = strsignal(sig); // NOLINT(cert-sig30-c,bugprone-signal-handler)
@@ -867,7 +867,7 @@ void _test_free(void* const ptr, const char* file, const int line) {
             unsigned int j;
             char * const guard = guards[i];
             for (j = 0; j < MALLOC_GUARD_SIZE; j++) {
-                const char diff = guard[j] - MALLOC_GUARD_PATTERN;
+                const char diff = (char)(unsigned char)(guard[j] - MALLOC_GUARD_PATTERN);
                 if (diff) {
                     cmocka_print_error(SOURCE_LOCATION_FORMAT
                                    ": error: Guard block of %p size=%lu is corrupt\n"
@@ -1313,7 +1313,7 @@ static void cmprintf_standard(enum cm_printf_type type,
                               const char *error_message)
 {
     switch (type) {
-    case PRINTF_TEST_START:
+    case PRINTF_TEST_START: // NOLINT(bugprone-branch-clone)
         //print_message("[ RUN      ] %s\n", test_name);
         break;
     case PRINTF_TEST_SUCCESS:
@@ -1448,13 +1448,13 @@ static struct timespec cm_tspecdiff(struct timespec time1,
     int sign = 1;
 
     if (time0.tv_nsec > time1.tv_nsec) {
-        xsec = (int) ((time0.tv_nsec - time1.tv_nsec) / (1E9 + 1));
+        xsec = (int) ((double)(time0.tv_nsec - time1.tv_nsec) / (1E9 + 1));
         time0.tv_nsec -= (long int) (1E9 * xsec);
         time0.tv_sec += xsec;
     }
 
-    if ((time1.tv_nsec - time0.tv_nsec) > 1E9) {
-        xsec = (int) ((time1.tv_nsec - time0.tv_nsec) / 1E9);
+    if ((double)(time1.tv_nsec - time0.tv_nsec) > 1E9) {
+        xsec = (int) ((double)(time1.tv_nsec - time0.tv_nsec) / 1E9);
         time0.tv_nsec += (long int) (1E9 * xsec);
         time0.tv_sec -= xsec;
     }
@@ -1479,7 +1479,7 @@ static double cm_secdiff(struct timespec clock1, struct timespec clock0)
     diff = cm_tspecdiff(clock1, clock0);
 
     ret = (double) diff.tv_sec;
-    ret += (double) diff.tv_nsec / (double) 1E9;
+    ret += (double) diff.tv_nsec / 1E9;
 
     return ret;
 }

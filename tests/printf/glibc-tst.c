@@ -297,7 +297,7 @@ I am ready for my first lesson today.";
     assert(sprintf(buf,"%*s%*s%*s",-1,"one",-20,"two",-30,"three") == strlen(buf));
 
     result |= strcmp (buf,
-		      "onetwo                 three                         ");
+		      "onetwo                 three                         ") != 0;
 
     puts (result != 0 ? "Test failed!" : "Test ok.");
   }

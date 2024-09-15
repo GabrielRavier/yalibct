@@ -27,7 +27,7 @@ typedef size_t (*PFN_STRLEN)(const char *);
 void
 Test_strlen(PFN_STRLEN pstrlen)
 {
-    size_t len;
+    size_t len = 0;
 #if 0 // defined(_M_IX86) || defined(_M_AMD64)
     volatile uintptr_t eflags;
     char *teststr = "a\0bcdefghijk";

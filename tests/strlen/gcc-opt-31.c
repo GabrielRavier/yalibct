@@ -12,7 +12,10 @@ bar (char *p1, const char *q)
   strcpy (p2, q);
   char *p3 = strchr (p2, '\0');
   memcpy (p3, "x", 2);
-  return strlen (p1);
+  size_t r = strlen (p1);
+  if ((int)r != r)
+      abort();
+  return r;
 }
 
 int

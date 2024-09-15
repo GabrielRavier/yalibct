@@ -1,47 +1,87 @@
 fail_fast: false
 repos:
-  - repo: https://github.com/pocc/pre-commit-hooks
-    rev: v1.3.5
-    hooks:
-      - id: clang-tidy
-        args: [--config-file=./.clang-tidy,-header-filter=.*]
-        exclude: ^(.*\.h)$
-      - id: cppcheck
-        args: [--suppress=invalidPrintfArgType_sint,--suppress=unmatchedSuppression,--suppress=missingInclude,--suppress=invalidScanfArgType_int,--suppress=invalidPrintfArgType_uint,--suppress=shadowVariable,--suppress=shiftTooManyBitsSigned,--suppress=unusedFunction,--suppress=unknownMacro,--suppress=invalidPrintfArgType_s,--suppress=ConfigurationNotChecked,--suppress=resourceLeak,--suppress=unusedVariable,--suppress=va_end_missing,--suppress=wrongPrintfScanfArgNum,--suppress=bufferAccessOutOfBounds,--suppress=invalidFunctionArg,--suppress=invalidscanf,--suppress=invalidPrintfArgType_float,--suppress=nullPointer,--suppress=variableScope,--suppress=knownConditionTrueFalse,--suppress=toomanyconfigs,--suppress=unusedStructMember,--suppress=arithOperationsOnVoidPointer,--suppress=constParameter,--suppress=duplicateExpression,--suppress=memleak,--suppress=syntaxError,--suppress=unreadVariable,--suppress=doubleFree,--suppress=staticStringCompare,--suppress=stringCompare,--suppress=memleakOnRealloc,--suppress=noValidConfiguration,--suppress=assignmentInAssert,--suppress=nullPointerArithmetic]
-        exclude: ^(tests/printf/picolibc-testcases.h|tests/printf/glibc-tst-printf-binary-main.h)$
-      - id: cpplint
-        args: ["--filter=-legal/copyright,-whitespace/braces,-whitespace/parens,-whitespace/newline,-whitespace/tab,-runtime/printf,-build/include_order,-whitespace/empty_loop_body,-readability/casting,-whitespace/line_length,-runtime/int,-whitespace/semicolon,-whitespace/comments,-whitespace/comma,-build/include_subdir,-readability/braces,-whitespace/indent,-readability/multiline_comment,-readability/nolint,-whitespace/operators,-readability/fn_size,-whitespace/blank_line,-build/header_guard,-readability/multiline_string,-runtime/arrays,-runtime/threadsafe_fn,-build/include,-build/c++11,-build/storage_class,-readability/alt_tokens,-readability/check,-readability/todo"]
-  - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.10.0.1
-    hooks:
-      - id: shellcheck
-        args: ["-o", "all"]
-  - repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.29.0
-    hooks:
-      - id: commitizen
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
       - id: check-added-large-files
-        args: ['--maxkb=3000']   # Obviously modify this if you really need to check-in a very large file
+        args: ['--maxkb=1']   # Obviously modify this if you really need to check-in a very large file
+      - id: check-ast
+      - id: check-builtin-literals
       - id: check-byte-order-marker
       - id: check-case-conflict
+      - id: check-docstring-first
       - id: check-executables-have-shebangs
       - id: check-json
-      - id: check-shebang-scripts-are-executable
       - id: check-merge-conflict
+        args: ['--assume-in-merge']
+      - id: check-shebang-scripts-are-executable
       - id: check-symlinks
       - id: check-toml
       - id: check-vcs-permalinks
       - id: check-xml
       - id: check-yaml
+      - id: debug-statements
       - id: destroyed-symlinks
       - id: detect-private-key
+      - id: double-quote-string-fixer
       - id: end-of-file-fixer
         exclude: ^(test-data/outputs)
       - id: fix-byte-order-marker
+      - id: forbid-submodules
+      - id: name-tests-test
       - id: mixed-line-ending
         args: ['--fix=no']
+      - id: pretty-format-json
+      - id: requirements-txt-fixer
       - id: trailing-whitespace
         exclude: ^test-data/outputs/
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        args: ["-axo", "all"] # Verify sourced files and enable all checks
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.29.0
+    hooks:
+      - id: commitizen
+  - repo: https://github.com/pocc/pre-commit-hooks
+    rev: v1.3.5
+    hooks:
+      - id: clang-tidy
+        args: [--config-file=./.clang-tidy,-header-filter=.*] # Scan headers
+        exclude: '^(tests/(printf/((pdclib|picolibc)-testcases|libcmini_formatting-split-implementation|glibc-tst-binary-main)|strcat/gnulib-test)|include/(test-lib/portable-symbols/internal/(gnulib/(safe-read-write-template|obstack-common)|(frexp|floor)-template)|test-deps/glibc/(test-driver|support_(test_compare_string|quote_blob)_main)))\.h$' # Exclude a bunch of headers that aren't parseable standalone
+      - id: cppcheck
+        # .cppcheck-includes-file contains our include paths
+        # we suppress the following:
+        # missingIncludeSystem: cppcheck seems unable to find system includes for some reason
+        # checkersReport: random information we don't care about
+        # assertWithSideEffect, assignmentInAssert: happens sometimes in imported tests - is more convenient sometimes. we also try to always ensure the assert macro is enabled except in extremely specific cases where we are testing that functionality
+        # noValidConfiguration: happens for a bunch of files, doesn't seem fixable
+        # preprocessorErrorDirective: some configurations are inevitably going to lead to an error, yeah
+        # unmatchedSuppression: some of the suppressions obviously aren't triggered on literally every file, yeah
+        # unusedFunction, knownConditionTrueFalse, unreadVariable, resourceLeak, nullPointerRedundantCheck, ctunullpointer, shiftTooManyBitsSigned, signConversionCond, arrayIndexOutOfBounds, objectIndex, nullPointer, duplicateCondition: is just wrong sometimes
+        # nullPointerArithmetic: perhaps see about fixing this at some point ? is UB but a bunch of tests do it
+        # wrongPrintfScanfArgNum: also flags having too many arguments, which is perfectly legal and done in a bunch of tests
+        # unknownMacro: some theoretical configurations lead to certain macros not being defined so we have to suppress this
+        # invalidFunctionArg: buggy on certain functions, e.g. bans isalpha(EOF), which is perfectly legal
+        # variableScope: would involve a lot of error-prone changes to lots of imported code for not much gain
+        # constParameterPointer, constVariablePointer, constVariable, constParameter: involves lots of changes to imported code for not much gain
+        # unusedStructMember: spams a hilarious amount of warnings so even if its correct it's gonna be simply impossible to fix at all
+        # toomanyconfigs: using --force would fix this by checking all configs but it takes way too long
+        # normalCheckLevelMaxBranches, checkLevelNormal: using --check-level=exhaustive would fix this by exhaustively checking all branches but it takes a comically long amount of time
+        # unusedVariable: annoying to fix on imported code where we comment out the code using it - also sometimes just checking if the declaration works can be of some use (e.g. for types)
+        # stringCompare, staticStringCompare, invalidscanf, duplicateExpression, nanInArithmeticExpression: we want to test the exact specific thing it wants to forbid
+        # missingInclude: some hypothetical configurations that cppcheck will try out will inevitably end up including includes that don't exist (given many configurations check check for headers)
+        # shadowVariable, shadowFunction: some imported code does this on purpose and would be annoying+error-prone to fix
+        # memleakOnRealloc: usually if realloc fails the whole test just fails so this isn't very useful
+        # invalidPrintfArgType_uint, invalidPrintfArgType_sint, invalidScanfArgType_int: it is valid to pass an argument of the oppositely signed type to printf (e.g. int where unsigned is wanted or vise-versa) and a bunch of imported code does so
+        args: [--includes-file=.cppcheck-includes-file,--enable=all,--suppress=missingIncludeSystem,--suppress=checkersReport,--suppress=assertWithSideEffect,--suppress=assignmentInAssert,--suppress=noValidConfiguration,--suppress=preprocessorErrorDirective,--suppress=unmatchedSuppression,--suppress=unusedFunction,--suppress=knownConditionTrueFalse,--suppress=unreadVariable,--suppress=resourceLeak,--suppress=nullPointerRedundantCheck,--suppress=ctunullpointer,--suppress=shiftTooManyBitsSigned,--suppress=signConversionCond,--suppress=arrayIndexOutOfBounds,--suppress=objectIndex,--suppress=nullPointer,--suppress=duplicateCondition,--suppress=nullPointerArithmetic,--suppress=wrongPrintfScanfArgNum,--suppress=unknownMacro,--suppress=invalidFunctionArg,--suppress=variableScope,--suppress=constParameterPointer,--suppress=constVariablePointer,--suppress=constVariable,--suppress=constParameter,--suppress=unusedStructMember,--suppress=toomanyconfigs,--suppress=normalCheckLevelMaxBranches,--suppress=checkLevelNormal,--suppress=unusedVariable,--suppress=stringCompare,--suppress=staticStringCompare,--suppress=invalidscanf,--suppress=duplicateExpression,--suppress=nanInArithmeticExpression,--suppress=missingInclude,--suppress=shadowVariable,--suppress=shadowFunction,--suppress=memleakOnRealloc,--suppress=invalidPrintfArgType_sint,--suppress=invalidPrintfArgType_uint,--suppress=invalidScanfArgType_int]
+        exclude: '^tests/printf/picolibc-testcases.h$' # Exclude a bunch of headers that aren't parseable by cppcheck standalone
+      - id: cpplint
+        # We filter out:
+        # whitespace/indent, whitespace/parens, whitespace/braces, whitespace/tab, build/include_subdir, legal/copyright, build/include_order, whitespace/comments, whitespace/line_length, whitespace/newline, readability/fn_size, whitespace/comma, readability/multiline_comment, readability/multiline_string, readability/braces, whitespace/empty_loop_body, whitespace/operators, build/include, readability/alt_tokens, build/header_guard, whitespace/blank_line, whitespace/semicolon, readability/todo, readability/check, build/storage_class: don't want to conform to this style (especially not in imported code)
+        # runtime/printf, runtime/threadsafe_fn, build/c++11: bans functions we want to test (e.g. strcpy, getpwnam, anything from fenv.h, etc.)
+        # readability/casting: doesn't work in c lol
+        # runtime/int, runtime/arrays: bans stuff we want to test (e.g. the long type, VLAs)
+        # readability/nolint: bans using NOLINT(tests-unknown-to-cpplint) but we need to do so for clang-tidy
+        args: ["--filter=-whitespace/indent,-whitespace/parens,-whitespace/braces,-whitespace/tab,-build/include_subdir,-legal/copyright,-build/include_order,-whitespace/comments,-whitespace/line_length,-whitespace/newline,-readability/fn_size,-whitespace/comma,-readability/multiline_comment,-readability/multiline_string,-readability/braces,-whitespace/empty_loop_body,-whitespace/operators,-build/include,-readability/alt_tokens,-build/header_guard,-whitespace/blank_line,-whitespace/semicolon,-readability/todo,-readability/check,-build/storage_class,-runtime/printf,-runtime/threadsafe_fn,-build/c++11,-readability/casting,-runtime/int,-runtime/arrays,-readability/nolint"]

@@ -2021,7 +2021,7 @@ int do_test (void)
 "\n") < 0)
 #endif
     {
-        assert(NL_ARGMAX < 10001);
+        assert(NL_ARGMAX < 10001); // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
         for (int i = 0; i < 10000; ++i)
             putchar('a');
         putchar('\n');

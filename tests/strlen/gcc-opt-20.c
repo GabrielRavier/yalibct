@@ -65,7 +65,7 @@ main ()
   char buf[64], buf2[64];
   for (i = 0; i < 5; i++)
     {
-      const char *p = &"abcdefghijklmnop"[(i < 3 ? i : 3) * 4];
+	const char *p = &"abcdefghijklmnop"[(i < 3 ? i : 3) * 4]; // NOLINT(bugprone-implicit-widening-of-multiplication-result) (cannot overflow)
       const char *q;
       q = fn1 (i, 1);
       if (memcmp (q - 4, p, 4) != 0 || q[0] != '\0')

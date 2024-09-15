@@ -51,7 +51,7 @@ main ()
   int i;
   for (i = 0; i < 5; i++)
     {
-      const char *p = &"abcdefghijklmnop"[(i < 3 ? i : 3) * 4];
+      const char *p = &"abcdefghijklmnop"[(i < 3 ? i : 3) * 4]; // NOLINT(bugprone-implicit-widening-of-multiplication-result) (overflow is impossible here)
       const char *q;
       fn1 (i ? 0 : 1, 1, 1);
       q = fn1 (i, 0, 0);

@@ -99,6 +99,8 @@ main (int argc, char *argv[])
       ret = printf ("%.10000000u", 1);
       return !(ret == 10000000 || (ret < 0 && errno == ENOMEM));
 #endif
+    default:
+	break;
     }
   return 0;
 }

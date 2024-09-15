@@ -12,11 +12,11 @@ YALIBCT_DIAGNOSTIC_IGNORE("-Wformat")
 int main() {
   char buf[100];
 
-  runtest("%.6u",1234,"001234");
-  runtest("%6u",1234,"  1234");
-  runtest("%06u",1234,"001234");
-  runtest("%-6u",1234,"1234  ");
-  runtest("%6.5u",1234," 01234");
+  runtest("%.6u",1234u,"001234");
+  runtest("%6u",1234u,"  1234");
+  runtest("%06u",1234u,"001234");
+  runtest("%-6u",1234u,"1234  ");
+  runtest("%6.5u",1234u," 01234");
 
   runtest("%.6s","1234","1234");
   runtest("%6s","1234","  1234");

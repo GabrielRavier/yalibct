@@ -10,7 +10,7 @@ void die(const char* message) {
 int main() {
   char buf[100]="fnord";
   char buf2[100]="fnort";
-  if (strcmp(buf,buf)) die("strcmp said a != a");
+  if (strcmp(buf,buf)!=0) die("strcmp said a != a");
   if (strcmp(buf,buf2)>=0) die("strcmp said fnord > fnort");
   if (strcmp(buf2,buf)<=0) die("strcmp said fnort < fnord");
   if (strcmp(buf+1,buf2+1)>=0) die("unaligned strcmp is broken 1");

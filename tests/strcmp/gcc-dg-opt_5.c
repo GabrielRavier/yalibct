@@ -8,8 +8,8 @@ __attribute__ ((noinline)) int
 f1 (S * s)
 {
   int result = 0;
-  result += __builtin_strncmp (s->s, "ab", 2);
-  result += __builtin_strncmp (s->s, "abc", 3);
+  result += __builtin_strncmp (s->s, "ab", 2); // NOLINT(bugprone-suspicious-string-compare)
+  result += __builtin_strncmp (s->s, "abc", 3); // NOLINT(bugprone-suspicious-string-compare)
   return result;
 }
 
@@ -17,8 +17,8 @@ __attribute__ ((noinline)) int
 f2 (char *p)
 {
   int result = 0;
-  result += __builtin_strncmp (p, "ab", 2);
-  result += __builtin_strncmp (p, "abc", 3);
+  result += __builtin_strncmp (p, "ab", 2); // NOLINT(bugprone-suspicious-string-compare)
+  result += __builtin_strncmp (p, "abc", 3); // NOLINT(bugprone-suspicious-string-compare)
   return result;
 }
 
@@ -26,8 +26,8 @@ __attribute__ ((noinline)) int
 f3 (S * s)
 {
   int result = 0;
-  result += __builtin_strcmp (s->s, "a");
-  result += __builtin_strcmp (s->s, "ab");
+  result += __builtin_strcmp (s->s, "a"); // NOLINT(bugprone-suspicious-string-compare)
+  result += __builtin_strcmp (s->s, "ab"); // NOLINT(bugprone-suspicious-string-compare)
   return result;
 }
 
@@ -35,8 +35,8 @@ __attribute__ ((noinline)) int
 f4 (char *p)
 {
   int result = 0;
-  result += __builtin_strcmp (p, "a");
-  result += __builtin_strcmp (p, "ab");
+  result += __builtin_strcmp (p, "a"); // NOLINT(bugprone-suspicious-string-compare)
+  result += __builtin_strcmp (p, "ab"); // NOLINT(bugprone-suspicious-string-compare)
   return result;
 }
 
@@ -44,8 +44,8 @@ __attribute__ ((noinline)) int
 f5 (S * s)
 {
   int result = 0;
-  result += __builtin_memcmp (s->s, "ab", 2);
-  result += __builtin_memcmp (s->s, "abc", 3);
+  result += __builtin_memcmp (s->s, "ab", 2); // NOLINT(bugprone-suspicious-string-compare)
+  result += __builtin_memcmp (s->s, "abc", 3); // NOLINT(bugprone-suspicious-string-compare)
   return result;
 }
 
@@ -53,8 +53,8 @@ __attribute__ ((noinline)) int
 f6 (char *p)
 {
   int result = 0;
-  result += __builtin_memcmp (p, "ab", 2);
-  result += __builtin_memcmp (p, "abc", 3);
+  result += __builtin_memcmp (p, "ab", 2); // NOLINT(bugprone-suspicious-string-compare)
+  result += __builtin_memcmp (p, "abc", 3); // NOLINT(bugprone-suspicious-string-compare)
   return result;
 }
 

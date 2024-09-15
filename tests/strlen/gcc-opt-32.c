@@ -80,9 +80,9 @@ f7 (void)
   char a[30];
   v += 7;
   strcpy (a, "abcde");
-  int len1 = strlen (a);
+  int len1 = (int)strlen (a);
   a[2] = '_';
-  int len2 = strlen (a);
+  int len2 = (int)strlen (a);
   return len1 + len2;	// This should be optimized into 10.
 }
 
@@ -91,9 +91,9 @@ f8 (char *a)
 {
   v += 8;
   strcpy (a, "abcde");
-  int len1 = strlen (a);
+  int len1 = (int)strlen (a);
   a[2] = '_';
-  int len2 = strlen (a);
+  int len2 = (int)strlen (a);
   return len1 + len2;	// This should be optimized into 10.
 }
 

@@ -1,6 +1,6 @@
 I have filed the following bug reports/patches as a result of working on this testsuite:
 
-total filed: 68
+total filed: 69
 fixed/merged: 49
 
 glibc (2 total filed, 0 fixed/merged):
@@ -14,7 +14,7 @@ musl (5 total filed, 2 fixed/merged):
 - https://www.openwall.com/lists/musl/2023/04/14/1 (not yet merged)
 - https://www.openwall.com/lists/musl/2024/09/13/17 (merged)
 
-dietlibc (26 total filed, 18 fixed/merged) (note: dietlibc's mailing list does not have an archive, so the links can't lead there...):
+dietlibc (27 total filed, 18 fixed/merged) (note: dietlibc's mailing list does not have an archive, so the links can't lead there...):
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-HUGE_VALL-and-INFINITY-both-from-C99-and-requi.patch (not yet merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-j-z-and-t-support-to-scanf.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-t-conversion-specifier-to-printf.patch (merged)
@@ -41,6 +41,7 @@ dietlibc (26 total filed, 18 fixed/merged) (note: dietlibc's mailing list does n
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-printf-not-ignoring-0-flag-when-precision-is-spe.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-fdopendir-not-allocating-the-proper-amount-of-me.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-stdio-open-functions-not-using-libpthread-s-__st.patch (fixed) (a patch with the simpler solution of "just always initialize the mutex" was instead merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-single-argument-static_assert-not-working.patch (not yet merged)
 
 nanoprintf (1 total filed, 1 fixed/merged):
 - https://github.com/charlesnicholson/nanoprintf/issues/244 (fixed)

@@ -216,7 +216,7 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
      */
 
     if ( STD_opt_arr != NULL ) {
-	free(STD_opt_arr);
+	free((void *)STD_opt_arr);
 	STD_opt_arr=NULL;
     }
     /* Calculate how much space we need for the option string */
@@ -262,9 +262,11 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
 
 	switch (opt) {
 		case '?': /* Unknown option */
+		    free(optionstr);
 			return "Unknown option";
 			break;
 		case ':': /* Missing Arg */
+		    free(optionstr);
 			return "Missing argument";
 			break;
 		case 'i': /* Iterations */
@@ -305,6 +307,7 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
 
             /* Check all the user specified options */
             found=0;
+	    assert(user_optarr);
 	    for(i = 0; user_optarr[i].option; ++i) {
 
 		if (opt == user_optarr[i].option[0]) {
@@ -325,11 +328,14 @@ parse_opts(int ac, char **av, option_t *user_optarr, void (*uhf)())
             if ( ! found ) {
                 assert(sprintf(Mesg2,
                                "parse_opts: ERROR - option:\"%c\" NOT FOUND... INTERNAL ERROR", opt) == strlen(Mesg2));
+		free(optionstr);
                 return(Mesg2);
             }
 	}
 
     }    /* end of while */
+
+    free(optionstr);
 
     STD_argind = optind;
 
@@ -888,7 +894,7 @@ check_env()
    first_time = 0;
 
    value = getenv(TOUTPUT); // NOLINT(cert-sig30-c,bugprone-signal-handler,cert-msc54-cpp)
-   if ( value == NULL ) {
+   if ( value == NULL ) { // NOLINT(bugprone-branch-clone)
       /* TOUTPUT not defined, use default */
       T_mode = VERBOSE;
    } else if ( strcmp(value, TOUT_CONDENSE_S) == 0 ) {
@@ -1403,17 +1409,17 @@ usc_test_looping(int counter)
     }
 
     if ( keepgoing == 0 )
-    return 0;
+	return 0;
 
     /*
      * The following code allows special system testing hooks.
      */
 
     if ( STD_LP_recfun ) {
-    if ( Debug )
-        printf("calling usc_recressive_func(0, %d, &STD_bigstack)\n",
-            STD_LP_recfun);
-    usc_recressive_func(0, STD_LP_recfun, &STD_bigstack);
+	if ( Debug )
+	    printf("calling usc_recressive_func(0, %d, &STD_bigstack)\n",
+		   STD_LP_recfun);
+	usc_recressive_func(0, STD_LP_recfun, &STD_bigstack);
     }
 
     assert(!STD_LP_sbrk);
@@ -1649,7 +1655,7 @@ usc_global_setup_hook()
 {
     int cnt;
     /* temp variable to store old signal action to be restored after pause */
-    int (*_TMP_FUNC)(void);
+    void (*_TMP_FUNC)(int);
 
     /*
      * Fork STD_COPIES-1 copies.
@@ -1673,9 +1679,9 @@ usc_global_setup_hook()
      * pause waiting for sigusr1.
      */
     if ( STD_PAUSE ) {
-        _TMP_FUNC = (int (*)())signal(SIGUSR1, STD_go);
+        _TMP_FUNC = (void (*)(int))signal(SIGUSR1, STD_go);
         pause();
-        assert(signal(SIGUSR1, (void (*)())_TMP_FUNC) != SIG_ERR);
+        assert(signal(SIGUSR1, _TMP_FUNC) != SIG_ERR);
     }
 
 

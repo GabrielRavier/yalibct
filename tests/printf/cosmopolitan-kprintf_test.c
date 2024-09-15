@@ -258,7 +258,7 @@ TEST(snprintf, testNonTextFmt_wontFormat) {
 TEST(snprintf, testUnterminatedOverrun_truncatesAtPageBoundary) {
   char *m;
   char b[32];
-  m = memset(_mapanon(FRAMESIZE * 2), 1, FRAMESIZE);
+  m = memset(_mapanon(FRAMESIZE * 2), 1, FRAMESIZE); // NOLINT(bugprone-implicit-widening-of-multiplication-result) (cannot overflow)
   EXPECT_SYS(0, 0, munmap(m + FRAMESIZE, FRAMESIZE));
   // UB and not widely supported
   /*EXPECT_EQ(12, snprintf(b, 32, "%'s", m + FRAMESIZE - 3));

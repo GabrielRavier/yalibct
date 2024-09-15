@@ -59,11 +59,11 @@ int
 main ()
 {
   char *volatile p = "string1";
-  char *volatile r = "string2";
+  char *volatile r = "string2"; // NOLINT(clang-analyzer-deadcode.DeadStores) (idk if this is somehow an optimization test ?)
   char *q = foo (p);
   if (q != NULL)
     {
-      if (strcmp (q, "string1/abcde"))
+      if (strcmp (q, "string1/abcde") != 0)
 	abort ();
       memset (q, '\0', 14);
       free (q);
@@ -71,7 +71,7 @@ main ()
   q = bar (p);
   if (q != NULL)
     {
-      if (strcmp (q, "string1/abcde"))
+      if (strcmp (q, "string1/abcde") != 0)
 	abort ();
       free (q);
     }

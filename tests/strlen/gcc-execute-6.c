@@ -36,22 +36,22 @@ const char *s = "123456";
 
 static void test_binary_cond_expr_global (void)
 {
-  A (i0 ? "1" : ca[0], 2);
-  A (i0 ? ca[0] : "123", 3);
+  A (i0 ? "1" : ca[0], 2u);
+  A (i0 ? ca[0] : "123", 3u);
 
   /* The call to strlen (cb[0]) is strictly undefined because the array
      isn't nul-terminated.  This test verifies that the strlen range
      optimization doesn't assume that the argument is necessarily nul
      terminated.
      Ditto for strlen (vb[0]).  */
-  A (i0 ? "1" : cb[0], 4);              /* GCC 8.2 failure */
-  A (i0 ? cb[0] : "12", 2);
+  A (i0 ? "1" : cb[0], 4u);              /* GCC 8.2 failure */
+  A (i0 ? cb[0] : "12", 2u);
 
-  A (i0 ? "1" : va[0], 3);              /* GCC 8.2 failure */
-  A (i0 ? va[0] : "1234", 4);
+  A (i0 ? "1" : va[0], 3u);              /* GCC 8.2 failure */
+  A (i0 ? va[0] : "1234", 4u);
 
-  A (i0 ? "1" : vb[0], 5);              /* GCC 8.2 failure */
-  A (i0 ? vb[0] : "12", 2);
+  A (i0 ? "1" : vb[0], 5u);              /* GCC 8.2 failure */
+  A (i0 ? vb[0] : "12", 2u);
 }
 
 
@@ -64,26 +64,26 @@ static void test_binary_cond_expr_local (void)
   char lvb[2][3] = { { '1', '2', '3', }, { '4', '5' } };
 
   /* Also undefined as above.  */
-  A (i0 ? "1" : lca[0], 2);
-  A (i0 ? lca[0] : "123", 3);
+  A (i0 ? "1" : lca[0], 2u);
+  A (i0 ? lca[0] : "123", 3u);
 
-  A (i0 ? "1" : lcb[0], 4);             /* GCC 8.2 failure */
-  A (i0 ? lcb[0] : "12", 2);
+  A (i0 ? "1" : lcb[0], 4u);             /* GCC 8.2 failure */
+  A (i0 ? lcb[0] : "12", 2u);
 
-  A (i0 ? "1" : lva[0], 3);             /* GCC 8.2 failure */
-  A (i0 ? lva[0] : "1234", 4);
+  A (i0 ? "1" : lva[0], 3u);             /* GCC 8.2 failure */
+  A (i0 ? lva[0] : "1234", 4u);
 
-  A (i0 ? "1" : lvb[0], 5);             /* GCC 8.2 failure */
-  A (i0 ? lvb[0] : "12", 2);
+  A (i0 ? "1" : lvb[0], 5u);             /* GCC 8.2 failure */
+  A (i0 ? lvb[0] : "12", 2u);
 }
 
 
 static void test_ternary_cond_expr (void)
 {
   /* Also undefined.  */
-  A (i0 == 0 ? s : i0 == 1 ? vb[0] : "123", 6);
-  A (i0 == 0 ? vb[0] : i0 == 1 ? s : "123", 5);
-  A (i0 == 0 ? "123" : i0 == 1 ? s : vb[0], 3);
+  A (i0 == 0 ? s : i0 == 1 ? vb[0] : "123", 6u);
+  A (i0 == 0 ? vb[0] : i0 == 1 ? s : "123", 5u);
+  A (i0 == 0 ? "123" : i0 == 1 ? s : vb[0], 3u);
 }
 
 
@@ -96,11 +96,11 @@ char (*pvb)[3] = &vb[0];
 static void test_binary_cond_expr_arrayptr (void)
 {
   /* Also undefined.  */
-  A (i0 ? *pca : *pcb, 4);              /* GCC 8.2 failure */
-  A (i0 ? *pcb : *pca, 2);
+  A (i0 ? *pca : *pcb, 4u);              /* GCC 8.2 failure */
+  A (i0 ? *pcb : *pca, 2u);
 
-  A (i0 ? *pva : *pvb, 5);              /* GCC 8.2 failure */
-  A (i0 ? *pvb : *pva, 3);
+  A (i0 ? *pva : *pvb, 5u);              /* GCC 8.2 failure */
+  A (i0 ? *pvb : *pva, 3u);
 }
 
 

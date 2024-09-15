@@ -151,7 +151,7 @@
 
 static const union {
   unsigned long long value;
-  unsigned char bytes[4];
+  unsigned char bytes[sizeof(unsigned long long)];
 } psnip_endian_rt_data = {
   1
 };

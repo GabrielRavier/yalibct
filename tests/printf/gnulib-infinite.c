@@ -23,7 +23,7 @@ have_minus_zero ()
 {
   static double plus_zero = 0.0;
   double minus_zero = - plus_zero;
-  return memcmp (&plus_zero, &minus_zero, sizeof (double)) != 0;
+  return memcmp (&plus_zero, &minus_zero, sizeof (double)) != 0; // NOLINT(bugprone-suspicious-memory-comparison) NOLINT(cert-exp42-c) NOLINT(cert-flp37-c) (100% on purpose)
 }
 static char buf[10000];
 static double zero = 0.0;

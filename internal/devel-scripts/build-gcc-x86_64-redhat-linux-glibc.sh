@@ -8,4 +8,3 @@ CC=gcc \
         -DYALIBCT_LIBC_HAS_ECVT=OFF `# See https://sourceware.org/bugzilla/show_bug.cgi?id=29556` \
 && \
     cmake --build build/gcc-glibc --parallel 14
-

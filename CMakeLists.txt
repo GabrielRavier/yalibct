@@ -299,22 +299,6 @@ function(yalibct_check_posix_libc_struct_has_member struct_name member_name head
   yalibct_check_standard_libc_struct_has_member("${struct_name}" "${member_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS} "POSIX")
 endfunction()
 
-function(yalibct_make_executable target_name target_source_file)
-
-  add_executable(${target_name} ${target_source_file})
-  target_include_directories(${target_name}
-    PRIVATE "${CMAKE_SOURCE_DIR}/include"
-  )
-  target_compile_definitions(${target_name} PRIVATE "${YALIBCT_COMPILE_DEFINITIONS}")
-
-  foreach(LOOP_LIB ${YALIBCT_WANTED_LIBRARIES})
-    target_link_libraries(${target_name} PRIVATE ${LOOP_LIB})
-  endforeach()
-
-  target_link_libraries(${target_name} PRIVATE Threads::Threads)
-
-endfunction()
-
 function(yalibct_check_source_compiles code result_variable)
 
   check_c_source_compiles("${code}" ${result_variable})
@@ -326,6 +310,23 @@ function(yalibct_check_source_runs code result_variable)
 
   check_c_source_runs("${code}" ${result_variable})
   yalibct_append_macro_to_compiler_flags(${result_variable})
+
+endfunction()
+
+function(yalibct_make_executable target_name target_source_file)
+
+  add_executable(${target_name} ${target_source_file})
+  set_property(TARGET ${target_name} PROPERTY C_STANDARD 23)
+  target_include_directories(${target_name}
+    PRIVATE "${CMAKE_SOURCE_DIR}/include"
+  )
+  target_compile_definitions(${target_name} PRIVATE "${YALIBCT_COMPILE_DEFINITIONS}")
+
+  foreach(LOOP_LIB ${YALIBCT_WANTED_LIBRARIES})
+    target_link_libraries(${target_name} PRIVATE ${LOOP_LIB})
+  endforeach()
+
+  target_link_libraries(${target_name} PRIVATE Threads::Threads)
 
 endfunction()
 

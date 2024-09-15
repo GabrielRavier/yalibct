@@ -36,7 +36,7 @@ NOIPA void terminate (void)
 			  (int)sizeof a, a);				\
 	terminate ();							\
       }									\
-    if (memcmp (a, str, expect + 1))					\
+    if (memcmp (a, str, expect + 1) != 0)				\
       {									\
 	printf ("line %i: expected string \"%s\", "		\
 			  "got a = \"%.*s\"\n",				\

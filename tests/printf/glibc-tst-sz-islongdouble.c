@@ -35,11 +35,11 @@ do_test (void)
   info.spec = L'f';
 
   /* Print a value with double type.  */
-  printf_size (stdout, &info, (void *) &dptr);
+  printf_size (stdout, &info, (const void *const *) &dptr);
 
   /* Printf a value with long double type.  */
   info.is_long_double = 1;
-  printf_size (stdout, &info, (void *) &ldptr);
+  printf_size (stdout, &info, (const void *const *) &ldptr);
 
   /* Setting both 'is_long_double' and 'is_binary128' to one is out of
      the scope of this test, because such configuration is only valid

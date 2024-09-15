@@ -26,6 +26,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <unistd.h>
@@ -55,5 +56,7 @@ static inline int t_printf(const char *s, ...)
                 buf[n - 3] = '.';
                 buf[n - 4] = '.';
         }
-        return write(1, buf, n);
+        ssize_t r = write(1, buf, n);
+	assert((int)r == r);
+	return (int)r;
 }

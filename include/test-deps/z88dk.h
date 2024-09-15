@@ -116,6 +116,8 @@ int suite_run()
             case 2:
                 extra = "(in teardown) ";
                 break;
+	    default:
+		break;
             }
 #ifdef NO_LOG_RUNNING
             printf("Running test %s..",suite.testnames[i]);

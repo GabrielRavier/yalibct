@@ -673,7 +673,7 @@ static void test_sprintf( void )
     }*/
 
     format = "%s";
-    r = p_sprintf(buffer, format,0);
+    r = p_sprintf(buffer, format,(char *)0);
     ok(!strcmp(buffer,"(null)"), "failed\n");
     ok( r==6, "return count wrong\n");
 
@@ -1167,7 +1167,7 @@ static void test_xcvt(void)
     int i, decpt, sign, err;
 
 #ifdef YALIBCT_LIBC_HAS_ECVT
-    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
         decpt = sign = 100;
         str = ecvt( test_cvt_testcases[i].value,
                 test_cvt_testcases[i].nrdigits,
@@ -1186,7 +1186,7 @@ static void test_xcvt(void)
 #endif
 
 #ifdef YALIBCT_LIBC_HAS_FCVT
-    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
         decpt = sign = 100;
         str = fcvt( test_cvt_testcases[i].value,
                 test_cvt_testcases[i].nrdigits,
@@ -1207,7 +1207,7 @@ static void test_xcvt(void)
     if (p__ecvt_s)
     {
         str = malloc(1024);
-        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
             decpt = sign = 100;
             err = p__ecvt_s(str, 1024, test_cvt_testcases[i].value, test_cvt_testcases[i].nrdigits, &decpt, &sign);
             ok(err == 0, "_ecvt_s() failed with error code %d\n", err);
@@ -1252,7 +1252,7 @@ static void test_xcvt(void)
         err = p__fcvt_s(str, 1, 0.0, 0, &i, NULL);
         ok(err == EINVAL, "got %d, expected EINVAL\n", err);
 
-        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
             decpt = sign = 100;
             err = p__fcvt_s(str, 1024, test_cvt_testcases[i].value, test_cvt_testcases[i].nrdigits, &decpt, &sign);
             ok(err == 0, "_fcvt_s() failed with error code %d\n", err);

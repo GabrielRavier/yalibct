@@ -30,7 +30,7 @@ main ()
   char *q = foo (p, r);
   if (q != NULL)
     {
-      if (strcmp (q, "string1/abcdestring2"))
+      if (strcmp (q, "string1/abcdestring2") != 0)
 	abort ();
       free (q);
     }

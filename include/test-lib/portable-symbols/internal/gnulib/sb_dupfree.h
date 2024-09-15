@@ -49,7 +49,8 @@ sb_dupfree (struct string_buffer *buffer)
       char *contents = buffer->data;
       if (buffer->length < buffer->allocated)
         {
-          contents = realloc (contents, buffer->length);
+	  // The lint is incorrect as if this fails we later free it through another copy which hasn't been overriden by this
+	  contents = realloc (contents, buffer->length); // NOLINT(bugprone-suspicious-realloc-usage)
           if (contents == NULL)
             goto fail;
         }

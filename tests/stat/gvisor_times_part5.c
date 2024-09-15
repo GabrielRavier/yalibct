@@ -27,7 +27,7 @@ static void StatTimesTest_DirList_internal_lambda(void *callback_data) {
     assert(contents.filename_count != 0);
     for (size_t i = 0; i < contents.filename_count; ++i)
         free(contents.filenames[i]);
-    free(contents.filenames);
+    free((void *)contents.filenames);
 };
 
 // Listing files in a directory changes atime.

@@ -128,14 +128,14 @@ void testlib_showerror(const char *file, int line, const char *func,
   char hostname[128];
   stpcpy(hostname, "unknown");
   gethostname(hostname, sizeof(hostname));
-  printf("%serror%s%s:%s:%d%s: %s() in %s(%s) on %s pid %d tid %d\n"
+  printf("%serror%s%s:%s:%d%s: %s() in %s(%s) on %s pid %jd tid %jd\n"
           "\t%s\n"
           "\t\tneed %s %s\n"
           "\t\t got %s\n"
           "\t%s%s\n"
           "\t%s%s\n",
           RED2, UNBOLD, BLUE1, file, line, RESET, method, func,
-          g_fixturename, hostname, getpid(), gettid(), code, v1, symbol, v2,
+	 g_fixturename, hostname, (intmax_t)getpid(), (intmax_t)gettid(), code, v1, symbol, v2,
           SUBTLE, strerror(errno), GetProgramExecutableName(), RESET);
   //free(v1);
   //free(v2);
@@ -496,10 +496,10 @@ void testlib_showerror_(int line, const char *wantcode, const char *gotcode,
   if (gethostname(hostname, sizeof(hostname))) {
     stpcpy(hostname, "unknown");
   }
-  printf("%serror%s:%s%s:%d%s: %s(%s) on %s pid %d tid %d\n"
+  printf("%serror%s:%s%s:%d%s: %s(%s) on %s pid %jd tid %jd\n"
           "\t%s(%s, %s)\n",
           RED2, UNBOLD, BLUE1, testlib_showerror_file, line, RESET,
-          testlib_showerror_func, g_fixturename, hostname, getpid(), gettid(),
+	 testlib_showerror_func, g_fixturename, hostname, (intmax_t)getpid(), (intmax_t)gettid(),
           testlib_showerror_macro, wantcode != NULL ? wantcode : "(null)", gotcode);
   if (wantcode) {
     printf("\t\tneed %s %s\n"
@@ -616,10 +616,6 @@ void *_mapanon(size_t size) {
   return 0;
 }
 
-#ifdef YALIBCT_WORK_AROUND_NAMESPACE_VIOLATIONS
-#undef FRAMESIZE
-#define FRAMESIZE FRAMESIZE_avoid_cosmopolitan_namespace_violations
-#endif
 enum {
     FRAMESIZE = 0x10000, /* 8086 */
 };

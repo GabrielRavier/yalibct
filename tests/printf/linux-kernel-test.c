@@ -79,7 +79,7 @@ do_test(int bufsize, const char *expect, int elen,
 		return 1;
 	}
 
-	if (memcmp(test_buffer, expect, written)) {
+	if (memcmp(test_buffer, expect, written) != 0) {
 		pr_warn("vsnprintf(buf, %d, \"%s\", ...) wrote '%s', expected '%.*s'\n",
 			bufsize, fmt, test_buffer, written, expect);
 		return 1;
@@ -118,7 +118,7 @@ __test(const char *expect, int elen, const char *fmt, ...)
 	p = kvasprintf(GFP_KERNEL, fmt, ap);
 	if (p) {
 		total_tests++;
-		if (memcmp(p, expect, elen+1)) {
+		if (memcmp(p, expect, elen+1) != 0) {
 			pr_warn("kvasprintf(..., \"%s\", ...) returned '%s', expected '%s'\n",
 				fmt, p, expect);
 			failed_tests++;

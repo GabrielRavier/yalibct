@@ -269,11 +269,12 @@ process_long_option (int argc, char **argv, const char *optstring,
               {
                   /*if (__libc_use_alloca (n_options))
               ambig_set = alloca (n_options);
-              else */if ((ambig_set = malloc (n_options)) == NULL)
-              /* Fall back to simpler error message.  */
-              ambig_fallback = 1;
-            else
-              ambig_malloced = 1;
+              else */
+		  if ((ambig_set = malloc (n_options)) == NULL)
+		      /* Fall back to simpler error message.  */
+		      ambig_fallback = 1;
+		  else
+		      ambig_malloced = 1;
 
             if (ambig_set)
               {
@@ -292,24 +293,24 @@ process_long_option (int argc, char **argv, const char *optstring,
       if (print_errors)
         {
           if (ambig_fallback)
-        fprintf (stderr, _("%s: option '%s%s' is ambiguous\n"),
-             argv[0], prefix, d->__nextchar);
+	      (void)fprintf (stderr, _("%s: option '%s%s' is ambiguous\n"),
+		 argv[0], prefix, d->__nextchar);
           else
         {
           flockfile (stderr);
-          fprintf (stderr,
+          (void)fprintf (stderr,
                _("%s: option '%s%s' is ambiguous; possibilities:"),
                argv[0], prefix, d->__nextchar);
 
           for (option_index = 0; option_index < n_options; option_index++)
             if (ambig_set[option_index])
-              fprintf (stderr, " '%s%s'",
+		(void)fprintf (stderr, " '%s%s'",
                    prefix, longopts[option_index].name);
 
           /* This must use 'fprintf' even though it's only
              printing a single character, so that it goes through
              __fxprintf_nocancel when compiled as part of glibc.  */
-          fprintf (stderr, "\n");
+          (void)fprintf (stderr, "\n");
           funlockfile (stderr);
         }
         }
@@ -333,7 +334,7 @@ process_long_option (int argc, char **argv, const char *optstring,
       || strchr (optstring, *d->__nextchar) == NULL)
     {
       if (print_errors)
-        fprintf (stderr, _("%s: unrecognized option '%s%s'\n"),
+	  (void)fprintf (stderr, _("%s: unrecognized option '%s%s'\n"),
              argv[0], prefix, d->__nextchar);
 
       d->__nextchar = NULL;
@@ -358,7 +359,7 @@ process_long_option (int argc, char **argv, const char *optstring,
       else
     {
       if (print_errors)
-        fprintf (stderr,
+	  (void)fprintf (stderr,
              _("%s: option '%s%s' doesn't allow an argument\n"),
              argv[0], prefix, pfound->name);
 
@@ -373,7 +374,7 @@ process_long_option (int argc, char **argv, const char *optstring,
       else
     {
       if (print_errors)
-        fprintf (stderr,
+	  (void)fprintf (stderr,
              _("%s: option '%s%s' requires an argument\n"),
              argv[0], prefix, pfound->name);
 
@@ -599,8 +600,8 @@ _getopt_internal_r (int argc, char **argv, const char *optstring,
     if (temp == NULL || c == ':' || c == ';')
       {
     if (print_errors)
-      fprintf (stderr, _("%s: invalid option -- '%c'\n"), argv[0], c);
-    d->optopt = c;
+	(void)fprintf (stderr, _("%s: invalid option -- '%c'\n"), argv[0], c);
+    d->optopt = c; // NOLINT(bugprone-signed-char-misuse) NOLINT(cert-str34-c)
     return '?';
       }
 
@@ -613,11 +614,11 @@ _getopt_internal_r (int argc, char **argv, const char *optstring,
     else if (d->optind == argc)
       {
         if (print_errors)
-          fprintf (stderr,
+	    (void)fprintf (stderr,
                _("%s: option requires an argument -- '%c'\n"),
                argv[0], c);
 
-        d->optopt = c;
+        d->optopt = c; // NOLINT(bugprone-signed-char-misuse) NOLINT(cert-str34-c)
         if (optstring[0] == ':')
           c = ':';
         else
@@ -659,11 +660,11 @@ _getopt_internal_r (int argc, char **argv, const char *optstring,
         else if (d->optind == argc)
           {
         if (print_errors)
-          fprintf (stderr,
+	    (void)fprintf (stderr,
                _("%s: option requires an argument -- '%c'\n"),
                argv[0], c);
 
-        d->optopt = c;
+        d->optopt = c; // NOLINT(bugprone-signed-char-misuse) NOLINT(cert-str34-c)
         if (optstring[0] == ':')
           c = ':';
         else

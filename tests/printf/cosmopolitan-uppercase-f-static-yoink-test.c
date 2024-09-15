@@ -29,7 +29,7 @@ int main() {
   char buffer[30];
 
   int snprintf_result = snprintf(buffer, sizeof(buffer), "%F", .0);
-  if (strcmp(buffer, "0.000000")) {
+  if (strcmp(buffer, "0.000000") != 0) {
     printf("error: snprintf gave us '%s' instead of the expected '0.000000'\n",
             buffer);
     abort();

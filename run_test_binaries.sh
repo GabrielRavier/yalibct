@@ -64,7 +64,7 @@ checked_add_to_ld_preload()
 {
     # We need to temporarily disable pipefail so that the || test only and solely uses the grep process as the status for the tests
     set +o pipefail
-    # shellcheck disable=SC2310
+    # shellcheck disable=SC2310 # (yes, shellcheck, we don't want to exit if the left-hand side fails)
     { LD_PRELOAD="${LD_PRELOAD-} $1" test_runner libc-starts-up 2>&1 | grep -q . || LD_PRELOAD="${LD_PRELOAD-} $1" /bin/true 2>&1 | grep -q . || export LD_PRELOAD="${LD_PRELOAD-} $1"; } || true
     set -o pipefail
 }
@@ -135,7 +135,7 @@ do_printf_glibc_test_ldbl_compat()
     do_output_diff_test "test_runner printf-glibc-test-ldbl-compat | sed 's/\-0x1.0000000000p+0/-0x8.0000000000p-3/g'" ./test-data/outputs/printf-glibc-test-ldbl-compat
 }
 
-# shellcheck disable=SC2310
+# shellcheck disable=SC2310 # (yes, shellcheck, we explicitly don't want to exit if the left-hand-side fails)
 do_printf_gnulib_test_posix2()
 {
     test_runner printf-gnulib-test-posix2 1 >/dev/null || echo "FAILED printf-gnulib-test-posix2 1"

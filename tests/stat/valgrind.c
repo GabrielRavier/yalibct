@@ -147,7 +147,7 @@ int main()
     DIR* cwd = opendir(".");
     if (cwd)
     {
-       int cwdfd = dirfd(cwd);
+	int cwdfd = dirfd(cwd); // NOLINT(clang-analyzer-deadcode.DeadStores)
 #ifndef YALIBCT_LIBC_HAS_FSTATAT
        fstatat(cwdfd, "stat.c", &sb, 0);
 #endif
