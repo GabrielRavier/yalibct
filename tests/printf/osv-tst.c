@@ -9,6 +9,7 @@
 //
 // To compile on Linux, use: g++ -g -std=c++11 tst-printf.cc
 
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/xmalloc.h"
 #include "test-lib/compiler-features.h"
 #include <stdio.h>
@@ -69,7 +70,7 @@ int main(void)
     // Note: this test currently fails on recent versions of glibc - they seem to neither want to follow POSIX nor the C standard to the letter, which means the function doesn't either return EOVERFLOW (since (size_t)-1 > INT_MAX on most platforms) nor 5.
     // glibc instead claims that this invocation of snprintf results in undefined behavior, as (size_t)-1 is larger than the size of the destination - a proposition which might be accurate to the POSIX standard (which describes the destination buffer as being of the size specified by the second argument), but not to the current C standard as written, which only uses the second argument to describe how many characters may be written to the buffer, not to specify its size. As a result, an effort is currently underway to get a clarification from the C committee on the subject: they may decide that this is indeed undefined behavior after all, but as of now this code should be considered to conform to the standard, from our point of view, which means it won't be changed unless the C standard budges on the issue.
     int snprintf_retval;
-#ifdef YALIBCT_LIBC_HAS_SNPRINTF
+#ifndef YALIBCT_DISABLE_SNPRINTF_SIZE_LARGER_THAN_ACTUAL_BUFFER_TESTS
     snprintf_retval = snprintf(dest, -1, format, source);
     report(snprintf_retval == 5 || (snprintf_retval == -1 && errno == EOVERFLOW), "snprintf with n=-1");
     report(strcmp(source, dest) == 0 || strcmp(dest, "test") == 0, "strcmp result of snprintf with n=-1");

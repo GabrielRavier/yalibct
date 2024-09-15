@@ -38,7 +38,6 @@ struct {
 #endif
     "C", "%f", 3.2, "3.200000", NULL,
     "C", "%g", 3.2, "3.2", NULL,
-#ifndef YALIBCT_DISABLE_LC_NUMERIC_TESTS
 #ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
     "en_US.UTF-8", "%a", 3.2, "0x1.99999a0000000p+1", "0x1.99999ap+1",
 #endif
@@ -53,7 +52,6 @@ struct {
     "ru_RU.UTF-8", "%f", 3.2, "3,200000", NULL,
     "ru_RU.UTF-8", "%g", 3.2, "3,2", NULL,
 #endif
-#endif
     NULL, NULL, 0, NULL, NULL,
 };
 
@@ -65,7 +63,7 @@ main(void)
 
     for (i = 0; fpconv[i].locale != NULL; i++) {
         if (setlocale(LC_NUMERIC, fpconv[i].locale) == NULL)
-            err(1, "failed to set locale to %s", fpconv[i].locale);
+            continue;
 
         (void) sprintf(buf, fpconv[i].convspec, fpconv[i].fp);
         if (strcmp(fpconv[i].expected, buf) != 0) {

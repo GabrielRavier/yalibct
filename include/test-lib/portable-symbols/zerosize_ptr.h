@@ -74,7 +74,7 @@ zerosize_ptr (void)
     {
       int pagesize = getpagesize ();
       char *two_pages =
-        (char *) mmap (NULL, 2 * pagesize, PROT_READ | PROT_WRITE,
+	(char *) mmap (NULL, 2 * (size_t)pagesize, PROT_READ | PROT_WRITE,
                        flags, fd, 0);
       if (two_pages != (char *)(-1)
           && mprotect (two_pages + pagesize, pagesize, PROT_NONE) == 0)

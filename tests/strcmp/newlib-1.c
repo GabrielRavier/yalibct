@@ -26,6 +26,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "test-lib/portable-symbols/printf.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -161,7 +162,7 @@ main (void)
 	      /* Make a copy of the source.  */
 	      for (i = 0; i < BUFF_SIZE; i++)
 		{
-		  src[i] = 'A' + (i % 26);
+		  src[i] = (char)('A' + (i % 26));
 		  dest[i] = src[i];
 		}
 	      memcpy (dest + da, src + sa, n);

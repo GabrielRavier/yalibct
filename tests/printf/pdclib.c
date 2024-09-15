@@ -6,6 +6,8 @@
 
 #include "test-deps/pdclib.h"
 #include "test-lib/chdir-to-tmpdir.h"
+#include "test-lib/portable-symbols/printf.h"
+#include "test-lib/portable-symbols/static_assert.h"
 #include <stdarg.h>
 #include <stdio.h>
 

@@ -19,6 +19,8 @@
 #include "test-deps/cosmopolitan.h"
 #include <stdint.h>
 
+YALIBCT_DIAGNOSTIC_IGNORE_WFORMAT_TRUNCATION
+
 #define S(x) ((uintptr_t)(x))
 
 /**
@@ -194,7 +196,7 @@ static const struct {
     {"þell", "%.*s", 5, S("þello world")},                //
     // UB and not widely supported
     //{"þello", "%.*hs", 5, S(u"þello world")},             //
-#ifndef YALIBCT_DISABLE_PRINTF_FIELD_LENGTH_ON_S_CONVERSION_SPECIFIER_TESTS
+#ifndef YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_S_CONVERSION_SPECIFIER_TESTS
     {"  þeeeeee", "%10s", S("þeeeeee")},                 //
     {"☺☻♥♦♣♠!", "%10s", S("☺☻♥♦♣♠!")},                 //
 #endif
@@ -256,7 +258,7 @@ TEST(snprintf, testNonTextFmt_wontFormat) {
 TEST(snprintf, testUnterminatedOverrun_truncatesAtPageBoundary) {
   char *m;
   char b[32];
-  m = memset(_mapanon(FRAMESIZE * 2), 1, FRAMESIZE);
+  m = memset(_mapanon(FRAMESIZE * 2), 1, FRAMESIZE); // NOLINT(bugprone-implicit-widening-of-multiplication-result) (cannot overflow)
   EXPECT_SYS(0, 0, munmap(m + FRAMESIZE, FRAMESIZE));
   // UB and not widely supported
   /*EXPECT_EQ(12, snprintf(b, 32, "%'s", m + FRAMESIZE - 3));

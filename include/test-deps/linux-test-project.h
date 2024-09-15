@@ -8,7 +8,9 @@
 #pragma once
 
 #include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/MIN.h"
+#include "test-lib/portable-symbols/static_assert.h"
 #include <stdio.h>
 #include <pwd.h>
 #include <stdlib.h>
@@ -1048,8 +1050,6 @@ char* tst_ttype2color(int ttype)
         return ANSI_COLOR_GREEN;
     break;
     case TFAIL:
-        return ANSI_COLOR_RED;
-    break;
     case TBROK:
         return ANSI_COLOR_RED;
     break;
@@ -1139,7 +1139,7 @@ static void tst_print(const char *tcid, int tnum, int ttype, const char *tmesg)
     if (ttype & TTERRNO) {
         size += snprintf(message + size, sizeof(message) - size,
                  ": TEST_ERRNO=%s(%i): %s",
-                 tst_strerrno(TEST_ERRNO), (int)TEST_ERRNO,
+                 tst_strerrno(TEST_ERRNO), TEST_ERRNO,
                  strerror(TEST_ERRNO));
     }
 
@@ -1514,7 +1514,7 @@ static void parse_topt(unsigned int topts_len, int opt, char *optarg)
 static void parse_opts(int argc, char *argv[])
 {
     unsigned int i, topts_len = count_options();
-    char optstr[2 * ARRAY_SIZE(options) + 2 * topts_len];
+    char optstr[2 * ARRAY_SIZE(options) + 2 * (size_t)topts_len];
     int opt;
 
     check_option_collision();
@@ -2704,87 +2704,87 @@ const char *tst_strsig(int sig)
 {
     static struct pair signal_pairs[2000];
 
-        NON_CONST_PAIR(SIGHUP)
-        NON_CONST_PAIR(SIGINT)
-        NON_CONST_PAIR(SIGQUIT)
-        NON_CONST_PAIR(SIGILL)
+    NON_CONST_PAIR(SIGHUP) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGINT) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGQUIT) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGILL) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #ifdef SIGTRAP
-        NON_CONST_PAIR(SIGTRAP)
+        NON_CONST_PAIR(SIGTRAP) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
 
     #ifdef SIGIOT
         /* SIGIOT same as SIGABRT */
-        NON_CONST_STRPAIR(SIGABRT, "SIGIOT/SIGABRT")
+        NON_CONST_STRPAIR(SIGABRT, "SIGIOT/SIGABRT") // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #else
-        NON_CONST_PAIR(SIGABRT)
+        NON_CONST_PAIR(SIGABRT) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
 
     #ifdef SIGEMT
-        NON_CONST_PAIR(SIGEMT)
+        NON_CONST_PAIR(SIGEMT) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
     #ifdef SIGBUS
-        NON_CONST_PAIR(SIGBUS)
+        NON_CONST_PAIR(SIGBUS) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
-        NON_CONST_PAIR(SIGFPE)
-        NON_CONST_PAIR(SIGKILL)
-        NON_CONST_PAIR(SIGUSR1)
-        NON_CONST_PAIR(SIGSEGV)
-        NON_CONST_PAIR(SIGUSR2)
-        NON_CONST_PAIR(SIGPIPE)
-        NON_CONST_PAIR(SIGALRM)
-        NON_CONST_PAIR(SIGTERM)
+        NON_CONST_PAIR(SIGFPE) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGKILL) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGUSR1) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGSEGV) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGUSR2) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGPIPE) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGALRM) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGTERM) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #ifdef SIGSTKFLT
-        NON_CONST_PAIR(SIGSTKFLT)
+        NON_CONST_PAIR(SIGSTKFLT) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
-        NON_CONST_PAIR(SIGCHLD)
-        NON_CONST_PAIR(SIGCONT)
-        NON_CONST_PAIR(SIGSTOP)
-        NON_CONST_PAIR(SIGTSTP)
-        NON_CONST_PAIR(SIGTTIN)
-        NON_CONST_PAIR(SIGTTOU)
+        NON_CONST_PAIR(SIGCHLD) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGCONT) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGSTOP) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGTSTP) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGTTIN) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
+        NON_CONST_PAIR(SIGTTOU) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #ifdef SIGURG
-        NON_CONST_PAIR(SIGURG)
+        NON_CONST_PAIR(SIGURG) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
     #ifdef SIGXCPU
-        NON_CONST_PAIR(SIGXCPU)
+        NON_CONST_PAIR(SIGXCPU) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
     #ifdef SIGXFSZ
-        NON_CONST_PAIR(SIGXFSZ)
+        NON_CONST_PAIR(SIGXFSZ) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
     #ifdef SIGVTALRM
-        NON_CONST_PAIR(SIGVTALRM)
+        NON_CONST_PAIR(SIGVTALRM) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
     #ifdef SIGPROF
-        NON_CONST_PAIR(SIGPROF)
+        NON_CONST_PAIR(SIGPROF) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
     #ifdef SIGWINCH
-        NON_CONST_PAIR(SIGWINCH)
+        NON_CONST_PAIR(SIGWINCH) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
 
     #if defined(SIGIO) && defined(SIGPOLL)
         /* SIGPOLL same as SIGIO */
-        NON_CONST_STRPAIR(SIGIO, "SIGIO/SIGPOLL")
+        NON_CONST_STRPAIR(SIGIO, "SIGIO/SIGPOLL") // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #elif defined(SIGIO)
-        NON_CONST_PAIR(SIGIO)
+        NON_CONST_PAIR(SIGIO) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #elif defined(SIGPOLL)
-        NON_CONST_PAIR(SIGPOLL)
+        NON_CONST_PAIR(SIGPOLL) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
 
     #ifdef SIGINFO
-        NON_CONST_PAIR(SIGINFO)
+        NON_CONST_PAIR(SIGINFO) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
     #ifdef SIGLOST
-        NON_CONST_PAIR(SIGLOST)
+        NON_CONST_PAIR(SIGLOST) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
     #ifdef SIGPWR
-        NON_CONST_PAIR(SIGPWR)
+        NON_CONST_PAIR(SIGPWR) // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
     #if defined(SIGSYS)
         /*
          * According to signal(7)'s manpage, SIGUNUSED is synonymous
          * with SIGSYS on most architectures.
          */
-        NON_CONST_STRPAIR(SIGSYS, "SIGSYS/SIGUNUSED")
+        NON_CONST_STRPAIR(SIGSYS, "SIGSYS/SIGUNUSED") // NOLINT(cert-dcl03-c) NOLINT(hicpp-static-assert) NOLINT(misc-static-assert)
     #endif
 
     PAIR_LOOKUP(signal_pairs, sig);
@@ -3022,6 +3022,8 @@ static void update_results(int ttype)
     case TBROK:
         tst_atomic_inc(&results->broken);
     break;
+    default:
+	break;
     }
 }
 

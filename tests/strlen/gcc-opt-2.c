@@ -34,7 +34,7 @@ main ()
   char *q = foo (p, r);
   if (q != NULL)
     {
-      if (strcmp (q, "string1/abcdestring2fg"))
+      if (strcmp (q, "string1/abcdestring2fg") != 0)
 	abort ();
       free (q);
     }

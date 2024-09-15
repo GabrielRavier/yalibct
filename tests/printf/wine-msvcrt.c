@@ -27,6 +27,7 @@
 
 #include "test-deps/wine.h"
 #include "test-lib/chdir-to-tmpdir.h"
+#include "test-lib/portable-symbols/wcscmp.h"
 #include <stdio.h>
 #include <errno.h>
 #include <math.h>
@@ -36,6 +37,10 @@
 #include <unistd.h>
 #include <fenv.h>
 #include <stdint.h>
+
+#if defined(__GNUC__) && !defined(__clang__)
+YALIBCT_DIAGNOSTIC_IGNORE("-Wunknown-pragmas")
+#endif
 
 #pragma STDC FENV_ACCESS ON
 
@@ -383,7 +388,7 @@ static void test_sprintf( void )
         ok(!strcmp(buffer,"123456 1"),"buffer = %s\n",buffer);
         ok( r==8, "return count wrong\n");
 
-        r = p_sprintf(buffer, "%p", 0);
+        r = p_sprintf(buffer, "%p", (void *)0);
         ok(!strcmp(buffer,"00000000"), "failed\n");
         ok( r==8, "return count wrong\n");
     }
@@ -722,6 +727,7 @@ static struct {
     int expsign;
     const char *expstr_f2;
     int expdecpt_f2;
+    int expdecpt_e2;
 } test_cvt_testcases[] = {
     {          45.0,   2,        "45",           "4500",          2,      2,      0 },
     {        0.0001,   1,         "1",               "",         -3,     -3,     0 },
@@ -730,25 +736,28 @@ static struct {
     {      111.0001,   5,     "11100",       "11100010",          3,      3,     0 },
     {        3333.3,   2,        "33",         "333330",          4,      4,     0 },
     {999999999999.9,   3,       "100","999999999999900",         13,     12,     0 },
-    {           0.0,   5,     "00000",          "00000",          0,      0,     0, "000000", 1 },
+    {           0.0,   5,     "00000",          "00000",          0,      0,     0, "000000", 1, 1 },
     {           0.0,   0,          "",               "",          0,      0,     0, "0", 1 },
-    {           0.0,  -1,          "",               "",          0,      0,     0, "0", 1 },
-    {          -0.0,   5,     "00000",          "00000",          0,      0,     1, "000000", 1 },
+    // negative ndigits is UB and not widely supported
+//    {           0.0,  -1,          "",               "",          0,      0,     0, "0", 1 },
+    {          -0.0,   5,     "00000",          "00000",          0,      0,     1, "000000", 1, 1 },
     {          -0.0,   0,          "",               "",          0,      0,     1, "0", 1 },
-    {          -0.0,  -1,          "",               "",          0,      0,     1, "0", 1 },
-    {     -123.0001,   0,          "",            "123",          3,      3,     1 },
-    {     -123.0001,  -1,          "",             "12",          3,      3,     1 },
+    // negative ndigits is UB and not widely supported
+//    {          -0.0,  -1,          "",               "",          0,      0,     1, "0", 1 },
+    {     -123.0001,   0,          "",            "123",          0,      3,     1, NULL, 0, 3 },
+    // negative ndigits is UB and not widely supported
+/*    {     -123.0001,  -1,          "",             "12",          3,      3,     1 },
     {     -123.0001,  -2,          "",              "1",          3,      3,     1 },
-    {     -123.0001,  -3,          "",               "",          3,      3,     1 },
+    {     -123.0001,  -3,          "",               "",          3,      3,     1 },*/
     {         99.99,   1,         "1",           "1000",          3,      3,     0 },
     {        0.0063,   2,        "63",              "1",         -2,     -1,     0 },
     {        0.0063,   3,        "630",             "6",         -2,     -2,     0 },
     { 0.09999999996,   2,        "10",             "10",          0,      0,     0 },
     {           0.6,   1,         "6",              "6",          0,      0,     0 },
-    {           0.6,   0,          "",              "1",          1,      1,     0 },
+    {           0.6,   0,          "",              "1",          0,      1,     0, NULL, 0, 1 },
     {           0.4,   0,          "",               "",          0,      0,     0, "0", 1 },
     {          0.49,   0,          "",               "",          0,      0,     0, "0", 1 },
-    {          0.51,   0,          "",              "1",          1,      1,     0 },
+    {          0.51,   0,          "",              "1",          0,      1,     0, NULL, 0, 1 },
     // Unspecified and inconsistent across implementations
     /*{           NAN,   2,        "1$",            "1#R",          1,      1,     0 },
     {           NAN,   5,     "1#QNB",         "1#QNAN",          1,      1,     0 },
@@ -771,7 +780,7 @@ static void test_xcvt(void)
     int i, decpt, sign, err;
 
 #ifdef YALIBCT_LIBC_HAS_ECVT
-    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
         decpt = sign = 100;
         str = ecvt( test_cvt_testcases[i].value,
                 test_cvt_testcases[i].nrdigits,
@@ -780,7 +789,7 @@ static void test_xcvt(void)
         ok( !strncmp( str, test_cvt_testcases[i].expstr_e, 15),
                "%d) ecvt() bad return, got '%s' expected '%s'\n", i, str,
               test_cvt_testcases[i].expstr_e);
-        ok( decpt == test_cvt_testcases[i].expdecpt_e,
+        ok( decpt == test_cvt_testcases[i].expdecpt_e || (test_cvt_testcases[i].expdecpt_e2 != 0 && decpt == test_cvt_testcases[i].expdecpt_e2),
                 "%d) ecvt() decimal point wrong, got %d expected %d\n", i, decpt,
                 test_cvt_testcases[i].expdecpt_e);
         ok( sign == test_cvt_testcases[i].expsign,
@@ -790,7 +799,7 @@ static void test_xcvt(void)
 #endif
 
 #ifdef YALIBCT_LIBC_HAS_FCVT
-    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
         decpt = sign = 100;
         str = fcvt( test_cvt_testcases[i].value,
                 test_cvt_testcases[i].nrdigits,
@@ -811,7 +820,7 @@ static void test_xcvt(void)
     if (p__ecvt_s)
     {
         str = malloc(1024);
-        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
             decpt = sign = 100;
             err = p__ecvt_s(str, 1024, test_cvt_testcases[i].value, test_cvt_testcases[i].nrdigits, &decpt, &sign);
             ok(err == 0, "_ecvt_s() failed with error code %d\n", err);
@@ -856,7 +865,7 @@ static void test_xcvt(void)
         err = p__fcvt_s(str, 1, 0.0, 0, &i, NULL);
         ok(err == EINVAL, "got %d, expected EINVAL\n", err);
 
-        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
             decpt = sign = 100;
             err = p__fcvt_s(str, 1024, test_cvt_testcases[i].value, test_cvt_testcases[i].nrdigits, &decpt, &sign);
             ok(!err, "%d) _fcvt_s() failed with error code %d\n", i, err);

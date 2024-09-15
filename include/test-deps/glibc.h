@@ -20,6 +20,7 @@
 
 #include "test-lib/hedley.h"
 #include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/static_assert.h"
 #include "test-lib/portable-symbols/MAX.h"
 #include "test-lib/portable-symbols/xmalloc.h"
@@ -641,8 +642,8 @@ run_test_function (int argc, char **argv, const struct test_config *config)
     {
       /* In run-command-mode, the child process executes the command line
      arguments as a new program.  */
-      char **argv_ = xmalloc (sizeof (char *) * argc);
-      memcpy (argv_, &argv[1], sizeof (char *) * (argc - 1));
+      char **argv_ = (char **)xmalloc (sizeof (char *) * argc);
+      memcpy ((void *)argv_, (void *)&argv[1], sizeof (char *) * (argc - 1));
       argv_[argc - 1] = NULL;
       execv (argv_[0], argv_);
       printf ("error: should not return here\n");

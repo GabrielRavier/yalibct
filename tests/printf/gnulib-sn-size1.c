@@ -1,3 +1,4 @@
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <assert.h>
 #if 1//HAVE_SNPRINTF
@@ -15,6 +16,9 @@ static int my_snprintf (char *buf, int size, const char *format, ...)
   return ret;
 }
 #endif
+
+YALIBCT_DIAGNOSTIC_IGNORE_WFORMAT_TRUNCATION
+
 int main()
 {
   static char buf[8] = { 'D', 'E', 'A', 'D', 'B', 'E', 'E', 'F' };

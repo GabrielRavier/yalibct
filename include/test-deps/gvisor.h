@@ -390,7 +390,7 @@ struct ListDir_retval ListDir(const char *abspath, bool skipdots) {
         continue;
       }
     }
-    files.filenames = realloc(files.filenames, ++files.filename_count * sizeof(char *));
+    files.filenames = (char **)realloc((void *)files.filenames, ++files.filename_count * sizeof(char *)); // NOLINT(bugprone-suspicious-realloc-usage)
     assert(files.filenames != NULL);
     files.filenames[files.filename_count - 1] = strdup(dp->d_name);
   }

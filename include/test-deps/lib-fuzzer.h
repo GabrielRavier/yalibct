@@ -14,7 +14,7 @@ int main() {
         size_t thisIterationSize = random() % 1000;
         if (thisIterationSize > largestSizeYet) {
             largestSizeYet = thisIterationSize;
-            data = realloc(data, largestSizeYet);
+            data = realloc(data, largestSizeYet); // NOLINT(bugprone-suspicious-realloc-usage)
             assert(data != NULL);
         }
 

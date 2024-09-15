@@ -88,7 +88,7 @@ ATF_TC_BODY(strcmp_basic, tc)
 				if ((ret == 0 && tab[t].ret != 0) ||
 				    (ret <  0 && tab[t].ret >= 0) ||
 				    (ret >  0 && tab[t].ret <= 0)) {
-                                    assert(fprintf(stderr, "a0 %d, a1 %d, t %d\n",
+                                    assert(fprintf(stderr, "a0 %u, a1 %u, t %u\n",
                                                    a0, a1, t) > 0);
                                     assert(fprintf(stderr, "\"%s\" \"%s\" %d\n",
                                                    &buf0[a0], &buf1[a1], ret) > 0);

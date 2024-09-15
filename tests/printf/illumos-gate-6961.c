@@ -18,6 +18,7 @@
  * we shouldn't have when dealing with a 64-bit libc.
  */
 
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>

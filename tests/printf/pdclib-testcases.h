@@ -3,23 +3,25 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat"
 #endif
+#ifndef YALIBCT_DISABLE_PRINTF_H_LENGTH_MODIFIER_TESTS
 #if CHAR_MIN == -128
-    assert( CHAR_MIN == -128 );
+    static_assert( CHAR_MIN == -128 );
     PRINTF_TEST( 4,   "-128", "%hhd", CHAR_MIN );
-    assert( CHAR_MAX == 127 );
+    static_assert( CHAR_MAX == 127 );
     PRINTF_TEST( 3,    "127", "%hhd", CHAR_MAX );
 #else
-    assert( CHAR_MIN == 0 );
+    static_assert( CHAR_MIN == 0 );
     PRINTF_TEST( 1,   "0", "%hhu", CHAR_MIN );
-    assert( CHAR_MAX == 255 );
+    static_assert( CHAR_MAX == 255 );
     PRINTF_TEST( 3,    "255", "%hhu", CHAR_MAX );
 #endif
     PRINTF_TEST( 1,      "0", "%hhd", 0 );
-    assert( SHRT_MIN == -32768 );
+    static_assert( SHRT_MIN == -32768 );
     PRINTF_TEST( 6, "-32768",  "%hd", SHRT_MIN );
-    assert( SHRT_MAX == 32767 );
+    static_assert( SHRT_MAX == 32767 );
     PRINTF_TEST( 5,  "32767",  "%hd", SHRT_MAX );
     PRINTF_TEST( 1,      "0",  "%hd", 0 );
+#endif
     PRINTF_TEST( INT_DIG + 1, "-" INT_MIN_DEZ_STR, "%d", INT_MIN );
     PRINTF_TEST( INT_DIG, INT_MAX_DEZ_STR, "%d", INT_MAX );
     PRINTF_TEST( 1, "0", "%d", 0 );

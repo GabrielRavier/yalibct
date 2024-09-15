@@ -28,6 +28,7 @@
 
 #include "test-deps/catch2.h"
 #include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/NAN.h"
 #include "test-lib/portable-symbols/INFINITY.h"
 #include <stdio.h>
@@ -76,7 +77,7 @@ TEST_CASE(snprintf, "[]" ) {
   REQUIRE(!strcmp(buffer, "-1"));
 }
 
-static void vprintf_builder_1(char* buffer, ...)
+static void vprintf_builder_1(YALIBCT_ATTRIBUTE_MAYBE_UNUSED char* buffer, ...)
 {
   va_list args;
   va_start(args, buffer);

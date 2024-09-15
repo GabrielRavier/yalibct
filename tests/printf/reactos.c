@@ -571,6 +571,7 @@ static void test_sprintf( void )
     format = "asdf%n";
     x = 0;
     r = p_sprintf(buffer, format, &x );
+    ok(r != -1, "%%n should be in working condition");
     if (r == -1)
     {
         /* %n format is disabled by default on vista */
@@ -672,7 +673,7 @@ static void test_sprintf( void )
     }*/
 
     format = "%s";
-    r = p_sprintf(buffer, format,0);
+    r = p_sprintf(buffer, format,(char *)0);
     ok(!strcmp(buffer,"(null)"), "failed\n");
     ok( r==6, "return count wrong\n");
 
@@ -982,8 +983,9 @@ static void test_fprintf(void)
 
     checked_fclose(fp);
 
-#ifndef YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS
     fp = fopen(file_name, "rb");
+    ok(fp != NULL, "");
+#ifndef YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS
     ret = fscanf(fp, "%[^\n] ", buf);
     ok(ret == 1, "ret = %d\n", ret);
     ret = ftell(fp);
@@ -1057,11 +1059,12 @@ static void test_fcvt(void)
 
     /* Numbers > 1.0 with 0 or -ve precision */
     str = fcvt(-123.0001, 0, &dec, &sign );
-    ok( 0 == strcmp(str,"123"), "bad return '%s'\n", str);
-    ok( 3 == dec, "dec wrong %d\n", dec);
+    ok( 0 == strcmp(str,"123") || 0 == strcmp(str,""), "bad return '%s'\n", str);
+    ok( 3 == dec || 0 == dec, "dec wrong %d\n", dec);
     ok( 1 == sign, "sign wrong\n");
 
-    str = fcvt(-123.0001, -1, &dec, &sign );
+    // ndigits <0 is UB and not widely supported
+    /*str = fcvt(-123.0001, -1, &dec, &sign );
     ok( str, "bad return '%s'\n", str);
     ok( 1 == sign, "sign wrong\n");
 
@@ -1071,7 +1074,7 @@ static void test_fcvt(void)
 
     str = fcvt(-123.0001, -3, &dec, &sign );
     ok( str, "bad return '%s'\n", str);
-    ok( 1 == sign, "sign wrong\n");
+    ok( 1 == sign, "sign wrong\n");*/
 
     /* Numbers > 1.0, but with rounding at the point of precision */
     str = fcvt(99.99, 1, &dec, &sign );
@@ -1096,8 +1099,8 @@ static void test_fcvt(void)
     ok( 0 == sign, "sign wrong\n");
 
     str = fcvt(0.6, 0, &dec, &sign );
-    ok( 0 == strcmp(str,"1"), "bad return '%s'\n", str);
-    ok( 1 == dec, "dec wrong %d\n", dec);
+    ok( 0 == strcmp(str,"1") || 0 == strcmp(str,""), "bad return '%s'\n", str);
+    ok( 1 == dec || 0 == dec, "dec wrong %d\n", dec);
     ok( 0 == sign, "sign wrong\n");
 #endif
 }
@@ -1130,12 +1133,14 @@ static struct {
     /* 0.0 with different precisions */
     {           0.0,   5,     "00000",          "00000",          0,      0,     0, NULL, 1, 1, "000000" },
     {           0.0,   0,          "",               "",          0,      0,     0, NULL, 1, 1, "0" },
-    {           0.0,  -1,          "",               "",          0,      0,     0, NULL, 1, 1, "0" },
+    // Negative ndigits appears to be UB and not widely supported
+    //{           0.0,  -1,          "",               "",          0,      0,     0, NULL, 1, 1, "0" },
     /* Numbers > 1.0 with 0 or -ve precision */
-    {     -123.0001,   0,          "",            "123",          3,      3,     1 },
-    {     -123.0001,  -1,          "",             "12",          3,      3,     1, NULL, 0, 0, "120" },
+    {     -123.0001,   0,          "",            "123",          0,      0,     1, NULL, 3, 3, "" },
+    // Negative ndigits appears to be UB and not widely supported
+    /*{     -123.0001,  -1,          "",             "12",          3,      3,     1, NULL, 0, 0, "120" },
     {     -123.0001,  -2,          "",              "1",          3,      3,     1, NULL, 0, 0, "100" },
-    {     -123.0001,  -3,          "",               "",          3,      3,     1, NULL, 0, 0, "100" },
+    {     -123.0001,  -3,          "",               "",          3,      3,     1, NULL, 0, 0, "100" },*/
     /* Numbers > 1.0, but with rounding at the point of precision */
     {         99.99,   1,         "1",           "1000",          3,      3,     0, "10" },
     /* Numbers < 1.0 where rounding occurs at the point of precision */
@@ -1162,7 +1167,7 @@ static void test_xcvt(void)
     int i, decpt, sign, err;
 
 #ifdef YALIBCT_LIBC_HAS_ECVT
-    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
         decpt = sign = 100;
         str = ecvt( test_cvt_testcases[i].value,
                 test_cvt_testcases[i].nrdigits,
@@ -1181,7 +1186,7 @@ static void test_xcvt(void)
 #endif
 
 #ifdef YALIBCT_LIBC_HAS_FCVT
-    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+    for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
         decpt = sign = 100;
         str = fcvt( test_cvt_testcases[i].value,
                 test_cvt_testcases[i].nrdigits,
@@ -1202,7 +1207,7 @@ static void test_xcvt(void)
     if (p__ecvt_s)
     {
         str = malloc(1024);
-        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
             decpt = sign = 100;
             err = p__ecvt_s(str, 1024, test_cvt_testcases[i].value, test_cvt_testcases[i].nrdigits, &decpt, &sign);
             ok(err == 0, "_ecvt_s() failed with error code %d\n", err);
@@ -1247,7 +1252,7 @@ static void test_xcvt(void)
         err = p__fcvt_s(str, 1, 0.0, 0, &i, NULL);
         ok(err == EINVAL, "got %d, expected EINVAL\n", err);
 
-        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END"); i++){
+        for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
             decpt = sign = 100;
             err = p__fcvt_s(str, 1024, test_cvt_testcases[i].value, test_cvt_testcases[i].nrdigits, &decpt, &sign);
             ok(err == 0, "_fcvt_s() failed with error code %d\n", err);

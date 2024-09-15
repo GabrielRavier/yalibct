@@ -291,10 +291,10 @@ fts_sort (FTS *sp, FTSENT *head, register size_t nitems)
                 FTSENT **a = NULL;
 
                 sp->fts_nitems = nitems + 40;
-                if (SIZE_MAX / sizeof(*a) >= sp->fts_nitems)
-                    a = realloc (sp->fts_array, sp->fts_nitems * sizeof(*a));
+                if (SIZE_MAX / sizeof(*a) >= sp->fts_nitems) // NOLINT(bugprone-sizeof-expression)
+                    a = (FTSENT **)realloc ((void *)sp->fts_array, sp->fts_nitems * sizeof(*a)); // NOLINT(bugprone-sizeof-expression)
                 if (!a) {
-                        free(sp->fts_array);
+		        free((void *)sp->fts_array);
                         sp->fts_array = NULL;
                         sp->fts_nitems = 0;
                         return (head);

@@ -1,5 +1,6 @@
 /* PR tree-optimization/86532 - Wrong code due to a wrong strlen folding  */
 
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 #include <stdlib.h>
 

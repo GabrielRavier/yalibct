@@ -79,7 +79,7 @@ static inline void __winetest_cdecl winetest_printf( const char *msg, ... )
 static inline void __winetest_cdecl winetest_print_context( const char *msgtype )
 {
     //tls_data *data = get_tls_data();
-    unsigned int i;
+    //unsigned int i;
 
     winetest_printf( "%s", msgtype );
     /*for (i = 0; i < data->context_count; ++i)

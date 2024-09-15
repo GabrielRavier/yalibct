@@ -12,13 +12,16 @@ project(yalibct
 # those tests (same for feature/function presence tests and stuff like that:
 # those are pretty much only added when we encounter a libc that yalibct would
 # fail to compile on without the presence test)
-option(YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT "If this is set to ON, then none of the tests that can be turned off will be run by default, i.e. without the corresponding options being explicitly set" OFF)
+option(YALIBCT_DISABLE_ALL_POSSIBLE_TESTS "If this is set to ON, then none of the tests that can be turned off will be run by default, i.e. without the corresponding options being explicitly set" OFF)
 
-option(YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT "If this is set to OFF, then none of the tests that depend on the C89 standard will be run by default" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT "If this is set to OFF, then none of the tests that depend on the C89 standard will be run by default" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS})
 option(YALIBCT_DISABLE_MANDATING_C89_SYMBOLS "Whether or not we should error when we're told a C89 symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_LONG_DOUBLE_TESTS "Whether or not tests that depend on long double being a type that behaves correctly (in particular, accordingly to information given out by the implementation about its behavior) should be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %c will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_PRECISION_TESTS "Whether or not tests that depend on the printf family of functions supporting %.<num> will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_I_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %i will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_PRECISION_TESTS "Whether or not tests that depend on the printf family of functions supporting %.* will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_PRECISION_ON_WIDE_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %.*ls will be run" ${YALIBCT_DISABLE_PRINTF_PRECISION_TESTS})
+option(YALIBCT_DISABLE_PRINTF_PRECISION_ON_WIDE_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %.*lc will be run" ${YALIBCT_DISABLE_PRINTF_PRECISION_TESTS})
 option(YALIBCT_DISABLE_PRINTF_0_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %0 will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %f will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_N_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %n will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
@@ -27,11 +30,15 @@ option(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS "Whether or not 
 option(YALIBCT_DISABLE_PRINTF_G_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %g/%G will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %e/%E will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_H_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %h will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_LOWERCASE_L_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %l will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_X_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %X will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_MINUS_FLAG_TESTS "Whether or not tests that depend on the scanf family of functions supporting %- will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %+s will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %+c will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_PRINTF_FIELD_LENGTH_ON_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %*s will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_TESTS "Whether or not tests that depend on the printf family of functions supporting field lengths (% followed by a number or an asterisk) will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %*s will be run" ${YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_TESTS})
+option(YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_WIDE_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %*ls will be run" ${YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_S_CONVERSION_SPECIFIER_TESTS})
+option(YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_WIDE_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %*lc will be run" ${YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_S_CONVERSION_SPECIFIER_TESTS})
 option(YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %s will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS "Whether or not tests that depend on the printf family of functions returning a negative value when an output error occurs will be run" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_LOWERCASE_F_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %f will be run by default" ${YALIBCT_DISABLE_C89_TESTS_BY_DEFAULT})
@@ -49,6 +56,7 @@ option(YALIBCT_DISABLE_MANDATING_C99_SYMBOLS "Whether or not we should error whe
 option(YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %a/%A will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_T_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %t will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_HH_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %hh will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_SNPRINTF_SIZE_LARGER_THAN_ACTUAL_BUFFER_TESTS "Whether or not tests that depend on snprintf correctly handling a buffer size larger than the buffer's actual size will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT}) # (note: It is currently disputed whether this is a defect in the C standard - see https://sourceware.org/bugzilla/show_bug.cgi?id=30441)
 option(YALIBCT_DISABLE_SCANF_J_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %j will be run" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_Z_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %z will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_SCANF_T_LENGTH_MODIFIER_TESTS "Whether or not tests that depend on the scanf family of functions supporting %t will be run by default" ${YALIBCT_DISABLE_C99_TESTS_BY_DEFAULT})
@@ -62,7 +70,7 @@ option(YALIBCT_DISABLE_MANDATING_C23_SYMBOLS "Whether or not we should error whe
 option(YALIBCT_DISABLE_PRINTF_LOWERCASE_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %b will be run by default" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_B_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %B will be run by default" ${YALIBCT_DISABLE_C23_TESTS_BY_DEFAULT})
 
-option(YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT "If this is set to OFF, then none of the tests that depend on the POSIX standard will be run by default" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT "If this is set to OFF, then none of the tests that depend on the POSIX standard will be run by default" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS})
 option(YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS "Whether or not we should error when we're told a POSIX symbol is not available. Can be suppressed through explicit definition of the corresponding YALIBCT_LIBC_HAS_ option" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_APOSTROPHE_FLAG_TESTS "Whether or not tests that depend on the printf family of functions supporting %' will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 option(YALIBCT_DISABLE_PRINTF_UPPERCASE_C_CONVERSION_SPECIFIER_TESTS "Whether or not tests that depend on the printf family of functions supporting %C will be run by default" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
@@ -72,11 +80,12 @@ option(YALIBCT_DISABLE_PRINTF_ERRNO_TESTS "Whether or not tests that depend on t
 option(YALIBCT_DISABLE_SCANF_NUMBERED_ARGUMENTS_TESTS "Whether or not tests that depend on the scanf family of functions supporting numbered argument conversion specifications (i.e. %n$) will be run" ${YALIBCT_DISABLE_POSIX_TESTS_BY_DEFAULT})
 
 # Misc tests that aren't part of any standard but are commonly supported
-option(YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS "Whether or not tests that depend on any locales that aren't defined by the standard that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_ALL_NON_STANDARD_TESTS "Whether or not tests that depend on anything that isn't defined in any standard will be run" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS})
+option(YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS "Whether or not tests that depend on any locales that aren't defined by the standard that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_ALL_NON_STANDARD_TESTS})
 option(YALIBCT_DISABLE_RARE_LOCALE_TESTS "Whether or not tests that depend on rare locales that the implementation might lie about supporting (as effectively allowed by the standard saying that non-standard locale names have unspecified behavior) will be run" ${YALIBCT_DISABLE_ALL_NON_STANDARD_LOCALE_TESTS})
-option(YALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS "Whether or not tests that depend on the printf family of functions rounding floating point numbers properly will be run. I am unsure of whether the C standard requires this, but it seems like a very useful property for the functions to have regardless" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_LC_NUMERIC_TESTS "Whether or not tests that depend on LC_NUMERIC support being present will be run" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
-option(YALIBCT_DISABLE_DEFAULT_UTF_8_LOCALE_TESTS "Whether or not tests that depends on the default locale making it possible to use UTF-8 strings with standard C functions (in particular, tests involving conversions of wchar_t to multibyte characters) will be run" ${YALIBCT_DISABLE_ALL_POSSIBLE_TESTS_BY_DEFAULT})
+option(YALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS "Whether or not tests that depend on the printf family of functions rounding floating point numbers properly will be run. I am unsure of whether the C standard requires this, but it seems like a very useful property for the functions to have regardless" ${YALIBCT_DISABLE_ALL_NON_STANDARD_TESTS})
+option(YALIBCT_DISABLE_LC_NUMERIC_TESTS "Whether or not tests that depend on LC_NUMERIC support being present will be run" ${YALIBCT_DISABLE_ALL_NON_STANDARD_TESTS})
+option(YALIBCT_DISABLE_DEFAULT_UTF_8_LOCALE_TESTS "Whether or not tests that depends on the default locale making it possible to use UTF-8 strings with standard C functions (in particular, tests involving conversions of wchar_t to multibyte characters) will be run" ${YALIBCT_DISABLE_ALL_NON_STANDARD_TESTS})
 
 include(CheckIncludeFile)
 include(CheckSymbolExists)
@@ -90,23 +99,8 @@ set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 
 if (NOT DEFINED YALIBCT_COMPILE_DEFINITIONS)
-  set(YALIBCT_COMPILE_DEFINITIONS -D_GNU_SOURCE -D_ALL_SOURCE -D_NETBSD_SOURCE -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_FILE_OFFSET_BITS=64 -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=700 -D_POSIX_C_SOURCE=200809L -D__STDC_WANT_LIB_EXT1__ CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
+  set(YALIBCT_COMPILE_DEFINITIONS -D_GNU_SOURCE -D_ALL_SOURCE -D_NETBSD_SOURCE -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_FILE_OFFSET_BITS=64 -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=700 -D_POSIX_C_SOURCE=200809L -D_DARWIN_C_SOURCE -D__EXTENSIONS__ -D_OPENBSD_SOURCE -D_POSIX_SOURCE -D_POSIX_1_SOURCE=2 -D_POSIX_PTHREAD_SEMANTICS -D__STDC_WANT_LIB_EXT1__ -D__STDC_WANT_IEC_60559_ATTRIBS_EXT__ -D__STDC_WANT_IEC_60559_BFP_EXT__ -D__STDC_WANT_IEC_60559_DFP_EXT__ -D__STDC_WANT_IEC_60559_EXT__ -D__STDC_WANT_IEC_60559_FUNCS_EXT__ -D__STDC_WANT_IEC_60559_TYPES_EXT__ -D__STDC_WANT_LIB_EXT2__ -D__STDC_WANT_MATH_SPEC_FUNCS__ -D_TANDEM_SOURCE -D_COSMO_SOURCE CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
 endif()
-
-set(YALIBCT_POTENTIALLY_WANTED_LIBRARIES m;compat)
-
-foreach(YALIBCT_POTENTIALLY_WANTED_LIBRARIES_LOOP_VAR ${YALIBCT_POTENTIALLY_WANTED_LIBRARIES})
-  check_linker_flag(C -l${YALIBCT_POTENTIALLY_WANTED_LIBRARIES_LOOP_VAR} YALIBCT_HAS_LIBRARY_${YALIBCT_POTENTIALLY_WANTED_LIBRARIES_LOOP_VAR})
-endforeach()
-
-foreach(LOOP_LIB ${YALIBCT_POTENTIALLY_WANTED_LIBRARIES})
-  if (${YALIBCT_HAS_LIBRARY_${LOOP_LIB}})
-    list(APPEND YALIBCT_WANTED_LIBRARIES ${LOOP_LIB})
-  endif()
-endforeach()
-
-list(APPEND CMAKE_REQUIRED_DEFINITIONS ${YALIBCT_COMPILE_DEFINITIONS})
-list(APPEND CMAKE_REQUIRED_LIBRARIES ${YALIBCT_WANTED_LIBRARIES})
 
 function(yalibct_append_macro_to_compiler_flags macro_name)
 
@@ -114,143 +108,6 @@ function(yalibct_append_macro_to_compiler_flags macro_name)
     list(APPEND YALIBCT_COMPILE_DEFINITIONS "-D${macro_name}")
     set(YALIBCT_COMPILE_DEFINITIONS "${YALIBCT_COMPILE_DEFINITIONS}" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
   endif()
-
-endfunction()
-
-function(yalibct_check_include_file header_filenames macro_name)
-
-  CHECK_INCLUDE_FILE(${header_filenames} ${macro_name})
-  yalibct_append_macro_to_compiler_flags("${macro_name}")
-
-endfunction()
-
-function(yalibct_check_libc_symbol symbol_name header_filenames macro_name)
-
-  check_symbol_exists(${symbol_name} "${header_filenames}" ${macro_name})
-
-  set(${macro_name} "${${macro_name}}" CACHE INTERNAL "${macro_name}")
-  if (${${macro_name}})
-    list(APPEND YALIBCT_COMPILE_DEFINITIONS "-D${macro_name}")
-    set(YALIBCT_COMPILE_DEFINITIONS "${YALIBCT_COMPILE_DEFINITIONS}" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
-  else()
-    list(APPEND YALIBCT_COMPILE_DEFINITIONS "-D${symbol_name}=THE_LIBC_THIS_WAS_COMPILED_UNDER_DOESNT_HAVE_${symbol_name}")
-    set(YALIBCT_COMPILE_DEFINITIONS "${YALIBCT_COMPILE_DEFINITIONS}" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
-  endif()
-
-endfunction()
-
-function(yalibct_check_libc_struct_has_member struct_name member_name header_filenames macro_name)
-
-  CHECK_STRUCT_HAS_MEMBER(${struct_name} ${member_name} "${header_filenames}" ${macro_name})
-
-  set(${macro_name} "${${macro_name}}" CACHE INTERNAL "${macro_name}")
-  yalibct_append_macro_to_compiler_flags("${macro_name}")
-
-endfunction()
-
-function(yalibct_check_libc_type_exists type_name header_filenames macro_name)
-
-  CHECK_TYPE_EXISTS(${type_name} "${header_filenames}" ${macro_name})
-
-  set(${macro_name} "${${macro_name}}" CACHE INTERNAL "${macro_name}")
-  yalibct_append_macro_to_compiler_flags("${macro_name}")
-
-endfunction()
-
-function(yalibct_check_standard_libc_symbol symbol_name header_filenames macro_name error_controlling_macro_name standard_name)
-
-  # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
-  if (DEFINED ${macro_name} AND NOT ${macro_name})
-    return()
-  endif()
-  yalibct_check_libc_symbol(${symbol_name} "${header_filenames}" ${macro_name})
-  if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
-    message(SEND_ERROR "${standard_name} requires that ${symbol_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
-  endif()
-
-endfunction()
-
-function(yalibct_check_standard_libc_type_exists type_name header_filenames macro_name error_controlling_macro_name standard_name)
-
-  # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
-  if (DEFINED ${macro_name} AND NOT ${macro_name})
-    return()
-  endif()
-  yalibct_check_libc_type_exists(${type_name} "${header_filenames}" ${macro_name})
-  if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
-    message(SEND_ERROR "${standard_name} requires that ${type_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
-  endif()
-
-endfunction()
-
-function(yalibct_check_standard_libc_struct_has_member struct_name member_name header_filenames macro_name error_controlling_macro_name standard_name)
-
-  # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
-  if (DEFINED ${macro_name} AND NOT ${macro_name})
-    return()
-  endif()
-  yalibct_check_libc_struct_has_member(${struct_name} ${member_name} "${header_filenames}" ${macro_name})
-  if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
-    message(SEND_ERROR "${standard_name} requires that ${struct_name}::${member_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
-  endif()
-
-endfunction()
-
-function(yalibct_check_c23_libc_symbol symbol_name header_filenames macro_name)
-  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C23_SYMBOLS} "C23")
-endfunction()
-
-function(yalibct_check_c11_libc_symbol symbol_name header_filenames macro_name)
-  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C11_SYMBOLS} "C11")
-endfunction()
-
-function(yalibct_check_c99_libc_symbol symbol_name header_filenames macro_name)
-  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C99_SYMBOLS} "C99")
-endfunction()
-
-function(yalibct_check_c95_libc_symbol symbol_name header_filenames macro_name)
-  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C95_SYMBOLS} "C95")
-endfunction()
-
-function(yalibct_check_c89_libc_symbol symbol_name header_filenames macro_name)
-  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C89_SYMBOLS} "C89")
-endfunction()
-
-function(yalibct_check_posix_libc_symbol symbol_name header_filenames macro_name)
-  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS} "POSIX")
-endfunction()
-
-function(yalibct_check_posix_libc_struct_has_member struct_name member_name header_filenames macro_name)
-  yalibct_check_standard_libc_struct_has_member("${struct_name}" "${member_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS} "POSIX")
-endfunction()
-
-function(yalibct_make_executable target_name target_source_file)
-
-  add_executable(${target_name} ${target_source_file})
-  target_include_directories(${target_name}
-    PRIVATE "${CMAKE_SOURCE_DIR}/include"
-  )
-  target_compile_definitions(${target_name} PRIVATE "${YALIBCT_COMPILE_DEFINITIONS}")
-
-  foreach(LOOP_LIB ${YALIBCT_WANTED_LIBRARIES})
-    target_link_libraries(${target_name} PRIVATE ${LOOP_LIB})
-  endforeach()
-
-  target_link_libraries(${target_name} PRIVATE Threads::Threads)
-
-endfunction()
-
-function(yalibct_check_source_compiles code result_variable)
-
-  check_c_source_compiles("${code}" ${result_variable})
-  yalibct_append_macro_to_compiler_flags(${result_variable})
-
-endfunction()
-
-function(yalibct_check_source_runs code result_variable)
-
-  check_c_source_runs("${code}" ${result_variable})
-  yalibct_append_macro_to_compiler_flags(${result_variable})
 
 endfunction()
 
@@ -292,12 +149,186 @@ yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_LOWERCASE_X_CONVERS
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_S_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_PLUS_FLAG_WITH_C_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS)
-yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_FIELD_LENGTH_ON_S_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_S_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_S_CONVERSION_SPECIFIER_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_OUTPUT_ERROR_RETURN_VALUE_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_WORK_AROUND_NAMESPACE_VIOLATIONS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_LONG_DOUBLE_TESTS)
 yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_DEFAULT_UTF_8_LOCALE_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_SNPRINTF_SIZE_LARGER_THAN_ACTUAL_BUFFER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_I_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_LOWERCASE_L_LENGTH_MODIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_PRECISION_ON_WIDE_S_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_PRECISION_ON_WIDE_C_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_WIDE_S_CONVERSION_SPECIFIER_TESTS)
+yalibct_append_macro_to_compiler_flags(YALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_WIDE_C_CONVERSION_SPECIFIER_TESTS)
+
+set(YALIBCT_POTENTIALLY_WANTED_LIBRARIES m;compat)
+
+foreach(YALIBCT_POTENTIALLY_WANTED_LIBRARIES_LOOP_VAR ${YALIBCT_POTENTIALLY_WANTED_LIBRARIES})
+  check_linker_flag(C -l${YALIBCT_POTENTIALLY_WANTED_LIBRARIES_LOOP_VAR} YALIBCT_HAS_LIBRARY_${YALIBCT_POTENTIALLY_WANTED_LIBRARIES_LOOP_VAR})
+endforeach()
+
+foreach(LOOP_LIB ${YALIBCT_POTENTIALLY_WANTED_LIBRARIES})
+  if (${YALIBCT_HAS_LIBRARY_${LOOP_LIB}})
+    list(APPEND YALIBCT_WANTED_LIBRARIES ${LOOP_LIB})
+  endif()
+endforeach()
+
+list(APPEND CMAKE_REQUIRED_DEFINITIONS ${YALIBCT_COMPILE_DEFINITIONS})
+list(APPEND CMAKE_REQUIRED_LIBRARIES ${YALIBCT_WANTED_LIBRARIES})
+
+function(yalibct_check_include_file header_filenames macro_name)
+
+  CHECK_INCLUDE_FILE(${header_filenames} ${macro_name})
+  yalibct_append_macro_to_compiler_flags("${macro_name}")
+
+endfunction()
+
+function(yalibct_check_libc_symbol_define_libc_doesnt_have_symbol symbol_name)
+
+  list(APPEND YALIBCT_COMPILE_DEFINITIONS "-D${symbol_name}=THE_LIBC_THIS_WAS_COMPILED_UNDER_DOESNT_HAVE_${symbol_name}")
+  set(YALIBCT_COMPILE_DEFINITIONS "${YALIBCT_COMPILE_DEFINITIONS}" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
+
+endfunction()
+
+function(yalibct_check_libc_symbol symbol_name header_filenames macro_name)
+
+  if (DEFINED ${macro_name} AND NOT ${macro_name})
+  else()
+    check_symbol_exists(${symbol_name} "${header_filenames}" ${macro_name})
+  endif()
+
+  set(${macro_name} "${${macro_name}}" CACHE INTERNAL "${macro_name}")
+  if (${${macro_name}})
+    list(APPEND YALIBCT_COMPILE_DEFINITIONS "-D${macro_name}")
+    set(YALIBCT_COMPILE_DEFINITIONS "${YALIBCT_COMPILE_DEFINITIONS}" CACHE INTERNAL "YALIBCT_COMPILE_DEFINITIONS")
+  else()
+    yalibct_check_libc_symbol_define_libc_doesnt_have_symbol(${symbol_name})
+  endif()
+
+endfunction()
+
+function(yalibct_check_libc_struct_has_member struct_name member_name header_filenames macro_name)
+
+  CHECK_STRUCT_HAS_MEMBER(${struct_name} ${member_name} "${header_filenames}" ${macro_name})
+
+  set(${macro_name} "${${macro_name}}" CACHE INTERNAL "${macro_name}")
+  yalibct_append_macro_to_compiler_flags("${macro_name}")
+
+endfunction()
+
+function(yalibct_check_libc_type_exists type_name header_filenames macro_name)
+
+  CHECK_TYPE_EXISTS(${type_name} "${header_filenames}" ${macro_name})
+
+  set(${macro_name} "${${macro_name}}" CACHE INTERNAL "${macro_name}")
+  yalibct_append_macro_to_compiler_flags("${macro_name}")
+
+endfunction()
+
+function(yalibct_check_standard_libc_symbol symbol_name header_filenames macro_name error_controlling_macro_name standard_name)
+
+  # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
+  if (DEFINED ${macro_name} AND NOT ${macro_name})
+    message(STATUS "Not looking for ${symbol_name} because the check for it has been overriden on the command line")
+    yalibct_check_libc_symbol_define_libc_doesnt_have_symbol(${symbol_name}) # We still want the symbol to be defined such that any attempt to use it fails, so handle this here
+    return()
+  endif()
+  yalibct_check_libc_symbol(${symbol_name} "${header_filenames}" ${macro_name})
+  if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
+    message(SEND_ERROR "${standard_name} requires that ${symbol_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
+  endif()
+
+endfunction()
+
+function(yalibct_check_standard_libc_type_exists type_name header_filenames macro_name error_controlling_macro_name standard_name)
+
+  # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
+  if (DEFINED ${macro_name} AND NOT ${macro_name})
+    message(STATUS "Not looking for ${type_name} because the check for it has been overriden on the command line")
+    return()
+  endif()
+  yalibct_check_libc_type_exists(${type_name} "${header_filenames}" ${macro_name})
+  if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
+    message(SEND_ERROR "${standard_name} requires that ${type_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
+  endif()
+
+endfunction()
+
+function(yalibct_check_standard_libc_struct_has_member struct_name member_name header_filenames macro_name error_controlling_macro_name standard_name)
+
+  # The AND NOT part is to suppress the stupid warnings CMake gives out if we only test whether the macros are defined
+  if (DEFINED ${macro_name} AND NOT ${macro_name})
+    message(STATUS "Not looking for ${struct_name}::${member_name} because the check for it has been overriden on the command line)")
+    return()
+  endif()
+  yalibct_check_libc_struct_has_member(${struct_name} ${member_name} "${header_filenames}" ${macro_name})
+  if (NOT ${error_controlling_macro_name} AND (${macro_name} STREQUAL ""))
+    message(SEND_ERROR "${standard_name} requires that ${struct_name}::${member_name} be present, but it was not found on the system ! (note: define ${macro_name} to OFF to suppress this error, or YALIBCT_DISABLE_MANDATING_${standard_name}_SYMBOLS to ON to suppress this error for every function of the ${standard_name} standard)")
+  endif()
+
+endfunction()
+
+function(yalibct_check_c23_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C23_SYMBOLS} "C23")
+endfunction()
+
+function(yalibct_check_c11_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C11_SYMBOLS} "C11")
+endfunction()
+
+function(yalibct_check_c99_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C99_SYMBOLS} "C99")
+endfunction()
+
+function(yalibct_check_c95_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C95_SYMBOLS} "C95")
+endfunction()
+
+function(yalibct_check_c89_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_C89_SYMBOLS} "C89")
+endfunction()
+
+function(yalibct_check_posix_libc_symbol symbol_name header_filenames macro_name)
+  yalibct_check_standard_libc_symbol("${symbol_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS} "POSIX")
+endfunction()
+
+function(yalibct_check_posix_libc_struct_has_member struct_name member_name header_filenames macro_name)
+  yalibct_check_standard_libc_struct_has_member("${struct_name}" "${member_name}" "${header_filenames}" ${macro_name} ${YALIBCT_DISABLE_MANDATING_POSIX_SYMBOLS} "POSIX")
+endfunction()
+
+function(yalibct_check_source_compiles code result_variable)
+
+  check_c_source_compiles("${code}" ${result_variable})
+  yalibct_append_macro_to_compiler_flags(${result_variable})
+
+endfunction()
+
+function(yalibct_check_source_runs code result_variable)
+
+  check_c_source_runs("${code}" ${result_variable})
+  yalibct_append_macro_to_compiler_flags(${result_variable})
+
+endfunction()
+
+function(yalibct_make_executable target_name target_source_file)
+
+  add_executable(${target_name} ${target_source_file})
+  set_property(TARGET ${target_name} PROPERTY C_STANDARD 23)
+  target_include_directories(${target_name}
+    PRIVATE "${CMAKE_SOURCE_DIR}/include"
+  )
+  target_compile_definitions(${target_name} PRIVATE "${YALIBCT_COMPILE_DEFINITIONS}")
+
+  foreach(LOOP_LIB ${YALIBCT_WANTED_LIBRARIES})
+    target_link_libraries(${target_name} PRIVATE ${LOOP_LIB})
+  endforeach()
+
+  target_link_libraries(${target_name} PRIVATE Threads::Threads)
+
+endfunction()
 
 yalibct_check_include_file(hedley.h YALIBCT_HAS_SYSTEM_HEDLEY_H)
 yalibct_check_include_file(obstack.h YALIBCT_LIBC_HAS_OBSTACK_H)
@@ -440,6 +471,8 @@ yalibct_check_libc_symbol(syscall "unistd.h;sys/syscall.h" YALIBCT_LIBC_HAS_SYSC
 yalibct_check_posix_libc_symbol(getopt unistd.h YALIBCT_LIBC_HAS_GETOPT)
 yalibct_check_libc_symbol(no_argument getopt.h YALIBCT_LIBC_HAS_NO_ARGUMENT)
 yalibct_check_libc_symbol(required_argument getopt.h YALIBCT_LIBC_HAS_REQUIRED_ARGUMENT)
+yalibct_check_c89_libc_symbol(printf stdio.h YALIBCT_LIBC_HAS_PRINTF)
+yalibct_check_posix_libc_symbol(fstatat "sys/stat.h" YALIBCT_LIBC_HAS_FSTATAT)
 
 yalibct_check_source_compiles(
   "
@@ -472,7 +505,7 @@ int main(){return !memcpy_chk_ptr;}
   YALIBCT_LIBC_HAS___MEMCPY_CHK
 )
 
-# Disabled for now - add once we find another implementation that actually does this (note: needs to be conditioned on standardness given this is obviously non-compliant behavior we're testing for here)
+# Disabled for now - add once we find another implementation that actually does this (note: needs to be conditioned on standardness too given this is obviously non-compliant behavior we're testing for here)
 if(0)
 
 yalibct_check_source_compiles(

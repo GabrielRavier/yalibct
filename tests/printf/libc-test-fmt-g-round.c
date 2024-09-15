@@ -7,9 +7,9 @@
 static void t(const char *fmt, double d, const char *want)
 {
 	char buf[256];
-	int n = strlen(want);
+        size_t n = strlen(want);
 	int r = snprintf(buf, sizeof buf, fmt, d);
-	if (r != n || memcmp(buf, want, n+1) != 0)
+	if (r <= 0 || r != n || memcmp(buf, want, n+1) != 0)
 		t_error("snprintf(\"%s\", %f) want %s got %s\n", fmt, d, want, buf);
 }
 

@@ -34,11 +34,9 @@ test (const unsigned char *s1, const unsigned char *s2, int expected)
 {
   int value = strcmp ((char *) s1, (char *) s2);
 
-  if (expected < 0 && value >= 0)
-    abort ();
-  else if (expected == 0 && value != 0)
-    abort ();
-  else if (expected > 0 && value <= 0)
+  if ((expected < 0 && value >= 0) ||
+      (expected == 0 && value != 0) ||
+      (expected > 0 && value <= 0))
     abort ();
 }
 

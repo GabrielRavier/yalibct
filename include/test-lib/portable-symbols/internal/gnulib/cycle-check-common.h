@@ -20,4 +20,6 @@
 
 #pragma once
 
-#define CC_MAGIC 9827862
+enum {
+    CC_MAGIC = 9827862
+};

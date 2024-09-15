@@ -3,8 +3,10 @@
    Please see the file COPYING.GPL2 in this distribution for
    license terms. */
 
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/NAN.h"
 #include "test-lib/portable-symbols/NL_ARGMAX.h"
+#include "test-lib/portable-symbols/INFINITY.h"
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
@@ -103,7 +105,7 @@ static int test2(int serial, char *expect, char *expect2, char *fmt, ...) {
 	free(abuf);
         return 1;
     }
-    if (strcmp(buf, expect) && (expect2 == NULL || strcmp(buf, expect2))) {
+    if (strcmp(buf, expect) != 0 && (expect2 == NULL || strcmp(buf, expect2) != 0)) {
         failmsg(serial, "expected \"%s\", got \"%s\"", expect, buf);
 	free(abuf);
         return 1;
@@ -114,7 +116,7 @@ static int test2(int serial, char *expect, char *expect2, char *fmt, ...) {
 	free(abuf);
 	return 1;
     }
-    if (strcmp(abuf, buf)) {
+    if (strcmp(abuf, buf) != 0) {
 	failmsg(serial, "sprintf return %s asprintf return %s\n", buf, abuf);
 	free(abuf);
 	return 1;

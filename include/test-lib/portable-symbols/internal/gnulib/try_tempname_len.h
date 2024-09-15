@@ -18,12 +18,13 @@
 
 #pragma once
 
-#include "test-lib/portable-symbols/internal/gnulib/__set_errno.h"
 #include "test-lib/portable-symbols/getrandom.h"
+#include "test-lib/portable-symbols/internal/gnulib/__set_errno.h"
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <errno.h>
 
 # define __getrandom getrandom
@@ -105,7 +106,7 @@ try_tempname_len (char *tmpl, int suffixlen, void *args,
   size_t len;
   char *XXXXXX;
   unsigned int count;
-  int fd = -1;
+  int fd;
   int save_errno = errno;
 
   /* A lower bound on the number of temporary files to attempt to

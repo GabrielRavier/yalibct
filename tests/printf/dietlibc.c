@@ -10,6 +10,7 @@
 
 YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
 YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERFLOW
+YALIBCT_DIAGNOSTIC_IGNORE_WFORMAT_TRUNCATION
 
 #define ALGN		5
 
@@ -20,7 +21,7 @@ YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERFLOW
 #endif
 
 #define TEST_INIT(EXP)					\
-  char		buf[sizeof(EXP)+ALGN*3+16];		\
+  char		buf[sizeof(EXP)+((size_t)ALGN*3)+16];	\
   int		rc;					\
   memset(buf, cmp[0], sizeof buf)
 
@@ -138,10 +139,11 @@ int main()
   TEST("  1234",   "%6.5s", "1234");
 
 #ifndef YALIBCT_DISABLE_RARE_LOCALE_TESTS
-  assert(setlocale(LC_ALL, "de_DE") != NULL);
-
-  TEST("1.234",    "%'u", 1234);
+  if (setlocale(LC_ALL, "de_DE") != NULL) {
+    TEST("1.234",    "%'u", 1234);
+  }
 #endif
+
 #ifndef YALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS
   TEST("2 1",      "%2$u %1$u",  1, 2);
 #endif

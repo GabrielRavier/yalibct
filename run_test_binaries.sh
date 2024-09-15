@@ -4,7 +4,8 @@ set -euo pipefail
 # Execute tests from the directory that which contains the script
 cd "$(dirname "$0")"
 
-trap_exit () {
+trap_exit ()
+{
     echo "A command run from this script failed !"
 }
 
@@ -16,7 +17,7 @@ trap trap_exit ERR
 # Require 1 argument
 if [[ $# -ne 1 ]]; then
     echo "Usage: $0 directory-with-test-binaries"
-    echo "Note: This should normally be your CMake build directory"
+    echo "Note: directory-with-test-binaries should normally be your CMake build directory"
     exit 1
 fi
 
@@ -39,7 +40,7 @@ get_test_executable_path()
 test_runner()
 {
     local TEST_EXECUTABLE_PATH
-    TEST_EXECUTABLE_PATH=$(get_test_executable_path "$1")
+    TEST_EXECUTABLE_PATH="$(get_test_executable_path "$1")"
     executable_runner "${TEST_EXECUTABLE_PATH}" "${@:2}"
 }
 
@@ -63,7 +64,7 @@ checked_add_to_ld_preload()
 {
     # We need to temporarily disable pipefail so that the || test only and solely uses the grep process as the status for the tests
     set +o pipefail
-    # shellcheck disable=SC2310
+    # shellcheck disable=SC2310 # (yes, shellcheck, we don't want to exit if the left-hand side fails)
     { LD_PRELOAD="${LD_PRELOAD-} $1" test_runner libc-starts-up 2>&1 | grep -q . || LD_PRELOAD="${LD_PRELOAD-} $1" /bin/true 2>&1 | grep -q . || export LD_PRELOAD="${LD_PRELOAD-} $1"; } || true
     set -o pipefail
 }
@@ -74,8 +75,6 @@ checked_add_to_ld_preload /lib64/libc_malloc_debug.so
 checked_add_to_ld_preload /lib/libc_malloc_debug.so
 export MALLOC_CHECK_=3
 export MALLOC_PERTURB_=$((RANDOM % 255 + 1))
-
-
 
 do_mtrace_test()
 {
@@ -117,7 +116,7 @@ do_output_lines_only_in_executable_output_test()
 
 do_printf_littlekernel_tests()
 {
-    test_runner printf-littlekernel-tests | sed 's/0x1p-1074/0x0.0000000000001p-1022/;s/0x1.ffffffffffffep-1023/0x0.fffffffffffffp-1022/;s/0X1P-1074/0X0.0000000000001P-1022/;s/0X1.FFFFFFFFFFFFEP-1023/0X0.FFFFFFFFFFFFFP-1022/' | diff -u - ./test-data/outputs/printf-littlekernel-tests
+    test_runner printf-littlekernel-tests | sed 's/0x1p-1074/0x0.0000000000001p-1022/;s/0x1.ffffffffffffep-1023/0x0.fffffffffffffp-1022/;s/0X1P-1074/0X0.0000000000001P-1022/;s/0X1.FFFFFFFFFFFFEP-1023/0X0.FFFFFFFFFFFFFP-1022/;s/0xf.ffffffffffffp-1026/0x0.fffffffffffffp-1022/;s/0XF.FFFFFFFFFFFFP-1026/0X0.FFFFFFFFFFFFFP-1022/' | diff -u - ./test-data/outputs/printf-littlekernel-tests
 }
 
 do_printf_NetBSD_t()
@@ -136,7 +135,7 @@ do_printf_glibc_test_ldbl_compat()
     do_output_diff_test "test_runner printf-glibc-test-ldbl-compat | sed 's/\-0x1.0000000000p+0/-0x8.0000000000p-3/g'" ./test-data/outputs/printf-glibc-test-ldbl-compat
 }
 
-# shellcheck disable=SC2310
+# shellcheck disable=SC2310 # (yes, shellcheck, we explicitly don't want to exit if the left-hand-side fails)
 do_printf_gnulib_test_posix2()
 {
     test_runner printf-gnulib-test-posix2 1 >/dev/null || echo "FAILED printf-gnulib-test-posix2 1"
@@ -162,9 +161,10 @@ run_one_test()
     JOBS_COUNT=$(jobs | wc -l)
     PROCESSOR_COUNT=$(nproc --ignore=2)
 
-    if [[ "${JOBS_COUNT}" -gt "${PROCESSOR_COUNT}" ]]; then
+    while [[ "${JOBS_COUNT}" -gt "${PROCESSOR_COUNT}" ]]; do
         wait -n
-    fi
+        JOBS_COUNT=$(jobs | wc -l)
+    done
 
     { eval "$1" |& { ! grep . 1>&2; } && printf "Test '%s' succeeded\n" "$1" | tee -a "${TEMP_TESTS_RESULTS_FILE}" >/dev/null; } || printf "Test '%s' failed with status $?\n" "$1" | tee -a "${TEMP_TESTS_RESULTS_FILE}" >/dev/stderr &
 }

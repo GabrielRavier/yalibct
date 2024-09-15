@@ -49,6 +49,8 @@
 #include <string.h>
 #include <assert.h>
 
+YALIBCT_DIAGNOSTIC_IGNORE_WFORMAT_TRUNCATION
+
 /*
  * This is the simplest form of a test case definition: a test case
  * without a header.

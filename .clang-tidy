@@ -1,88 +1,269 @@
 # I started this list by adding every single check supported by clang-tidy
 # If it fires off bad messages, do remove the corresponding check from this list
 # Although you VERY MUCH SHOULD make sure the error doesn't actually show a problem when you do so
-Checks: "abseil-cleanup-ctad,abseil-duration-addition,abseil-duration-comparison,abseil-duration-conversion-cast,abseil-duration-division,abseil-duration-factory-float,abseil-duration-factory-scale, \
-        abseil-duration-subtraction,abseil-duration-unnecessary-conversion,abseil-faster-strsplit-delimiter,abseil-no-internal-dependencies,abseil-no-namespace,abseil-redundant-strcat-calls,abseil-str-cat-append, \
-        abseil-string-find-startswith,abseil-string-find-str-contains,abseil-time-comparison,abseil-time-subtraction,abseil-upgrade-duration-conversions,altera-kernel-name-restriction,altera-single-work-item-barrier, \
-        android-cloexec-accept,android-cloexec-accept4,android-cloexec-dup,android-cloexec-epoll-create,android-cloexec-epoll-create1,android-cloexec-inotify-init, \
-        android-cloexec-inotify-init1,android-cloexec-memfd-create,android-cloexec-pipe2,android-cloexec-socket,android-comparison-in-temp-failure-retry,boost-use-to-string, \
-        bugprone-argument-comment,bugprone-assignment-in-if-condition,bugprone-bad-signal-to-kill-thread,bugprone-bool-pointer-implicit-conversion, \
-        bugprone-copy-constructor-init,bugprone-dangling-handle,bugprone-dynamic-static-initializers,bugprone-exception-escape,bugprone-fold-init-type, \
-        bugprone-forward-declaration-namespace,bugprone-forwarding-reference-overload,bugprone-inaccurate-erase,bugprone-incorrect-roundings, \
-        bugprone-infinite-loop,bugprone-integer-division,bugprone-lambda-function-name,bugprone-macro-repeated-side-effects,bugprone-misplaced-operator-in-strlen-in-alloc, \
-        bugprone-misplaced-pointer-arithmetic-in-alloc,bugprone-misplaced-widening-cast,bugprone-move-forwarding-reference,bugprone-multiple-statement-macro,bugprone-no-escape, \
-        bugprone-parent-virtual-call,bugprone-posix-return,bugprone-redundant-branch-condition,bugprone-shared-ptr-array-mismatch, \
-        bugprone-signal-handler,bugprone-signed-char-misuse,bugprone-sizeof-container,bugprone-sizeof-expression,bugprone-spuriously-wake-up-functions,bugprone-string-constructor,bugprone-string-integer-assignment, \
-        bugprone-string-literal-with-embedded-nul,bugprone-stringview-nullptr,bugprone-suspicious-enum-usage,bugprone-suspicious-memset-usage, \
-        bugprone-suspicious-missing-comma,bugprone-suspicious-semicolon,bugprone-swapped-arguments,bugprone-terminating-continue,bugprone-throw-keyword-missing, \
-        bugprone-too-small-loop-variable,bugprone-unchecked-optional-access,bugprone-undefined-memory-manipulation,bugprone-undelegated-constructor,bugprone-unhandled-exception-at-new,bugprone-unhandled-self-assignment, \
-        bugprone-unused-raii,bugprone-unused-return-value,bugprone-use-after-move,bugprone-virtual-near-miss,cert-con36-c,cert-con54-cpp,cert-dcl21-cpp,cert-dcl50-cpp, \
-        cert-dcl54-cpp,cert-dcl58-cpp,cert-dcl59-cpp,cert-env33-c,cert-err09-cpp,cert-err33-c,cert-err52-cpp,cert-err60-cpp,cert-err61-cpp,cert-fio38-c,cert-flp30-c, \
-        cert-mem57-cpp,cert-msc54-cpp,cert-oop11-cpp,cert-oop54-cpp,cert-oop57-cpp,cert-oop58-cpp,cert-pos44-c,cert-pos47-c,cert-sig30-c,cert-str34-c, \
-        clang-analyzer-core.CallAndMessage,clang-analyzer-core.DivideZero,clang-analyzer-core.DynamicTypePropagation,clang-analyzer-core.NonNullParamChecker,clang-analyzer-core.NullDereference, \
-        clang-analyzer-core.StackAddressEscape,clang-analyzer-core.UndefinedBinaryOperatorResult,clang-analyzer-core.uninitialized.ArraySubscript,clang-analyzer-core.uninitialized.Assign, \
-        clang-analyzer-core.uninitialized.Branch,clang-analyzer-core.uninitialized.CapturedBlockVariable,clang-analyzer-core.uninitialized.UndefReturn,clang-analyzer-core.VLASize,clang-analyzer-cplusplus.InnerPointer, \
-        clang-analyzer-cplusplus.Move,clang-analyzer-cplusplus.NewDelete,clang-analyzer-cplusplus.NewDeleteLeaks,clang-analyzer-deadcode.DeadStores,clang-analyzer-nullability.NullableDereferenced, \
-        clang-analyzer-nullability.NullablePassedToNonnull,clang-analyzer-nullability.NullableReturnedFromNonnull,clang-analyzer-nullability.NullPassedToNonnull,clang-analyzer-nullability.NullReturnedFromNonnull, \
-        clang-analyzer-optin.cplusplus.UninitializedObjectclang-analyzer-optin.cplusplus.VirtualCall,clang-analyzer-optin.mpi.MPI-Checker,clang-analyzer-optin.osx.cocoa.localizability.EmptyLocalizationContextChecker, \
-        clang-analyzer-optin.osx.cocoa.localizability.NonLocalizedStringChecker,clang-analyzer-optin.osx.OSObjectCStyleCast,clang-analyzer-optin.performance.GCDAntipattern, \
-        clang-analyzer-optin.portability.UnixAPI,clang-analyzer-osx.API,clang-analyzer-osx.cocoa.AtSync,clang-analyzer-osx.cocoa.AutoreleaseWrite,clang-analyzer-osx.cocoa.ClassRelease,clang-analyzer-osx.cocoa.Dealloc, \
-        clang-analyzer-osx.cocoa.IncompatibleMethodTypes,clang-analyzer-osx.cocoa.Loops,clang-analyzer-osx.cocoa.MissingSuperCall,clang-analyzer-osx.cocoa.NilArg,clang-analyzer-osx.cocoa.NonNilReturnValue, \
-        clang-analyzer-osx.cocoa.NSAutoreleasePool,clang-analyzer-osx.cocoa.NSError,clang-analyzer-osx.cocoa.ObjCGenerics,clang-analyzer-osx.cocoa.RetainCount,clang-analyzer-osx.cocoa.RunLoopAutoreleaseLeak, \
-        clang-analyzer-osx.cocoa.SelfInit,clang-analyzer-osx.cocoa.SuperDealloc,clang-analyzer-osx.cocoa.UnusedIvars,clang-analyzer-osx.cocoa.VariadicMethodTypes,clang-analyzer-osx.coreFoundation.CFError, \
-        clang-analyzer-osx.coreFoundation.CFNumber,clang-analyzer-osx.coreFoundation.CFRetainRelease,clang-analyzer-osx.coreFoundation.containers.OutOfBounds,clang-analyzer-osx.coreFoundation.containers.PointerSizedValues, \
-        clang-analyzer-osx.MIG,clang-analyzer-osx.NumberObjectConversion,clang-analyzer-osx.ObjCProperty,clang-analyzer-osx.OSObjectRetainCount,clang-analyzer-osx.SecKeychainAPI,clang-analyzer-security.FloatLoopCounter, \
-        clang-analyzer-security.insecureAPI.bcopy,clang-analyzer-security.insecureAPI.getpw,clang-analyzer-security.insecureAPI.gets, \
-        clang-analyzer-security.insecureAPI.mkstemp,clang-analyzer-security.insecureAPI.mktemp,clang-analyzer-security.insecureAPI.rand, \
-        clang-analyzer-security.insecureAPI.UncheckedReturn,clang-analyzer-security.insecureAPI.vfork,clang-analyzer-unix.API,clang-analyzer-unix.cstring.BadSizeArg,clang-analyzer-unix.cstring.NullArg, \
-        clang-analyzer-unix.Malloc,clang-analyzer-unix.MallocSizeof,clang-analyzer-unix.MismatchedDeallocator,clang-analyzer-unix.Vfork,clang-analyzer-valist.CopyToSelf,clang-analyzer-valist.Uninitialized, \
-        clang-analyzer-valist.Unterminated,concurrency-thread-canceltype-asynchronous,core.CallAndMessage,core.DivideZero,core.NonNullParamChecker,core.NullDereference,core.StackAddressEscape, \
-        core.UndefinedBinaryOperatorResult,core.uninitialized.ArraySubscript,core.uninitialized.Assign,core.uninitialized.Branch,core.uninitialized.UndefReturn,core.VLASize,cplusplus.Move,cplusplus.NewDelete, \
-        cplusplus.NewDeleteLeaks,cppcoreguidelines-avoid-const-or-ref-data-members,cppcoreguidelines-avoid-goto,cppcoreguidelines-c-copy-assignment-signature,cppcoreguidelines-explicit-virtual-functions, \
-        cppcoreguidelines-interfaces-global-init,cppcoreguidelines-macro-to-enum,cppcoreguidelines-no-malloc,cppcoreguidelines-owning-memory,cppcoreguidelines-prefer-member-initializer, \
-        cppcoreguidelines-pro-type-const-cast,cppcoreguidelines-pro-type-cstyle-cast,cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-type-static-cast-downcast, \
-        cppcoreguidelines-pro-type-union-access,cppcoreguidelines-slicing,cppcoreguidelines-special-member-functions,cppcoreguidelines-virtual-class-destructor,darwin-avoid-spinlock, \
-        darwin-dispatch-once-nonstatic,deadcode.DeadStores,fixes,fuchsia-default-arguments-declarations,fuchsia-header-anon-namespaces,fuchsia-multiple-inheritance,fuchsia-overloaded-operator,fuchsia-trailing-return, \
-        fuchsia-virtual-inheritance,google-build-explicit-make-pair,google-build-namespaces,google-build-using-namespace,google-default-arguments,google-explicit-constructor,google-global-names-in-headers, \
-        google-objc-avoid-nsobject-new,google-objc-avoid-throwing-exception, \
-        google-readability-namespace-comments,google-runtime-operator,google-upgrade-googletest-case,hicpp-avoid-goto,hicpp-exception-baseclass, \
-        hicpp-explicit-conversions,hicpp-invalid-access-moved,hicpp-move-const-arg,hicpp-new-delete-operators, \
-        hicpp-noexcept-move,hicpp-no-malloc,hicpp-undelegated-constructor,hicpp-use-auto,hicpp-use-emplace, \
-        hicpp-use-equals-default,hicpp-use-equals-delete,hicpp-use-noexcept,hicpp-use-nullptr,hicpp-use-override,linuxkernel-must-use-errs,llvm-namespace-comment, \
-        llvm-prefer-isa-or-dyn-cast-in-conditionals,llvm-prefer-register-over-unsigned,llvm-qualified-auto,llvm-twine-local,misc-confusable-identifiers,misc-const-correctness,misc-definitions-in-headers, \
-        misc-misleading-bidirectional,misc-misleading-identifier,misc-misplaced-const,misc-new-delete-overloads,misc-non-copyable-objects,misc-redundant-expression,misc-throw-by-value-catch-by-reference, \
-        misc-unconventional-assign-operator,misc-uniqueptr-reset-release,misc-unused-alias-decls,misc-unused-parameters,misc-unused-using-decls,modernize-avoid-bind,modernize-concat-nested-namespaces, \
-        modernize-deprecated-ios-base-aliases,modernize-loop-convert,modernize-macro-to-enum,modernize-make-shared,modernize-make-unique,modernize-pass-by-value,modernize-raw-string-literal,modernize-redundant-void-arg, \
-        modernize-replace-auto-ptr,modernize-replace-disallow-copy-and-assign-macro,modernize-replace-random-shuffle,modernize-return-braced-init-list,modernize-shrink-to-fit,modernize-unary-static-assert,modernize-use-auto, \
-        modernize-use-bool-literals,modernize-use-default-member-init,modernize-use-emplace,modernize-use-equals-default,modernize-use-equals-delete,modernize-use-nodiscard,modernize-use-noexcept,modernize-use-nullptr, \
-        modernize-use-override,modernize-use-transparent-functors,modernize-use-uncaught-exceptions,modernize-use-using,mpi-buffer-deref,mpi-type-mismatch,nullability.NullableDereferenced,nullability.NullablePassedToNonnull, \
-        nullability.NullPassedToNonnull,nullability.NullReturnedFromNonnull,objc-assert-equals,objc-avoid-nserror-init,objc-dealloc-in-category,objc-forbidden-subclassing,objc-missing-hash,objc-nsdate-formatter, \
-        objc-nsinvocation-argument-lifetime,objc-property-declaration,objc-super-self,openmp-exception-escape,openmp-use-default-none,optin.cplusplus.UninitializedObject,optin.cplusplus.VirtualCall,optin.mpi.MPI-Checker, \
-        optin.osx.cocoa.localizability.EmptyLocalizationContextChecker,optin.osx.cocoa.localizability.NonLocalizedStringChecker,osx.API,osx.cocoa.AtSync,osx.cocoa.ClassRelease,osx.cocoa.Dealloc, \
-        osx.cocoa.IncompatibleMethodTypes,osx.cocoa.NilArg,osx.cocoa.NSAutoreleasePool,osx.cocoa.NSError,osx.cocoa.ObjCGenerics,osx.cocoa.RetainCount,osx.cocoa.SelfInit,osx.cocoa.SuperDealloc,osx.cocoa.UnusedIvars, \
-        osx.cocoa.VariadicMethodTypes,osx.coreFoundation.CFError,osx.coreFoundation.CFNumber,osx.coreFoundation.CFRetainRelease,osx.coreFoundation.containers.OutOfBounds,osx.coreFoundation.containers.PointerSizedValues, \
-        osx.SecKeychainAPI,performance-faster-string-find,performance-for-range-copy,performance-implicit-conversion-in-loop,performance-inefficient-algorithm,performance-inefficient-string-concatenation, \
-        performance-inefficient-vector-operation,performance-move-const-arg,performance-move-constructor-init,performance-no-automatic-move,performance-noexcept-move-constructor, \
-        performance-trivially-destructible,performance-type-promotion-in-math-fn,performance-unnecessary-copy-initialization,performance-unnecessary-value-param,portability-restrict-system-includes, \
-        portability-simd-intrinsics,portability-std-allocator-const,readability-avoid-const-params-in-decls,readability-const-return-type,readability-container-contains,readability-container-data-pointer, \
-        readability-container-size-empty,readability-convert-member-functions-to-static,readability-delete-null-pointer,readability-duplicate-include, \
-        readability-identifier-naming,readability-implicit-bool-conversion,readability-inconsistent-declaration-parameter-name,readability-make-member-function-const, \
-        readability-misplaced-array-index,readability-non-const-parameter,readability-qualified-auto, \
-        readability-redundant-control-flow,readability-redundant-function-ptr-dereference,readability-redundant-member-init,readability-redundant-smartptr-get, \
-        readability-redundant-string-cstr,readability-redundant-string-init,readability-simplify-boolean-expr,readability-simplify-subscript-expr,readability-static-accessed-through-instance, \
-        readability-static-definition-in-anonymous-namespace,readability-string-compare,readability-suspicious-call-argument,readability-uniqueptr-delete-release, \
-        readability-use-anyofallof,security.FloatLoopCounter,security.insecureAPI.bcopy,security.insecureAPI.getpw,security.insecureAPI.gets,security.insecureAPI.mkstemp, \
-        security.insecureAPI.mktemp,security.insecureAPI.rand,security.insecureAPI.UncheckedReturn,security.insecureAPI.vfork,unix.API,unix.cstring.BadSizeArg,unix.cstring.NullArg,unix.Malloc, \
-        unix.MallocSizeof,unix.MismatchedDeallocator,unix.Vfork,zircon-temporary-objects, \
-        \
-        -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-clang-diagnostic-format,-clang-analyzer-security.insecureAPI.strcpy,-clang-diagnostic-format-extra-args,-clang-analyzer-security.insecureAPI.bcmp, \
-        -clang-analyzer-optin.performance.Padding,-clang-analyzer-security.insecureAPI.bzero"
+Checks: "abseil-cleanup-ctad, \
+         abseil-duration-addition,abseil-duration-comparison,abseil-duration-conversion-cast,abseil-duration-division,abseil-duration-factory-float,abseil-duration-factory-scale,abseil-duration-subtraction, \
+         abseil-duration-unnecessary-conversion, \
+         abseil-faster-strsplit-delimiter,abseil-no-internal-dependencies,abseil-no-namespace,abseil-redundant-strcat-calls,abseil-str-cat-append, \
+         abseil-string-find-startswith,abseil-string-find-str-contains,abseil-time-comparison,abseil-time-subtraction,abseil-upgrade-duration-conversions, \
+         altera-id-dependent-backward-branch,altera-kernel-name-restriction,altera-single-work-item-barrier,altera-struct-pack-align,altera-unroll-loops, \
+         android-cloexec-accept,android-cloexec-accept4,android-cloexec-creat,android-cloexec-dup,android-cloexec-epoll-create,android-cloexec-epoll-create1,android-cloexec-fopen,android-cloexec-inotify-init, \
+         android-cloexec-inotify-init1,android-cloexec-memfd-create,android-cloexec-open,android-cloexec-pipe,android-cloexec-pipe2,android-cloexec-socket, \
+         android-comparison-in-temp-failure-retry, \
+         boost-use-to-string, \
+         bugprone-argument-comment,bugprone-assert-side-effect,bugprone-assignment-in-if-condition,bugprone-bad-signal-to-kill-thread, \
+         bugprone-bool-pointer-implicit-conversion,bugprone-branch-clone,bugprone-casting-through-void,bugprone-chained-comparison,bugprone-compare-pointer-to-member-virtual-function,bugprone-copy-constructor-init, \
+         bugprone-dangling-handle,bugprone-dynamic-static-initializers,bugprone-easily-swappable-parameters,bugprone-empty-catch,bugprone-exception-escape,bugprone-fold-init-type,bugprone-forward-declaration-namespace, \
+         bugprone-forwarding-reference-overload,bugprone-implicit-widening-of-multiplication-result,bugprone-inaccurate-erase,bugprone-inc-dec-in-conditions,bugprone-incorrect-enable-if,bugprone-incorrect-roundings, \
+         bugprone-infinite-loop,bugprone-integer-division,bugprone-lambda-function-name,bugprone-macro-parentheses,bugprone-macro-repeated-side-effects,bugprone-misplaced-operator-in-strlen-in-alloc, \
+         bugprone-misplaced-pointer-arithmetic-in-alloc,bugprone-misplaced-widening-cast,bugprone-move-forwarding-reference,bugprone-multi-level-implicit-pointer-conversion,bugprone-multiple-new-in-one-expression, \
+         bugprone-multiple-statement-macro,bugprone-narrowing-conversions,bugprone-no-escape,bugprone-non-zero-enum-to-bool-conversion,bugprone-not-null-terminated-result,bugprone-optional-value-conversion, \
+         bugprone-parent-virtual-call,bugprone-posix-return,bugprone-redundant-branch-condition,bugprone-reserved-identifier,bugprone-shared-ptr-array-mismatch,bugprone-signal-handler,bugprone-signed-char-misuse, \
+         bugprone-sizeof-container,bugprone-sizeof-expression,bugprone-spuriously-wake-up-functions,bugprone-standalone-empty,bugprone-string-constructor,bugprone-string-integer-assignment,bugprone-string-literal-with-embedded-nul, \
+         bugprone-stringview-nullptr, \
+         bugprone-suspicious-enum-usage,bugprone-suspicious-include,bugprone-suspicious-memory-comparison,bugprone-suspicious-memset-usage,bugprone-suspicious-missing-comma,bugprone-suspicious-realloc-usage, \
+         bugprone-suspicious-semicolon,bugprone-suspicious-string-compare, \
+         bugprone-swapped-arguments,bugprone-switch-missing-default-case,bugprone-terminating-continue,bugprone-throw-keyword-missing,bugprone-too-small-loop-variable,bugprone-unchecked-optional-access, \
+         bugprone-undefined-memory-manipulation,bugprone-undelegated-constructor,bugprone-unhandled-exception-at-new,bugprone-unhandled-self-assignment,bugprone-unique-ptr-array-mismatch,bugprone-unsafe-functions, \
+         bugprone-unused-local-non-trivial-variable,bugprone-unused-raii,bugprone-unused-return-value,bugprone-use-after-move,bugprone-virtual-near-miss, \
+         cert-con36-c,cert-con54-cpp, \
+         cert-dcl03-c,cert-dcl16-c,cert-dcl21-cpp,cert-dcl37-c,cert-dcl50-cpp,cert-dcl51-cpp,cert-dcl54-cpp,cert-dcl58-cpp,cert-dcl59-cpp, \
+         cert-env33-c, \
+         cert-err09-cpp,cert-err33-c,cert-err34-c,cert-err52-cpp,cert-err58-cpp,cert-err60-cpp,cert-err61-cpp, \
+         cert-exp42-c, \
+         cert-fio38-c, \
+         cert-flp30-c,cert-flp37-c, \
+         cert-mem57-cpp, \
+         cert-msc24-c,cert-msc30-c,cert-msc32-c,cert-msc33-c,cert-msc50-cpp,cert-msc51-cpp,cert-msc54-cpp, \
+         cert-oop11-cpp,cert-oop54-cpp,cert-oop57-cpp,cert-oop58-cpp, \
+         cert-pos44-c,cert-pos47-c, \
+         cert-sig30-c, \
+         cert-str34-c, \
+         clang-analyzer-apiModeling.Errno,clang-analyzer-apiModeling.TrustNonnull,clang-analyzer-apiModeling.TrustReturnsNonnull,clang-analyzer-apiModeling.google.GTest,clang-analyzer-apiModeling.llvm.CastValue, \
+         clang-analyzer-apiModeling.llvm.ReturnValue, \
+         clang-analyzer-core.BitwiseShift,clang-analyzer-core.CallAndMessage,clang-analyzer-core.CallAndMessageModeling,clang-analyzer-core.DivideZero,clang-analyzer-core.DynamicTypePropagation, \
+         clang-analyzer-core.NonNullParamChecker,clang-analyzer-core.NonnilStringConstants,clang-analyzer-core.NullDereference,clang-analyzer-core.StackAddrEscapeBase,clang-analyzer-core.StackAddressEscape, \
+         clang-analyzer-core.UndefinedBinaryOperatorResult,clang-analyzer-core.VLASize, \
+         clang-analyzer-core.builtin.BuiltinFunctions,clang-analyzer-core.builtin.NoReturnFunctions, \
+         clang-analyzer-core.uninitialized.ArraySubscript,clang-analyzer-core.uninitialized.Assign,clang-analyzer-core.uninitialized.Branch,clang-analyzer-core.uninitialized.CapturedBlockVariable, \
+         clang-analyzer-core.uninitialized.NewArraySize,clang-analyzer-core.uninitialized.UndefReturn, \
+         clang-analyzer-cplusplus.InnerPointer,clang-analyzer-cplusplus.Move,clang-analyzer-cplusplus.NewDelete,clang-analyzer-cplusplus.NewDeleteLeaks,clang-analyzer-cplusplus.PlacementNew,clang-analyzer-cplusplus.PureVirtualCall, \
+         clang-analyzer-cplusplus.SelfAssignment,clang-analyzer-cplusplus.SmartPtrModeling,clang-analyzer-cplusplus.StringChecker,clang-analyzer-cplusplus.VirtualCallModeling, \
+         clang-analyzer-deadcode.DeadStores, \
+         clang-analyzer-fuchsia.HandleChecker, \
+         clang-analyzer-nullability.NullPassedToNonnull,clang-analyzer-nullability.NullReturnedFromNonnull,clang-analyzer-nullability.NullabilityBase,clang-analyzer-nullability.NullableDereferenced, \
+         clang-analyzer-nullability.NullablePassedToNonnull,clang-analyzer-nullability.NullableReturnedFromNonnull, \
+         clang-analyzer-optin.core.EnumCastOutOfRange, \
+         clang-analyzer-optin.cplusplus.UninitializedObject,clang-analyzer-optin.cplusplus.VirtualCall, \
+         clang-analyzer-optin.mpi.MPI-Checker, \
+         clang-analyzer-optin.osx.OSObjectCStyleCast, \
+         clang-analyzer-optin.osx.cocoa.localizability.EmptyLocalizationContextChecker,clang-analyzer-optin.osx.cocoa.localizability.NonLocalizedStringChecker, \
+         clang-analyzer-optin.performance.GCDAntipattern,clang-analyzer-optin.performance.Padding, \
+         clang-analyzer-optin.portability.UnixAPI, \
+         clang-analyzer-osx.API,clang-analyzer-osx.MIG,clang-analyzer-osx.NSOrCFErrorDerefChecker,clang-analyzer-osx.NumberObjectConversion, \
+         clang-analyzer-osx.OSObjectRetainCount,clang-analyzer-osx.ObjCProperty,clang-analyzer-osx.SecKeychainAPI, \
+         clang-analyzer-osx.cocoa.AtSync,clang-analyzer-osx.cocoa.AutoreleaseWrite,clang-analyzer-osx.cocoa.ClassRelease,clang-analyzer-osx.cocoa.Dealloc,clang-analyzer-osx.cocoa.IncompatibleMethodTypes, \
+         clang-analyzer-osx.cocoa.Loops,clang-analyzer-osx.cocoa.MissingSuperCall,clang-analyzer-osx.cocoa.NSAutoreleasePool,clang-analyzer-osx.cocoa.NSError,clang-analyzer-osx.cocoa.NilArg, \
+         clang-analyzer-osx.cocoa.NonNilReturnValue,clang-analyzer-osx.cocoa.ObjCGenerics,clang-analyzer-osx.cocoa.RetainCount,clang-analyzer-osx.cocoa.RetainCountBase,clang-analyzer-osx.cocoa.RunLoopAutoreleaseLeak, \
+         clang-analyzer-osx.cocoa.SelfInit,clang-analyzer-osx.cocoa.SuperDealloc,clang-analyzer-osx.cocoa.UnusedIvars,clang-analyzer-osx.cocoa.VariadicMethodTypes, \
+         clang-analyzer-osx.coreFoundation.CFError,clang-analyzer-osx.coreFoundation.CFNumber,clang-analyzer-osx.coreFoundation.CFRetainRelease, \
+         clang-analyzer-osx.coreFoundation.containers.OutOfBounds,clang-analyzer-osx.coreFoundation.containers.PointerSizedValues, \
+         clang-analyzer-security.FloatLoopCounter,clang-analyzer-security.cert.env.InvalidPtr, \
+         clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,clang-analyzer-security.insecureAPI.SecuritySyntaxChecker,clang-analyzer-security.insecureAPI.UncheckedReturn,clang-analyzer-security.insecureAPI.bcmp, \
+         clang-analyzer-security.insecureAPI.bcopy,clang-analyzer-security.insecureAPI.bzero,clang-analyzer-security.insecureAPI.decodeValueOfObjCType,clang-analyzer-security.insecureAPI.getpw, \
+         clang-analyzer-security.insecureAPI.gets,clang-analyzer-security.insecureAPI.mkstemp,clang-analyzer-security.insecureAPI.mktemp,clang-analyzer-security.insecureAPI.rand,clang-analyzer-security.insecureAPI.strcpy, \
+         clang-analyzer-security.insecureAPI.vfork, \
+         clang-analyzer-unix.API,clang-analyzer-unix.DynamicMemoryModeling,clang-analyzer-unix.Errno,clang-analyzer-unix.Malloc,clang-analyzer-unix.MallocSizeof,clang-analyzer-unix.MismatchedDeallocator, \
+         clang-analyzer-unix.StdCLibraryFunctions,clang-analyzer-unix.Vfork, \
+         clang-analyzer-unix.cstring.BadSizeArg,clang-analyzer-unix.cstring.CStringModeling,clang-analyzer-unix.cstring.NullArg, \
+         clang-analyzer-valist.CopyToSelf,clang-analyzer-valist.Uninitialized,clang-analyzer-valist.Unterminated,clang-analyzer-valist.ValistBase, \
+         clang-analyzer-webkit.NoUncountedMemberChecker,clang-analyzer-webkit.RefCntblBaseVirtualDtor,clang-analyzer-webkit.UncountedLambdaCapturesChecker, \
+         concurrency-mt-unsafe,concurrency-thread-canceltype-asynchronous, \
+         cppcoreguidelines-avoid-c-arrays,cppcoreguidelines-avoid-capturing-lambda-coroutines,cppcoreguidelines-avoid-const-or-ref-data-members,cppcoreguidelines-avoid-do-while,cppcoreguidelines-avoid-goto, \
+         cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-non-const-global-variables,cppcoreguidelines-avoid-reference-coroutine-parameters, \
+         cppcoreguidelines-c-copy-assignment-signature,cppcoreguidelines-explicit-virtual-functions,cppcoreguidelines-init-variables,cppcoreguidelines-interfaces-global-init,cppcoreguidelines-macro-to-enum, \
+         cppcoreguidelines-macro-usage,cppcoreguidelines-misleading-capture-default-by-value,cppcoreguidelines-missing-std-forward,cppcoreguidelines-narrowing-conversions,cppcoreguidelines-no-malloc, \
+         cppcoreguidelines-no-suspend-with-lock,cppcoreguidelines-noexcept-destructor,cppcoreguidelines-noexcept-move-operations,cppcoreguidelines-noexcept-swap,cppcoreguidelines-non-private-member-variables-in-classes, \
+         cppcoreguidelines-owning-memory,cppcoreguidelines-prefer-member-initializer, \
+         cppcoreguidelines-pro-bounds-array-to-pointer-decay,cppcoreguidelines-pro-bounds-constant-array-index,cppcoreguidelines-pro-bounds-pointer-arithmetic, \
+         cppcoreguidelines-pro-type-const-cast,cppcoreguidelines-pro-type-cstyle-cast,cppcoreguidelines-pro-type-member-init,cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-type-static-cast-downcast, \
+         cppcoreguidelines-pro-type-union-access,cppcoreguidelines-pro-type-vararg, \
+         cppcoreguidelines-rvalue-reference-param-not-moved,cppcoreguidelines-slicing,cppcoreguidelines-special-member-functions,cppcoreguidelines-use-default-member-init,cppcoreguidelines-virtual-class-destructor, \
+         darwin-avoid-spinlock,darwin-dispatch-once-nonstatic, \
+         fuchsia-default-arguments-calls,fuchsia-default-arguments-declarations,fuchsia-header-anon-namespaces,fuchsia-multiple-inheritance,fuchsia-overloaded-operator,fuchsia-statically-constructed-objects,fuchsia-trailing-return, \
+         fuchsia-virtual-inheritance, \
+         google-build-explicit-make-pair,google-build-namespaces,google-build-using-namespace, \
+         google-default-arguments,google-explicit-constructor,google-global-names-in-headers, \
+         google-objc-avoid-nsobject-new,google-objc-avoid-throwing-exception,google-objc-function-naming,google-objc-global-variable-declaration, \
+         google-readability-avoid-underscore-in-googletest-name,google-readability-braces-around-statements,google-readability-casting,google-readability-function-size,google-readability-namespace-comments,google-readability-todo, \
+         google-runtime-int,google-runtime-operator, \
+         google-upgrade-googletest-case, \
+         hicpp-avoid-c-arrays,hicpp-avoid-goto, \
+         hicpp-braces-around-statements,hicpp-deprecated-headers,hicpp-exception-baseclass,hicpp-explicit-conversions,hicpp-function-size,hicpp-ignored-remove-result,hicpp-invalid-access-moved,hicpp-member-init,hicpp-move-const-arg, \
+         hicpp-multiway-paths-covered,hicpp-named-parameter,hicpp-new-delete-operators, \
+         hicpp-no-array-decay,hicpp-no-assembler,hicpp-no-malloc, \
+         hicpp-noexcept-move,hicpp-signed-bitwise,hicpp-special-member-functions,hicpp-static-assert,hicpp-undelegated-constructor,hicpp-uppercase-literal-suffix, \
+         hicpp-use-auto,hicpp-use-emplace,hicpp-use-equals-default,hicpp-use-equals-delete,hicpp-use-noexcept,hicpp-use-nullptr,hicpp-use-override,hicpp-vararg, \
+         linuxkernel-must-check-errs, \
+         llvm-else-after-return,llvm-header-guard,llvm-include-order,llvm-namespace-comment,llvm-prefer-isa-or-dyn-cast-in-conditionals,llvm-prefer-register-over-unsigned,llvm-qualified-auto,llvm-twine-local, \
+         llvmlibc-callee-namespace,llvmlibc-implementation-in-namespace,llvmlibc-inline-function-decl,llvmlibc-restrict-system-libc-headers, \
+         misc-confusable-identifiers,misc-const-correctness,misc-coroutine-hostile-raii,misc-definitions-in-headers,misc-header-include-cycle,misc-include-cleaner, \
+         misc-misleading-bidirectional,misc-misleading-identifier, \
+         misc-misplaced-const,misc-new-delete-overloads,misc-no-recursion,misc-non-copyable-objects,misc-non-private-member-variables-in-classes,misc-redundant-expression,misc-static-assert,misc-throw-by-value-catch-by-reference, \
+         misc-unconventional-assign-operator,misc-uniqueptr-reset-release, \
+         misc-unused-alias-decls,misc-unused-parameters,misc-unused-using-decls, \
+         misc-use-anonymous-namespace, \
+         modernize-avoid-bind,modernize-avoid-c-arrays, \
+         modernize-concat-nested-namespaces, \
+         modernize-deprecated-headers,modernize-deprecated-ios-base-aliases, \
+         modernize-loop-convert,modernize-macro-to-enum, \
+         modernize-make-shared,modernize-make-unique, \
+         modernize-pass-by-value,modernize-raw-string-literal,modernize-redundant-void-arg, \
+         modernize-replace-auto-ptr,modernize-replace-disallow-copy-and-assign-macro,modernize-replace-random-shuffle, \
+         modernize-return-braced-init-list,modernize-shrink-to-fit,modernize-type-traits,modernize-unary-static-assert, \
+         modernize-use-auto,modernize-use-bool-literals,modernize-use-constraints,modernize-use-default-member-init,modernize-use-emplace,modernize-use-equals-default,modernize-use-equals-delete,modernize-use-nodiscard, \
+         modernize-use-noexcept,modernize-use-nullptr,modernize-use-override,modernize-use-starts-ends-with,modernize-use-std-numbers,modernize-use-std-print,modernize-use-trailing-return-type,modernize-use-transparent-functors, \
+         modernize-use-uncaught-exceptions,modernize-use-using, \
+         mpi-buffer-deref,mpi-type-mismatch, \
+         objc-assert-equals,objc-avoid-nserror-init,objc-dealloc-in-category,objc-forbidden-subclassing,objc-missing-hash,objc-nsdate-formatter,objc-nsinvocation-argument-lifetime,objc-property-declaration,objc-super-self, \
+         openmp-exception-escape,openmp-use-default-none, \
+         performance-avoid-endl,performance-enum-size,performance-faster-string-find,performance-for-range-copy,performance-implicit-conversion-in-loop, \
+         performance-inefficient-algorithm,performance-inefficient-string-concatenation,performance-inefficient-vector-operation, \
+         performance-move-const-arg,performance-move-constructor-init, \
+         performance-no-automatic-move,performance-no-int-to-ptr, \
+         performance-noexcept-destructor,performance-noexcept-move-constructor,performance-noexcept-swap, \
+         performance-trivially-destructible,performance-type-promotion-in-math-fn, \
+         performance-unnecessary-copy-initialization,performance-unnecessary-value-param, \
+         portability-restrict-system-includes,portability-simd-intrinsics,portability-std-allocator-const, \
+         readability-avoid-const-params-in-decls,readability-avoid-nested-conditional-operator,readability-avoid-return-with-void-value,readability-avoid-unconditional-preprocessor-if, \
+         readability-braces-around-statements,readability-const-return-type, \
+         readability-container-contains,readability-container-data-pointer,readability-container-size-empty, \
+         readability-convert-member-functions-to-static,readability-delete-null-pointer,readability-duplicate-include,readability-else-after-return, \
+         readability-function-cognitive-complexity,readability-function-size, \
+         readability-identifier-length,readability-identifier-naming, \
+         readability-implicit-bool-conversion,readability-inconsistent-declaration-parameter-name,readability-isolate-declaration,readability-magic-numbers,readability-make-member-function-const,readability-misleading-indentation, \
+         readability-misplaced-array-index,readability-named-parameter,readability-non-const-parameter,readability-operators-representation,readability-qualified-auto, \
+         readability-redundant-access-specifiers,readability-redundant-casting,readability-redundant-control-flow,readability-redundant-declaration,readability-redundant-function-ptr-dereference, \
+         readability-redundant-inline-specifier,readability-redundant-member-init,readability-redundant-preprocessor,readability-redundant-smartptr-get,readability-redundant-string-cstr,readability-redundant-string-init, \
+         readability-reference-to-constructed-temporary, \
+         readability-simplify-boolean-expr,readability-simplify-subscript-expr, \
+         readability-static-accessed-through-instance,readability-static-definition-in-anonymous-namespace, \
+         readability-string-compare,readability-suspicious-call-argument,readability-uniqueptr-delete-release,readability-uppercase-literal-suffix,readability-use-anyofallof, \
+         zircon-temporary-objects, \
+         \
+         -cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers, \
+         -llvm-header-guard, \
+         -llvmlibc-restrict-system-libc-headers, \
+         -google-readability-braces-around-statements,-hicpp-braces-around-statements,-readability-braces-around-statements,
+         -misc-include-cleaner, \
+         -readability-identifier-length, \
+         -clang-analyzer-security.insecureAPI.strcpy, \
+         -concurrency-mt-unsafe, \
+         -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling, \
+         -cppcoreguidelines-init-variables, \
+         -altera-unroll-loops, \
+         -llvm-include-order, \
+         -cppcoreguidelines-avoid-non-const-global-variables, \
+         -bugprone-easily-swappable-parameters, \
+         -altera-id-dependent-backward-branch, \
+         -altera-struct-pack-align, \
+         -readability-isolate-declaration, \
+         -llvm-else-after-return,-readability-else-after-return, \
+         -bugprone-not-null-terminated-result, \
+         -readability-function-cognitive-complexity, \
+         -hicpp-signed-bitwise, \
+         -bugprone-reserved-identifier,-cert-dcl37-c,-cert-dcl51-cpp, \
+         -android-cloexec-fopen,-android-cloexec-open, \
+         -bugprone-macro-parentheses, \
+         -readability-redundant-declaration, \
+         -performance-no-int-to-ptr, \
+         -hicpp-named-parameter,-readability-named-parameter, \
+         -readability-avoid-unconditional-preprocessor-if,-readability-redundant-preprocessor, \
+         -cert-msc54-cpp, \
+         -cert-err34-c, \
+         -bugprone-switch-missing-default-case, \
+         -bugprone-casting-through-void, \
+         -bugprone-narrowing-conversions,-cppcoreguidelines-narrowing-conversions, \
+         -misc-no-recursion, \
+         -bugprone-inc-dec-in-conditions, \
+         -bugprone-suspicious-include, \
+         -android-cloexec-pipe, \
+         -bugprone-unsafe-functions,-cert-msc24-c,-cert-msc33-c, \
+         -hicpp-uppercase-literal-suffix,-readability-uppercase-literal-suffix,-cert-dcl16-c, \
+         -hicpp-no-assembler, \
+         -google-readability-avoid-underscore-in-googletest-name, \
+         -readability-avoid-nested-conditional-operator, \
+         -google-readability-function-size,-hicpp-function-size,-readability-function-size, \
+         -bugprone-assert-side-effect, \
+         -cppcoreguidelines-macro-to-enum,-modernize-macro-to-enum, \
+         -clang-diagnostic-c23-extensions, \
+         -bugprone-assignment-in-if-condition, \
+         -cert-msc30-c,-cert-msc50-cpp, \
+         -clang-analyzer-security.insecureAPI.bzero, \
+         -android-cloexec-creat, \
+         -cert-msc32-c,-cert-msc51-cpp, \
+         -clang-analyzer-optin.performance.Padding, \
+         -clang-analyzer-security.insecureAPI.bcmp, \
+         -google-readability-todo, \
+         -readability-implicit-bool-conversion, \
+         -readability-simplify-boolean-expr"
 
-CheckOptions:
-    - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
-      value: true
-    - key: bugprone-sizeof-expression.WarnOnSizeOfPointerToAggregate
-      value: true
+# We do not use:
+# - cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers: would be comically arduous and annoying to clean up for not much gain
+# - llvm-header-guard: bans `#pragma once`, which I like to use
+# - llvmlibc-restrict-system-libc-headers: bans system headers (lol)
+# - google-readability-braces-around-statements,hicpp-braces-around-statements,readability-braces-around-statements: I do not agree with this style recommendation
+# - misc-include-cleaner: can sometimes ask to include a header which isn't specifically needed for a given symbol to be defined - some symbols are defined in standards to be defined in multiple headers, so this would inhibit testing ofr that
+# - readability-identifier-length: would be comically arduous annoying to clean up for not much gain
+# - clang-analyzer-security.insecureAPI.strcpy: we want to test this function - to do so, we need to be able to use it
+# - concurrency-mt-unsafe: bans a ton of functions (e.g. `getenv`, `exit`, `strsignal`, `getopt_long`, `mallopt`, `setenv`) which we want to use in tests or even just directly test (it's not like much of the tests are multi-threaded anyway...)
+# - clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling: Bans tons of functions (e.g. `memcpy`, `fprintf`, `vsnprintf`) which we want to test - to do so, we need to be able to use them
+# - cppcoreguidelines-init-variables: would be pretty annoying to fix for not that much gain
+# - altera-unroll-loops: gives useless suggestions that are impossible to fix
+# - llvm-include-order: we want to order includes in a different order than what it wants
+# - cppcoreguidelines-avoid-non-const-global-variables: would be quite annoying to fix for not much gain
+# - bugprone-easily-swappable-parameters: we need to implement a bunch of functions with apis that this bans
+# - altera-id-dependent-backward-branch: gives useless suggestions that are impossible to fix
+# - altera-struct-pack-align: i am not gonna spam __attribute__((packed)) everywhere just to shut this up
+# - readability-isolate-declaration: would require a bunch of small adjustments for barely any gain
+# - llvm-else-after-return,readability-else-after-return: again, i agree with this but it's too frequent in imported code to really be fixed
+# - bugprone-not-null-terminated-result: tons of imported code violates this on purpose
+# - readability-function-cognitive-complexity: violated by a bunch of imported code and would be annoying to fix (and easy to "fix" in an erroneous manner)
+# - hicpp-signed-bitwise: too much imported code does this to be reliably fixable
+# - bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp: any code that violates this is legally UB but it'd be incredibly annoying to fix for imported code, so only ever fix it if absolutely necessary
+# - android-cloexec-fopen,-android-cloexec-open: "rule that mandates using an extension" moment (...yeah, this ain't doable)
+# - bugprone-macro-parentheses: practically impossible to fix in a large amount of imported code
+# - readability-redundant-declaration: some of the imported code does this in ways that would require particularly significant changes to be fixed
+# - performance-no-int-to-ptr: a bunch of imported code does this, specifically to get the exact effects that this check tries to help you avoid getting (i.e. they are just impossible to "fix" as they intend to specifically do the exact thing that this tries to ban)
+# - readability-avoid-unconditional-preprocessor-if,readability-redundant-preprocessor: good intentions but sometimes keeping that code around "just in case" is useful (also helps us stay as close as possible to the original files)
+# - cert-msc54-cpp: fixing the tests that violate this would be an absolutely massive pain, sorry
+# - cert-err34-c: bans functions we want to test (e.g. atoi, scanf)
+# - bugprone-switch-missing-default-case: in many cases fixing this would be significantly error-prone
+# - bugprone-casting-through-void: violated directly on purpose by various imported tests
+# - bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions: ends up giving stupid warnings that are way too annoying to actually fix - if this is actually an issue on any significant implementation I guess I'll be screwed and have to fix it all though lol
+# - misc-no-recursion: a lot of imported relies on this and would be incredibly annoying to fix
+# - bugprone-inc-dec-in-conditions: i'm not 100% sure but i think some checks intentionally do this to try and verify that optimizations done aren't invalid ?
+# - bugprone-suspicious-include: done on purpose numerous times by imported code - fixing this would be a massive pain in the ass for barely any gain
+# - android-cloexec-pipe: bans functions we want to test (pipe)
+# - bugprone-unsafe-functions,cert-msc24-c,cert-msc33-c: bans functions we want to test (e.g. rewind)
+# - hicpp-uppercase-literal-suffix,readability-uppercase-literal-suffix,-cert-dcl16-c: i don't agree with this style lol
+# - hicpp-no-assembler: violated on purpose for important and legitimate reasons by imported code
+# - google-readability-avoid-underscore-in-googletest-name: ends up randomly triggering on random other stuff if it invokes a macro named "TEST"
+# - readability-avoid-nested-conditional-operator: frequent in imported code and very error-prone to try to fix
+# - google-readability-function-size,hicpp-function-size,readability-function-size: violated by a number of tests and would be quite error-prone to fix
+# - bugprone-assert-side-effect: happens sometimes in imported tests - is more convenient sometimes. we also try to always ensure the assert macro is enabled except in extremely specific cases where we are testing that functionality
+# - cppcoreguidelines-macro-to-enum,modernize-macro-to-enum: fixing this is error-prone and isn't that useful
+# - clang-diagnostic-c23-extensions: bans things we want to test (e.g. single-argument static_assert)
+# - bugprone-assignment-in-if-condition: hard and error-prone to fix in some cases with imported code
+# - cert-msc30-c,cert-msc50-cpp: bans functions we want to test (e.g. rand)
+# - clang-analyzer-security.insecureAPI.bzero: bans a function we want to test (bzero)
+# - android-cloexec-creat: bans a function we want to test (creat)
+# - cert-msc32-c,cert-msc51-cpp: bans a function we want to test (srand)
+# - clang-analyzer-optin.performance.Padding: hard and error-prone to fix in some cases with imported code
+# - clang-analyzer-security.insecureAPI.bcmp: bans a function we want to test (bcmp)
+# - google-readability-todo: i disagree with this TODO style
+# - readability-implicit-bool-conversion: i refuse to cast the result of every comparison to bool and every boolean used in a && or || simply because the standard technically specifies those as returning int and taking ints.
+# - readability-simplify-boolean-expr: in imported code it is often pretty convenient to change certain if statements to `if (true)` so this would be significantly annoying to handle
 
 # Make sure the checks fire off errors, not just warnings
 WarningsAsErrors: "*"

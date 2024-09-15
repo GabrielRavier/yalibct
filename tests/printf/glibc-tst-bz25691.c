@@ -59,12 +59,12 @@ do_test (void)
   {
     /* The input size value is to force a heap allocation on temporary
        buffer (in the old implementation).  */
-    const size_t mbssize = 32 * 1024;
+      const size_t mbssize = (size_t)32 * 1024;
     char *mbs = xmalloc (mbssize);
     memset (mbs, 'a', mbssize - 1);
     mbs[mbssize - 1] = '\0';
 
-    const size_t expectedsize = 32 * 1024;
+    const size_t expectedsize = (size_t)32 * 1024;
     wchar_t *expected = xmalloc (expectedsize * sizeof (wchar_t));
     wmemset (expected, L'a', expectedsize - 1);
     expected[expectedsize-1] = L'\0';

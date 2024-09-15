@@ -37,7 +37,7 @@ do_test (void)
                   V, 1025., V, V, V, V, V, V, V, V) == strlen(buf));
   checked_fputs (buf, stdout);
   if (strcmp (buf, "\
-1.23457e+07 1.001k 12.346M 12m 12M 11.8m 12.3M      12m 0000012M"))
+1.23457e+07 1.001k 12.346M 12m 12M 11.8m 12.3M      12m 0000012M") != 0)
     {
       result = 1;
       checked_fputs (" -> WRONG\n", stdout);
@@ -49,7 +49,7 @@ do_test (void)
                   V, V, V, V, V, V, V, V, V, V, V) == strlen(buf));
   checked_fputs (buf, stdout);
   if (strcmp (buf, "\
-11.774m|12.346M|11.77m              |12m       |11.77375614m|12.35M    |"))
+11.774m|12.346M|11.77m              |12m       |11.77375614m|12.35M    |") != 0)
     {
       result = 1;
       checked_fputs (" -> WRONG\n", stdout);
@@ -60,7 +60,7 @@ do_test (void)
   assert(sprintf (buf, "%#.0B %*.0b %10.*b %*.*B %10.2B",
                   V, 2, V, 2, V, 10, 2, V, V) == strlen(buf));
   checked_fputs (buf, stdout);
-  if (strcmp (buf, "12.M 12m     11.77m     12.35M     12.35M"))
+  if (strcmp (buf, "12.M 12m     11.77m     12.35M     12.35M") != 0)
     {
       result = 1;
       checked_fputs (" -> WRONG\n", stdout);
@@ -71,7 +71,7 @@ do_test (void)
   assert(sprintf (buf, "%6B %6.1B %b %B %b %B",
                   V, V, 1000.0, 1000.0, 1024.0, 1024.0) == strlen(buf));
   checked_fputs (buf, stdout);
-  if (strcmp (buf, "12.346M  12.3M 1000.000  1.000K 1.000k 1.024K"))
+  if (strcmp (buf, "12.346M  12.3M 1000.000  1.000K 1.000k 1.024K") != 0)
     {
       result = 1;
       checked_fputs (" -> WRONG\n", stdout);

@@ -30,6 +30,7 @@
 /* Test of isdigit() function.
    $Id$
  */
+#include "test-lib/portable-symbols/printf.h"
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>

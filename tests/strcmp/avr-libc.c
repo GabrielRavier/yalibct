@@ -30,6 +30,7 @@
 /* $Id$	*/
 
 #ifndef __AVR__
+# include "test-lib/portable-symbols/printf.h"
 # include <stdio.h>
 #endif
 #include <stdlib.h>

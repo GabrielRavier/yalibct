@@ -89,11 +89,11 @@ do_test (size_t align, size_t len)
   CHAR *buf = (CHAR *) (buf1);
 
   for (i = 0; i < len; ++i)
-    buf[align + i] = 1 + 11111 * i % MAX_CHAR;
+    buf[align + i] = (char)(unsigned char)(1 + 11111 * i % MAX_CHAR);
   buf[align + len] = 0;
 
   FOR_EACH_IMPL (impl, 0)
-    do_one_test (impl, (CHAR *) (buf + align), len);
+    do_one_test (impl, (CHAR *) (buf + align), len); // NOLINT(google-readability-casting)
 }
 
 static void
@@ -118,9 +118,9 @@ do_random_tests (void)
 	    p[i] = 0;
 	  else
 	    {
-	      p[i] = random () & 255;
+	      p[i] = (unsigned char)(random () & 255);
 	      if (i >= align && i < len + align && !p[i])
-		p[i] = (random () & 127) + 1;
+		p[i] = (unsigned char)(random () & 127) + 1;
 	    }
 	}
 

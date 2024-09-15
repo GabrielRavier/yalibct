@@ -1,4 +1,5 @@
 #include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>

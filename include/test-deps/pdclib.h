@@ -78,8 +78,8 @@ YALIBCT_DIAGNOSTIC_IGNORE("-Wnonnull")
 
 #if INT_MAX >> 15 == 1
 
-#define UINT_DIG 5 // NOLINT(modernize-macro-to-enum)
-#define INT_DIG  5 // NOLINT(modernize-macro-to-enum)
+#define UINT_DIG 5 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
+#define INT_DIG  5 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
 #define INT_DIG_LESS1 "4"
 #define INT_DIG_PLUS1 "6"
 #define INT_DIG_PLUS2 "7"
@@ -98,8 +98,8 @@ YALIBCT_DIAGNOSTIC_IGNORE("-Wnonnull")
 
 #elif UINT_MAX >> 31 == 1
 
-#define UINT_DIG 10 // NOLINT(modernize-macro-to-enum)
-#define INT_DIG  10 // NOLINT(modernize-macro-to-enum)
+#define UINT_DIG 10 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
+#define INT_DIG  10 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
 #define INT_DIG_LESS1 "9"
 #define INT_DIG_PLUS1 "11"
 #define INT_DIG_PLUS2 "12"
@@ -118,8 +118,8 @@ YALIBCT_DIAGNOSTIC_IGNORE("-Wnonnull")
 
 #elif UINT_MAX >> 63 == 1
 
-#define UINT_DIG 20 // NOLINT(modernize-macro-to-enum)
-#define INT_DIG  19 // NOLINT(modernize-macro-to-enum)
+#define UINT_DIG 20 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
+#define INT_DIG  19 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
 #define INT_DIG_LESS1 "18"
 #define INT_DIG_PLUS1 "20"
 #define INT_DIG_PLUS2 "21"
@@ -144,8 +144,8 @@ YALIBCT_DIAGNOSTIC_IGNORE("-Wnonnull")
 
 #if ULONG_MAX >> 31 == 1
 
-#define ULONG_DIG 10 // NOLINT(modernize-macro-to-enum)
-#define LONG_DIG  10 // NOLINT(modernize-macro-to-enum)
+#define ULONG_DIG 10 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
+#define LONG_DIG  10 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
 #define LONG_MAX_DEZ_STR  "2147483647"
 #define LONG_MIN_DEZ_STR  "2147483648"
 #define ULONG_MAX_DEZ_STR "4294967295"
@@ -158,8 +158,8 @@ YALIBCT_DIAGNOSTIC_IGNORE("-Wnonnull")
 
 #elif ULONG_MAX >> 63 == 1
 
-#define ULONG_DIG 20 // NOLINT(modernize-macro-to-enum)
-#define LONG_DIG  19 // NOLINT(modernize-macro-to-enum)
+#define ULONG_DIG 20 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
+#define LONG_DIG  19 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
 #define LONG_MAX_DEZ_STR   "9223372036854775807"
 #define LONG_MIN_DEZ_STR   "9223372036854775808"
 #define ULONG_MAX_DEZ_STR "18446744073709551615"
@@ -178,8 +178,8 @@ YALIBCT_DIAGNOSTIC_IGNORE("-Wnonnull")
 
 #if ULLONG_MAX >> 63 == 1
 
-#define ULLONG_DIG 20 // NOLINT(modernize-macro-to-enum)
-#define LLONG_DIG  19 // NOLINT(modernize-macro-to-enum)
+#define ULLONG_DIG 20 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
+#define LLONG_DIG  19 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
 #define LLONG_MAX_DEZ_STR   "9223372036854775807"
 #define LLONG_MIN_DEZ_STR   "9223372036854775808"
 #define ULLONG_MAX_DEZ_STR "18446744073709551615"
@@ -192,8 +192,8 @@ YALIBCT_DIAGNOSTIC_IGNORE("-Wnonnull")
 
 #elif ULLONG_MAX >> 127 == 1
 
-#define ULLONG_DIG 38 // NOLINT(modernize-macro-to-enum)
-#define LLONG_DIG  38 // NOLINT(modernize-macro-to-enum)
+#define ULLONG_DIG 38 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
+#define LLONG_DIG  38 // NOLINT(modernize-macro-to-enum) NOLINT(cppcoreguidelines-macro-to-enum)
 #define LLONG_MAX_DEZ_STR  "170141183460469231731687303715884105727"
 #define LLONG_MIN_DEZ_STR  "170141183460469231731687303715884105728"
 #define ULLONG_MAX_DEZ_STR "340282366920938463463374607431768211455"

@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/MIN.h"
 
 #include <stdio.h>

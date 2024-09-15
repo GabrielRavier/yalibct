@@ -93,7 +93,7 @@ path_search (char *tmpl, size_t tmpl_len, const char *dir, const char *pfx,
       else
 #endif
       if (direxists (P_tmpdir))
-        dir = P_tmpdir;
+	  dir = P_tmpdir; // NOLINT(bugprone-branch-clone)
       else if (strcmp (P_tmpdir, "/tmp") != 0 && direxists ("/tmp"))
         dir = "/tmp";
       else
@@ -118,6 +118,6 @@ path_search (char *tmpl, size_t tmpl_len, const char *dir, const char *pfx,
     }
 
   memcpy (tmpl, dir, dlen);
-  sprintf (tmpl + dlen, &"/%.*sXXXXXX"[!add_slash], (int) plen, pfx);
+  (void)sprintf (tmpl + dlen, &"/%.*sXXXXXX"[!add_slash], (int) plen, pfx);
   return 0;
 }

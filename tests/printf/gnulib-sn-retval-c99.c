@@ -1,3 +1,4 @@
+#include "test-lib/compiler-features.h"
 #include <stdio.h>
 #include <string.h>
 #if 1//HAVE_SNPRINTF
@@ -14,6 +15,9 @@ static int my_snprintf (char *buf, int size, const char *format, ...)
   return ret;
 }
 #endif
+
+YALIBCT_DIAGNOSTIC_IGNORE_WFORMAT_TRUNCATION
+
 static char buf[100];
 int main ()
 {

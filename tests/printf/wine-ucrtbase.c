@@ -127,11 +127,11 @@ static void test_snprintf (void)
         /* C99 snprintf style termination */
         for (i = 0; i < ARRAY_SIZE(tests); i++) {
             const char *fmt  = tests[i];
-            const int expect = strlen(fmt);
+            const size_t expect = strlen(fmt);
             const int n      = snprintf (buffer, bufsiz, fmt);
             const int valid  = n >= bufsiz ? (bufsiz > 0 ? bufsiz - 1 : 0) : n < 0 ? 0 : n;
 
-            ok (n == expect, "\"%s\": expected %d, returned %d\n",
+            ok (n >= 0 && n == expect, "\"%s\": expected %d, returned %d\n",
                 fmt, expect, n);
             ok (!memcmp (fmt, buffer, valid),
                 "\"%s\": rendered \"%.*s\" bufsiz %d\n", fmt, valid, buffer, bufsiz);
@@ -302,7 +302,7 @@ static void test_fprintf(void)
 
     FILE *fp = fopen(file_name, "wb");
     char buf[1024];
-    int ret;
+    long ret;
 
     ret = vfprintf_wrapper(fp, "simple test\n");
     ok(ret == 12, "ret = %d\n", ret);
@@ -382,7 +382,7 @@ static void test_fwprintf(void)
     FILE *fp = fopen(file_name, "wb");
     wchar_t bufw[1024];
     char bufa[1024];
-    int ret;
+    long ret;
 
     ret = vfwprintf_wrapper(fp, simple);
     ok(ret == 12, "ret = %d\n", ret);

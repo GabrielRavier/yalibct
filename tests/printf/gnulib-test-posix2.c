@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 
+#include "test-lib/portable-symbols/printf.h"
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/time.h>
@@ -98,6 +99,8 @@ main (int argc, char *argv[])
       ret = printf ("%.10000000u", 1);
       return !(ret == 10000000 || (ret < 0 && errno == ENOMEM));
 #endif
+    default:
+	break;
     }
   return 0;
 }

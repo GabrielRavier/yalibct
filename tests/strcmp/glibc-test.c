@@ -177,8 +177,8 @@ do_test (size_t align1, size_t align2, size_t len, int max_char,
 static void
 do_random_tests (void)
 {
-	UCHAR *p1 = (UCHAR *) (buf1 + page_size - 512 * CHARBYTES);
-	UCHAR *p2 = (UCHAR *) (buf2 + page_size - 512 * CHARBYTES);
+    UCHAR *p1 = (UCHAR *) (buf1 + page_size - (ptrdiff_t)512 * CHARBYTES); // NOLINT(google-readability-casting)
+    UCHAR *p2 = (UCHAR *) (buf2 + page_size - (ptrdiff_t)512 * CHARBYTES); // NOLINT(google-readability-casting)
 
 	for (size_t n = 0; n < ITERATIONS; n += 10)
 	  {
@@ -340,7 +340,7 @@ check2 (void)
      length times 4. In the case of AVX2 for Intel, we need 32 * 4.  We
      make this test generic and run it for all architectures as additional
      boundary testing for such related algorithms.  */
-  size_t size = 32 * 4;
+  size_t size = (size_t)32 * 4;
   CHAR *s1 = (CHAR *) (buf1 + (BUF1PAGES - 1) * page_size);
   CHAR *s2 = (CHAR *) (buf2 + (BUF1PAGES - 1) * page_size);
   int exp_result;
@@ -378,8 +378,8 @@ check3 (void)
   if (buffer1 == MAP_FAILED || buffer2 == MAP_FAILED)
     error (EXIT_UNSUPPORTED, errno, "mmap failed");
 
-  s1 = (CHAR *) (buffer1 + 0x8f8 / sizeof (CHAR));
-  s2 = (CHAR *) (buffer2 + 0xcff3 / sizeof (CHAR));
+  s1 = (CHAR *) (buffer1 + 0x8f8 / sizeof (CHAR)); // NOLINT(google-readability-casting)
+  s2 = (CHAR *) (buffer2 + 0xcff3 / sizeof (CHAR)); // NOLINT(google-readability-casting)
 
   STRCPY(s1, L("/export/redhat/rpms/BUILD/java-1.8.0-openjdk-1.8.0.312.b07-2.fc35.x86_64/openjdk/langtools/src/share/classes/com/sun/tools/doclets/internal/toolkit/util/PathDocFileFactory.java"));
   STRCPY(s2, L("/export/redhat/rpms/BUILD/java-1.8.0-openjdk-1.8.0.312.b07-2.fc35.x86_64/openjdk/langtools/src/share/classes/com/sun/tools/doclets/internal/toolkit/taglets/ThrowsTaglet.java"));
@@ -428,12 +428,12 @@ test_main (void)
 
   for (i = 1; i < 8; ++i)
     {
-      do_test (CHARBYTES * i, 2 * CHARBYTES * i, 8 << i, MIDCHAR, 0);
-      do_test (2 * CHARBYTES * i, CHARBYTES * i, 8 << i, LARGECHAR, 0);
-      do_test (CHARBYTES * i, 2 * CHARBYTES * i, 8 << i, MIDCHAR, 1);
-      do_test (2 * CHARBYTES * i, CHARBYTES * i, 8 << i, LARGECHAR, 1);
-      do_test (CHARBYTES * i, 2 * CHARBYTES * i, 8 << i, MIDCHAR, -1);
-      do_test (2 * CHARBYTES * i, CHARBYTES * i, 8 << i, LARGECHAR, -1);
+      do_test (CHARBYTES * i, (size_t)2 * CHARBYTES * i, 8 << i, MIDCHAR, 0);
+      do_test ((size_t)2 * CHARBYTES * i, CHARBYTES * i, 8 << i, LARGECHAR, 0);
+      do_test (CHARBYTES * i, (size_t)2 * CHARBYTES * i, 8 << i, MIDCHAR, 1);
+      do_test ((size_t)2 * CHARBYTES * i, CHARBYTES * i, 8 << i, LARGECHAR, 1);
+      do_test (CHARBYTES * i, (size_t)2 * CHARBYTES * i, 8 << i, MIDCHAR, -1);
+      do_test ((size_t)2 * CHARBYTES * i, CHARBYTES * i, 8 << i, LARGECHAR, -1);
     }
 
   for (j = 0; j < 160; j += (random() % 35) + 1)

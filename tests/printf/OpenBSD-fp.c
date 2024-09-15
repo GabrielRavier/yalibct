@@ -30,6 +30,7 @@
  */
 
 #include "test-lib/portable-symbols/NAN.h"
+#include "test-lib/portable-symbols/INFINITY.h"
 #include <assert.h>
 #include <err.h>
 #include <float.h>
@@ -41,11 +42,12 @@
 #include <string.h>
 
 #define	testfmt(result, fmt, ...)	\
-	_testfmt((result), __LINE__, #__VA_ARGS__, fmt, __VA_ARGS__)
-void _testfmt(const char *, int, const char *, const char *, ...);
+    _testfmt_three_allowed((result), (result), (result), __LINE__, #__VA_ARGS__, fmt, __VA_ARGS__)
 #define	testfmt_two_allowed(result, result2, fmt, ...)                          \
-    _testfmt_two_allowed((result), (result2), __LINE__, #__VA_ARGS__, fmt, __VA_ARGS__)
-void _testfmt_two_allowed(const char *, const char *, int, const char *, const char *, ...);
+    _testfmt_three_allowed((result), (result), (result2), __LINE__, #__VA_ARGS__, fmt, __VA_ARGS__)
+#define	testfmt_three_allowed(result, result2, result3, fmt, ...)	\
+    _testfmt_three_allowed((result), (result2), (result3), __LINE__, #__VA_ARGS__, fmt, __VA_ARGS__)
+void _testfmt_three_allowed(const char *, const char *, const char *, int, const char *, const char *, ...);
 void smash_stack(void);
 
 int
@@ -247,7 +249,7 @@ main(void)
 	testfmt(" 0x1.2p+40", "%10.1a", 0x1.23p40);
 	testfmt(" 0X1.230000000000000000000000P-4", "%32.24A", 0x1.23p-4);
 	testfmt_two_allowed("0x1p-1074", "0x0.0000000000001p-1022", "%a", 0x1p-1074);
-	testfmt_two_allowed("0x1.2345p-1024", "0x0.48d14p-1022", "%a", 0x1.2345p-1024);
+	testfmt_three_allowed("0x1.2345p-1024", "0x0.48d14p-1022", "0x4.8d14p-1026", "%a", 0x1.2345p-1024);
 
 #if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 #if LDBL_MANT_DIG == 113
@@ -275,7 +277,7 @@ smash_stack(void)
 }
 
 void
-_testfmt(const char *result, int line, const char *argstr, const char *fmt,...)
+_testfmt_three_allowed(const char *result, const char *result2, const char *result3, int line, const char *argstr, const char *fmt,...)
 {
 	char s[100];
 	va_list ap;
@@ -283,28 +285,10 @@ _testfmt(const char *result, int line, const char *argstr, const char *fmt,...)
 	va_start(ap, fmt);
 	smash_stack();
 	assert(vsnprintf(s, sizeof(s), fmt, ap) == strlen(s));
-	if (strcmp(result, s) != 0) {
+	if (strcmp(result, s) != 0 && strcmp(result2, s) != 0 && strcmp(result3, s) != 0) {
             assert(fprintf(stderr,
-                           "%d: printf(\"%s\", %s) ==> [%s], expected [%s]\n",
-                           line, fmt, argstr, s, result) >= 0);
-            abort();
-	}
-        va_end(ap);
-}
-
-void
-_testfmt_two_allowed(const char *result, const char *result2, int line, const char *argstr, const char *fmt,...)
-{
-	char s[100];
-	va_list ap;
-
-	va_start(ap, fmt);
-	smash_stack();
-	assert(vsnprintf(s, sizeof(s), fmt, ap) == strlen(s));
-	if (strcmp(result, s) != 0 && strcmp(result2, s) != 0) {
-            assert(fprintf(stderr,
-                           "%d: printf(\"%s\", %s) ==> [%s], expected [%s] or [%s]\n",
-                           line, fmt, argstr, s, result, result2) >= 0);
+                           "%d: printf(\"%s\", %s) ==> [%s], expected [%s], [%s] or [%s]\n",
+                           line, fmt, argstr, s, result, result2, result3) >= 0);
             abort();
 	}
         va_end(ap);

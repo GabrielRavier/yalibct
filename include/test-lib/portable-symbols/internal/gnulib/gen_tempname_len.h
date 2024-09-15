@@ -36,7 +36,7 @@
 static int
 try_file (char *tmpl, void *flags)
 {
-  int *openflags = flags;
+  const int *openflags = flags;
   return __open (tmpl,
                  (*openflags & ~O_ACCMODE)
                  | O_RDWR | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);

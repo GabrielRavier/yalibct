@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-CC=/home/gravier/src/libraries/standard-libraries/c/implementations/musl/musl-install-prefix/bin/musl-gcc \
+CC=/home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/musl-libc/local-install-prefix/bin/musl-gcc \
     cmake \
         -B build/musl-git \
         -DCMAKE_C_FLAGS='-ggdb3 -static' \
-        -DYALIBCT_LIBC_HAS_CKD_ADD=OFF \
-        -DYALIBCT_DISABLE_RARE_LOCALE_TESTS=ON \
-        -DYALIBCT_LIBC_HAS_FCVT=OFF \
-        -DYALIBCT_LIBC_HAS_ECVT=OFF \
+        -DYALIBCT_DISABLE_RARE_LOCALE_TESTS=ON `# musl doesn't have a bunch of locales and just pretends it does, so we can't check for them at runtime` \
+        -DYALIBCT_LIBC_HAS_FCVT=OFF `# See https://www.openwall.com/lists/musl/2022/09/06/10` \
+        -DYALIBCT_LIBC_HAS_ECVT=OFF `# See https://www.openwall.com/lists/musl/2022/09/06/4` \
 && \
     cmake --build build/musl-git --parallel 14

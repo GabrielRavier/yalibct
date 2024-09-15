@@ -6,6 +6,7 @@
 // https://opensource.org/licenses/MIT
 
 #include "test-deps/fuchsia.h"
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/static_assert.h"
 #include <stdio.h>
 #include <string.h>

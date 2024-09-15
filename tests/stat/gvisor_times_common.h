@@ -13,6 +13,9 @@
 // limitations under the License.
 #pragma once
 
+// We don't need any functions resulting from this, and some of its names conflict with ours
+#undef _COSMO_SOURCE
+
 #include "test-deps/googletest.h"
 #include "test-deps/gvisor.h"
 #include "test-lib/should-always-be-included.h"

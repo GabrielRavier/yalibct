@@ -41,15 +41,15 @@ main ()
   char *volatile p = buf;
   char *volatile q = "ABCDEF";
   buf[7] = 'G';
-  if (fn1 (p, q) != 0 || memcmp (buf, "ABCDEF\0G", 8))
+  if (fn1 (p, q) != 0 || memcmp (buf, "ABCDEF\0G", 8) != 0)
     abort ();
   q = "HIJ";
-  if (fn2 (p + 1, q) != 0 || memcmp (buf, "AHIJ\0F\0G", 8))
+  if (fn2 (p + 1, q) != 0 || memcmp (buf, "AHIJ\0F\0G", 8) != 0)
     abort ();
   buf[6] = 'K';
-  if (fn3 (p + 1) != 4 || memcmp (buf, "Aabcd\0KG", 8))
+  if (fn3 (p + 1) != 4 || memcmp (buf, "Aabcd\0KG", 8) != 0)
     abort ();
-  if (fn4 (p) != 3 || memcmp (buf, "efg\0hiKG", 8))
+  if (fn4 (p) != 3 || memcmp (buf, "efg\0hiKG", 8) != 0)
     abort ();
   return 0;
 }

@@ -141,11 +141,11 @@
 #  define PSNIP_BUILTIN__FUNCTION PSNIP_BUILTIN__COMPILER_ATTRIBUTES static PSNIP_BUILTIN__INLINE
 #endif
 
-#define PSNIP_BUILTIN__SUFFIX_B  1
-#define PSNIP_BUILTIN__SUFFIX_S  2
-#define PSNIP_BUILTIN__SUFFIX_   3
-#define PSNIP_BUILTIN__SUFFIX_L  4
-#define PSNIP_BUILTIN__SUFFIX_LL 5
+#define PSNIP_BUILTIN__SUFFIX_B  1 // NOLINT(cppcoreguidelines-macro-to-enum) NOLINT(modernize-macro-to-enum)
+#define PSNIP_BUILTIN__SUFFIX_S  2 // NOLINT(cppcoreguidelines-macro-to-enum) NOLINT(modernize-macro-to-enum)
+#define PSNIP_BUILTIN__SUFFIX_   3 // NOLINT(cppcoreguidelines-macro-to-enum) NOLINT(modernize-macro-to-enum)
+#define PSNIP_BUILTIN__SUFFIX_L  4 // NOLINT(cppcoreguidelines-macro-to-enum) NOLINT(modernize-macro-to-enum)
+#define PSNIP_BUILTIN__SUFFIX_LL 5 // NOLINT(cppcoreguidelines-macro-to-enum) NOLINT(modernize-macro-to-enum)
 
 #if !defined(PSNIP_BUILTIN__SIZEOF_CHAR)
 #  if   CHAR_MIN == (-0x7fLL-1) && CHAR_MAX == 0x7fLL

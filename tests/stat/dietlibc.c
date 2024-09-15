@@ -1,3 +1,4 @@
+#include "test-lib/portable-symbols/printf.h"
 #include "test-lib/portable-symbols/tmpnam.h"
 #include "test-lib/compiler-features.h"
 #include <unistd.h>
@@ -35,6 +36,6 @@ int main() {
     unlink(filename);
     return -1;
   }
-  printf("size %lld, atime %ld, mtime %ld"/*, inode %ld*/"\n",(long long)s.st_size,(long)s.st_atime,(long)s.st_mtime,(long)s.st_ino);
+  printf("size %lld, atime %ld, mtime %ld"/*, inode %ld*/"\n",(long long)s.st_size,(long)s.st_atime,(long)s.st_mtime/*,(long)s.st_ino*/);
   unlink(filename);
 }

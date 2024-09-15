@@ -63,6 +63,7 @@ smash_stack(void)
 
 #define	testfmt_three_allowed(result, result2, result3, fmt, ...)       \
     _testfmt_three_allowed((result), (result2), (result3), #__VA_ARGS__, fmt, __VA_ARGS__)
+
 static void
 _testfmt_three_allowed(const char *result, const char *result2, const char *result3, const char *argstr, const char *fmt,...)
 {
@@ -228,16 +229,16 @@ ATF_TC_BODY(thousands_separator_and_other_locale_tests, tc)
 	testfmt("0012345678.0625", "%'015.4F", 12345678.0625);
 #endif
 
-#if !defined(YALIBCT_DISABLE_LC_NUMERIC_TESTS) && !defined(YALIBCT_DISABLE_RARE_LOCALE_TESTS)
-	if (setlocale(LC_NUMERIC, "hi_IN.ISCII-DEV")) { /* grouping == 2;3 */
+#ifndef YALIBCT_DISABLE_RARE_LOCALE_TESTS
+	if (setlocale(LC_NUMERIC, "hi_IN.ISCII-DEV") != NULL) { /* grouping == 2;3 */
             testfmt("1,23,45,678.0625", "%'.4f", 12345678.0625);
             testfmt("01,23,45,678.0625", "%'017.4F", 12345678.0625);
             testfmt(" 9,000", "%'6.0f", 9000.0);
             testfmt("9,000.0", "%'.1f", 9000.0);
         }
 
-	ATF_REQUIRE(setlocale(LC_NUMERIC, "ru_RU.ISO8859-5")); /* decimalpoint==, */
-	testfmt("3,1415", "%g", 3.1415);
+	if (setlocale(LC_NUMERIC, "ru_RU.ISO8859-5") != NULL) /* decimalpoint==, */
+            testfmt("3,1415", "%g", 3.1415);
 #endif
 
 	ATF_REQUIRE(setlocale(LC_NUMERIC, "C"));
@@ -405,9 +406,9 @@ ATF_TC_BODY(hexadecimal_floating_point, tc)
 	testfmt(" 0x1.2p+40", "%10.1a", 0x1.23p40);
 	testfmt(" 0X1.230000000000000000000000P-4", "%32.24A", 0x1.23p-4);
 
-        // We use testfmt_two_allowed when the standard leaves it unspecified whether the first hexadecimal digit of a subnormal is 0 and glibc diverges from FreeBSD and musl's behavior
+        // We use testfmt_two_allowed/testfmt_three_allowed in several cases when the standard leaves it unspecified whether the first hexadecimal digit of a subnormal is 0 and glibc diverges from FreeBSD and musl's behavior
 	testfmt_two_allowed("0x1p-1074", "0x0.0000000000001p-1022", "%a", 0x1p-1074);
-	testfmt_two_allowed("0x1.2345p-1024", "0x0.48d14p-1022", "%a", 0x1.2345p-1024);
+	testfmt_three_allowed("0x1.2345p-1024", "0x0.48d14p-1022", "0x4.8d14p-1026", "%a", 0x1.2345p-1024);
 
 #if !defined(YALIBCT_DISABLE_PRINTF_UPPERCASE_L_LENGTH_MODIFIER_TESTS)
 #if (LDBL_MANT_DIG == 64)

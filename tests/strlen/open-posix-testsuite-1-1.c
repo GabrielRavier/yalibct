@@ -16,6 +16,7 @@
 */
 
 #include "test-deps/open-posix-testsuite.h"
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

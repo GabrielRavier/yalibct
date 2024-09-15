@@ -15,7 +15,7 @@
 
 YALIBCT_DIAGNOSTIC_IGNORE_WSTRINGOP_OVERREAD
 
-static void	write_num(int);
+static void	write_num(int val);
 
 static void
 write_num(int val)
@@ -24,7 +24,7 @@ write_num(int val)
 	int i;
 
 	for (i = sizeof buf; --i >= 0;) {
-		buf[i] = '0' + val % 10;
+		buf[i] = (char)('0' + val % 10);
 		val /= 10;
 		if (val == 0) {
 			write(2, buf + i, sizeof buf - i);
@@ -124,13 +124,13 @@ ATF_TC_BODY(strlen_basic, tc)
 			if (len != tab[t].len) {
 				/* Write error without using printf / strlen */
 				write(2, "alignment ", 10);
-				write_num(a);
+				write_num((int)a);
 				write(2, ", test ", 7);
-				write_num(t);
+				write_num((int)t);
 				write(2, ", got len ", 10);
-				write_num(len);
+				write_num((int)len);
 				write(2, ", not ", 6);
-				write_num(tab[t].len);
+				write_num((int)tab[t].len);
 				write(2, ", for '", 7);
 				write(2, tab[t].val, tab[t].len);
 				write(2, "'\n", 2);

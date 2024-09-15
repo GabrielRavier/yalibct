@@ -17,6 +17,7 @@
 │ PERFORMANCE OF THIS SOFTWARE.                                                │
 ╚─────────────────────────────────────────────────────────────────────────────*/
 
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,7 +29,7 @@ int main() {
   char buffer[30];
 
   int snprintf_result = snprintf(buffer, sizeof(buffer), "%G", .0);
-  if (strcmp(buffer, "0")) {
+  if (strcmp(buffer, "0") != 0) {
     printf("error: snprintf gave us '%s' instead of the expected '0'\n",
             buffer);
     abort();

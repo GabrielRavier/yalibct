@@ -191,9 +191,9 @@ ATF_TP_ADD_TCS(tp)
 	struct rlimit rl;
 
 #ifndef __SANITIZE_ADDRESS__
-	rl.rlim_cur = rl.rlim_max = 8 * 1024 * 1024;
+	rl.rlim_cur = rl.rlim_max = (rlim_t)8 * 1024 * 1024;
 	ATF_CHECK(setrlimit(RLIMIT_AS, &rl) != -1);
-	rl.rlim_cur = rl.rlim_max = 8 * 1024 * 1024;
+	rl.rlim_cur = rl.rlim_max = (rlim_t)8 * 1024 * 1024;
 	ATF_CHECK(setrlimit(RLIMIT_DATA, &rl) != -1);
 #endif
 

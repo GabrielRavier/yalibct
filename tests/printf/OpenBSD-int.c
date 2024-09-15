@@ -72,7 +72,7 @@ ti(const char *fmt, enum int_size sz, long long i, const char *want)
 		irc = snprintf(buf, sizeof(buf), fmt, (long)i);
 		break;
 	case S_LL:
-		irc = snprintf(buf, sizeof(buf), fmt, (long long)i);
+		irc = snprintf(buf, sizeof(buf), fmt, (long long)i); // NOLINT(google-readability-casting) NOLINT(readability-redundant-casting)
 		break;
 	case S_MAX:
 		irc = snprintf(buf, sizeof(buf), fmt, (intmax_t)i);
@@ -139,7 +139,7 @@ tu(const char *fmt, enum int_size sz, unsigned long long i, const char *want)
 		irc = snprintf(buf, sizeof(buf), fmt, (unsigned long)i);
 		break;
 	case S_LL:
-		irc = snprintf(buf, sizeof(buf), fmt, (unsigned long long)i);
+		irc = snprintf(buf, sizeof(buf), fmt, (unsigned long long)i); // NOLINT(google-readability-casting) NOLINT(readability-redundant-casting)
 		break;
 	case S_MAX:
 		irc = snprintf(buf, sizeof(buf), fmt, (uintmax_t)i);

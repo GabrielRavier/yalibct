@@ -8,7 +8,7 @@ static char buf[5000];
 int main ()
 {
   int result = 0;
-#if 0//def __BEOS__ // Re-enable this if it turns out BeOS is indeed this broken
+#if 0//def __BEOS__ // Guess we'll see if it turns out BeOS is indeed this broken, but assume it's not
   /* On BeOS, this would crash and show a dialog box.  Avoid the crash.  */
   return 1;
 #endif

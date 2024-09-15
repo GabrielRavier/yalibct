@@ -1,19 +1,20 @@
 I have filed the following bug reports/patches as a result of working on this testsuite:
 
-total filed: 46
-fixed/merged: 25
+total filed: 69
+fixed/merged: 49
 
 glibc (2 total filed, 0 fixed/merged):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
 - https://sourceware.org/bugzilla/show_bug.cgi?id=30441 (not yet fixed (note: potentially not a bug at all - will have to see with WG14))
 
-musl (4 total filed, 1 fixed/merged):
+musl (5 total filed, 2 fixed/merged):
 - https://www.openwall.com/lists/musl/2023/04/15/1 (not yet merged)
 - https://www.openwall.com/lists/musl/2022/09/06/10 (not yet fixed)
 - https://www.openwall.com/lists/musl/2023/01/04/1 (merged)
 - https://www.openwall.com/lists/musl/2023/04/14/1 (not yet merged)
+- https://www.openwall.com/lists/musl/2024/09/13/17 (merged)
 
-dietlibc (22 total filed, 11 fixed/merged) (note: dietlibc's mailing list does not have an archive, so the links can't lead there...):
+dietlibc (27 total filed, 18 fixed/merged) (note: dietlibc's mailing list does not have an archive, so the links can't lead there...):
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-HUGE_VALL-and-INFINITY-both-from-C99-and-requi.patch (not yet merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-j-z-and-t-support-to-scanf.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Added-t-conversion-specifier-to-printf.patch (merged)
@@ -24,33 +25,38 @@ dietlibc (22 total filed, 11 fixed/merged) (note: dietlibc's mailing list does n
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fix-Make-it-so-negative-precision-arguments-work-pro.patch (not yet merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-printf-f-1-7976931348623157e-308-crashes-with-a-stack-overflow (not yet fixed)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-printf-g-1234567-8-does-not-print-correctly-and-fails-to-null-terminate-an-internal-buffer (not yet fixed)
-- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-printf-hash-flag-is-broken (not yet fixed)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/patch-fix-printf-not-formatting-values-of-narrowed-types-correctly (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/patch-made-it-so-c-supports-more-than-very-basic-formatting (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-wcsncmp-going-past-the-end-of-the-string-if-n-is.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fixed-printf-not-ignoring-the-0-flag-when-the-flag-i.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fixed-printf-not-taking-printed-characters-into-acco.patch (merged)
-- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-memchr-is-broken-with-large-sizes (not yet fixed)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-memchr-failing-to-find-matches-when-len-is-massi.patch (not yet merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-fix-return-value-of-wcs-n-cmp-for-near-limits-signed.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-strcasecmp-on-negative-and-close-to-limits-numbe.patch (merged)
-- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/bug-report-fputc-sometimes-calls-pthread-version-when-unappropriate (not yet fixed)
-- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-printing-alternative-form-hex-0-in-printf-family.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-printing-0-in-the-alternative-form-in-printf-fam.patch (merged)
 - https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Add-UTIME_NOW-UTIME_OMIT-and-fix-declaration-of-utim.patch (not yet merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Add-NAN-to-math.h-as-required-by-C99.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Properly-handle-negative-0-in-printf-when-plus-flag-.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Add-B-conversion-specifier-to-printf-and-alternative.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-printf-not-ignoring-0-flag-when-precision-is-spe.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-fdopendir-not-allocating-the-proper-amount-of-me.patch (merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-stdio-open-functions-not-using-libpthread-s-__st.patch (fixed) (a patch with the simpler solution of "just always initialize the mutex" was instead merged)
+- https://github.com/GabrielRavier/dietlibc-bug-reports-and-patches/blob/master/0001-Fix-single-argument-static_assert-not-working.patch (not yet merged)
 
 nanoprintf (1 total filed, 1 fixed/merged):
 - https://github.com/charlesnicholson/nanoprintf/issues/244 (fixed)
 
-cosmopolitan (17 total filed, 12 fixed/merged):
+cosmopolitan (34 total filed, 28 fixed/merged):
 - https://github.com/jart/cosmopolitan/issues/771 -> https://github.com/jart/cosmopolitan/pull/786 (merged)
 - https://github.com/jart/cosmopolitan/issues/772 -> https://github.com/jart/cosmopolitan/pull/787 (merged)
 - https://github.com/jart/cosmopolitan/issues/773 -> https://github.com/jart/cosmopolitan/pull/788 (merged)
 - https://github.com/jart/cosmopolitan/issues/774 -> https://github.com/jart/cosmopolitan/pull/790 (merged)
-- https://github.com/jart/cosmopolitan/issues/775 (not yet fixed)
-- https://github.com/jart/cosmopolitan/issues/776 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/775 (fixed)
+- https://github.com/jart/cosmopolitan/issues/776 -> https://github.com/jart/cosmopolitan/pull/1271 (valid but refused merge because of deliberate deviation from the standard)
 - https://github.com/jart/cosmopolitan/issues/777 -> https://github.com/jart/cosmopolitan/pull/791 (merged)
 - https://github.com/jart/cosmopolitan/issues/778 -> https://github.com/jart/cosmopolitan/pull/793 (merged)
-- https://github.com/jart/cosmopolitan/issues/779 (not yet fixed)
-- https://github.com/jart/cosmopolitan/issues/780 (not yet fixed)
+- https://github.com/jart/cosmopolitan/issues/779 -> https://github.com/jart/cosmopolitan/pull/1273 (merged)
+- https://github.com/jart/cosmopolitan/issues/780 -> https://github.com/jart/cosmopolitan/pull/1275 (merged)
 - https://github.com/jart/cosmopolitan/issues/781 -> https://github.com/jart/cosmopolitan/pull/799 (merged)
 - https://github.com/jart/cosmopolitan/issues/782 -> https://github.com/jart/cosmopolitan/pull/790 (merged)
 - https://github.com/jart/cosmopolitan/issues/783 -> https://github.com/jart/cosmopolitan/pull/795 (merged)
@@ -60,3 +66,18 @@ cosmopolitan (17 total filed, 12 fixed/merged):
 - https://github.com/jart/cosmopolitan/pull/796 (merged)
 - https://github.com/jart/cosmopolitan/pull/803 (merged)
 - https://github.com/jart/cosmopolitan/pull/804 (merged)
+- https://github.com/jart/cosmopolitan/pull/830 (merged)
+- https://github.com/jart/cosmopolitan/issues/831 (fixed)
+- https://github.com/jart/cosmopolitan/pull/1268 (merged)
+- https://github.com/jart/cosmopolitan/pull/1269 (merged)
+- https://github.com/jart/cosmopolitan/pull/1276 (merged)
+- https://github.com/jart/cosmopolitan/pull/1278 (merged)
+- https://github.com/jart/cosmopolitan/pull/1282 (merged)
+- https://github.com/jart/cosmopolitan/pull/1283 (merged)
+- https://github.com/jart/cosmopolitan/pull/1285 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1286 (merged)
+- https://github.com/jart/cosmopolitan/pull/1287 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1288 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1289 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1290 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1291 (merged)

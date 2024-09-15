@@ -1,13 +1,28 @@
+Make the current code compile and commit it
+
+Implement build-gcc-x86_64-redhat-linux-glibc-without-many-functions.sh
+
+Perhaps invert the libc tests at some point to make it so tests have to check for the function not being there rather than for the function being there (i.e. instead of YALIBCT_LIBC_HAS_POW, instead have YALIBCT_LIBC_DOESNT_HAVE_POW or something like that), so as to make sure it's harder to mess up testing for the macros
+
+TODO: retest performance in run_test_binaries.sh to see if nproc --ignore=2 should be tweaked after the change from an if to a while loop
+
+Make it so every test that normally outputs nothing has to print "OK" to be considered to have passed.
+
+Make it so that blocks that would normally use #ifdef instead use a working implementation of given functions (when possible)
+
+Convert test-lib into a static library for faster compilation (and simpler handling of some things)
+
 Update the .clang-tidy file with the checks from the latest version of clang I guess (also look into configuring each of the individual checks)
 Same for new versions of the repos in .pre-commit-config.yaml (see also pre-commit autoupdate)
 
-Maybe avoid demanding that certain locales be present - we might we well just end the test without failing if a given locale isn't available tbh, we're not really into the business of policing which locales are available on a given system
-
 Try to replace as many includes as possible of compiler-features.h with includes of should-always-be-included.h
+Make sure should-always-be-included.h is in fact always included
 
-Use GitHub Actions and/or something similar for CI
+Use GitHub Actions and/or something similar for CI with all the major libcs I'm already testing (maybe even try to make AArch64 work ? Blink too ?)
 
 Make GCC workaround conditional on a flag for it - compiler problems are kind of an issue the user might want to learn about, too
+
+Setup include-what-you-use (also see if iwyu_tool.py is usable in pre-commit) and try to conform to it
 
 Check man pages for examples (in particular linux man-pages seems to have a bunch of full program examples) - also standards like POSIX or the C standard
 
@@ -19,19 +34,35 @@ Try to use Bing/Copilot (try the chat version too btw)/ChatGPT/Stampy/etc. to ge
 Version the tests for POSIX functions (i.e. specify which version of POSIX they're from - try to include even very old stuff like XPG)
 Perhaps do this for LSB too and all the other standards we can find ?
 
+Move a few directories and files around for clarity, e.g.:
+- "include/test-lib" and "include/test-deps" seems quite unclear
+- we should probably move `portable-symbols/internal/{}-template.h` to `portable-symbols/internal/templates/{}.h`
+
 Check if nanoprintf's default snprintf behavior conforms to the standard - They seem to screw up truncation by default...
 
+Check all of the `#if 0`s in the codebase... some seem dubious
+
 See later if we can get the project working on musl-clang once it doesn't randomly error out anymore (would be nice if it didn't give me 300 warnings before then too - they seem unrelated to the root issue that musl-clang somehow doesn't know about x86intrin.h even though it effectively advertises support for it...)
+
+See later if we can get the project to work with cosmocc's -mclang
 
 Add minimal implementations for all the tested functions when possible just in case they're not present or something (and test them - probably add an extra config where all the relevant functions are "determined" not to be present in the host system, for testing)
 
 Perhaps try to fix the setvbuf bug in glibc ? idk (see https://sourceware.org/bugzilla/show_bug.cgi?id=17080)
 
-Document the shell scripts in internal/devel-scripts to either contain bug report links or explanations, probably
+Replace ad-hoc definitions of constexpr with HEDLEY_CONSTEXPR
+
+Document the shell scripts in internal/devel-scripts to either contain bug report links or explanations for each line where something gets e.g. disabled, probably
+
+Rename tests appropriately to correspond to the renaming I've been doing in other places (w.r.t. abbreviations, etc.)
 
 Add in new tests from glibc:
 - stdio-common/tst-printf-oct.c
 - update stdio-common/tst-printf-binary-main.c with 2d4728e60621c8844ec679291aa5458c622d8f4f
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-intn-main.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-intn.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-bz25691.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/sysdeps/ieee754/ldbl-128ibm-compat/test-printf-ldbl-compat.c
 
 Add in tests from ArvernOS:
 - /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/isdigit.c
@@ -39,19 +70,138 @@ Add in tests from ArvernOS:
 - /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/string/strcmp.c
 - /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/string/strlen.c
 
+Add in tests from zephyr:
+- /home/gravier/src/programs/system/operating-systems/zephyr/tests/unit/cbprintf/main.c
+- /home/gravier/src/programs/system/operating-systems/zephyr/tests/lib/cbprintf_fp/src/main.c
+- /home/gravier/src/programs/system/operating-systems/zephyr/tests/lib/cbprintf_package/src/main.c
+
+Add in tests from djgpp:
+- /home/gravier/src/programs/programming-tools/compilers/djgpp/tests/libc/ansi/stdio/printf.c
+- /home/gravier/src/programs/programming-tools/compilers/djgpp/tests/libc/ansi/stdio/printf2.c
+- /home/gravier/src/programs/programming-tools/compilers/djgpp/tests/libc/ansi/stdio/printf3.c
+- /home/gravier/src/programs/programming-tools/compilers/djgpp/tests/libc/ansi/stdio/printf4.c
+- /home/gravier/src/programs/programming-tools/compilers/djgpp/tests/libc/ansi/stdio/printf5.c
+- /home/gravier/src/programs/programming-tools/compilers/djgpp/tests/libc/ansi/stdio/printf6.c
+
+Add in tests from managarm:
+- /home/gravier/src/programs/system/operating-systems/managarm/testsuites/posix-tests/src/stat.cpp
+
+Add in tests from relibc:
+- /home/gravier/src/libraries/standard-libraries/c/implementations/relibc/tests/unistd/stat.c
+- /home/gravier/src/libraries/standard-libraries/c/implementations/relibc/tests/stdio/printf.c
+- /home/gravier/src/libraries/standard-libraries/c/implementations/relibc/tests/wchar/printf-on-wchars.c
+- /home/gravier/src/libraries/standard-libraries/c/implementations/relibc/tests/stdio/printf_space_pad.c
+- /home/gravier/src/libraries/standard-libraries/c/implementations/relibc/tests/stdio/printf_neg_pad.c
+- /home/gravier/src/libraries/standard-libraries/c/implementations/relibc/tests/string/strcat.c
+- /home/gravier/src/libraries/standard-libraries/c/implementations/relibc/tests/string/strlen.c
+
+Add in tests from olibc:
+- /home/gravier/src/libraries/standard-libraries/c/implementations/olibc/libc/arch-mips/string/mips_strlen.c
+
+Add in tests from rtems:
+- /home/gravier/src/programs/system/operating-systems/rtems/main-repo/testsuites/psxtests/psxstat
+- /home/gravier/src/programs/system/operating-systems/rtems/main-repo/testsuites/libtests/POSIX/stat.c
+- /home/gravier/src/programs/system/operating-systems/rtems/main-repo/testsuites/psxtests/psxhdrs/stdio/printf.c
+- /home/gravier/src/programs/system/operating-systems/rtems/main-repo/testsuites/psxtests/psxhdrs/stdio/putchar.c
+- /home/gravier/src/programs/system/operating-systems/rtems/main-repo/testsuites/psxtests/psxhdrs/string/strcat.c
+- /home/gravier/src/programs/system/operating-systems/rtems/main-repo/testsuites/psxtests/psxhdrs/string/strcmp.c
+- /home/gravier/src/programs/system/operating-systems/rtems/main-repo/testsuites/psxtests/psxhdrs/string/strlen.c
+- /home/gravier/src/programs/system/operating-systems/rtems/main-repo/testsuites/psxtests/psxhdrs/ctype/isalpha.c
+- /home/gravier/src/programs/system/operating-systems/rtems/main-repo/testsuites/psxtests/psxhdrs/ctype/isdigit.c
+
+Add in tests from bkunix:
+- /home/gravier/src/programs/system/operating-systems/unix/bkunix/src/bin/testprintf.c
+
+Add in tests from illumos-gate:
+- /home/gravier/src/programs/system/operating-systems/unix/illumos-gate/usr/src/cmd/dtrace/test/tst/common/printf/
+- /home/gravier/src/programs/system/operating-systems/unix/illumos-gate/usr/src/cmd/dtrace/test/tst/common/strlen/
+
+Add in tests from bsd/free:
+- /home/gravier/src/programs/system/operating-systems/unix/bsd/free/src/usr.bin/printf/tests/regress.sh
+- /home/gravier/src/programs/system/operating-systems/unix/bsd/free/src/bin/sh/tests/builtins/printf*
+
+Add in tests from gecko-dev:
+- /home/gravier/src/programs/data/transmission/communications/networking/protocols/layers/application/hypertext-transfer-protocol/clients/browsers/gecko-dev/js/src/jsapi-tests/testPrintf.cpp
+- /home/gravier/src/programs/data/transmission/communications/networking/protocols/layers/application/hypertext-transfer-protocol/clients/browsers/gecko-dev/mozglue/tests/TestIntegerPrintfMacros.cpp
+- /home/gravier/src/programs/data/transmission/communications/networking/protocols/layers/application/hypertext-transfer-protocol/clients/browsers/gecko-dev/mozglue/tests/TestPrintf.cpp
+- /home/gravier/src/programs/data/transmission/communications/networking/protocols/layers/application/hypertext-transfer-protocol/clients/browsers/gecko-dev/mozglue/tests/glibc_printf_tests
+
+Add in tests from libffi:
+- /home/gravier/src/libraries/programming/tools/libffi/testsuite/libffi.call/strlen*
+
+Add in tests from old-cvs-gcc-cvsroot:
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/old-cvs-gcc-cvsroot/aclocal.m4
+
+Add in tests from GMP:
+- /home/gravier/src/libraries/math/gnu-multiple-precision-arbitrary-arithmetic-library/main-repo/tests/misc/t-printf.c
+
+Add in tests from sqlite:
+- /home/gravier/src/libraries/data/management/databases/management-systems/relational/sql/sqlite/test/printf.test
+- /home/gravier/src/libraries/data/management/databases/management-systems/relational/sql/sqlite/test/printf2.test
+
+Add in/update tests from cosmopolitan:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/kprintf_test.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/calls/stat_test.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/strcmp_test.c
+
+Add in tests from embeddedartistry:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf/embeddedartistry/test
+
+Add in tests from gnulib:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/m4/printf.m4
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-printf-gnu*
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-c32isdigit.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-c32isalpha.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/m4/stat-time.m4
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-stat-time.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-stat.c
+- also the u32/u16 printf stuff (maybe just look at all the printfs again ?)
+
+Add in tests from public-domain-c-library:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/public-domain-c-library/test_support/printf_testcases.h
+
+Add in tests from nanoprintf since 1e254afc4fcb97d5a7cf3ce9d029fdfc3ded7d82
+
+Add in tests from picolibc:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/printf-tests.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/newlib/testsuite/newlib.string/strcmp-1.c
+
+Add in tests from newlib:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/newlib/main-repo/winsup/testsuite/winsup.api/ltp/stat*
+
+Add in tests from LLVM:
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/stdio/printf_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/sys/stat/stat_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strcmp_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/fuzzing/stdio/printf_float_conv_fuzz.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strlen_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strcat_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/fuzzing/stdio/printf_fixed_conv_fuzz.cpp
+
+Add in tests from GCC:
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/gcc.target/riscv/rvv/autovec/builtin/strlen-run.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/gcc.target/riscv/rvv/autovec/builtin/strcmp-run.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/c-c++-common/analyzer/strlen-pr113999.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/gcc.c-torture/execute/strcmp-1.c
+
+Add in tests from WINE:
+- /home/gravier/src/programs/emulators-simulators-virtualization-and-other-compatibility-layers/computers/windows/wine-is-not-an-emulator/dlls/ucrtbase/tests/printf.c
+
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
-
-
-Grep files for stat (...what does this mean, already ?)
+Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
+Check out https://www.opengroup.org/testing/downloads.html w.r.t. that too
+See also https://www.vinc17.net/research/testlibm/index.en.html for a bunch of libm tests
 
 Search GitHub and other code search services for already done functions
 
-Add zig cc, dmd and C++ compilers to tested configurations
+Add zig cc, dmd, fatcosmocc and C++ compilers to tested configurations
 
 Change CMakeLists to specify the minimum POSIX version for each of the PSOIX symbols
 Also make it so that stuff from SVID found in CMakeLists libc_symbol tests error when not found with appropriate options for this
 
 Deal with loose tests somehow (for example what one can find by doing something like `find -regextype posix-egrep -iregex '.*te?st.*bz.*'` on glibc sources)
+
+Re-enable calls to pledge (conditional on its presence)
 
 Functions to do present in PDP7:
 - (list is not complete - anything after stat, I guess)
@@ -59,13 +209,15 @@ Functions to do present in PDP7:
 All the rest of the stuff from PDP7 and anything afterwards
 
 See also https://code.google.com/archive/p/regfuzz when we get to regex
+See also http://doolittle.icarus.com/~larry/diet-bessel-test.tar.gz when we get to the bessel functions (the six j0 through yn functions)
+See also http://sf.net/projects/schilytools/files/posix/waitid.c when we get to waitid
+See also https://www.openwall.com/lists/musl/2024/05/11/3 when we get to strptime
+Perhaps add https://inbox.sourceware.org/libc-alpha/20240513130600.1327522-1-hjl.tools@gmail.com/T/#u (this test was scrapped and never actually added to glibc) when we get to fclose
 
 Get this working on:
-- all the BSDs
-- uclibc
-- more obscure libcs
+- all the BSDs (note: maybe even try 2.11BSD lol - it seems to still be maintained to some degree...)
+- more obscure libcs (I should have a bunch in my local src dirs at standard-libraries/c/implementations, programming-tools/compilers and system/operating-systems)
 - nolibc
-- ccgo (and other "C to something else" converters too)
 
 Periodically update the .clang-tidy file with the checks from the latest version of clang whenever it comes out
 Same for new versions of anything from .pre-commit-config.yaml (see also pre-commit autoupdate)
@@ -76,10 +228,10 @@ Procedure to find functions usage:
   <list_funcName grep -iE 'tfuncName|funcNamet|/t/|break|m4|unit|gress|integ|bug|ass|xam|te?st|che?c?k' | grep -viE 'netstat|statvfs|lstat|fstat|setstate|pthread_attr_setdetachstate|initstate|tstat|statt|/t/|break|stat[is]|mbstate_t|state|status|llvm|rstat|gcc|[qawhn2ejc]stat|go|python|debug|statp|trace|qemu|getfsstat|statfs|statx|valg|gb|cons|ver|tex|pstat|bench|base|perf|nfs|[mduo]stat|tmpfile|zfs|bin|dev|unbound' | less #parallel -n100000 -- 'grep --color=always -aiE "tfuncName|funcNamet|/t/|m4|unit|gress|integ|te?st|ch(ec)?k"' | awk 'length < 1000' | less
   <list_funcName grep -iE 'funcName.*[0-9]|cat.*funcName|man.*funcName' | less
 
-- rg -i funcName ~/src >rg_funcName
-  <rg_funcName cut -d: -f1 | grep -v funcName | grep -iE '(conf|mak)[^/]*$|\.m[4k]' | sort -u | xargs -d'\n' rg -C10 funcName | bat -p -l c
+- rg -uuuuuu -i funcName ~/src >grep_funcName
+  <grep_funcName cut -d: -f1 | grep -v funcName | grep -iE '(conf|mak)[^/]*$|\.m[4k]' | sort -u | xargs -d'\n' grep -C10 funcName | bat -p -l c
 
-- Look at the POSIX, LSB, SVID and/or C standard stuff for examples - also documentation on various websites like MSDN or even stuff like Oracle documentation
+- Look at the POSIX, LSB, SVID and/or C standard stuff for examples - also documentation on various websites like MSDN, cppreference, cplusplus, Wikipedia or even stuff like Oracle documentation
 - Search for them on GitHub/SearchCode and other services
 - Use Copilot, basing prompts on standards (also, good opportunity for adding any testcases given out by standards)
 - Debian/Fedora file search

@@ -9,6 +9,7 @@
 
 #include "test-deps/gcc.h"
 #include "test-lib/compiler-features.h"
+#include "test-lib/portable-symbols/printf.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,8 +23,16 @@ write_file (void)
   printf ("%c%c", '3', '4');
   printf ("%s", "5");
   printf ("%s%s", "6", "7");
+#ifndef YALIBCT_DISABLE_PRINTF_I_CONVERSION_SPECIFIER_TESTS
   printf ("%i", 8);
+#else
+  printf("8");
+#endif
+#ifndef YALIBCT_DISABLE_PRINTF_PRECISION_TESTS
   printf ("%.1s\n", "9x");
+#else
+  printf("9");
+#endif
 }
 
 
@@ -60,7 +69,7 @@ int main (void)
   assert(fclose (f) == 0);
   assert(remove (tmpfname) == 0);
 
-  if (strcmp (buf, "123456789"))
+  if (strcmp (buf, "123456789") != 0)
     abort ();
 
   return 0;

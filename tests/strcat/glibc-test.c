@@ -128,9 +128,9 @@ static void
 do_random_tests (void)
 {
   size_t i, j, n, align1, align2, len1, len2;
-  UCHAR *p1 = (UCHAR *) (buf1 + page_size) - 512;
-  UCHAR *p2 = (UCHAR *) (buf2 + page_size) - 512;
-  UCHAR *p3 = (UCHAR *) buf1;
+  UCHAR *p1 = (UCHAR *) (buf1 + page_size) - 512; // NOLINT(google-readability-casting)
+  UCHAR *p2 = (UCHAR *) (buf2 + page_size) - 512; // NOLINT(google-readability-casting)
+  UCHAR *p3 = (UCHAR *) buf1; // NOLINT(google-readability-casting) NOLINT(readability-redundant-casting)
   UCHAR *res;
 
   for (n = 0; n < ITERATIONS; n++)
@@ -145,7 +145,7 @@ do_random_tests (void)
 	len2 = random () & 7;
       else
 	len2 = (512 - len1 - align2) * (random () & (1024 * 1024 - 1))
-	       / (1024 * 1024);
+	    / ((size_t)1024 * 1024);
       j = align1;
       if (align2 + len2 > j)
 	j = align2 + len2;
@@ -205,7 +205,7 @@ do_random_tests (void)
 		  break;
 		}
 	    }
-	  if (MEMCMP (p2 + align2, p3, len2))
+	  if (MEMCMP (p2 + align2, p3, len2) != 0)
 	    {
 	      error (0, 0, "Iteration %zd - garbage in string before, %s (%zd, %zd, %zd, %zd)",
 		     n, impl->name, align1, align2, len1, len2);
@@ -221,7 +221,7 @@ do_random_tests (void)
 		  break;
 		}
 	    }
-	  if (MEMCMP (p1 + align1, p2 + align2 + len2, len1 + 1))
+	  if (MEMCMP (p1 + align1, p2 + align2 + len2, len1 + 1) != 0)
 	    {
 	      error (0, 0, "Iteration %zd - different strings, %s (%zd, %zd, %zd, %zd)",
 		     n, impl->name, align1, align2, len1, len2);
