@@ -17,7 +17,7 @@
    <https://www.gnu.org/licenses/>.  */
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_WCSCASECMP
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_WCSCASECMP
 #include <wchar.h>
 #else
 

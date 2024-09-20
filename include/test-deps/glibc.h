@@ -37,7 +37,7 @@
 #include <poll.h>
 #include <sys/wait.h>
 #include <signal.h>
-#ifdef YALIBCT_LIBC_HAS_MALLOPT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_MALLOPT
 #include <malloc.h>
 #endif
 #include <sys/mman.h>
@@ -160,7 +160,7 @@ support_exit_failure_impl (int status, const char *file, int line,
   exit (status);
 }
 
-#ifdef YALIBCT_LIBC_HAS_OPEN_MEMSTREAM
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_OPEN_MEMSTREAM
 void
 xopen_memstream (struct xmemstream *stream)
 {
@@ -191,7 +191,7 @@ xfclose_memstream (struct xmemstream *stream)
   stream->out = NULL;
 }
 
-#ifdef YALIBCT_LIBC_HAS_OPEN_MEMSTREAM
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_OPEN_MEMSTREAM
 #define xmemstream_or_string_buffer xmemstream
 #define xmemstream_or_string_buffer_init xopen_memstream
 static inline void xmemstream_or_string_buffer_putc_unlocked(int ch, struct xmemstream_or_string_buffer *self)
@@ -691,7 +691,7 @@ signal_handler (int sig)
      subprocess.  */
   struct timespec now;
   clock_gettime (CLOCK_REALTIME, &now);
-#ifdef YALIBCT_LIBC_HAS_FSTAT64
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FSTAT64
   struct stat64 st;
   bool st_available = fstat64 (STDOUT_FILENO, &st) == 0 && st.st_mtime != 0; // NOLINT(bugprone-signal-handler,cert-sig30-c,cert-msc54-cpp)
 #else
@@ -751,7 +751,7 @@ signal_handler (int sig)
 
   print_timestamp ("Termination time", now);
   if (st_available) {
-#ifdef YALIBCT_LIBC_HAS_STRUCT_STAT_ST_MTIM
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT_ST_MTIM
     print_timestamp ("Last write to standard output", st.st_mtim);
 #else
     struct timespec mtime_timespec;
@@ -800,7 +800,7 @@ support_test_main (int argc, char **argv, const struct test_config *config)
          already.  */
       //extern __typeof__ (mallopt) mallopt __attribute__ ((weak));
       //if (mallopt != NULL)
-#if defined(YALIBCT_LIBC_HAS_MALLOPT) && defined(YALIBCT_LIBC_HAS_M_PERTURB)
+#if !defined(YALIBCT_LIBC_DOESNT_HAVE_MALLOPT) && !defined(YALIBCT_LIBC_DOESNT_HAVE_M_PERTURB)
         mallopt (M_PERTURB, 42);
 #endif
     }
@@ -1391,7 +1391,7 @@ create_temp_file (const char *base, char **filename)
 int
 xopen (const char *path, int flags, mode_t mode)
 {
-#ifdef YALIBCT_LIBC_HAS_OPEN64
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_OPEN64
   int ret = open64 (path, flags, mode);
   if (ret < 0)
     FAIL_EXIT1 ("open64 (\"%s\", 0x%x, 0%o): %m", path, flags, mode);

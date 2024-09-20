@@ -17,7 +17,7 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
-#ifdef YALIBCT_LIBC_HAS___GLIBC_UNLIKELY
+#ifndef YALIBCT_LIBC_DOESNT_HAVE___GLIBC_UNLIKELY
 #include <sys/cdefs.h>
 #else
 

@@ -87,7 +87,7 @@ _testfmt_three_allowed(const char *result, const char *result2, const char *resu
 	assert(mbstowcs(wresult2, result2, BUF - 1) != (size_t)-1);
 	assert(mbstowcs(wresult3, result3, BUF - 1) != (size_t)-1);
 
-#ifdef YALIBCT_LIBC_HAS_VSWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_VSWPRINTF
 	assert(vswprintf(ws, sizeof(ws) / sizeof(ws[0]), wfmt, ap2) == wcslen(ws));
 	ATF_CHECK_MSG(wcscmp(wresult, ws) == 0 || wcscmp(wresult2, ws) == 0 || wcscmp(wresult3, ws) == 0,
 	    "wprintf(\"%ls\", %s) ==> [%ls], expected [%ls]",
@@ -341,7 +341,7 @@ ATF_TC_BODY(decimal_rounding, tc)
 
 	ATF_REQUIRE(setlocale(LC_NUMERIC, "C"));
 
-#ifdef YALIBCT_LIBC_HAS_FESETROUND
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FESETROUND
 	fesetround(FE_DOWNWARD);
 	testfmt("4.437", "%.3f", 4.4375);
 	testfmt("-4.438", "%.3f", -4.4375);
@@ -367,7 +367,7 @@ ATF_TC_BODY(decimal_rounding, tc)
 	testfmt("-4.437", "%.3Lf", -4.4375L);
 #endif
 
-#ifdef YALIBCT_LIBC_HAS_FESETROUND
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FESETROUND
 	fesetround(FE_TONEAREST);
 	testfmt("4.438", "%.3f", 4.4375);
 	testfmt("-4.438", "%.3f", -4.4375);
@@ -437,7 +437,7 @@ ATF_TC_BODY(hexadecimal_rounding, tc)
 	ATF_REQUIRE(setlocale(LC_NUMERIC, "C"));
 
 #ifndef YALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS
-#ifdef YALIBCT_LIBC_HAS_FESETROUND
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FESETROUND
 	fesetround(FE_TOWARDZERO);
 	testfmt("0X1.23456789ABCP+0", "%.11A", 0x1.23456789abcdep0);
 	testfmt("-0x1.23456p+0", "%.5a", -0x1.23456789abcdep0);

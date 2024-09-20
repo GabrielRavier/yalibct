@@ -17,14 +17,14 @@
    <https://www.gnu.org/licenses/>.  */
 
 #include "test-deps/glibc.h"
-#ifdef YALIBCT_LIBC_HAS_PRINTF_SIZE
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_PRINTF_SIZE
 #include <printf.h>
 #endif
 
 static int
 do_test (void)
 {
-#ifdef YALIBCT_LIBC_HAS_PRINTF_SIZE
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_PRINTF_SIZE
   double d = 2000;
   double *dptr = &d;
   long double ld = 4000;

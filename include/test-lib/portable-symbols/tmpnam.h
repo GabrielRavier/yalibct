@@ -18,7 +18,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_TMPNAM
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_TMPNAM
 #include <stdio.h>
 #else
 

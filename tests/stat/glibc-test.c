@@ -27,7 +27,7 @@
 static int
 do_test (void)
 {
-#ifdef YALIBCT_LIBC_HAS_STRUCT_STAT64
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT64
   /* With _FILE_OFFSET_BITS=64 struct stat and struct stat64 should
      be identical.  */
   static_assert (sizeof (struct stat)

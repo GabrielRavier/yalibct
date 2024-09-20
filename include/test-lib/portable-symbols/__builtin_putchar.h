@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS___BUILTIN_PUTCHAR
+#ifndef YALIBCT_LIBC_DOESNT_HAVE___BUILTIN_PUTCHAR
 #else
 
 #include <stdio.h>

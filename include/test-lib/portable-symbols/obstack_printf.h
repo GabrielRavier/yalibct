@@ -18,7 +18,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_OBSTACK_PRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_OBSTACK_PRINTF
 #include <stdio.h>
 #else
 

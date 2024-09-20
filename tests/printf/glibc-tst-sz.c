@@ -1,6 +1,6 @@
 /* Based on code by Larry McVoy <lm@neteng.engr.sgi.com>.  */
 #include "test-deps/glibc.h"
-#ifdef YALIBCT_LIBC_HAS_PRINTF_SIZE
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_PRINTF_SIZE
 #include <printf.h>
 #endif
 
@@ -17,7 +17,7 @@ do_test (void)
   char buf[1024];
   int result = 0;
 
-#ifdef YALIBCT_LIBC_HAS_PRINTF_SIZE
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_PRINTF_SIZE
   /* Testing printf_size_info requires using the deprecated
      register_printf_function, resulting in warnings
      "'register_printf_function' is deprecated".  */

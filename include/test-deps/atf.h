@@ -2427,7 +2427,7 @@ process_params(int argc, char **argv, struct params *p)
     /* Clear getopt state just in case the test wants to use it. */
     opterr = old_opterr;
     optind = 1;
-#if defined(YALIBCT_LIBC_HAS_OPTRESET)
+#if !defined(YALIBCT_LIBC_DOESNT_HAVE_OPTRESET)
     optreset = 1;
 #endif
 

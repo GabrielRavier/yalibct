@@ -31,7 +31,7 @@ main (int argc, char *argv[])
   for (i = 1; i < argc; ++i)
     {
       struct stat st;
-#ifdef YALIBCT_LIBC_HAS_STRUCT_STAT64
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT64
       struct stat64 st64;
 #endif
       int same;
@@ -47,7 +47,7 @@ main (int argc, char *argv[])
 	  continue;
 	}
 
-#ifdef YALIBCT_LIBC_HAS_STRUCT_STAT64
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT64
       if (stat64 (argv[i], &st64) != 0)
 	{
 	  if (errno != ENOSYS)
@@ -62,7 +62,7 @@ main (int argc, char *argv[])
 
       printf ("\nName: %s\n", argv[i]);
 
-#ifdef YALIBCT_LIBC_HAS_STRUCT_STAT64
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT64
 #define TEST(name) \
       same = st.name == st64.name;                                      \
       printf (#name ": "/*%jd vs %jd*/"  %s\n",                         \

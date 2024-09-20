@@ -17,7 +17,7 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_FULL_WRITE
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FULL_WRITE
 #include "full-write.h"
 #else
 

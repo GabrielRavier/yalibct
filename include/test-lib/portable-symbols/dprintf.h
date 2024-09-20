@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_DPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_DPRINTF
 #include <stdio.h>
 #else
 

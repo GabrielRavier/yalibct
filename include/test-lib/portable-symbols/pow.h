@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_POW
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_POW
 #include <math.h>
 #else
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_LOG
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_LOG
 #include <math.h>
 #else
 

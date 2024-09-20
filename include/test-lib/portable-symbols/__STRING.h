@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS___STRING
+#ifndef YALIBCT_LIBC_DOESNT_HAVE___STRING
 #include <sys/cdefs.h>
 #else
 

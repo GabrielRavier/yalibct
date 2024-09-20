@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_STRNLEN
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRNLEN
 #include <string.h>
 #else
 

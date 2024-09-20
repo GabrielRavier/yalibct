@@ -18,7 +18,7 @@
    argument.  Therefore this file produces a non-NULL pointer which cannot
    be dereferenced, if possible.  */
 
-#ifdef YALIBCT_LIBC_HAS_ZEROSIZE_PTR
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_ZEROSIZE_PTR
 #include "zerosize-ptr.h"
 #else
 /* On Android, when targeting Android 4.4 or older with a GCC toolchain,
@@ -41,7 +41,7 @@
    HAVE_MPROTECT is not enough, because mingw does not have mmap() but has an
    mprotect() function in libgcc.a.
    And OS/2 kLIBC has <sys/mman.h> and mprotect(), but not mmap().  */
-#if defined(YALIBCT_LIBC_HAS_SYS_MMAN_H) && defined(YALIBCT_LIBC_HAS_MPROTECT) && defined(YALIBCT_LIBC_HAS_MMAP)
+#if !defined(YALIBCT_LIBC_DOESNT_HAVE_SYS_MMAN_H) && !defined(YALIBCT_LIBC_DOESNT_HAVE_MPROTECT) && !defined(YALIBCT_LIBC_DOESNT_HAVE_MMAP)
 # include <fcntl.h>
 # include <unistd.h>
 # include <sys/types.h>
@@ -62,7 +62,7 @@ zerosize_ptr (void)
 {
 /* Use mmap and mprotect when they exist.  Don't test HAVE_MMAP, because it is
    not defined on HP-UX 11 (since it does not support MAP_FIXED).  */
-#if defined(YALIBCT_LIBC_HAS_SYS_MMAN_H) && defined(YALIBCT_LIBC_HAS_MPROTECT) && defined(YALIBCT_LIBC_HAS_MMAP)
+#if !defined(YALIBCT_LIBC_DOESNT_HAVE_SYS_MMAN_H) && !defined(YALIBCT_LIBC_DOESNT_HAVE_MPROTECT) && !defined(YALIBCT_LIBC_DOESNT_HAVE_MMAP)
 # ifdef MAP_ANONYMOUS //if HAVE_MAP_ANONYMOUS
   const int flags = MAP_ANONYMOUS | MAP_PRIVATE;
   const int fd = -1;

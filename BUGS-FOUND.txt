@@ -1,7 +1,7 @@
 I have filed the following bug reports/patches as a result of working on this testsuite:
 
-total filed: 69
-fixed/merged: 49
+total filed: 72
+fixed/merged: 56
 
 glibc (2 total filed, 0 fixed/merged):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
@@ -46,7 +46,7 @@ dietlibc (27 total filed, 18 fixed/merged) (note: dietlibc's mailing list does n
 nanoprintf (1 total filed, 1 fixed/merged):
 - https://github.com/charlesnicholson/nanoprintf/issues/244 (fixed)
 
-cosmopolitan (34 total filed, 28 fixed/merged):
+cosmopolitan (37 total filed, 35 fixed/merged):
 - https://github.com/jart/cosmopolitan/issues/771 -> https://github.com/jart/cosmopolitan/pull/786 (merged)
 - https://github.com/jart/cosmopolitan/issues/772 -> https://github.com/jart/cosmopolitan/pull/787 (merged)
 - https://github.com/jart/cosmopolitan/issues/773 -> https://github.com/jart/cosmopolitan/pull/788 (merged)
@@ -74,10 +74,13 @@ cosmopolitan (34 total filed, 28 fixed/merged):
 - https://github.com/jart/cosmopolitan/pull/1278 (merged)
 - https://github.com/jart/cosmopolitan/pull/1282 (merged)
 - https://github.com/jart/cosmopolitan/pull/1283 (merged)
-- https://github.com/jart/cosmopolitan/pull/1285 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1285 (merged)
 - https://github.com/jart/cosmopolitan/pull/1286 (merged)
-- https://github.com/jart/cosmopolitan/pull/1287 (not yet merged)
-- https://github.com/jart/cosmopolitan/pull/1288 (not yet merged)
-- https://github.com/jart/cosmopolitan/pull/1289 (not yet merged)
-- https://github.com/jart/cosmopolitan/pull/1290 (not yet merged)
+- https://github.com/jart/cosmopolitan/pull/1287 (merged)
+- https://github.com/jart/cosmopolitan/pull/1288 (merged)
+- https://github.com/jart/cosmopolitan/pull/1289 (merged)
+- https://github.com/jart/cosmopolitan/pull/1290 (merged)
 - https://github.com/jart/cosmopolitan/pull/1291 (merged)
+- https://github.com/jart/cosmopolitan/pull/1296 (merged)
+- https://github.com/jart/cosmopolitan/pull/1297 (merged)
+- https://github.com/jart/cosmopolitan/pull/1298 (not yet merged)

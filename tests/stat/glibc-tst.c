@@ -71,7 +71,7 @@ do_test (void)
   if (!check_ns)
     printf ("warning: timestamp with nanoseconds not supported\n");
 
-#ifdef YALIBCT_LIBC_HAS_STATX
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STATX
   struct statx stx;
   TEST_COMPARE (statx (fd, path, 0, STATX_BASIC_STATS, &stx), 0);
 #endif
@@ -83,7 +83,7 @@ do_test (void)
       struct stat st;
       tests[i](fd, path, &st);
 
-#ifdef YALIBCT_LIBC_HAS_STATX
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STATX
       TEST_COMPARE (stx.stx_dev_major, major (st.st_dev));
       TEST_COMPARE (stx.stx_dev_minor, minor (st.st_dev));
       TEST_COMPARE (stx.stx_ino, st.st_ino);

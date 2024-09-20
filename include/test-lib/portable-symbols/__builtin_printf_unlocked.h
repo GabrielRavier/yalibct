@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS___BUILTIN_PRINTF_UNLOCKED
+#ifndef YALIBCT_LIBC_DOESNT_HAVE___BUILTIN_PRINTF_UNLOCKED
 #else
 
 #include "test-lib/portable-symbols/printf_unlocked.h"

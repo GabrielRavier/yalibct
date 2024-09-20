@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_STATIC_ASSERT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STATIC_ASSERT
 #include <assert.h>
 #else
 

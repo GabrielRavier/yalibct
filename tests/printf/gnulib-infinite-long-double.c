@@ -54,7 +54,7 @@ int main ()
   if (sprintf (buf, "%Lg", zeroL / zeroL) < 0
       || !strisnan (buf, 0, strlen (buf)))
     result |= 1;
-#if ((defined __ia64 && LDBL_MANT_DIG == 64) || (defined __x86_64__ || defined __amd64__) || (defined __i386 || defined __i386__ || defined _I386 || defined _M_IX86 || defined _X86_)) && !defined(YALIBCT_LIBC_HAS_SAME_LONG_DOUBLE_AS_DOUBLE)
+#if ((defined __ia64 && LDBL_MANT_DIG == 64) || (defined __x86_64__ || defined __amd64__) || (defined __i386 || defined __i386__ || defined _I386 || defined _M_IX86 || defined _X86_)) && defined(YALIBCT_LIBC_DOESNT_HAVE_SAME_LONG_DOUBLE_AS_DOUBLE)
 /* Representation of an 80-bit 'long double' as an initializer for a sequence
    of 'unsigned int' words.  */
 # ifdef WORDS_BIGENDIAN

@@ -18,7 +18,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_TEMP_FAILURE_RETRY
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_TEMP_FAILURE_RETRY
 #include <unistd.h>
 #else
 

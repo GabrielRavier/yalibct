@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_FREXP
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FREXP
 #include <math.h>
 #else
 

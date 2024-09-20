@@ -22,7 +22,7 @@ using ::testing::Not;*/
 
 #include "gvisor_times_common.h"
 
-#if defined(YALIBCT_LIBC_HAS_UTIME_NOW) && defined(YALIBCT_LIBC_HAS_UTIME_OMIT)
+#if !defined(YALIBCT_LIBC_DOESNT_HAVE_UTIME_NOW) && !defined(YALIBCT_LIBC_DOESNT_HAVE_UTIME_OMIT)
 
 static void StatTimesTest_FileUtimes_internal_lambda(void *callback_data)
 {
@@ -65,7 +65,7 @@ TEST(StatTimesTest, FileTruncate) {
 }  // namespace gvisor*/
 
 GVISOR_MAKE_MAIN() {
-#if defined(YALIBCT_LIBC_HAS_UTIME_NOW) && defined(YALIBCT_LIBC_HAS_UTIME_OMIT)
+#if !defined(YALIBCT_LIBC_DOESNT_HAVE_UTIME_NOW) && !defined(YALIBCT_LIBC_DOESNT_HAVE_UTIME_OMIT)
     StatTimesTest_FileUtimes();
 #endif
     StatTimesTest_FileTruncate();

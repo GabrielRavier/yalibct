@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_SECURE_GETENV
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_SECURE_GETENV
 #include <stdlib.h>
 #else
 
@@ -10,13 +10,13 @@
 char *
 secure_getenv (char const *name)
 {
-#ifdef YALIBCT_LIBC_HAS___SECURE_GETENV /* glibc */
+#ifndef YALIBCT_LIBC_DOESNT_HAVE___SECURE_GETENV /* glibc */
   return __secure_getenv (name);
-#elif defined(YALIBCT_LIBC_HAS_ISSETUGID) /* musl, OS X, FreeBSD, NetBSD, OpenBSD, Solaris, Minix */
+#elif !defined(YALIBCT_LIBC_DOESNT_HAVE_ISSETUGID) /* musl, OS X, FreeBSD, NetBSD, OpenBSD, Solaris, Minix */
   if (issetugid ())
     return NULL;
   return getenv (name);
-#elif defined(YALIBCT_LIBC_HAS_GETUID) && defined(YALIBCT_LIBC_HAS_GETEUID) && defined(YALIBCT_LIBC_HAS_GETGID) && defined(YALIBCT_LIBC_HAS_GETEGID) /* other Unix */
+#elif !defined(YALIBCT_LIBC_DOESNT_HAVE_GETUID) && !defined(YALIBCT_LIBC_DOESNT_HAVE_GETEUID) && !defined(YALIBCT_LIBC_DOESNT_HAVE_GETGID) && !defined(YALIBCT_LIBC_DOESNT_HAVE_GETEGID) /* other Unix */
   if (geteuid () != getuid () || getegid () != getgid ())
     return NULL;
   return getenv (name);

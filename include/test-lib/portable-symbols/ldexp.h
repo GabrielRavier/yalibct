@@ -21,7 +21,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_LDEXP
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_LDEXP
 #include <math.h>
 #else
 

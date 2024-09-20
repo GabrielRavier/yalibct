@@ -49,7 +49,7 @@
 
 #pragma once
 
-#if 0//YALIBCT_LIBC_HAS_FTS
+#if 0//YALIBCT_LIBC_DOESNT_HAVE_FTS
 #include <fts.h>
 #else
 

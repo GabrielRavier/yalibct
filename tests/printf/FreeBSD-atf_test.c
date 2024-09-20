@@ -132,7 +132,7 @@ ATF_TC_BODY(fprintf__simple_string, tc)
 {
 	const char *contents = "This is a message\n";
 
-#ifdef YALIBCT_LIBC_HAS_FOPEN
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FOPEN
 	FILE *output = fopen("test.txt", "w");
 	ATF_REQUIRE(fprintf(output, "%s", contents) > 0);
 	assert(fclose(output) == 0);

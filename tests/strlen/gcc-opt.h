@@ -28,7 +28,7 @@ char *stpcpy (char *__restrict, const char *__restrict);
 int sprintf (char * __restrict, const char *__restrict, ...);
 int snprintf (char * __restrict, size_t, const char *__restrict, ...);
 
-#if defined(FORTIFY_SOURCE) && FORTIFY_SOURCE > 0 && __OPTIMIZE__ && defined(YALIBCT_LIBC_HAS___MEMCPY_CHK)
+#if defined(FORTIFY_SOURCE) && FORTIFY_SOURCE > 0 && __OPTIMIZE__ && !defined(YALIBCT_LIBC_DOESNT_HAVE___MEMCPY_CHK)
 # define bos(ptr) __builtin_object_size (ptr, FORTIFY_SOURCE > 0)
 # define bos0(ptr) __builtin_object_size (ptr, 0)
 

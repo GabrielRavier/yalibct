@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_MCHECK_CHECK_ALL
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_MCHECK_CHECK_ALL
 #include <mcheck.h>
 #else
 

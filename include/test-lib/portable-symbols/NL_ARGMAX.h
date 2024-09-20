@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_NL_ARGMAX
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_NL_ARGMAX
 #include <limits.h>
 #else
 

@@ -8,7 +8,7 @@ int main(void) {
 
    wchar_t result;
 
-#ifdef YALIBCT_LIBC_HAS_SWPRINFT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_SWPRINTF
    int ret = swprintf(&result, 1, L"%1$s", "");
    assert(ret != -1);
 #endif

@@ -99,7 +99,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_OBSTACK_ALLOC
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_OBSTACK_ALLOC
 #include <obstack.h>
 #else
 

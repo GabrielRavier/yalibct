@@ -17,7 +17,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_GETPROGNAME
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_GETPROGNAME
 #include <stdlib.h>
 #else
 
@@ -32,23 +32,23 @@
 char const *
 getprogname (void)
 {
-# if YALIBCT_LIBC_HAS_PROGRAM_INVOCATION_SHORT_NAME                /* glibc, BeOS */
+# ifndef YALIBCT_LIBC_DOESNT_HAVE_PROGRAM_INVOCATION_SHORT_NAME                /* glibc, BeOS */
   /* https://www.gnu.org/software/libc/manual/html_node/Error-Messages.html */
   return program_invocation_short_name;
-# elif YALIBCT_LIBC_HAS_PROGRAM_INVOCATION_NAME                    /* glibc, BeOS */
+# elif !defined(YALIBCT_LIBC_DOESNT_HAVE_PROGRAM_INVOCATION_NAME)                    /* glibc, BeOS */
   /* https://www.gnu.org/software/libc/manual/html_node/Error-Messages.html */
   return last_component (program_invocation_name);
-# elif YALIBCT_LIBC_HAS_GETEXECNAME                                     /* Solaris */
+# elif !defined(YALIBCT_LIBC_DOESNT_HAVE_GETEXECNAME)                                     /* Solaris */
   /* https://docs.oracle.com/cd/E19253-01/816-5168/6mbb3hrb1/index.html */
   const char *p = getexecname ();
   if (!p)
     p = "?";
   return last_component (p);
-# elif YALIBCT_LIBC_HAS___ARGV                                     /* mingw, MSVC */
+# elif !defined(YALIBCT_LIBC_DOESNT_HAVE___ARGV)                                     /* mingw, MSVC */
   /* https://docs.microsoft.com/en-us/cpp/c-runtime-library/argc-argv-wargv */
   const char *p = __argv && __argv[0] ? __argv[0] : "?";
   return yalibct_internal_gnulib_last_component (p);
-# elif YALIBCT_LIBC_HAS___PROGNAME                                  /* OpenBSD, Android, QNX */
+# elif !defined(YALIBCT_LIBC_DOESNT_HAVE___PROGNAME)                                  /* OpenBSD, Android, QNX */
   /* https://man.openbsd.org/style.9 */
   /* http://www.qnx.de/developers/docs/6.5.0/index.jsp?topic=%2Fcom.qnx.doc.neutrino_lib_ref%2Fp%2F__progname.html */
   /* Be careful to declare this only when we absolutely need it

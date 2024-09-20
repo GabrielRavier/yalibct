@@ -18,7 +18,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_P_TMPDIR
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_P_TMPDIR
 #include <stdio.h>
 #else
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_FLOOR
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FLOOR
 #include <math.h>
 #else
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS___GNUC_PREREQ
+#ifndef YALIBCT_LIBC_DOESNT_HAVE___GNUC_PREREQ
 #include <features.h>
 #else
 

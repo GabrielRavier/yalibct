@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_WCSCMP
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_WCSCMP
 #include <wchar.h>
 #else
 

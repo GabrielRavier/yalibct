@@ -20,7 +20,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_STRUCT_OPTION
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRUCT_OPTION
 #include <getopt.h>
 #else
 

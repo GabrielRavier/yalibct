@@ -48,7 +48,7 @@ TEST_F(StatTest, FstatatEmptyPath) {
   const int fd = open(self->test_file_name_, O_RDONLY);
   assert(fd >= 0);
 
-#ifndef YALIBCT_LIBC_HAS_FSTATAT
+#if 0//ndef YALIBCT_LIBC_DOESNT_HAVE_FSTATAT
   // Check that the stat works.
   assert(fstatat(fd, "", &st, AT_EMPTY_PATH) == 0);
   EXPECT_TRUE(S_ISREG(st.st_mode));
@@ -746,7 +746,7 @@ TEST(SimpleStatTest, AnonDeviceAllocatesUniqueInodesAcrossSaveRestore) {
   assert(close(fd1) == 0);
 }
 
-#if defined(YALIBCT_LIBC_HAS_SYSCALL) && (defined(SYS_statx) || defined(__linux__))
+#if !defined(YALIBCT_LIBC_DOESNT_HAVE_SYSCALL) && (defined(SYS_statx) || defined(__linux__))
 #define HAS_STATX_TESTS
 
 #ifndef SYS_statx

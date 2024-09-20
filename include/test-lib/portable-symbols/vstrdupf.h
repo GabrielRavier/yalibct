@@ -21,7 +21,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_VSTRDUPF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_VSTRDUPF
 #include <string.h>
 #else
 

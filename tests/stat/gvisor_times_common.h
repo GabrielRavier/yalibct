@@ -25,7 +25,7 @@
 #include <assert.h>
 #include <time.h>
 
-#if !defined(YALIBCT_LIBC_HAS_STRUCT_STAT_ST_ATIM) || !defined(YALIBCT_LIBC_HAS_STRUCT_STAT_ST_MTIM) || !defined(YALIBCT_LIBC_HAS_STRUCT_STAT_ST_CTIM)
+#if defined(YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT_ST_ATIM) || defined(YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT_ST_MTIM) || defined(YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT_ST_CTIM)
 #define GET_TIME_RETURNS_TIMESTAMP_WITH_SECOND_WISE_RESOLUTION
 #endif
 
@@ -38,19 +38,19 @@ struct GetTime_Retval GetTime(const char *file) {
   assert(stat(file, &statbuf) == 0);
 
   struct GetTime_Retval result = {};
-#ifdef YALIBCT_LIBC_HAS_STRUCT_STAT_ST_ATIM
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT_ST_ATIM
   result.atime = statbuf.st_atim;
 #else
   result.atime.tv_sec = statbuf.st_atime;
   result.atime.tv_nsec = 0;
 #endif
-#ifdef YALIBCT_LIBC_HAS_STRUCT_STAT_ST_MTIM
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT_ST_MTIM
   result.mtime = statbuf.st_mtim;
 #else
   result.mtime.tv_sec = statbuf.st_mtime;
   result.mtime.tv_nsec = 0;
 #endif
-#ifdef YALIBCT_LIBC_HAS_STRUCT_STAT_ST_CTIM
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT_ST_CTIM
   result.ctime = statbuf.st_ctim;
 #else
   result.ctime.tv_sec = statbuf.st_ctime;

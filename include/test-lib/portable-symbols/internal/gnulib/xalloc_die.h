@@ -19,10 +19,6 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_XALLOC_DIE
-#include <xalloc.h>
-#else
-
 #include "test-lib/portable-symbols/error.h"
 #include "test-lib/portable-symbols/gettext.h"
 #include <stdlib.h>
@@ -38,5 +34,3 @@ yalibct_internal_gnulib_xalloc_die (void)
      safety feature if exit_failure is 0 (which shouldn't happen).  */
   abort ();
 }
-
-#endif

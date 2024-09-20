@@ -252,7 +252,7 @@ static void test_swprintf (void)
             "\"%s\": Missing null termination (ret %d) - is %d\n", narrow_fmt, n, buffer[valid]);
     }*/
 
-#ifdef YALIBCT_LIBC_HAS_SWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_SWPRINTF
     ok (swprintf (NULL, 0, str_short) == -1,
         "Failure to swprintf to NULL\n");
     // Usage of non-standard and not widely supported routines removed
@@ -304,6 +304,8 @@ static void test_fprintf(void)
     char buf[1024];
     long ret;
 
+    ok(fp != NULL, "");
+
     ret = vfprintf_wrapper(fp, "simple test\n");
     ok(ret == 12, "ret = %d\n", ret);
     ret = ftell(fp);
@@ -317,6 +319,8 @@ static void test_fprintf(void)
     checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
+    ok(fp != NULL, "");
+
     checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 12, "ftell returned %d\n", ret);
@@ -330,6 +334,7 @@ static void test_fprintf(void)
     checked_fclose(fp);
 
     fp = fopen(file_name, "wt");
+    ok(fp != NULL, "");
 
     ret = vfprintf_wrapper(fp, "simple test\n");
     ok(ret == 12, "ret = %d\n", ret);
@@ -344,6 +349,8 @@ static void test_fprintf(void)
     checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
+    ok(fp != NULL, "");
+
     checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 13 || ret == 12, "ftell returned %d\n", ret);
@@ -358,7 +365,7 @@ static void test_fprintf(void)
     unlink(file_name);
 }
 
-#ifdef YALIBCT_LIBC_HAS_VFWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_VFWPRINTF
 static int WINAPIV vfwprintf_wrapper(FILE *file,
                                      const wchar_t *format, ...)
 {
@@ -378,8 +385,10 @@ static void test_fwprintf(void)
     static const WCHAR cont_fmt[] = {'c','o','n','t','a','i','n','s','%','c','n','u','l','l','\n',0};
     static const WCHAR cont[] = {'c','o','n','t','a','i','n','s','\0','n','u','l','l','\n',0};
 
-#ifdef YALIBCT_LIBC_HAS_VFWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_VFWPRINTF
     FILE *fp = fopen(file_name, "wb");
+    ok(fp != NULL, "");
+
     wchar_t bufw[1024];
     char bufa[1024];
     long ret;
@@ -397,6 +406,8 @@ static void test_fwprintf(void)
     checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
+    ok(fp != NULL, "");
+
     fgetws(bufw, ARRAY_SIZE(bufw), fp);
     ret = ftell(fp);
     ok(ret == 24 || ret == 12, "ftell returned %d\n", ret);
@@ -410,6 +421,7 @@ static void test_fwprintf(void)
     checked_fclose(fp);
 
     fp = fopen(file_name, "wt");
+    ok(fp != NULL, "");
 
     ret = vfwprintf_wrapper(fp, simple);
     ok(ret == 12, "ret = %d\n", ret);
@@ -424,6 +436,8 @@ static void test_fwprintf(void)
     checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
+    ok(fp != NULL, "");
+
     checked_fgets(bufa, sizeof(bufa), fp);
     ret = ftell(fp);
     ok(ret == 13 || ret == 12, "ftell returned %d\n", ret);
@@ -680,7 +694,7 @@ static void test_printf_natural_string(void)
     assert(snprintf(buffer, sizeof(buffer), narrow_fmt, narrow, narrow) >= 0);
     ok(!strcmp(buffer, narrow_out), "buffer wrong, got=%s\n", buffer);
 
-#ifdef YALIBCT_LIBC_HAS_SWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_SWPRINTF
     assert(swprintf(wbuffer, sizeof(wbuffer), wide_fmt, narrow, wide) >= 0);
     ok(!wcscmp(wbuffer, wide_out), "buffer wrong, got=%ls\n", (wbuffer));
 #endif

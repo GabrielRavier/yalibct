@@ -60,7 +60,7 @@ do_test (void)
   TEST_VERIFY_EXIT (fd >= 0);
   support_write_file_string (path, "abc");
 
-#ifdef YALIBCT_LIBC_HAS_STATX
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STATX
   struct statx stx;
   TEST_COMPARE (statx (fd, path, 0, STATX_BASIC_STATS, &stx), 0);
 #endif
@@ -72,7 +72,7 @@ do_test (void)
     struct stat st;
     (*test) (fd, path, &st);
 
-#ifdef YALIBCT_LIBC_HAS_STATX
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STATX
     TEST_COMPARE (stx.stx_dev_major, major (st.st_dev));
     TEST_COMPARE (stx.stx_dev_minor, minor (st.st_dev));
     TEST_COMPARE (stx.stx_ino, st.st_ino);

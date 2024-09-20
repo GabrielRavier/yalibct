@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_MEMCHR
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_MEMCHR
 #include <string.h>
 #else
 

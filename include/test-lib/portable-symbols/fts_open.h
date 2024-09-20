@@ -47,7 +47,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_FTS_OPEN
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FTS_OPEN
 #include <fts.h>
 #else
 

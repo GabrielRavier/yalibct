@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS___BUILTIN_ABORT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE___BUILTIN_ABORT
 #else
 
 #include <stdlib.h>

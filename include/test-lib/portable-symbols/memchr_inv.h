@@ -8,7 +8,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_MEMCHR_INV
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_MEMCHR_INV
 #include <string.h>
 #else
 

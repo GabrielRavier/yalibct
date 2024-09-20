@@ -250,7 +250,7 @@ void print_error(const char* const format, ...) {
 /**
  * POSIX has sigsetjmp/siglongjmp, while Windows only has setjmp/longjmp.
  */
-#ifdef YALIBCT_LIBC_HAS_SIGLONGJMP
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_SIGLONGJMP
 # define cm_jmp_buf             sigjmp_buf
 # define cm_setjmp(env)         sigsetjmp(env, 1)
 # define cm_longjmp(env, val)   siglongjmp(env, val)
@@ -563,7 +563,7 @@ static void cmprintf_group_start(const char *group_name,
 /** Get the size of an array */
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 
-#if defined(YALIBCT_LIBC_HAS_SIGNAL_H)
+#if !defined(YALIBCT_LIBC_DOESNT_HAVE_SIGNAL_H)
 #define YALIBCT_INTERNAL_CMOCKA_CAN_USE_SIGNAL_H_SIGNAL_HANDLING_PROPERLY
 #endif
 
@@ -655,7 +655,7 @@ static const ExceptionCodeInfo exception_codes[] = {
 CMOCKA_NORETURN static void exception_handler(int sig) {
     const char *sig_strerror = ""; // NOLINT(clang-analyzer-deadcode.DeadStores)
 
-#ifdef YALIBCT_LIBC_HAS_STRSIGNAL
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRSIGNAL
     sig_strerror = strsignal(sig); // NOLINT(cert-sig30-c,bugprone-signal-handler)
 #endif
 

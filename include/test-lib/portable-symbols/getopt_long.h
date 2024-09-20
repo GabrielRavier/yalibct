@@ -20,7 +20,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_GETOPT_LONG
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_GETOPT_LONG
 #include <getopt.h>
 #else
 

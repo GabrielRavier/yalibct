@@ -1,12 +1,12 @@
 #pragma once
 
-#ifdef YALIBCT_HAS_SYSTEM_HEDLEY_H
+#ifndef YALIBCT_DOESNT_HAVE_SYSTEM_HEDLEY_H
 #include <hedley.h>
 #else
 #include "test-lib/hedley-local-copy.h"
 #endif
 
-#ifdef YALIBCT_LIBC_HAS_SYS_CDEFS_H
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
 
 // dietlibc is mega stupid and decides to #define __noinline__ so we have to do this horribleness

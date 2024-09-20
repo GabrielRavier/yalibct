@@ -18,7 +18,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_GETTEXT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_GETTEXT
 #include <libintl.h>
 #else
 

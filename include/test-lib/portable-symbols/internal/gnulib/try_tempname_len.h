@@ -77,7 +77,7 @@ random_bits (random_value *r, random_value s)
 
   random_value v = s;
 
-#if /*_LIBC ||*/ (defined(YALIBCT_LIBC_HAS_CLOCK_REALTIME) && defined(YALIBCT_LIBC_HAS_CLOCK_GETTIME))
+#if /*_LIBC ||*/ (!defined(YALIBCT_LIBC_DOESNT_HAVE_CLOCK_REALTIME) && !defined(YALIBCT_LIBC_DOESNT_HAVE_CLOCK_GETTIME))
   struct __timespec64 tv;
   __clock_gettime64 (CLOCK_REALTIME, &tv);
   v = mix_random_values (v, tv.tv_sec);

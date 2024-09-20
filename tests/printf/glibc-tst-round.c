@@ -165,7 +165,7 @@ do_test (void)
 {
   int result = 0;
 #ifndef YALIBCT_DISABLE_PRINTF_ROUNDING_DIRECTION_TESTS
-#ifdef YALIBCT_LIBC_HAS_FEGETROUND
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FEGETROUND
   int save_round_mode __attribute__ ((unused)) = fegetround ();
 #endif
 
@@ -174,7 +174,7 @@ do_test (void)
       result |= test_dec_in_one_mode (dec_tests[i].d, dec_tests[i].fmt,
 				      dec_tests[i].rn, "default rounding mode");
 
-#ifdef YALIBCT_LIBC_HAS_FESETROUND
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FESETROUND
 #ifdef FE_DOWNWARD
       if (!fesetround (FE_DOWNWARD))
 	{
@@ -207,7 +207,7 @@ do_test (void)
     {
       result |= test_hex_in_one_mode (hex_tests[i].d, hex_tests[i].fmt,
 				      hex_tests[i].rn, "default rounding mode");
-#ifdef YALIBCT_LIBC_HAS_FESETROUND
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FESETROUND
 #ifdef FE_DOWNWARD
       if (!fesetround (FE_DOWNWARD))
 	{

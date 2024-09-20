@@ -20,7 +20,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_O_SEARCH
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_O_SEARCH
 #include <fcntl.h>
 #else
 

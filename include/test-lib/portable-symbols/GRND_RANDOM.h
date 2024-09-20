@@ -17,7 +17,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_GRND_RANDOM
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_GRND_RANDOM
 #include <sys/random.h>
 #else
 

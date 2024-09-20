@@ -20,7 +20,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_REQUIRED_ARGUMENT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_REQUIRED_ARGUMENT
 #include <getopt.h>
 #else
 

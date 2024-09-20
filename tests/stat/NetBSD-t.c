@@ -42,7 +42,7 @@
 #include <limits.h>
 
 static const char *path = "stat";
-#ifdef YALIBCT_LIBC_HAS_CHFLAGS
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_CHFLAGS
 ATF_TC_WITH_CLEANUP(stat_chflags);
 ATF_TC_HEAD(stat_chflags, tc)
 {
@@ -381,7 +381,7 @@ ATF_TC_BODY(stat_symlink, tc)
 ATF_TP_ADD_TCS(tp)
 {
 
-#ifdef YALIBCT_LIBC_HAS_CHFLAGS
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_CHFLAGS
 	ATF_TP_ADD_TC(tp, stat_chflags);
 #endif
 	ATF_TP_ADD_TC(tp, stat_dir);

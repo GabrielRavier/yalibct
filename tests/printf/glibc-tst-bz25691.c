@@ -73,7 +73,7 @@ do_test (void)
     wchar_t *result = xmalloc (resultsize);
     int ret;
 
-#ifdef YALIBCT_LIBC_HAS_SWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_SWPRINTF
     ret = swprintf (result, mbssize, L"%.65537s", mbs);
     TEST_COMPARE (ret, mbssize - 1);
     TEST_COMPARE_BLOB (result, (ret + 1) * sizeof (wchar_t),

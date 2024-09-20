@@ -924,7 +924,7 @@ static void test_fprintf(void)
     fp = fopen(file_name, "a");
     ok(fp != NULL, "");
 
-#ifdef YALIBCT_LIBC_HAS_FWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FWPRINTF
     ret = fwprintf(fp, utf16_test);
     ok(ret == 8, "ret = %d\n", ret);
     ret = ftell(fp);
@@ -934,6 +934,7 @@ static void test_fprintf(void)
     checked_fclose(fp);
 
     fp = fopen(file_name, "rb");
+    ok(fp != NULL, "");
 #ifndef YALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS
     ret = fscanf(fp, "%[^\n] ", buf);
     ok(ret == 1, "ret = %d\n", ret);
@@ -946,7 +947,7 @@ static void test_fprintf(void)
     ok(ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
-#ifdef YALIBCT_LIBC_HAS_FWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FWPRINTF
     memset(buf, 0, sizeof(buf));
     ok(fgets(buf, sizeof(buf), fp) == buf, "");
     ret = ftell(fp);
@@ -959,6 +960,7 @@ static void test_fprintf(void)
     checked_fclose(fp);
 
     fp = fopen(file_name, "wt");
+    ok(fp != NULL, "");
 
     ret = fprintf(fp, "simple test\n");
     ok(ret == 12, "ret = %d\n", ret);
@@ -974,7 +976,7 @@ static void test_fprintf(void)
     fp = fopen(file_name, "at");
     ok(fp != NULL, "");
 
-#ifdef YALIBCT_LIBC_HAS_FWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FWPRINTF
     ret = fwprintf(fp, utf16_test);
     ok(ret == 8, "ret = %d\n", ret);
     ret = ftell(fp);
@@ -997,7 +999,7 @@ static void test_fprintf(void)
     ok(ret == 28 || ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\r\n", 15) || !memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
-#ifdef YALIBCT_LIBC_HAS_FWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FWPRINTF
     ok(fgets(buf, sizeof(buf), fp) == buf, "");
     ret = ftell(fp);
     ok(ret == 37 || ret == 34, "ret =  %d\n", ret);
@@ -1015,7 +1017,7 @@ static void test_fcvt(void)
     char *str;
     int dec=100, sign=100;
 
-#ifdef YALIBCT_LIBC_HAS_FCVT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FCVT
     /* Numbers less than 1.0 with different precisions */
     str = fcvt(0.0001, 1, &dec, &sign );
     ok( str, "bad return '%s'\n", str);
@@ -1166,7 +1168,7 @@ static void test_xcvt(void)
     char *str;
     int i, decpt, sign, err;
 
-#ifdef YALIBCT_LIBC_HAS_ECVT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_ECVT
     for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
         decpt = sign = 100;
         str = ecvt( test_cvt_testcases[i].value,
@@ -1185,7 +1187,7 @@ static void test_xcvt(void)
     }
 #endif
 
-#ifdef YALIBCT_LIBC_HAS_FCVT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FCVT
     for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
         decpt = sign = 100;
         str = fcvt( test_cvt_testcases[i].value,
@@ -1272,7 +1274,7 @@ static void test_xcvt(void)
         win_skip("_fcvt_s not available\n");
 }
 
-#ifdef YALIBCT_LIBC_HAS_VSWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_VSWPRINTF
 static int WINAPIV _vsnwprintf_wrapper(wchar_t *str, size_t len, const wchar_t *format, ...)
 {
     int ret;
@@ -1386,7 +1388,7 @@ static void test_vswprintf(void)
         return;
     }
 
-#ifdef YALIBCT_LIBC_HAS_VSWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_VSWPRINTF
     ret = vswprintf_wrapper(buf, format, number, 123);
     ok(ret == 10, "got %d, expected 10\n", ret);
     ok(!memcmp(buf, out, sizeof(out)), "buf = %ls\n", (buf));

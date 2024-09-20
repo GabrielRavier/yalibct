@@ -19,7 +19,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_ERROR
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_ERROR
 #include <error.h>
 #else
 

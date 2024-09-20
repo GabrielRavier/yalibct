@@ -49,7 +49,7 @@
 
 #pragma once
 
-#if 0//def YALIBCT_LIBC_HAS_FTSENT
+#if 0//def YALIBCT_LIBC_DOESNT_HAVE_FTSENT
 #include <fts.h>
 #else
 

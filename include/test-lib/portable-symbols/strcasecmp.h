@@ -17,7 +17,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_STRCASECMP
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRCASECMP
 #include <strings.h>
 #else
 

@@ -18,7 +18,7 @@
    <https://www.gnu.org/licenses/>.  */
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_MAX
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_MAX
 #include <sys/param.h>
 #else
 

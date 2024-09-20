@@ -18,7 +18,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_ALIGNALLOC
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_ALIGNALLOC
 #include <alignalloc.h>
 #else
 

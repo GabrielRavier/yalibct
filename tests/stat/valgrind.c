@@ -148,7 +148,7 @@ int main()
     if (cwd)
     {
 	int cwdfd = dirfd(cwd); // NOLINT(clang-analyzer-deadcode.DeadStores)
-#ifndef YALIBCT_LIBC_HAS_FSTATAT
+#if 1//ndef YALIBCT_LIBC_DOESNT_HAVE_FSTATAT
        fstatat(cwdfd, "stat.c", &sb, 0);
 #endif
        closedir(cwd);

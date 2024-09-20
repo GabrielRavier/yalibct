@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_GETTID
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_GETTID
 #include <unistd.h>
 #else
 

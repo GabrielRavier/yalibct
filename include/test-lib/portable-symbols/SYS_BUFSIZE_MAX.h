@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_SYS_BUFSIZE_MAX
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_SYS_BUFSIZE_MAX
 #include "sys-limits.h"
 #else
 

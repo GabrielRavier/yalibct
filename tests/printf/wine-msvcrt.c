@@ -295,7 +295,7 @@ static void test_sprintf( void )
     char buffer[100];
     int i, x, r;
 
-#ifdef YALIBCT_LIBC_HAS_FESETROUND
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FESETROUND
     fesetround(FE_TONEAREST);
 #endif
     for (i=0; i<ARRAY_SIZE(tests); i++) {
@@ -535,7 +535,7 @@ static void test_fprintf(void)
     fp = fopen("fprintf.tst", "a");
     ok(fp != NULL, "");
 
-#ifdef YALIBCT_LIBC_HAS_FWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FWPRINTF
     ret = fwprintf(fp, L"unicode\n");
     ok(ret == 8, "ret = %d\n", ret);
     ret = ftell(fp);
@@ -558,7 +558,7 @@ static void test_fprintf(void)
     ok(!memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
 
-#ifdef YALIBCT_LIBC_HAS_FWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FWPRINTF
     memset(buf, 0, sizeof(buf));
     checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
@@ -586,7 +586,7 @@ static void test_fprintf(void)
     fp = fopen("fprintf.tst", "at");
     ok(fp != NULL, "");
 
-#ifdef YALIBCT_LIBC_HAS_FWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FWPRINTF
     ret = fwprintf(fp, L"unicode\n");
     ok(ret == 8, "ret = %d\n", ret);
     ret = ftell(fp);
@@ -608,7 +608,7 @@ static void test_fprintf(void)
     ok(ret == 28 || ret == 26, "ret = %d\n", ret);
     ok(!memcmp(buf, "contains\0null\r\n", 15) || !memcmp(buf, "contains\0null\n", 14), "buf = %s\n", buf);
 
-#ifdef YALIBCT_LIBC_HAS_FWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FWPRINTF
     checked_fgets(buf, sizeof(buf), fp);
     ret = ftell(fp);
     ok(ret == 37 || ret == 34, "ret = %d\n", ret);
@@ -626,7 +626,7 @@ static void test_fcvt(void)
     char *str;
     int dec=100, sign=100;
 
-#ifdef YALIBCT_LIBC_HAS_FCVT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FCVT
     /* Numbers less than 1.0 with different precisions */
     str = fcvt(0.0001, 1, &dec, &sign );
     ok( 0 == strcmp(str,""), "bad return '%s'\n", str);
@@ -779,7 +779,7 @@ static void test_xcvt(void)
     char *str;
     int i, decpt, sign, err;
 
-#ifdef YALIBCT_LIBC_HAS_ECVT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_ECVT
     for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
         decpt = sign = 100;
         str = ecvt( test_cvt_testcases[i].value,
@@ -798,7 +798,7 @@ static void test_xcvt(void)
     }
 #endif
 
-#ifdef YALIBCT_LIBC_HAS_FCVT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FCVT
     for( i = 0; strcmp( test_cvt_testcases[i].expstr_e, "END") != 0; i++){
         decpt = sign = 100;
         str = fcvt( test_cvt_testcases[i].value,
@@ -885,7 +885,7 @@ static void test_xcvt(void)
         win_skip("_fcvt_s not available\n");
 }
 
-#ifdef YALIBCT_LIBC_HAS_VSWPRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_VSWPRINTF
 static int WINAPIV _vsnwprintf_wrapper(wchar_t *str, size_t len, const wchar_t *format, ...)
 {
     int ret;

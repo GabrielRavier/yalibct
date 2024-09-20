@@ -47,7 +47,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_FTS_READ
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FTS_READ
 #include <fts.h>
 #else
 
@@ -404,7 +404,7 @@ enum leaf_optimization
   };
 
 #if (defined __linux__ || defined __ANDROID__) \
-  && YALIBCT_LIBC_HAS_SYS_VFS_H && YALIBCT_LIBC_HAS_FSTATFS && YALIBCT_LIBC_HAS_STRUCT_STATFS_F_TYPE
+    && !defined(YALIBCT_LIBC_DOESNT_HAVE_SYS_VFS_H) && !defined(YALIBCT_LIBC_DOESNT_HAVE_FSTATFS) && !defined(YALIBCT_LIBC_DOESNT_HAVE_STRUCT_STATFS_F_TYPE)
 
 # include <sys/vfs.h>
 
@@ -415,7 +415,7 @@ enum leaf_optimization
 # define S_MAGIC_PROC 0x9FA0
 # define S_MAGIC_TMPFS 0x1021994
 
-# ifdef YALIBCT_LIBC_HAS___FSWORD_T
+# ifndef YALIBCT_LIBC_DOESNT_HAVE___FSWORD_T
 typedef __fsword_t fsword;
 # else
 typedef long int fsword;
@@ -592,7 +592,7 @@ enum
 # define D_INO(dp) NOT_AN_INODE_NUMBER
 #endif
 
-#ifdef YALIBCT_LIBC_HAS_STRUCT_DIRENT_D_TYPE
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_STRUCT_DIRENT_D_TYPE
 /* True if the type of the directory entry D is known.  */
 #define DT_IS_KNOWN(d) ((d)->d_type != DT_UNKNOWN)
 /* True if the type of the directory entry D must be T.  */

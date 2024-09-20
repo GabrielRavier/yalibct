@@ -2,7 +2,7 @@
 
 #include "test-lib/should-always-be-included.h"
 
-#ifdef YALIBCT_LIBC_HAS_PRINTF
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_PRINTF
 
 #include <stdio.h>
 

@@ -20,7 +20,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_OPTARG
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_OPTARG
 #include <unistd.h>
 #else
 

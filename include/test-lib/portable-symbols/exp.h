@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_EXP
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_EXP
 #include <math.h>
 #else
 

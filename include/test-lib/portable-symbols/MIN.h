@@ -18,7 +18,7 @@
    <https://www.gnu.org/licenses/>.  */
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_MIN
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_MIN
 #include <sys/param.h>
 #else
 

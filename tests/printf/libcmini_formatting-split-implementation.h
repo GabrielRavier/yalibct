@@ -62,7 +62,7 @@ int main()
     assert(fclose(fp) == 0);
 
     fp = fopen("test.txt", "r");
-#ifdef YALIBCT_LIBC_HAS_FGETC
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_FGETC
     while (true) {
         int ch = fgetc(fp);
         if (ch == EOF)

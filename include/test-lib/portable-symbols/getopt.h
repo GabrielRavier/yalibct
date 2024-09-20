@@ -20,7 +20,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_GETOPT
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_GETOPT
 #include <unistd.h>
 #else
 

@@ -20,7 +20,7 @@
 
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_GETRANDOM
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_GETRANDOM
 #include <sys/random.h>
 #else
 
@@ -60,7 +60,7 @@ getrandom (void *buffer, size_t length, unsigned int flags)
   static int bcrypt_not_working /* = 0 */;
   if (!bcrypt_not_working)
     {
-# ifndef YALIBCT_LIBC_HAS_LIB_BCRYPT
+# ifdef YALIBCT_LIBC_DOESNT_HAVE_LIB_BCRYPT
       if (!initialized)
         initialize ();
 # endif
@@ -71,7 +71,7 @@ getrandom (void *buffer, size_t length, unsigned int flags)
         return length;
       bcrypt_not_working = 1;
     }
-# ifndef YALIBCT_LIBC_HAS_LIB_BCRYPT
+# ifdef YALIBCT_LIBC_DOESNT_HAVE_LIB_BCRYPT
   /* CryptGenRandom, defined in <wincrypt.h>
      <https://docs.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptgenrandom>
      works in older releases as well, but is now deprecated.

@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_INFINITY
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_INFINITY
 #include <math.h>
 #else
 

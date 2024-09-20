@@ -2,24 +2,25 @@
 CC='/home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/dietlibc/main-repo/bin-x86_64/diet gcc' \
     cmake \
         -B build/dietlibc-git \
+        -Werror=dev -Werror=deprecated --warn-uninitialized `# All of the CMake warning options that seem useful` \
         -DCMAKE_C_FLAGS='-ggdb3 -Wno-deprecated-declarations' \
-        -DYALIBCT_LIBC_HAS_VSWPRINTF=OFF `# Not yet implemented` \
-        -DYALIBCT_LIBC_HAS_FWPRINTF=OFF `# Not yet implemented` \
-        -DYALIBCT_LIBC_HAS_SWPRINTF=OFF `# Not yet implemented` \
-        -DYALIBCT_LIBC_HAS_VFWPRINTF=OFF `# Not yet implemented` \
-        -DYALIBCT_LIBC_HAS_VSWPRINTF=OFF `# Not yet implemented` \
-        -DYALIBCT_LIBC_HAS_FWPRINTF=OFF `# Not yet implemented` \
-        -DYALIBCT_LIBC_HAS_FCVT=OFF `# Not yet implemented... seems relatively simple to contribute ?` \
-        -DYALIBCT_LIBC_HAS_ECVT=OFF `# Not yet implemented... seems relatively simple to contribute ?` \
-        -DYALIBCT_LIBC_HAS_FESETROUND=OFF `# Not yet implemented... seems relatively simple to contribute ?` \
-        -DYALIBCT_LIBC_HAS_FEGETROUND=OFF `# Not yet implemented... seems relatively simple to contribute ?` \
-        -DYALIBCT_LIBC_HAS_NL_ARGMAX=OFF `# Not yet implemeneted` \
-        -DYALIBCT_LIBC_HAS_OPEN_MEMSTREAM=OFF `# Not yet implemented in dietlibc (doesn't seem like they like that kind of thing...)` \
-        -DYALIBCT_LIBC_HAS_WCSCASECMP=OFF `# Not yet implemented... seems relatively simple to contribute ?` \
-        -DYALIBCT_LIBC_HAS_STRUCT_STAT_ST_ATIM=OFF `# Not yet implemented... seems really simple to contribute ?` \
-        -DYALIBCT_LIBC_HAS_STRUCT_STAT_ST_MTIM=OFF `# Not yet implemented... seems really simple to contribute ?` \
-        -DYALIBCT_LIBC_HAS_STRUCT_STAT_ST_CTIM=OFF `# Not yet implemented... seems really simple to contribute ?` \
-        -DYALIBCT_LIBC_HAS_O_SEARCH=OFF `# Not yet implemented... might be easy to contribute whenever glibc/the Linux kernel gets around to it...` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_VSWPRINTF=ON `# Not yet implemented` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_FWPRINTF=ON `# Not yet implemented` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_SWPRINTF=ON `# Not yet implemented` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_VFWPRINTF=ON `# Not yet implemented` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_VSWPRINTF=ON `# Not yet implemented` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_FWPRINTF=ON `# Not yet implemented` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_FCVT=ON `# Not yet implemented... seems relatively simple to contribute ?` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_ECVT=ON `# Not yet implemented... seems relatively simple to contribute ?` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_FESETROUND=ON `# Not yet implemented... seems relatively simple to contribute ?` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_FEGETROUND=ON `# Not yet implemented... seems relatively simple to contribute ?` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_NL_ARGMAX=ON `# Not yet implemeneted` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_OPEN_MEMSTREAM=ON `# Not yet implemented in dietlibc (doesn't seem like they like that kind of thing...)` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_WCSCASECMP=ON `# Not yet implemented... seems relatively simple to contribute ?` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT_ST_ATIM=ON `# Not yet implemented... seems really simple to contribute ?` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT_ST_MTIM=ON `# Not yet implemented... seems really simple to contribute ?` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_STRUCT_STAT_ST_CTIM=ON `# Not yet implemented... seems really simple to contribute ?` \
+        -DYALIBCT_LIBC_DOESNT_HAVE_O_SEARCH=ON `# Not yet implemented... might be easy to contribute whenever glibc/the Linux kernel gets around to it...` \
         -DYALIBCT_DISABLE_PRINTF_A_CONVERSION_SPECIFIER_TESTS=ON `# Not yet implemented` \
         -DYALIBCT_DISABLE_PRINTF_E_CONVERSION_SPECIFIER_TESTS=ON `# Not yet implemented` \
         -DYALIBCT_DISABLE_PRINTF_L_FLAG_ON_C_CONVERSION_SPECIFIER_TESTS=ON `# Not yet implemented... might be feasible to contribute ?` \

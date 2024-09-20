@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_MTRACE
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_MTRACE
 #include <mcheck.h>
 #else
 

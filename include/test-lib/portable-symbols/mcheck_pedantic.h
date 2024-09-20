@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_MCHECK_PEDANTIC
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_MCHECK_PEDANTIC
 #include <mcheck.h>
 #else
 

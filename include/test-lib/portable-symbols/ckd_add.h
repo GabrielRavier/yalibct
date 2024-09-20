@@ -16,7 +16,7 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 #pragma once
 
-#ifdef YALIBCT_LIBC_HAS_CKD_ADD
+#ifndef YALIBCT_LIBC_DOESNT_HAVE_CKD_ADD
 #include <stdckdint.h>
 #else
 
