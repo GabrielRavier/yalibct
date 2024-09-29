@@ -15,7 +15,7 @@ MODE=dbg CC='/home/gravier/src/libraries/programming/languages-implementations/s
         -DYALIBCT_DISABLE_PRINTF_PRECISION_ON_WIDE_S_CONVERSION_SPECIFIER_TESTS=ON `# cosmopolitan has deliberately decided to deviate from the standard on this, see https://github.com/jart/cosmopolitan/pull/1271` \
         -DYALIBCT_DISABLE_PRINTF_FIELD_WIDTH_ON_WIDE_C_CONVERSION_SPECIFIER_TESTS=ON `# cosmopolitan has deliberately decided to deviate from the standard on this, see https://github.com/jart/cosmopolitan/pull/1271` \
         -DYALIBCT_DISABLE_PRINTF_PRECISION_ON_WIDE_C_CONVERSION_SPECIFIER_TESTS=ON `# cosmopolitan has deliberately decided to deviate from the standard on this, see https://github.com/jart/cosmopolitan/pull/1271` \
-        -DYALIBCT_DISABLE_PRINTF_UPPERCASE_B_CONVERSION_SPECIFIER_TESTS=ON `# (PR link TODO)` \
+        -DYALIBCT_DISABLE_PRINTF_UPPERCASE_B_CONVERSION_SPECIFIER_TESTS=ON `# See https://github.com/jart/cosmopolitan/pull/1300` \
         -DYALIBCT_DISABLE_PRINTF_NUMBERED_ARGUMENTS_TESTS=ON `# Not yet implemented` \
         -DYALIBCT_DISABLE_SCANF_NUMBERED_ARGUMENTS_TESTS=ON `# Not yet implemented` \
         -DYALIBCT_DISABLE_SCANF_LEFT_SQUARE_BRACKET_CONVERSION_SPECIFIER_TESTS=ON `# Not yet implemented` \

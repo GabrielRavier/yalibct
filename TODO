@@ -46,6 +46,8 @@ See later if we can get the project to work with cosmocc's -mclang
 
 Add minimal implementations for all the tested functions when possible just in case they're not present or something (and test them - probably add an extra config where all the relevant functions are "determined" not to be present in the host system, for testing)
 
+Add configuration for sanitizers and valgrind
+
 Perhaps try to fix the setvbuf bug in glibc ? idk (see https://sourceware.org/bugzilla/show_bug.cgi?id=17080)
 
 Replace ad-hoc definitions of constexpr with HEDLEY_CONSTEXPR
