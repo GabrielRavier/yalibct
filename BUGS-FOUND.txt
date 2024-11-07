@@ -1,17 +1,17 @@
 I have filed the following bug reports/patches as a result of working on this testsuite:
 
 total filed: 73
-fixed/merged: 58
+fixed/merged: 59
 
 glibc (2 total filed, 0 fixed/merged):
 - https://sourceware.org/bugzilla/show_bug.cgi?id=29556 (not yet fixed)
 - https://sourceware.org/bugzilla/show_bug.cgi?id=30441 (not yet fixed (note: potentially not a bug at all - will have to see with WG14))
 
-musl (5 total filed, 2 fixed/merged):
+musl (5 total filed, 3 fixed/merged):
 - https://www.openwall.com/lists/musl/2023/04/15/1 (not yet merged)
 - https://www.openwall.com/lists/musl/2022/09/06/10 (not yet fixed)
 - https://www.openwall.com/lists/musl/2023/01/04/1 (merged)
-- https://www.openwall.com/lists/musl/2023/04/14/1 (not yet merged)
+- https://www.openwall.com/lists/musl/2023/04/14/1 (merged)
 - https://www.openwall.com/lists/musl/2024/09/13/17 (merged)
 
 dietlibc (27 total filed, 18 fixed/merged) (note: dietlibc's mailing list does not have an archive, so the links can't lead there...):
