@@ -34,6 +34,8 @@ Move a few directories and files around for clarity, e.g.:
 
 Check if nanoprintf's default snprintf behavior conforms to the standard - They seem to screw up truncation by default...
 
+Run other static analyzers than just clang-tidy
+
 Check all of the `#if 0`s in the codebase... some seem dubious
 
 See later if we can get the project working on musl-clang once it doesn't randomly error out anymore (would be nice if it didn't give me 300 warnings before then too - they seem unrelated to the root issue that musl-clang somehow doesn't know about x86intrin.h even though it effectively advertises support for it...)
@@ -59,6 +61,15 @@ Add in new tests from glibc:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-intn.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-bz25691.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/sysdeps/ieee754/ldbl-128ibm-compat/test-printf-ldbl-compat.c
+- stuff from 7ec4d7e3d1c0c6da11dbad1292fd9d94124c57ca, b350a60b6ecd77b7ec30c7969de1df8b73642e55, b3e8a756ad569fd31181b74b3729d29df3eb55f3, 1dc5cdc3da19e10d47e50a5ea2ea3ce62ee2fa82, c683ac8520e8064e7be3a22922d80849271290ac, 0b6379cb98590c28088f017ddcc0edb8ad7d0131, bad554d9b4f10988eb7fdb814fbaa5e89416d781, 349670f8093d920d4d683472c88029f6901f7ae7, fae4eacae75e4f2767998aca703d6efaae2a747f, 6018ba05c01b1e17d77742a123e8c443f8fc713c, ac72dd90905e1693c108c9f36f0c7e79d6ad5501, 11a2169e4066e6b848f1e6e4c31ec4e2210cecd8
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-format-skeleton.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-format-skeleton-double.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-format-skeleton-ldouble.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-bz18872.sh
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/sysdeps/x86/tst-ldbl-nonnormal-printf.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/sysdeps/x86/tst-strlen-rtm.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/sysdeps/x86_64/tst-rsi-strlen.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/sysdeps/x86/tst-strcmp-rtm.c
 
 Add in tests from ArvernOS:
 - /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/isdigit.c
@@ -111,10 +122,12 @@ Add in tests from bkunix:
 Add in tests from illumos-gate:
 - /home/gravier/src/programs/system/operating-systems/unix/illumos-gate/usr/src/cmd/dtrace/test/tst/common/printf/
 - /home/gravier/src/programs/system/operating-systems/unix/illumos-gate/usr/src/cmd/dtrace/test/tst/common/strlen/
+- /home/gravier/src/programs/system/operating-systems/unix/illumos-gate/usr/src/test/libc-tests/tests/printf-15294.c
 
 Add in tests from bsd/free:
 - /home/gravier/src/programs/system/operating-systems/unix/bsd/free/src/usr.bin/printf/tests/regress.sh
 - /home/gravier/src/programs/system/operating-systems/unix/bsd/free/src/bin/sh/tests/builtins/printf*
+- /home/gravier/src/programs/system/operating-systems/unix/berkeley-software-distribution-berkeley-standard-distribution-bsd/free/src/lib/libc/tests/string/strcmp_test.c
 
 Add in tests from gecko-dev:
 - /home/gravier/src/programs/data/transmission/communications/networking/protocols/layers/application/hypertext-transfer-protocol/clients/browsers/gecko-dev/js/src/jsapi-tests/testPrintf.cpp
@@ -139,6 +152,7 @@ Add in/update tests from cosmopolitan:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/kprintf_test.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/calls/stat_test.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/strcmp_test.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/posix/printf_return_test.c
 
 Add in tests from embeddedartistry:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf/embeddedartistry/test
@@ -152,6 +166,7 @@ Add in tests from gnulib:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-stat-time.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-stat.c
 - also the u32/u16 printf stuff (maybe just look at all the printfs again ?)
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-printf-posix*
 
 Add in tests from public-domain-c-library:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/public-domain-c-library/test_support/printf_testcases.h
@@ -173,6 +188,8 @@ Add in tests from LLVM:
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strlen_test.cpp
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strcat_test.cpp
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/fuzzing/stdio/printf_fixed_conv_fuzz.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/integration/src/stdio/gpu/printf_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/compiler-rt/lib/sanitizer_common/tests/sanitizer_printf_test.cpp
 
 Add in tests from GCC:
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/gcc.target/riscv/rvv/autovec/builtin/strlen-run.c
@@ -182,6 +199,105 @@ Add in tests from GCC:
 
 Add in tests from WINE:
 - /home/gravier/src/programs/emulators-simulators-virtualization-and-other-compatibility-layers/computers/windows/wine-is-not-an-emulator/dlls/ucrtbase/tests/printf.c
+
+Add in tests from trio:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf/trio/regression.c
+
+Add in tests from c99-snprintf:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf/c99-snprintf/snprintf.c
+
+Add in tests from ijs.si-software-snprintf:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf/ijs.si-software-snprintf/snprintf_2.2.tar-extracted/snprintf_2.2/test.c
+
+Add in tests from go:
+- /home/gravier/src/programs/programming/languages-implementations/compilers/go/go/src/os/stat_test.go
+
+Add in tests from GHC:
+- /home/gravier/src/programs/programming/languages-implementations/compilers/haskell/glasgow-haskell-compiler/libraries/base/tests/Text.Printf/T1548.hs
+
+Add in tests from bash:
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf1.sub
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf2.sub
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf3.sub
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf4.sub
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf5.sub
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf6.sub
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf7.sub
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf.right
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf.right.raw
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf.tests
+
+Add in tests from fish:
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/friendly-interactive-shell-fish/tests/checks/printf.fish
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/friendly-interactive-shell-fish/src/wutil/printf.rs
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/friendly-interactive-shell-fish/printf/src/tests.rs (perhaps check other rust printfs crates ? this one is fish-printf)
+
+Add in tests from ksh:
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/korn-shell-ksh/main-repo/src/cmd/ksh93/tests/printf.sh
+
+Add in tests from yash:
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/yet-another-shell-yash/tests/printf-y.tst
+
+Add in tests from awk:
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/text-oriented/awk/gnu/test/printf-corners.awk
+- (also other tests containing "printf" from the same directory)
+
+Add in tests from perl:
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/general-purpose/perl/t/win32/stat.t
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/general-purpose/perl/dist/Time-HiRes/t/stat.t
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/general-purpose/perl/t/op/stat.t
+
+Add in tests from cpython:
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/general-purpose/python/cpython/Lib/test/test_stat.py
+
+Add in tests from binutils-gdb, radare2, gnu-poke, gnu-core-utilities-coreutils, gnu-findutils:
+- all tests containing "printf" in the name
+- (note: perhaps also do stat for coreutils)
+
+Add in tests from fuchsia:
+- /home/gravier/src/programs/system/operating-systems/fuchsia/third_party/rust_crates/vendor/nix-0.27.1/test/test_stat.rs (get it from the original crate) (also there might be other stat tests ? check)
+- /home/gravier/src/programs/system/operating-systems/fuchsia/zircon/kernel/tests/printf_tests.cc
+- /home/gravier/src/programs/system/operating-systems/fuchsia/zircon/system/ulib/fbl/test/string_printf_tests.cc
+
+Add in tests from linux kernel:
+- /home/gravier/src/programs/system/operating-systems/kernels/unix/linux/kernel/lib/test_printf.c
+
+Add in tests from linux test project:
+- /home/gravier/src/programs/system/operating-systems/kernels/unix/linux/linux-test-project-ltp/testcases/kernel/syscalls/stat/stat01.c
+- /home/gravier/src/programs/system/operating-systems/kernels/unix/linux/linux-test-project-ltp/testcases/kernel/syscalls/stat/stat04.c
+
+Add in tests from little-kernel:
+- /home/gravier/src/programs/system/operating-systems/kernels/little-kernel-embedded-operating-system/lib/libc/test/printf_tests.cpp
+
+Add in tests from openbsd:
+- /home/gravier/src/programs/system/operating-systems/unix/berkeley-software-distribution-berkeley-standard-distribution-bsd/open/src/regress/lib/libc/sys/t_stat.c
+
+Add in tests from mpfr:
+- /home/gravier/src/libraries/math/gnu-multiple-precision-floating-point-reliable-library-mpfr/tests/tprintf.c
+
+Add in tests from netbsd:
+- /home/gravier/src/programs/system/operating-systems/unix/berkeley-software-distribution-berkeley-standard-distribution-bsd/net/src/tests/lib/libc/stdio/t_printf.c
+
+Add in tests from ncbi-vdb:
+- /home/gravier/src/programs/data/management/databases/by-subject/scientific/biological/genetics/sequence-read-archive/ncbi-vdb/test/klib/printf-test.c
+
+Add in tests from glidix:
+- /home/gravier/src/programs/system/operating-systems/unix/glidix/libc/src/ctype/isalpha.c
+- /home/gravier/src/programs/system/operating-systems/unix/glidix/libc/src/ctype/isdigit.c
+- /home/gravier/src/programs/system/operating-systems/unix/glidix/libc/src/string/strcat.c
+- /home/gravier/src/programs/system/operating-systems/unix/glidix/libc/src/string/strcmp.c
+- /home/gravier/src/programs/system/operating-systems/unix/glidix/libc/src/string/strlen.c
+
+Add in tests from gvisor:
+- /home/gravier/src/programs/system/virtualization/sandboxing/gvisor/test/syscalls/linux/stat.cc
+
+Add in tests from nanoprintf-paland-conformance
+Add in tests from nanoprintf
+
+Add in tests from wasi-libc:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/wasi-libc/test/src/libc-test/functional/snprintf.c
+
+Add in all the stuff from /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/tests/printf
 
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
