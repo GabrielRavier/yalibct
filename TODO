@@ -176,6 +176,7 @@ Add in tests from nanoprintf since 1e254afc4fcb97d5a7cf3ce9d029fdfc3ded7d82
 Add in tests from picolibc:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/printf-tests.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/newlib/testsuite/newlib.string/strcmp-1.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/printf_scanf.c
 
 Add in tests from newlib:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/newlib/main-repo/winsup/testsuite/winsup.api/ltp/stat*
@@ -190,6 +191,9 @@ Add in tests from LLVM:
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/fuzzing/stdio/printf_fixed_conv_fuzz.cpp
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/integration/src/stdio/gpu/printf_test.cpp
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/compiler-rt/lib/sanitizer_common/tests/sanitizer_printf_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/ctype/isalpha_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/ctype/isdigit_test.cpp
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strcmp_test.cpp
 
 Add in tests from GCC:
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/gcc.target/riscv/rvv/autovec/builtin/strlen-run.c
@@ -199,6 +203,7 @@ Add in tests from GCC:
 
 Add in tests from WINE:
 - /home/gravier/src/programs/emulators-simulators-virtualization-and-other-compatibility-layers/computers/windows/wine-is-not-an-emulator/dlls/ucrtbase/tests/printf.c
+- /home/gravier/src/programs/emulators-simulators-virtualization-and-other-compatibility-layers/computers/windows/wine-is-not-an-emulator/dlls/msvcrt/tests/printf.c
 
 Add in tests from trio:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf/trio/regression.c
@@ -226,6 +231,7 @@ Add in tests from bash:
 - /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf.right
 - /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf.right.raw
 - /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell/main-repo/tests/printf.tests
+- /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/bourne-again-shell-bash/main-repo/aclocal.m4 (printf)
 
 Add in tests from fish:
 - /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/shells/unix/friendly-interactive-shell-fish/tests/checks/printf.fish
@@ -255,7 +261,8 @@ Add in tests from binutils-gdb, radare2, gnu-poke, gnu-core-utilities-coreutils,
 - (note: perhaps also do stat for coreutils)
 
 Add in tests from fuchsia:
-- /home/gravier/src/programs/system/operating-systems/fuchsia/third_party/rust_crates/vendor/nix-0.27.1/test/test_stat.rs (get it from the original crate) (also there might be other stat tests ? check)
+- /home/gravier/src/programs/system/operating-systems/fuchsia/third_party/rust_crates/vendor/nix-0.27.1/test/test_stat.rs (see below)
+- /home/gravier/src/programs/system/operating-systems/fuchsia/third_party/rust_crates/vendor/nix-0.29.0/test/test_stat.rs (get it from the original crate) (also there might be other stat tests ? check)
 - /home/gravier/src/programs/system/operating-systems/fuchsia/zircon/kernel/tests/printf_tests.cc
 - /home/gravier/src/programs/system/operating-systems/fuchsia/zircon/system/ulib/fbl/test/string_printf_tests.cc
 
@@ -268,6 +275,7 @@ Add in tests from linux test project:
 
 Add in tests from little-kernel:
 - /home/gravier/src/programs/system/operating-systems/kernels/little-kernel-embedded-operating-system/lib/libc/test/printf_tests.cpp
+- /home/gravier/src/programs/system/operating-systems/kernels/little-kernel-embedded-operating-system/app/tests/printf_tests.c
 
 Add in tests from openbsd:
 - /home/gravier/src/programs/system/operating-systems/unix/berkeley-software-distribution-berkeley-standard-distribution-bsd/open/src/regress/lib/libc/sys/t_stat.c
@@ -291,6 +299,10 @@ Add in tests from glidix:
 Add in tests from gvisor:
 - /home/gravier/src/programs/system/virtualization/sandboxing/gvisor/test/syscalls/linux/stat.cc
 
+Add in tests from qemu:
+- /home/gravier/src/programs/emulators-simulators-virtualization-and-other-compatibility-layers/consoles/microsoft/xbox/xemu/tests/tcg/minilib/printf.c (check if the one in actual qemu is the same and use that instead if it is)
+- Look at qemu equivalent of xemu c66c51461c195d5b91626671a9059fc947a7c2a4
+
 Add in tests from nanoprintf-paland-conformance
 Add in tests from nanoprintf
 
@@ -298,6 +310,10 @@ Add in tests from wasi-libc:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/wasi-libc/test/src/libc-test/functional/snprintf.c
 
 Add in all the stuff from /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/tests/printf
+Also check back on ~/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf
+
+Add in tests from libgpg-error:
+- /home/gravier/src/libraries/security/cryptography/gpg/libgpg-error/tests/t-printf.c
 
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
