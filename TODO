@@ -263,6 +263,7 @@ Add in tests from binutils-gdb, radare2, gnu-poke, gnu-core-utilities-coreutils,
 Add in tests from fuchsia:
 - /home/gravier/src/programs/system/operating-systems/fuchsia/third_party/rust_crates/vendor/nix-0.27.1/test/test_stat.rs (see below)
 - /home/gravier/src/programs/system/operating-systems/fuchsia/third_party/rust_crates/vendor/nix-0.29.0/test/test_stat.rs (get it from the original crate) (also there might be other stat tests ? check)
+- /home/gravier/src/programs/system/operating-systems/fuchsia/third_party/rust_crates/forks/nix-0.29.0/test/test_stat.rs (get it from the original crate) (also there might be other stat tests ? check)
 - /home/gravier/src/programs/system/operating-systems/fuchsia/zircon/kernel/tests/printf_tests.cc
 - /home/gravier/src/programs/system/operating-systems/fuchsia/zircon/system/ulib/fbl/test/string_printf_tests.cc
 
@@ -341,6 +342,7 @@ See also http://doolittle.icarus.com/~larry/diet-bessel-test.tar.gz when we get 
 See also http://sf.net/projects/schilytools/files/posix/waitid.c when we get to waitid
 See also https://www.openwall.com/lists/musl/2024/05/11/3 when we get to strptime
 Perhaps add https://inbox.sourceware.org/libc-alpha/20240513130600.1327522-1-hjl.tools@gmail.com/T/#u (this test was scrapped and never actually added to glibc) when we get to fclose
+See also https://www.openwall.com/lists/oss-security/2025/02/13/3 when we get to iconv
 
 Get this working on:
 - all the BSDs (note: maybe even try 2.11BSD lol - it seems to still be maintained to some degree...)
