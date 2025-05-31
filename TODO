@@ -46,6 +46,8 @@ Add minimal implementations for all the tested functions when possible just in c
 
 Add configuration for sanitizers and valgrind
 
+Perhaps add _HPUX_SOURCE for HP-UX, _BSD_SOURCE, _ANSI_C_SOURCE ? (hmmm, probably only if it turns out we actually need them, tbh...)
+
 Perhaps try to fix the setvbuf bug in glibc ? idk (see https://sourceware.org/bugzilla/show_bug.cgi?id=17080)
 
 Replace ad-hoc definitions of constexpr with HEDLEY_CONSTEXPR
@@ -316,6 +318,10 @@ Also check back on ~/src/libraries/programming/languages-implementations/standar
 Add in tests from libgpg-error:
 - /home/gravier/src/libraries/security/cryptography/gpg/libgpg-error/tests/t-printf.c
 
+Add in tests from bitkeeper:
+- /home/gravier/src/programs/programming/tools/version-control/bitkeeper/src/stattest.c
+- /home/gravier/src/programs/programming/tools/version-control/bitkeeper/src/gui/tcltk/tcl/tests/l-libl.test
+
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
 Check out https://www.opengroup.org/testing/downloads.html w.r.t. that too
@@ -343,6 +349,8 @@ See also http://sf.net/projects/schilytools/files/posix/waitid.c when we get to 
 See also https://www.openwall.com/lists/musl/2024/05/11/3 when we get to strptime
 Perhaps add https://inbox.sourceware.org/libc-alpha/20240513130600.1327522-1-hjl.tools@gmail.com/T/#u (this test was scrapped and never actually added to glibc) when we get to fclose
 See also https://www.openwall.com/lists/oss-security/2025/02/13/3 when we get to iconv
+When we get to mbsnrtowcs look up and add test for "[musl] mbsnrtowcs(3) behavior not compatible with POSIX.1-2024"
+When we get to poll look at https://daniel.haxx.se/blog/2012/10/10/wsapoll-is-broken/, it has a test case for it
 
 Get this working on:
 - all the BSDs (note: maybe even try 2.11BSD lol - it seems to still be maintained to some degree...)
@@ -351,6 +359,8 @@ Get this working on:
 
 Periodically update the .clang-tidy file with the checks from the latest version of clang whenever it comes out
 Same for new versions of anything from .pre-commit-config.yaml (see also pre-commit autoupdate)
+
+Perhaps check if we could use parallel in the run_test_binaries.sh script ? Our solution is somewhat more portable though...
 
 
 Procedure to find functions usage:
