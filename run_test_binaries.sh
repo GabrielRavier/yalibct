@@ -9,6 +9,7 @@ trap_exit ()
     echo "A command run from this script failed !"
 }
 
+set -E
 trap trap_exit ERR
 
 
@@ -231,5 +232,5 @@ wait
 
 TESTS_RESULTS_FILE_LINES_COUNT="$(<"${TEMP_TESTS_RESULTS_FILE}" wc -l)"
 printf '%s tests failed out of %s tests\n' "$(grep -cE '^Test .* failed with status .?.?.?$' "${TEMP_TESTS_RESULTS_FILE}" || true)" "${TESTS_RESULTS_FILE_LINES_COUNT}"
-grep -qE '^Test .* failed with status .?.?.?$' "${TEMP_TESTS_RESULTS_FILE}" && { echo 'Failed tests:'; grep -E '^Test .* failed with status .?.?.?$' "${TEMP_TESTS_RESULTS_FILE}"; }
+grep -qE '^Test .* failed with status [0-9]+$' "${TEMP_TESTS_RESULTS_FILE}" && { echo 'Failed tests:'; grep -E '^Test .* failed with status .?.?.?$' "${TEMP_TESTS_RESULTS_FILE}"; }
 rm "${TEMP_TESTS_RESULTS_FILE}"

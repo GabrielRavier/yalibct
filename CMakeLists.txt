@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.12)
+# check_linker_flag -> 3.18
+# C_STANDARD 23 -> 3.21
+cmake_minimum_required(VERSION 3.21)
 
 project(yalibct
   VERSION 0.1
@@ -362,7 +364,7 @@ function(yalibct_make_executable target_name target_source_file)
   add_executable("${target_name}" "${target_source_file}")
   set_property(TARGET "${target_name}" PROPERTY C_STANDARD 23)
   target_include_directories("${target_name}"
-    PRIVATE "${CMAKE_SOURCE_DIR}/include"
+    PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
   )
   target_compile_definitions("${target_name}" PRIVATE "${YALIBCT_COMPILE_DEFINITIONS}")
 
@@ -417,7 +419,6 @@ yalibct_check_c89_libc_symbol(log math.h YALIBCT_LIBC_DOESNT_HAVE_LOG)
 yalibct_check_c89_libc_symbol(pow math.h YALIBCT_LIBC_DOESNT_HAVE_POW)
 yalibct_check_c89_libc_symbol(exp math.h YALIBCT_LIBC_DOESNT_HAVE_EXP)
 yalibct_check_c89_libc_symbol(floor math.h YALIBCT_LIBC_DOESNT_HAVE_FLOOR)
-yalibct_check_c89_libc_symbol(ldexp math.h YALIBCT_LIBC_DOESNT_HAVE_LDEXP)
 yalibct_check_c89_libc_symbol(frexp math.h YALIBCT_LIBC_DOESNT_HAVE_FREXP)
 yalibct_check_c95_libc_symbol(wcsncmp wchar.h YALIBCT_LIBC_DOESNT_HAVE_WCSNCMP)
 yalibct_check_libc_symbol(alignalloc alignalloc.h YALIBCT_LIBC_DOESNT_HAVE_ALIGNALLOC)
@@ -589,6 +590,8 @@ dnl with or without modifications, as long as this notice is preserved.
 #if !(_WIN32_WINNT >= _WIN32_WINNT_WIN7)
   cannot assume it
 #endif
+
+int main(){}
   "
   YALIBCT_LIBC_DOESNT_HAVE_LIB_BCRYPT
 )
