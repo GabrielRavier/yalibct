@@ -334,6 +334,9 @@ Add in tests from bitkeeper:
 - /home/gravier/src/programs/programming/tools/version-control/bitkeeper/src/stattest.c
 - /home/gravier/src/programs/programming/tools/version-control/bitkeeper/src/gui/tcltk/tcl/tests/l-libl.test
 
+Add in tests from collabora office:
+- /home/gravier/src/programs/applications/business/productivity/office-suites/staroffice/openoffice-org/libreoffice/collabora/online/engine/sal/qa/sal/test_types.cxx
+
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
 Check out https://www.opengroup.org/testing/downloads.html w.r.t. that too
