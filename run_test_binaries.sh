@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Execute tests from the directory that which contains the script
-cd "$(dirname "$0")"
-
 trap_exit ()
 {
     echo "A command run from this script failed!"
@@ -23,6 +20,9 @@ if [[ $# -ne 1 ]]; then
 fi
 
 TESTS_BINARIES_DIRECTORY=$(realpath "$1")
+
+# Execute tests from the directory that which contains the script
+cd "$(dirname "$0")"
 
 # Commented out for now, but will likely have to be reintroduced whenether we start testing allocator failures
 # export ASAN_OPTIONS=${ASAN_OPTIONS}:allocator_may_return_null=true
