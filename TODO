@@ -352,6 +352,9 @@ Add in tests from php:
 - /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/php-hypertext-preprocessor-personal-home-page-tools-construction-kit-forms-interpreter-fi/ext/standard/tests/strings/gh18897.phpt
 - /home/gravier/src/programs/programming/languages-implementations/interpreters/domain-specific/scripting/php-hypertext-preprocessor-personal-home-page-tools-construction-kit-forms-interpreter-fi/acinclude.m4
 
+Add in tests from compiler-builtins:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/compiler-builtins/builtins-test/tests/mem.rs
+
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
 Check out https://www.opengroup.org/testing/downloads.html w.r.t. that too
