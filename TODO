@@ -167,6 +167,8 @@ Add in/update tests from cosmopolitan:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/calls/stat_test.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/libc/intrin/strcmp_test.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/posix/printf_return_test.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/posix/stat_edge_test.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/cosmopolitan-libc/test/posix/printf_edge_cases_test.c
 
 Add in tests from embeddedartistry:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/printf/embeddedartistry/test
