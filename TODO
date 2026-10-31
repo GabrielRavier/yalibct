@@ -84,6 +84,12 @@ Add in new tests from glibc:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/sysdeps/x86/tst-strlen-rtm.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/sysdeps/x86_64/tst-rsi-strlen.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/sysdeps/x86/tst-strcmp-rtm.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/io/tst-stat.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/io/tst-stat-time64.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/benchtests/bench-strlen-random.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-macro.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/stdio-common/tst-printf-format-*
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-c-library/main-repo/string/test-strcmp.c
 
 Add in tests from ArvernOS:
 - /home/gravier/src/programs/system/operating-systems/ArvernOS/tests/libc/isdigit.c
@@ -212,10 +218,15 @@ Add in tests from LLVM:
 - /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/low-level-virtual-machine/project/libc/test/src/string/strcmp_test.cpp
 
 Add in tests from GCC:
-- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/gcc.target/riscv/rvv/autovec/builtin/strlen-run.c
-- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/gcc.target/riscv/rvv/autovec/builtin/strcmp-run.c
-- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/c-c++-common/analyzer/strlen-pr113999.c
-- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection/main-repo/gcc/testsuite/gcc.c-torture/execute/strcmp-1.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection-gcc/main-repo/gcc/testsuite/gcc.target/riscv/rvv/autovec/builtin/strlen-run.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection-gcc/main-repo/gcc/testsuite/gcc.target/riscv/rvv/autovec/builtin/strcmp-run.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection-gcc/main-repo/gcc/testsuite/c-c++-common/analyzer/strlen-pr113999.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection-gcc/main-repo/gcc/testsuite/gcc.c-torture/execute/strcmp-1.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection-gcc/main-repo/gcc/testsuite/g++.dg/tree-ssa/string-strlen-1.C
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection-gcc/main-repo/gcc/testsuite/c-c++-common/analyzer/strlen-pr123085.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection-gcc/main-repo/gcc/testsuite/gcc.dg/strlenopt-97.c
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection-gcc/main-repo/gcc/testsuite/g++.dg/tree-ssa/strlenopt-3.C
+- /home/gravier/src/programs/programming/languages-implementations/compilers/multi-language/gnu-compiler-collection-gcc/main-repo/gcc/testsuite/gcc.dg/pr92408.c
 
 Add in tests from WINE:
 - /home/gravier/src/programs/emulators-simulators-virtualization-and-other-compatibility-layers/computers/windows/wine-is-not-an-emulator/dlls/ucrtbase/tests/printf.c
