@@ -198,6 +198,7 @@ Add in tests from gnulib:
 
 Add in tests from public-domain-c-library:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/public-domain-c-library/test_support/printf_testcases.h
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/public-domain-c-library/test_support/printf_fp_testcases.h
 
 Add in tests from nanoprintf since 1e254afc4fcb97d5a7cf3ce9d029fdfc3ded7d82
 
@@ -205,6 +206,12 @@ Add in tests from picolibc:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/printf-tests.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/newlib/testsuite/newlib.string/strcmp-1.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/printf_scanf.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/test-posix/test-stat.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/test-stdio/test-printf-testcases.h
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/test-stdio/test-printf-scanf.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/test-stdio/test-printf.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/testsuite/newlib.stdio/nulprintf.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/picolibc/test/testsuite/newlib.string/strcmp-1.c
 
 Add in tests from newlib:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/newlib/main-repo/winsup/testsuite/winsup.api/ltp/stat*
@@ -378,6 +385,9 @@ Add in tests from libcmini:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/libcmini/tests/dirent/stat.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/libcmini/tests/strcmp/strcmp.c
 
+Add in tests from mintlib:
+- ~/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/mintlib/*{strcmp,printf}*
+
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
 Check out https://www.opengroup.org/testing/downloads.html w.r.t. that too
@@ -387,7 +397,7 @@ Search GitHub and other code search services for already done functions
 
 Add zig cc, dmd, fatcosmocc and C++ compilers to tested configurations
 
-Change CMakeLists to specify the minimum POSIX version for each of the PSOIX symbols
+Change CMakeLists to specify the minimum POSIX version for each of the POSIX symbols
 Also make it so that stuff from SVID found in CMakeLists libc_symbol tests error when not found with appropriate options for this
 
 Deal with loose tests somehow (for example what one can find by doing something like `find -regextype posix-egrep -iregex '.*te?st.*bz.*'` on glibc sources)
