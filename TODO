@@ -187,8 +187,14 @@ Add in tests from gnulib:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/m4/stat-time.m4
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-stat-time.c
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-stat.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-stat.h
 - also the u32/u16 printf stuff (maybe just look at all the printfs again ?)
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-printf-posix*
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-stat-time-c++.cc
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-printf-posix2.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-isalpha_l.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-isdigit_l.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/gnu-gnulib/tests/test-vaprintf.c
 
 Add in tests from public-domain-c-library:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/public-domain-c-library/test_support/printf_testcases.h
@@ -367,6 +373,10 @@ Add in tests from php:
 
 Add in tests from compiler-builtins:
 - /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/compiler-builtins/builtins-test/tests/mem.rs
+
+Add in tests from libcmini:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/libcmini/tests/dirent/stat.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/libcmini/tests/strcmp/strcmp.c
 
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
