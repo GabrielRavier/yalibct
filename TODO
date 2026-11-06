@@ -121,6 +121,7 @@ Add in tests from relibc:
 - /home/gravier/src/libraries/standard-libraries/c/implementations/relibc/tests/stdio/printf_neg_pad.c
 - /home/gravier/src/libraries/standard-libraries/c/implementations/relibc/tests/string/strcat.c
 - /home/gravier/src/libraries/standard-libraries/c/implementations/relibc/tests/string/strlen.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/relibc/tests/sys_stat/stat.c
 
 Add in tests from olibc:
 - /home/gravier/src/libraries/standard-libraries/c/implementations/olibc/libc/arch-mips/string/mips_strlen.c
@@ -387,6 +388,14 @@ Add in tests from libcmini:
 
 Add in tests from mintlib:
 - ~/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/mintlib/*{strcmp,printf}*
+
+Add in tests from uclibc:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/wasi-libc/test/src/stat.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/wasi-libc/test/src/strlen.c
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/implementations/wasi-libc/test/src/misc/strlen.c
+
+Add in tests from libc-test:
+- /home/gravier/src/libraries/programming/languages-implementations/standard-libraries/c/tests/libc-test/src/functional/stat.c
 
 Wtf since when is there a fully public-domain testsuite for POSIX, we absolutely need to get tests from this: https://www.itl.nist.gov/div897/ctg/posix_form.htm
 Also Linux Standard Base seems to have freely licensed tests over here: https://www.opengroup.org/infosrv/lsb/ogdeliverables/ (see also stuff in parent directories of that, probably check all starting from https://www.opengroup.org/infosrv/ actually, it seems to be a trove of nice stuff with testsuites like DCEThreads)
